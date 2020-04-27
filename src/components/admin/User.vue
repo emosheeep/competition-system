@@ -1,36 +1,60 @@
 <template>
   <div class="container">
     <a-button-group>
-      <a-button type="primary" @click="visible = true">新增赛事</a-button>
-      <a-button>M</a-button>
-      <a-button>R</a-button>
+      <a-button @click="addUser('student')">学生</a-button>
+      <a-button @click="addUser('teacher')">教师</a-button>
+      <a-button @click="addUser('admin')">管理员</a-button>
     </a-button-group>
 
     <!--数据列表-->
-    <a-table
-      rowKey="raceID"
-      :bordered="true"
-      :columns="columns"
-      :dataSource="data"
-    />
+<!--    <a-table-->
+<!--      rowKey="raceID"-->
+<!--      :bordered="true"-->
+<!--      :columns="columns"-->
+<!--      :dataSource="data"-->
+<!--    />-->
 
     <!--弹出层表单——添加新项-->
-    <a-modal
-      :visible="visible"
-      title='Create a new collection'
-      okText='Create'
-      @cancel="onCancel"
-      @ok="onOk"
-    >
-      <AddUser />
-    </a-modal>
+    <AddUser
+      v-if="visible"
+      :visible.sync="visible"
+      :type="type"
+    />
   </div>
 </template>
 
 <script>
 import { getUserList } from '../../plugins/api'
 import AddUser from './AddUser'
-
+export default {
+  name: 'Race',
+  components: {
+    AddUser
+  },
+  data () {
+    return {
+      visible: false,
+      type: 'student',
+      data: [],
+      columns
+    }
+  },
+  beforeCreate () {
+    this.form = this.$form.createForm(this, { name: 'add-race' })
+  },
+  mounted () {
+    getUserList().then(({ data }) => {
+      this.data = data
+      console.log(data)
+    })
+  },
+  methods: {
+    addUser (type) {
+      this.type = type
+      this.visible = true
+    }
+  }
+}
 const columns = [
   {
     title: 'Title',
@@ -61,35 +85,7 @@ const columns = [
     dataIndex: 'description'
   }
 ]
-export default {
-  name: 'Race',
-  components: { AddUser },
-  data () {
-    return {
-      visible: true,
-      data: [],
-      columns
-    }
-  },
-  beforeCreate () {
-    this.form = this.$form.createForm(this, { name: 'add-race' })
-  },
-  mounted () {
-    getUserList().then(({ data }) => {
-      this.data = data
-      console.log(data)
-    })
-  },
-  methods: {
-    onOk (e) {
-      console.log('ok')
-    },
-    onCancel (e) {
-      console.log('failed')
-      this.visible = false
-    }
-  }
-}
+
 </script>
 
 <style scoped lang="stylus">

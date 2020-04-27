@@ -7,7 +7,7 @@
   >
     <a-form-item label="用户名">
       <a-input
-        v-decorator="username"
+        v-decorator="account"
         placeholder="Username"
       >
         <a-icon slot="prefix" type="user" style="color: rgba(0,0,0,.25)" />
@@ -55,7 +55,7 @@
 
 <script>
 import { LOGIN } from '../store/mutation-types'
-const username = ['username', {
+const account = ['account', {
   rules: [{
     required: true,
     message: '请输入用户名！'
@@ -77,7 +77,7 @@ export default {
     return {
       loading: false,
       tips: '',
-      username,
+      account,
       password,
       identity
     }

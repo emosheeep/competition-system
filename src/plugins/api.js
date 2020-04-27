@@ -1,8 +1,8 @@
 import axios from 'axios'
 axios.defaults.baseURL = 'http://localhost:3000/server'
 
-export const login = data => axios.post('/user/auth', data)
+export const login = data => axios.post('/user/login', data)
+export const getUserList = () => axios.get('/user/list')
+export const addUser = (type, data) => axios.post('/user/add', { type, data })
 
 export const getRaceList = () => axios.get('/race/list')
-
-export const getUserList = () => axios.get('/user/list')

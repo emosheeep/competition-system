@@ -28,9 +28,6 @@ export default {
     return {
       collapsed: false
     }
-  },
-  mounted () {
-    console.log(Date.now())
   }
 }
 </script>
