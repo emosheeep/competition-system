@@ -1,17 +1,20 @@
 <template>
-  <a-layout id="components-layout-demo-side" style="min-height: 100vh">
-    <a-layout-sider v-model="collapsed" collapsible>
+  <a-layout id="container">
+    <a-layout-sider
+      breakpoint="lg"
+      collapsedWidth="0"
+    >
       <div class="logo" />
       <Sidebar />
     </a-layout-sider>
     <a-layout>
-      <a-layout-header style="background: #fff; padding: 0;">
+      <a-layout-header :style="{ background: '#fff', padding: 0 }">
         <Navbar />
       </a-layout-header>
-      <a-layout-content style="margin: 10px">
+      <a-layout-content :style="{ background: '#fff', margin: '10px' }">
         <router-view />
       </a-layout-content>
-      <a-layout-footer style="text-align: center">
+      <a-layout-footer style="padding: 0 0 10px 0; text-align: center">
         Ant Design ©2018 Created by Ant UED
       </a-layout-footer>
     </a-layout>
@@ -33,9 +36,12 @@ export default {
 </script>
 
 <style scoped lang="stylus">
-  #components-layout-demo-side .logo {
-    height: 32px;
-    background: rgba(255, 255, 255, 0.2);
-    margin: 16px;
+  #container {
+    min-height: 100vh
+    .logo {
+      height: 32px;
+      background: rgba(255, 255, 255, 0.2);
+      margin: 16px;
+    }
   }
 </style>

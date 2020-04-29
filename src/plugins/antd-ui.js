@@ -1,10 +1,23 @@
 import Vue from 'vue'
 import {
   Form, Button, Input, Icon, Checkbox, Radio,
-  Menu, Layout, Table, Modal
+  Menu, Layout, Table, Modal, Divider, Popconfirm,
+  Statistic, Select, Upload, Row, Col, Dropdown,
+  PageHeader
+  // Skeleton
 } from 'ant-design-vue'
 
 const components = [
+  PageHeader,
+  // Skeleton,
+  Dropdown,
+  Row,
+  Col,
+  Upload,
+  Select,
+  Statistic,
+  Popconfirm,
+  Divider,
   Modal,
   Table,
   Layout,

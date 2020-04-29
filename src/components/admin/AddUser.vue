@@ -3,13 +3,34 @@
     :visible="visible"
     :mask-closable="false"
     :confirm-loading="loading"
-    :title="`新增 ${getTitle()}`"
+    title="新增用户"
     ok-text='确认添加'
     cancel-text="取消"
     @cancel="onCancel"
     @ok="onOk"
     centered
   >
+    <a-row
+      type="flex"
+      align="middle"
+      style="margin-bottom: 20px; color: black">
+      <a-col
+        :span="labelCol.span"
+        style="text-align: right">
+        用户类型：
+      </a-col>
+      <a-col :span="wrapperCol.span">
+        <a-radio-group
+          default-value="student"
+          button-style="solid"
+          @change="onChange"
+        >
+          <a-radio-button value="student">学生</a-radio-button>
+          <a-radio-button value="teacher">教师</a-radio-button>
+          <a-radio-button value="admin">管理员</a-radio-button>
+        </a-radio-group>
+      </a-col>
+    </a-row>
     <a-form :form="form">
       <!--通用部分：用户名、密码-->
       <a-form-item
@@ -89,16 +110,18 @@
 </template>
 
 <script>
+import { createNamespacedHelpers } from 'vuex'
 import { ADD_USER } from '../../store/mutation-types'
+const { mapActions } = createNamespacedHelpers('admin')
 
 export default {
   name: 'Add',
   props: {
-    visible: Boolean,
-    type: String
+    visible: Boolean
   },
   data () {
     return {
+      type: 'student',
       labelCol: { span: 4 },
       wrapperCol: { span: 20 },
       loading: false
@@ -116,21 +139,14 @@ export default {
     this.$refs.account.focus()
   },
   methods: {
-    getTitle () {
-      switch (this.type) {
-        case 'admin':
-          return '管理员'
-        case 'teacher':
-          return '教师'
-        default:
-          return '学生'
-      }
-    },
+    ...mapActions({
+      addUser: ADD_USER
+    }),
     onOk (e) {
       this.form.validateFields((err, values) => {
         if (!err) {
           this.loading = true
-          this.$store.dispatch(ADD_USER, {
+          this.addUser({
             type: this.type,
             data: values
           }).then(res => {
@@ -142,6 +158,9 @@ export default {
           })
         }
       })
+    },
+    onChange ({ target }) {
+      this.type = target.value
     },
     onCancel (e) {
       if (this.loading) return

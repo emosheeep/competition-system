@@ -1,95 +1,111 @@
 <template>
   <div class="container">
-    <a-button-group>
-      <a-button @click="addUser('student')">学生</a-button>
-      <a-button @click="addUser('teacher')">教师</a-button>
-      <a-button @click="addUser('admin')">管理员</a-button>
-    </a-button-group>
+    <a-page-header
+      :back-icon="false"
+      title="用户信息"
+      subTitle="用户数据概览"
+      style="padding: 0; margin-bottom: 20px"
+    >
+      <template #extra>
+        <a-button-group>
+          <a-button type="primary" @click="addUser">添加用户</a-button>
+          <a-dropdown :trigger="['click']">
+            <a-button>从表格导入<a-icon type="down" /></a-button>
+            <template #overlay>
+              <a-menu @click="importUser">
+                <a-menu-item key="student">学生</a-menu-item>
+                <a-menu-item key="teacher">教师</a-menu-item>
+              </a-menu>
+            </template>
+          </a-dropdown>
+        </a-button-group>
+      </template>
+      <div class="header-info">
+        <a-statistic class="number" title="用户总数" :value="allUsersNum" />
+        <a-statistic class="number" title="学生" :value="studentsNum" />
+        <a-statistic class="number" title="教师" :value="teachersNum" />
+        <a-statistic class="number" title="管理员" :value="adminsNum" />
+        <a-select
+          class="selection-box"
+          defaultValue="students"
+          style="width: 120px"
+          @change="changeType"
+        >
+          <a-select-option value="students">学生信息</a-select-option>
+          <a-select-option value="teachers">教师信息</a-select-option>
+          <a-select-option value="admins">管理员信息</a-select-option>
+        </a-select>
+      </div>
+    </a-page-header>
 
-    <!--数据列表-->
-<!--    <a-table-->
-<!--      rowKey="raceID"-->
-<!--      :bordered="true"-->
-<!--      :columns="columns"-->
-<!--      :dataSource="data"-->
-<!--    />-->
+    <ShowUser :type="showUserType" />
 
-    <!--弹出层表单——添加新项-->
-    <AddUser
-      v-if="visible"
-      :visible.sync="visible"
-      :type="type"
+    <!--弹出层表单-->
+    <AddUser v-if="addUserVisible" :visible.sync="addUserVisible"/>
+    <Upload
+      v-if="importUserVisible"
+      :visible.sync="importUserVisible"
+      :type="importUserType"
     />
+
   </div>
 </template>
 
 <script>
-import { getUserList } from '../../plugins/api'
+import { createNamespacedHelpers } from 'vuex'
 import AddUser from './AddUser'
+import ShowUser from './ShowUser'
+import Upload from './Upload'
+const { mapState } = createNamespacedHelpers('admin')
 export default {
   name: 'Race',
   components: {
-    AddUser
+    AddUser,
+    ShowUser,
+    Upload
   },
   data () {
     return {
-      visible: false,
-      type: 'student',
-      data: [],
-      columns
+      addUserVisible: false,
+      importUserVisible: false,
+      importUserType: 'student',
+      showUserType: 'students'
     }
   },
-  beforeCreate () {
-    this.form = this.$form.createForm(this, { name: 'add-race' })
-  },
-  mounted () {
-    getUserList().then(({ data }) => {
-      this.data = data
-      console.log(data)
-    })
+  computed: {
+    ...mapState({
+      studentsNum: state => state.students.length,
+      teachersNum: state => state.teachers.length,
+      adminsNum: state => state.admins.length
+    }),
+    allUsersNum () {
+      return this.studentsNum + this.teachersNum + this.adminsNum
+    }
   },
   methods: {
-    addUser (type) {
-      this.type = type
-      this.visible = true
+    changeType (value) {
+      this.showUserType = value
+    },
+    addUser () {
+      this.addUserVisible = true
+    },
+    importUser ({ key }) {
+      this.importUserType = key
+      this.importUserVisible = true
     }
   }
 }
-const columns = [
-  {
-    title: 'Title',
-    dataIndex: 'title'
-  },
-  {
-    title: 'Date',
-    dataIndex: 'date'
-  },
-  {
-    title: 'Location',
-    dataIndex: 'location'
-  },
-  {
-    title: 'Level',
-    dataIndex: 'level'
-  },
-  {
-    title: 'Year',
-    dataIndex: 'year'
-  },
-  {
-    title: 'Sponsor',
-    dataIndex: 'sponsor'
-  },
-  {
-    title: 'Description',
-    dataIndex: 'description'
-  }
-]
 
 </script>
 
 <style scoped lang="stylus">
   .container
     padding 20px
-    background white
+  .header-info
+    .selection-box
+      float right
+      margin-top 25px
+    .number
+      display inline-block
+      width 100px
 </style>
