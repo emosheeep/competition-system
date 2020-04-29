@@ -5,22 +5,22 @@
       bordered
       size="small"
       :row-key="rowKey"
-      :columns="curCol"
-      :data-source="curData"
+      :columns="current.column"
+      :data-source="current.data"
       :loading="loading"
       :pagination="{
         showSizeChanger: true,
         showQuickJumper: true
       }"
     >
-      <template #action="text, record, index">
+      <template #action="{ account }, record, index">
         <a @click="onEdit(record, index)">
           <a-icon type="edit" />
         </a>
         <a-divider type="vertical" />
         <a-popconfirm
           title="确认删除？"
-          @confirm="onDelete(text)"
+          @confirm="onDelete(account, index)"
           ok-text="确认"
           cancel-text="取消"
         >
@@ -36,7 +36,7 @@
 
 <script>
 import { createNamespacedHelpers } from 'vuex'
-import { GET_USER_LIST } from '../../store/mutation-types'
+import { DELETE_USER, GET_USER_LIST } from '../../store/mutation-types'
 const { mapActions, mapState } = createNamespacedHelpers('admin')
 
 export default {
@@ -45,7 +45,7 @@ export default {
     type: {
       type: String,
       validator (value) {
-        return ['students', 'teachers', 'admins'].includes(value)
+        return ['student', 'teacher', 'admin'].includes(value)
       }
     }
   },
@@ -61,11 +61,24 @@ export default {
       teachers: 'teachers',
       admins: 'admins'
     }),
-    curData () {
-      return this[this.type]
-    },
-    curCol () {
-      return columns[this.type]
+    current () {
+      switch (this.type) {
+        case 'student':
+          return {
+            data: this.students,
+            column: columns.students
+          }
+        case 'teacher':
+          return {
+            data: this.teachers,
+            column: columns.teachers
+          }
+        default:
+          return {
+            data: this.admins,
+            column: columns.admins
+          }
+      }
     }
   },
   mounted () {
@@ -75,13 +88,19 @@ export default {
   },
   methods: {
     ...mapActions({
-      getUserList: GET_USER_LIST
+      getUserList: GET_USER_LIST,
+      deleteUser: DELETE_USER
     }),
     onEdit (data, index) {
       console.log('编辑', data, index)
     },
-    onDelete (data) {
-      console.log('删除', data)
+    onDelete (account, index) {
+      console.log('删除', account, index)
+      this.deleteUser({
+        type: this.type,
+        account,
+        index
+      }).then()
     }
   }
 }

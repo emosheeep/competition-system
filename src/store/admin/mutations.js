@@ -2,17 +2,40 @@
  * mutations直接修改数据对象state，注意这里的方法必须是同步方法
  */
 import {
-  SET_ADMIN_LIST, SET_STUDENT_LIST, SET_TEACHER_LIST
+  ADD_USER, DELETE_USER
 } from '../mutation-types'
 
 export default {
-  [SET_ADMIN_LIST] (state, admins) {
-    state.admins = admins
+  [ADD_USER] (state, { type, users }) {
+    const { students, teachers, admins } = state
+    switch (type) {
+      case 'student':
+        state.students = Array.isArray(users)
+          ? students.concat(users)
+          : [...students, users]
+        break
+      case 'teacher':
+        state.teachers = Array.isArray(users)
+          ? teachers.concat(users)
+          : [...teachers, users]
+        break
+      default:
+        state.admins = Array.isArray(users)
+          ? admins.concat(users)
+          : [...admins, users]
+    }
   },
-  [SET_STUDENT_LIST] (state, students) {
-    state.students = students
-  },
-  [SET_TEACHER_LIST] (state, teachers) {
-    state.teachers = teachers
+  [DELETE_USER] (state, { type, account }) {
+    const { students, teachers, admins } = state
+    switch (type) {
+      case 'student':
+        state.students = students.filter(item => account !== item.account)
+        break
+      case 'teacher':
+        state.teachers = teachers.filter(item => account !== item.account)
+        break
+      default:
+        state.admins = admins.filter(item => account !== item.account)
+    }
   }
 }

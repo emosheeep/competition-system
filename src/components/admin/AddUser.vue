@@ -148,7 +148,7 @@ export default {
           this.loading = true
           this.addUser({
             type: this.type,
-            data: values
+            users: values
           }).then(res => {
             this.$emit('update:visible', false)
           }).catch(e => e).finally(() => {

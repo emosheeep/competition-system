@@ -2,48 +2,29 @@
  * 通过mutations间接更新state，这里的方法可以是异步的
  */
 import {
-  ADD_USER, GET_USER_LIST,
-  SET_ADMIN_LIST, SET_STUDENT_LIST, SET_TEACHER_LIST
+  ADD_USER, DELETE_USER, GET_USER_LIST
 } from '../mutation-types'
 import { message } from 'ant-design-vue'
-import { addUser, getUserList } from '../../plugins/api'
+import { addUser, deleteUser, getUserList } from '../../plugins/api'
 
 export default {
-  [ADD_USER] ({ commit, state }, { type, data: user }) {
-    const { students, teachers, admins } = state
+  [ADD_USER] ({ commit, state }, { type, users }) {
     const stopLoading = message.loading('请稍后')
     return new Promise((resolve, reject) => {
-      addUser(type, user).then(({ data }) => {
+      addUser(type, users).then(({ data }) => {
         if (data.code === 1) {
           reject(new Error('用户已存在'))
           message.warn('用户已存在！')
         } else {
           resolve(data)
-          switch (type) {
-            case 'student':
-              commit(
-                SET_STUDENT_LIST,
-                Array.isArray(user) ? students.concat(user) : [...students, user]
-              )
-              break
-            case 'teacher':
-              commit(
-                SET_TEACHER_LIST,
-                Array.isArray(user) ? teachers.concat(user) : [...teachers, user]
-              )
-              break
-            default:
-              commit(
-                SET_ADMIN_LIST,
-                Array.isArray(user) ? admins.concat(user) : [...admins, user]
-              )
-          }
+          commit(ADD_USER, { type, users })
         }
-        stopLoading()
         message.success('添加成功')
       }).catch(e => {
         reject(e)
         message.error('系统错误')
+      }).finally(() => {
+        stopLoading()
       })
     })
   },
@@ -51,12 +32,36 @@ export default {
     return new Promise((resolve, reject) => {
       getUserList().then(({ data }) => {
         resolve(data)
-        commit(SET_STUDENT_LIST, data.students)
-        commit(SET_TEACHER_LIST, data.teachers)
-        commit(SET_ADMIN_LIST, data.admins)
+        commit(ADD_USER, { type: 'student', users: data.students })
+        commit(ADD_USER, { type: 'teacher', users: data.teachers })
+        commit(ADD_USER, { type: 'admin', users: data.admins })
       }).catch(e => {
         reject(e)
         message.error('系统错误')
+      })
+    })
+  },
+  [DELETE_USER] ({ commit, state }, { type, account }) {
+    const stopLoading = message.loading('请稍后')
+    return new Promise((resolve, reject) => {
+      deleteUser(type, account).then(({ data }) => {
+        resolve(data)
+        switch (type) {
+          case 'student':
+            commit(DELETE_USER, { type: 'student', account })
+            break
+          case 'teacher':
+            commit(DELETE_USER, { type: 'teacher', account })
+            break
+          default:
+            commit(DELETE_USER, { type: 'admin', account })
+        }
+        message.success('删除成功')
+      }).catch(e => {
+        reject(e)
+        message.error('系统错误')
+      }).finally(() => {
+        stopLoading()
       })
     })
   }

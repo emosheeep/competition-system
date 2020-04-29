@@ -31,9 +31,9 @@
           style="width: 120px"
           @change="changeType"
         >
-          <a-select-option value="students">学生信息</a-select-option>
-          <a-select-option value="teachers">教师信息</a-select-option>
-          <a-select-option value="admins">管理员信息</a-select-option>
+          <a-select-option value="student">学生信息</a-select-option>
+          <a-select-option value="teacher">教师信息</a-select-option>
+          <a-select-option value="admin">管理员信息</a-select-option>
         </a-select>
       </div>
     </a-page-header>
@@ -69,7 +69,7 @@ export default {
       addUserVisible: false,
       importUserVisible: false,
       importUserType: 'student',
-      showUserType: 'students'
+      showUserType: 'student'
     }
   },
   computed: {
