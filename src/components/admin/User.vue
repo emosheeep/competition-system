@@ -27,7 +27,7 @@
         <a-statistic class="number" title="管理员" :value="adminsNum" />
         <a-select
           class="selection-box"
-          defaultValue="students"
+          defaultValue="student"
           style="width: 120px"
           @change="changeType"
         >
@@ -38,7 +38,7 @@
       </div>
     </a-page-header>
 
-    <ShowUser :type="showUserType" />
+    <ShowUser :type="showUserType"/>
 
     <!--弹出层表单-->
     <AddUser v-if="addUserVisible" :visible.sync="addUserVisible"/>
@@ -58,7 +58,7 @@ import ShowUser from './ShowUser'
 import Upload from './Upload'
 const { mapState } = createNamespacedHelpers('admin')
 export default {
-  name: 'Race',
+  name: 'User',
   components: {
     AddUser,
     ShowUser,

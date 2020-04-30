@@ -4,7 +4,7 @@
     <a-table
       bordered
       size="small"
-      :row-key="rowKey"
+      row-key="account"
       :columns="current.column"
       :data-source="current.data"
       :loading="loading"
@@ -31,16 +31,26 @@
         </a-popconfirm>
       </template>
     </a-table>
+
+    <!--修改用户-->
+    <EditUser
+      v-if="editUserVisible"
+      :visible.sync="editUserVisible"
+      :type="type"
+      :user="curUser"
+    />
   </div>
 </template>
 
 <script>
 import { createNamespacedHelpers } from 'vuex'
 import { DELETE_USER, GET_USER_LIST } from '../../store/mutation-types'
+import EditUser from './EditUser'
 const { mapActions, mapState } = createNamespacedHelpers('admin')
 
 export default {
   name: 'ShowUser',
+  components: { EditUser },
   props: {
     type: {
       type: String,
@@ -52,7 +62,8 @@ export default {
   data () {
     return {
       loading: true,
-      rowKey: 'account'
+      editUserVisible: false,
+      curUser: {}
     }
   },
   computed: {
@@ -92,15 +103,15 @@ export default {
       deleteUser: DELETE_USER
     }),
     onEdit (data, index) {
-      console.log('编辑', data, index)
+      this.editUserVisible = true
+      this.curUser = data
     },
     onDelete (account, index) {
-      console.log('删除', account, index)
       this.deleteUser({
         type: this.type,
         account,
         index
-      }).then()
+      })
     }
   }
 }
@@ -108,7 +119,8 @@ const columns = {
   students: [
     {
       title: '学号',
-      dataIndex: 'account'
+      dataIndex: 'account',
+      sorter: (a, b) => a.account > b.account
     },
     {
       title: '姓名',
@@ -139,7 +151,8 @@ const columns = {
   teachers: [
     {
       title: '工号',
-      dataIndex: 'account'
+      dataIndex: 'account',
+      sorter: (a, b) => a.account > b.account
     },
     {
       title: '姓名',
@@ -162,7 +175,8 @@ const columns = {
   admins: [
     {
       title: '账号',
-      dataIndex: 'account'
+      dataIndex: 'account',
+      sorter: (a, b) => a.account > b.account
     },
     {
       title: '密码',

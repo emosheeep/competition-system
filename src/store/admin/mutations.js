@@ -2,7 +2,7 @@
  * mutations直接修改数据对象state，注意这里的方法必须是同步方法
  */
 import {
-  ADD_USER, DELETE_USER
+  ADD_USER, DELETE_USER, UPDATE_USER
 } from '../mutation-types'
 
 export default {
@@ -36,6 +36,31 @@ export default {
         break
       default:
         state.admins = admins.filter(item => account !== item.account)
+    }
+  },
+  [UPDATE_USER] (state, { type, user }) {
+    const { students, teachers, admins } = state
+    switch (type) {
+      case 'student':
+        state.students = students.map(item => {
+          return user.account === item.account
+            ? user
+            : item
+        })
+        break
+      case 'teacher':
+        state.teachers = teachers.map(item => {
+          return user.account === item.account
+            ? user
+            : item
+        })
+        break
+      default:
+        state.admins = admins.map(item => {
+          return user.account === item.account
+            ? user
+            : item
+        })
     }
   }
 }

@@ -2,7 +2,6 @@
   <a-modal
     :visible="visible"
     :mask-closable="false"
-    :confirm-loading="uploading"
     :body-style="{ padding: '10px' }"
     :title="`导入 ${curType}`"
     ok-text='确认导入'
@@ -17,13 +16,14 @@
       :before-upload="getFile"
       :remove="removeFile"
     >
-      <a-button>
+      <a-button :disabled="fileLoaded">
         <a-icon type="upload" /> 点击上传表格
       </a-button>
     </a-upload>
     <a-table
       :columns="curCols"
-      :data-source="data"
+      :data-source="users"
+      :loading="uploading"
       :pagination="{ showSizeChanger: true, showQuickJumper: true }"
       size="small"
       row-key="account"
@@ -51,7 +51,7 @@ export default {
     return {
       uploading: false,
       fileLoaded: false,
-      data: []
+      users: []
     }
   },
   computed: {
@@ -67,6 +67,7 @@ export default {
       addUser: ADD_USER
     }),
     getFile (file) {
+      this.uploading = true
       const reader = new FileReader()
       reader.readAsBinaryString(file)
       reader.onload = e => {
@@ -81,7 +82,6 @@ export default {
           const { SheetNames } = workbook
           const sheet = workbook.Sheets[SheetNames[0]] // 只读取第一张表
           const result = xlsx.utils.sheet_to_json(sheet)
-          console.log(result)
           this.generateData(result)
           message.success('文件读取成功')
         }).catch(e => {
@@ -91,7 +91,7 @@ export default {
       return false // 阻止上传
     },
     generateData (result) {
-      // 防止扩展运算符（...）将不必要的属性展开
+      // 防止扩展运算符（...）将不必要的属性展开到最终数据中
       for (const item of result) {
         Reflect.ownKeys(item).forEach(key => {
           if (key.startsWith('_')) {
@@ -101,7 +101,7 @@ export default {
       }
       switch (this.type) {
         case 'student':
-          this.data = result.map(user => ({
+          this.users = result.map(user => ({
             account: '',
             name: '',
             password: '123456',
@@ -112,7 +112,7 @@ export default {
           }))
           break
         case 'teacher':
-          this.data = result.map(user => ({
+          this.users = result.map(user => ({
             account: '',
             name: '',
             password: '123456',
@@ -124,10 +124,11 @@ export default {
           break
       }
       this.fileLoaded = true
+      this.uploading = false
     },
     removeFile (file) {
       this.fileLoaded = false
-      this.data.splice(0)
+      this.users.splice(0)
     },
     onCancel (e) {
       if (!this.fileLoaded) {
@@ -149,18 +150,32 @@ export default {
       const modal = Modal.confirm({
         title: '提示',
         content: '确认导入吗？',
-        onOk: () => {
-          modal.destroy()
-          // const close = message.loading()
-          this.addUser({
-            type: this.type,
-            data: this.data
-          }).then(res => {
-            this.$emit('update:visible', false)
-            console.log(res)
-          })
-        }
+        onOk: _confirm.bind(this)
       })
+      function _confirm () {
+        modal.destroy()
+        this.addUser({
+          type: this.type,
+          users: this.users
+        }).then(res => {
+          this.$emit('update:visible', false)
+          console.log(res)
+        }).catch(users => {
+          if (users?.length !== 0) {
+            console.log(users)
+            Modal.warning({
+              title: '以下用户已存在',
+              centered: true,
+              content: h => h('div', users.map(user => {
+                return [
+                  h('span', user),
+                  h('a-divider', { props: { type: 'vertical' } })
+                ]
+              }))
+            })
+          }
+        })
+      }
     }
   }
 }

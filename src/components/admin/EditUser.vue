@@ -3,34 +3,13 @@
     :visible="visible"
     :mask-closable="false"
     :confirm-loading="loading"
-    title="新增用户"
-    ok-text='确认添加'
+    title="修改信息"
+    ok-text='确认'
     cancel-text="取消"
-    @cancel="onCancel"
+    @cancel="$emit('update:visible', false)"
     @ok="onOk"
     centered
   >
-    <a-row
-      type="flex"
-      align="middle"
-      style="margin-bottom: 20px; color: black">
-      <a-col
-        :span="labelCol.span"
-        style="text-align: right">
-        类型：
-      </a-col>
-      <a-col :span="wrapperCol.span">
-        <a-radio-group
-          default-value="student"
-          button-style="solid"
-          @change="onChange"
-        >
-          <a-radio-button value="student">学生</a-radio-button>
-          <a-radio-button value="teacher">教师</a-radio-button>
-          <a-radio-button value="admin">管理员</a-radio-button>
-        </a-radio-group>
-      </a-col>
-    </a-row>
     <a-form :form="form">
       <!--通用部分：用户名、密码-->
       <a-form-item
@@ -38,7 +17,7 @@
         :wrapper-col="wrapperCol"
         label="账号"
       >
-        <a-input ref="account" v-decorator="decorator.account" placeholder="账号/学号/职工号">
+        <a-input disabled v-decorator="decorator.account" placeholder="账号/学号/职工号">
           <a-icon slot="prefix" type="user" style="color: rgba(0,0,0,.25)" />
         </a-input>
       </a-form-item>
@@ -47,7 +26,7 @@
         :wrapper-col="wrapperCol"
         label="密码"
       >
-        <a-input v-decorator="decorator.password" placeholder="密码">
+        <a-input ref="password" v-decorator="decorator.password" placeholder="密码">
           <a-icon slot="prefix" type="lock" style="color: rgba(0,0,0,.25)" />
         </a-input>
       </a-form-item>
@@ -110,41 +89,57 @@
 </template>
 
 <script>
+import { message } from 'ant-design-vue'
 import { createNamespacedHelpers } from 'vuex'
-import { ADD_USER } from '../../store/mutation-types'
+import { UPDATE_USER } from '../../store/mutation-types'
 const { mapActions } = createNamespacedHelpers('admin')
-
 export default {
-  name: 'Add',
+  name: 'EditUser',
   props: {
-    visible: Boolean
+    visible: Boolean,
+    user: Object,
+    type: String
   },
   data () {
     return {
-      type: 'student',
       labelCol: { span: 3 },
       wrapperCol: { span: 20 },
       loading: false,
-      decorator
+      changed: false
     }
   },
   beforeCreate () {
-    this.form = this.$form.createForm(this, { name: 'add' })
-  },
-  mounted () {
-    this.$refs.account.focus()
+    this.form = this.$form.createForm(this, {
+      name: 'edit',
+      onValuesChange: _ => { this.changed = true }
+    })
+    this.decorator = decorator
+    this.$on('hook:mounted', () => {
+      this.$refs.password.focus()
+      const temp = {}
+      for (const key of Object.keys(this.user)) {
+        if (!key.startsWith('_')) {
+          temp[key] = this.user[key]
+        }
+      }
+      this.form.setFieldsValue(temp)
+      this.changed = false // 表单初始化也会触发change事件，这里手动修正
+    })
   },
   methods: {
     ...mapActions({
-      addUser: ADD_USER
+      updateUser: UPDATE_USER
     }),
-    onOk (e) {
+    onOk () {
       this.form.validateFields((err, values) => {
         if (!err) {
+          if (!this.changed) {
+            return message.info('未检测到数据变动')
+          }
           this.loading = true
-          this.addUser({
+          this.updateUser({
             type: this.type,
-            users: values
+            data: values
           }).then(res => {
             this.$emit('update:visible', false)
           }).catch(e => e).finally(() => {
@@ -154,20 +149,10 @@ export default {
           })
         }
       })
-    },
-    onChange ({ target }) {
-      this.type = target.value
-    },
-    onCancel (e) {
-      if (this.loading) return
-      this.$emit('update:visible', false)
     }
   }
 }
 
-/**
- * 定义decorator
- */
 const decorator = {
   account: ['account', {
     rules: [{
@@ -188,7 +173,6 @@ const decorator = {
     }]
   }],
   sex: ['sex', {
-    valuePropName: 'value',
     initialValue: 'man'
   }],
   dept: ['dept', {
@@ -211,3 +195,7 @@ const decorator = {
   }]
 }
 </script>
+
+<style scoped>
+
+</style>
