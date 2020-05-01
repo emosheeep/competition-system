@@ -1,10 +1,8 @@
 /**
  * 通过mutations间接更新state，这里的方法可以是异步的
  */
-import {
-  ADD_USER, DELETE_USER, SET_USER_LIST, UPDATE_USER
-} from '../mutation-types'
 import { message } from 'ant-design-vue'
+import { ADD_USER, DELETE_USER, SET_USER_LIST, UPDATE_USER } from '../mutation-types'
 import { addUser, deleteUser, getUserList, updateUser } from '../../plugins/api'
 
 export default {
@@ -22,7 +20,7 @@ export default {
         }
       }).catch(e => {
         reject(e)
-        message.error('系统错误')
+        message.error('系统错误，请重试')
       }).finally(() => {
         stopLoading()
       })
@@ -35,7 +33,7 @@ export default {
         commit(SET_USER_LIST, data)
       }).catch(e => {
         reject(e)
-        message.error('系统错误')
+        message.error('系统错误，请重试')
       })
     })
   },
@@ -48,7 +46,7 @@ export default {
         message.success('删除成功')
       }).catch(e => {
         reject(e)
-        message.error('系统错误')
+        message.error('系统错误，请重试')
       }).finally(() => {
         stopLoading()
       })
@@ -63,7 +61,7 @@ export default {
         message.success('修改成功')
       }).catch(e => {
         reject(e)
-        message.error('系统错误')
+        message.error('系统错误，请重试')
       }).finally(() => {
         stopLoading()
       })

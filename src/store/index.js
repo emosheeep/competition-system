@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import actions from './actions'
 import state from './state'
-import admin from './admin'
+import user from './user'
 import persistedState from '../plugins/persisted_state'
 import createLogger from 'vuex/dist/logger'
 
@@ -12,7 +12,7 @@ export default new Vuex.Store({
   actions,
   state,
   modules: {
-    admin
+    user
   },
   strict: debug,
   plugins: debug ? [createLogger(), persistedState] : [persistedState] // 调试插件，控制台打印具体信息

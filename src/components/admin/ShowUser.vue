@@ -92,7 +92,7 @@
 import { createNamespacedHelpers } from 'vuex'
 import { DELETE_USER, SET_USER_LIST } from '../../store/mutation-types'
 import EditUser from './EditUser'
-const { mapActions, mapState } = createNamespacedHelpers('admin')
+const { mapActions, mapState } = createNamespacedHelpers('user')
 
 export default {
   name: 'ShowUser',
@@ -208,7 +208,6 @@ function createColumns () {
       {
         title: '姓名',
         dataIndex: 'name',
-        sorter: (a, b) => a.name > b.name,
         scopedSlots: filterSlots,
         onFilter: filter('name'),
         onFilterDropdownVisibleChange: changeVisible
@@ -247,7 +246,6 @@ function createColumns () {
       {
         title: '姓名',
         dataIndex: 'name',
-        sorter: (a, b) => a.name > b.name,
         scopedSlots: filterSlots,
         onFilter: filter('name'),
         onFilterDropdownVisibleChange: changeVisible

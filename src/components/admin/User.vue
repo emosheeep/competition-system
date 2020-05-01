@@ -56,7 +56,7 @@ import { createNamespacedHelpers } from 'vuex'
 import AddUser from './AddUser'
 import ShowUser from './ShowUser'
 import Upload from './Upload'
-const { mapState } = createNamespacedHelpers('admin')
+const { mapState } = createNamespacedHelpers('user')
 export default {
   name: 'User',
   components: {

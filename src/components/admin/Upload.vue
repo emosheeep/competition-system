@@ -36,7 +36,7 @@
 import { message, Modal } from 'ant-design-vue'
 import { createNamespacedHelpers } from 'vuex'
 import { ADD_USER } from '../../store/mutation-types'
-const { mapActions } = createNamespacedHelpers('admin')
+const { mapActions } = createNamespacedHelpers('user')
 export default {
   name: 'Upload',
   props: {
@@ -162,7 +162,6 @@ export default {
           console.log(res)
         }).catch(users => {
           if (users?.length !== 0) {
-            console.log(users)
             Modal.warning({
               title: '以下用户已存在',
               centered: true,
@@ -183,7 +182,8 @@ const columns = {
   student: [
     {
       title: '学号',
-      dataIndex: 'account'
+      dataIndex: 'account',
+      sort: (a, b) => a.account > b.account
     },
     {
       title: '密码',
@@ -209,7 +209,8 @@ const columns = {
   teacher: [
     {
       title: '工号',
-      dataIndex: 'account'
+      dataIndex: 'account',
+      sort: (a, b) => a.account > b.account
     },
     {
       title: '密码',

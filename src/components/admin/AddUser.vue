@@ -112,7 +112,7 @@
 <script>
 import { createNamespacedHelpers } from 'vuex'
 import { ADD_USER } from '../../store/mutation-types'
-const { mapActions } = createNamespacedHelpers('admin')
+const { mapActions } = createNamespacedHelpers('user')
 
 export default {
   name: 'Add',
