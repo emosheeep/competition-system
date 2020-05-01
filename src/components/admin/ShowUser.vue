@@ -13,6 +13,52 @@
         showQuickJumper: true
       }"
     >
+      <template #filterIcon="filtered">
+        <a-icon type="search" :style="{ color: filtered ? '#108ee9' : undefined }"/>
+      </template>
+      <template #filterDropdown="{ setSelectedKeys, selectedKeys, confirm, clearFilters, column }">
+        <div style="padding: 8px">
+          <a-input
+            ref="searchInput"
+            :placeholder="`Search ${column.dataIndex}`"
+            :value="selectedKeys[0]"
+            @change="e => setSelectedKeys(e.target.value ? [e.target.value] : [])"
+            @pressEnter="handleSearch(selectedKeys, confirm, column.dataIndex)"
+            style="width: 188px; margin-bottom: 8px; display: block;"
+          />
+          <a-button
+            size="small"
+            style="margin-right: 10px; width: 90px"
+            @click="() => handleReset(clearFilters)"
+          >重置</a-button>
+          <a-button
+            type="primary"
+            icon="search"
+            size="small"
+            style="width: 90px"
+            @click="handleSearch(selectedKeys, confirm, column.dataIndex)"
+          >搜索</a-button>
+        </div>
+      </template>
+
+      <!--具体参见ant-design-vue的表格搜索用法-->
+      <template #filter="text, record, index, column">
+        <span v-if="searchText && searchedColumn === column.dataIndex">
+          <template
+            v-for="(fragment, i) in text
+              .toString()
+              .split(new RegExp(`(?<=${searchText})|(?=${searchText})`, 'i'))"
+          >
+            <mark v-if="fragment.toLowerCase() === searchText.toLowerCase()" :key="i">
+              {{ fragment }}
+            </mark>
+            <template v-else>{{ fragment }}</template>
+          </template>
+        </span>
+        <template v-else>{{ text }}</template>
+      </template>
+
+      <!--最后一排的操作按钮-->
       <template #action="{ account }, record, index">
         <a @click="onEdit(record, index)">
           <a-icon type="edit" />
@@ -44,7 +90,7 @@
 
 <script>
 import { createNamespacedHelpers } from 'vuex'
-import { DELETE_USER, GET_USER_LIST } from '../../store/mutation-types'
+import { DELETE_USER, SET_USER_LIST } from '../../store/mutation-types'
 import EditUser from './EditUser'
 const { mapActions, mapState } = createNamespacedHelpers('admin')
 
@@ -63,7 +109,10 @@ export default {
     return {
       loading: true,
       editUserVisible: false,
-      curUser: {}
+      curUser: {},
+      searchText: '',
+      searchedColumn: 0,
+      columns: createColumns.call(this)
     }
   },
   computed: {
@@ -77,29 +126,29 @@ export default {
         case 'student':
           return {
             data: this.students,
-            column: columns.students
+            column: this.columns.students
           }
         case 'teacher':
           return {
             data: this.teachers,
-            column: columns.teachers
+            column: this.columns.teachers
           }
         default:
           return {
             data: this.admins,
-            column: columns.admins
+            column: this.columns.admins
           }
       }
     }
   },
   mounted () {
-    this.getUserList().then(({ data }) => {
+    this.setUserList().then(data => {
       this.loading = false
     })
   },
   methods: {
     ...mapActions({
-      getUserList: GET_USER_LIST,
+      setUserList: SET_USER_LIST,
       deleteUser: DELETE_USER
     }),
     onEdit (data, index) {
@@ -112,82 +161,131 @@ export default {
         account,
         index
       })
+    },
+    handleSearch (selectedKeys, confirm, dataIndex) {
+      confirm()
+      this.searchText = selectedKeys[0]
+      this.searchedColumn = dataIndex
+    },
+    handleReset (clearFilters) {
+      clearFilters()
+      this.searchText = ''
     }
   }
 }
-const columns = {
-  students: [
-    {
-      title: '学号',
-      dataIndex: 'account',
-      sorter: (a, b) => a.account > b.account
-    },
-    {
-      title: '姓名',
-      dataIndex: 'name'
-    },
-    {
-      title: '性别',
-      dataIndex: 'sex'
-    },
-    {
-      title: '年级',
-      dataIndex: 'grade'
-    },
-    {
-      title: '班级',
-      dataIndex: 'classname'
-    },
-    {
-      title: '密码',
-      dataIndex: 'password'
-    },
-    {
-      title: '操作',
-      key: 'action',
-      scopedSlots: { customRender: 'action' }
+
+function createColumns () {
+  const filterSlots = {
+    filterDropdown: 'filterDropdown',
+    filterIcon: 'filterIcon',
+    customRender: 'filter'
+  }
+  const changeVisible = visible => {
+    if (visible) {
+      setTimeout(() => {
+        this.$refs.searchInput.focus()
+      }, 0)
     }
-  ],
-  teachers: [
-    {
-      title: '工号',
-      dataIndex: 'account',
-      sorter: (a, b) => a.account > b.account
-    },
-    {
-      title: '姓名',
-      dataIndex: 'name'
-    },
-    {
-      title: '部门',
-      dataIndex: 'dept'
-    },
-    {
-      title: '密码',
-      dataIndex: 'password'
-    },
-    {
-      title: '操作',
-      key: 'action',
-      scopedSlots: { customRender: 'action' }
+  }
+  const filter = key => {
+    return (value, record) => {
+      return record[key]
+        .toString()
+        .toLowerCase()
+        .includes(value.toLowerCase())
     }
-  ],
-  admins: [
-    {
-      title: '账号',
-      dataIndex: 'account',
-      sorter: (a, b) => a.account > b.account
-    },
-    {
-      title: '密码',
-      dataIndex: 'password'
-    },
-    {
-      title: '操作',
-      key: 'action',
-      scopedSlots: { customRender: 'action' }
-    }
-  ]
+  }
+  return {
+    students: [
+      {
+        title: '学号',
+        dataIndex: 'account',
+        sorter: (a, b) => a.account > b.account,
+        scopedSlots: filterSlots,
+        onFilter: filter('account'),
+        onFilterDropdownVisibleChange: changeVisible
+      },
+      {
+        title: '姓名',
+        dataIndex: 'name',
+        sorter: (a, b) => a.name > b.name,
+        scopedSlots: filterSlots,
+        onFilter: filter('name'),
+        onFilterDropdownVisibleChange: changeVisible
+      },
+      {
+        title: '性别',
+        dataIndex: 'sex'
+      },
+      {
+        title: '年级',
+        dataIndex: 'grade'
+      },
+      {
+        title: '班级',
+        dataIndex: 'classname'
+      },
+      {
+        title: '密码',
+        dataIndex: 'password'
+      },
+      {
+        title: '操作',
+        key: 'action',
+        scopedSlots: { customRender: 'action' }
+      }
+    ],
+    teachers: [
+      {
+        title: '工号',
+        dataIndex: 'account',
+        sorter: (a, b) => a.account > b.account,
+        scopedSlots: filterSlots,
+        onFilter: filter('account'),
+        onFilterDropdownVisibleChange: changeVisible
+      },
+      {
+        title: '姓名',
+        dataIndex: 'name',
+        sorter: (a, b) => a.name > b.name,
+        scopedSlots: filterSlots,
+        onFilter: filter('name'),
+        onFilterDropdownVisibleChange: changeVisible
+      },
+      {
+        title: '部门',
+        dataIndex: 'dept',
+        scopedSlots: filterSlots,
+        onFilter: filter('dept'),
+        onFilterDropdownVisibleChange: changeVisible
+      },
+      {
+        title: '密码',
+        dataIndex: 'password'
+      },
+      {
+        title: '操作',
+        key: 'action',
+        scopedSlots: { customRender: 'action' }
+      }
+    ],
+    admins: [
+      {
+        title: '账号',
+        dataIndex: 'account',
+        sorter: (a, b) => a.account > b.account
+      },
+      {
+        title: '密码',
+        dataIndex: 'password'
+      },
+      {
+        title: '操作',
+        key: 'action',
+        scopedSlots: { customRender: 'action' }
+      }
+    ]
+  }
 }
 </script>
 

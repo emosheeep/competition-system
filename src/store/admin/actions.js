@@ -2,7 +2,7 @@
  * 通过mutations间接更新state，这里的方法可以是异步的
  */
 import {
-  ADD_USER, DELETE_USER, GET_USER_LIST, UPDATE_USER
+  ADD_USER, DELETE_USER, SET_USER_LIST, UPDATE_USER
 } from '../mutation-types'
 import { message } from 'ant-design-vue'
 import { addUser, deleteUser, getUserList, updateUser } from '../../plugins/api'
@@ -28,13 +28,11 @@ export default {
       })
     })
   },
-  [GET_USER_LIST] ({ commit }) {
+  [SET_USER_LIST] ({ commit }) {
     return new Promise((resolve, reject) => {
       getUserList().then(({ data }) => {
         resolve(data)
-        commit(ADD_USER, { type: 'student', users: data.students })
-        commit(ADD_USER, { type: 'teacher', users: data.teachers })
-        commit(ADD_USER, { type: 'admin', users: data.admins })
+        commit(SET_USER_LIST, data)
       }).catch(e => {
         reject(e)
         message.error('系统错误')

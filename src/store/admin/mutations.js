@@ -2,10 +2,15 @@
  * mutations直接修改数据对象state，注意这里的方法必须是同步方法
  */
 import {
-  ADD_USER, DELETE_USER, UPDATE_USER
+  ADD_USER, DELETE_USER, UPDATE_USER, SET_USER_LIST
 } from '../mutation-types'
 
 export default {
+  [SET_USER_LIST] (state, data) {
+    state.students = data.students
+    state.teachers = data.teachers
+    state.admins = data.admins
+  },
   [ADD_USER] (state, { type, users }) {
     const { students, teachers, admins } = state
     switch (type) {
