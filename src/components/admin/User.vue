@@ -59,8 +59,16 @@ export default {
   name: 'User',
   components: {
     ShowUser,
-    AddUser: () => import('./AddUser'),
-    ImportUser: () => import('./ImportUser')
+    AddUser: () => import(
+      /* webpackChunkName: "AddUser" */
+      /* webpackPrefetch: true */
+      './AddUser'
+    ),
+    ImportUser: () => import(
+      /* webpackChunkName: "ImportUser" */
+      /* webpackPrefetch: true */
+      './ImportUser'
+    )
   },
   data () {
     return {

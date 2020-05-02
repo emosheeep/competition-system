@@ -26,7 +26,11 @@ export default {
   name: 'Race',
   components: {
     ShowRace,
-    AddRace: () => import('./AddRace')
+    AddRace: () => import(
+      /* webpackChunkName: "AddRace" */
+      /* webpackPrefetch: true */
+      './AddRace'
+    )
   },
   data () {
     return {

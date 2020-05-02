@@ -96,7 +96,11 @@ const { mapActions, mapState } = createNamespacedHelpers('user')
 export default {
   name: 'ShowUser',
   components: {
-    EditUser: () => import('./EditUser')
+    EditUser: () => import(
+      /* webpackChunkName: "EditUser" */
+      /* webpackPrefetch: true */
+      './EditUser'
+    )
   },
   props: {
     type: {

@@ -13,27 +13,27 @@ const routes = [
   {
     path: '/teacher',
     name: 'teacher',
-    component: () => import('../pages/Teacher')
+    component: () => import(/* webpackChunkName: "Teacher" */'../pages/Teacher')
   },
   {
     path: '/student',
     name: 'student',
-    component: () => import('../pages/Student')
+    component: () => import(/* webpackChunkName: "Student" */'../pages/Student')
   },
   {
     path: '/admin',
     name: 'admin',
-    component: () => import('../pages/Admin'),
+    component: () => import(/* webpackChunkName: "Admin" */'../pages/Admin'),
     children: [
       {
         path: 'race',
         name: 'race',
-        component: () => import('../components/admin/Race')
+        component: () => import(/* webpackChunkName: "Admin" */'../components/admin/Race')
       },
       {
         path: 'user',
         name: 'user',
-        component: () => import('../components/admin/User')
+        component: () => import(/* webpackChunkName: "Admin" */'../components/admin/User')
       }
     ]
   }

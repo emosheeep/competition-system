@@ -5,7 +5,7 @@ module.exports = {
   plugins: [
     ['import', {
       libraryName: 'ant-design-vue',
-      libraryDirectory: 'lib',
+      libraryDirectory: 'es',
       style: 'css'
     }]
   ]
