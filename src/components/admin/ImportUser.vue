@@ -71,11 +71,7 @@ export default {
       const reader = new FileReader()
       reader.readAsBinaryString(file)
       reader.onload = e => {
-        import(
-          /* webpackChunkName: "xlsx_helper" */
-          /* webpackPrefetch: true */
-          'xlsx'
-        ).then(xlsx => {
+        import('xlsx').then(xlsx => {
           const workbook = xlsx.read(e.target.result, {
             type: 'binary'
           })
