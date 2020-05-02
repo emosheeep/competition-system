@@ -3,18 +3,14 @@
     theme="dark"
     mode="inline"
     :defaultSelectedKeys="['race']"
+    @click="handleClick"
   >
-    <a-menu-item key="race" @click="handleClick">
+    <a-menu-item key="race">
       <a-icon type="project" /><span>赛事管理</span>
     </a-menu-item>
-    <a-sub-menu>
-      <span slot="title">
-        <a-icon type="user" /><span>用户管理</span>
-      </span>
-      <a-menu-item key="user" @click="handleClick">
-        <span>学生信息</span>
-      </a-menu-item>
-    </a-sub-menu>
+    <a-menu-item key="user">
+      <a-icon type="user" /><span>用户管理</span>
+    </a-menu-item>
   </a-menu>
 </template>
 

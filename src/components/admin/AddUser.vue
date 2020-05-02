@@ -139,20 +139,18 @@ export default {
       addUser: ADD_USER
     }),
     onOk (e) {
-      this.form.validateFields((err, values) => {
-        if (!err) {
-          this.loading = true
-          this.addUser({
-            type: this.type,
-            users: values
-          }).then(res => {
-            this.$emit('update:visible', false)
-          }).catch(e => e).finally(() => {
-            setTimeout(() => {
-              this.loading = false
-            }, 500)
-          })
-        }
+      this.form.validateFields().then(values => {
+        this.loading = true
+        return this.addUser({
+          type: this.type,
+          users: values
+        })
+      }).then(res => {
+        this.$emit('update:visible', false)
+      }).finally(() => {
+        setTimeout(() => {
+          this.loading = false
+        }, 500)
       })
     },
     onChange ({ target }) {

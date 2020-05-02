@@ -18,3 +18,4 @@ export const updateUser = (type, data) => {
  * 赛事
  */
 export const getRaceList = () => axios.get('/race/list')
+export const addRace = data => axios.post('/race/add', data)

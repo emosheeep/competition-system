@@ -42,7 +42,7 @@
 
     <!--弹出层表单-->
     <AddUser v-if="addUserVisible" :visible.sync="addUserVisible"/>
-    <Upload
+    <ImportUser
       v-if="importUserVisible"
       :visible.sync="importUserVisible"
       :type="importUserType"
@@ -53,16 +53,14 @@
 
 <script>
 import { createNamespacedHelpers } from 'vuex'
-import AddUser from './AddUser'
 import ShowUser from './ShowUser'
-import Upload from './Upload'
 const { mapState } = createNamespacedHelpers('user')
 export default {
   name: 'User',
   components: {
-    AddUser,
     ShowUser,
-    Upload
+    AddUser: () => import('./AddUser'),
+    ImportUser: () => import('./ImportUser')
   },
   data () {
     return {

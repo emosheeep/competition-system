@@ -66,9 +66,9 @@
         <a-divider type="vertical" />
         <a-popconfirm
           title="确认删除？"
-          @confirm="onDelete(account, index)"
           ok-text="确认"
           cancel-text="取消"
+          @confirm="onDelete(account, index)"
         >
           <template #icon>
             <a-icon type="question-circle-o" style="color: orange" />
@@ -91,12 +91,13 @@
 <script>
 import { createNamespacedHelpers } from 'vuex'
 import { DELETE_USER, SET_USER_LIST } from '../../store/mutation-types'
-import EditUser from './EditUser'
 const { mapActions, mapState } = createNamespacedHelpers('user')
 
 export default {
   name: 'ShowUser',
-  components: { EditUser },
+  components: {
+    EditUser: () => import('./EditUser')
+  },
   props: {
     type: {
       type: String,
@@ -174,6 +175,7 @@ export default {
   }
 }
 
+// 生成列参数
 function createColumns () {
   const filterSlots = {
     filterDropdown: 'filterDropdown',

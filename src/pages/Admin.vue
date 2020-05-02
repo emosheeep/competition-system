@@ -4,7 +4,7 @@
       breakpoint="lg"
       collapsedWidth="0"
     >
-      <div class="logo" />
+      <span class="logo">竞赛管理系统</span>
       <Sidebar />
     </a-layout-sider>
     <a-layout>
@@ -36,12 +36,15 @@ export default {
 </script>
 
 <style scoped lang="stylus">
-  #container {
+  #container
     min-height: 100vh
-    .logo {
-      height: 32px;
-      background: rgba(255, 255, 255, 0.2);
-      margin: 16px;
-    }
-  }
+    .logo
+      display block
+      height 32px
+      margin 16px
+      color white
+      line-height 32px
+      font-size 20px
+      text-align center
+      background-color rgba(255, 255, 255, 0.2)
 </style>

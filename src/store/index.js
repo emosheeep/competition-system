@@ -3,6 +3,7 @@ import Vuex from 'vuex'
 import actions from './actions'
 import state from './state'
 import user from './user'
+import race from './race'
 import persistedState from '../plugins/persisted_state'
 import createLogger from 'vuex/dist/logger'
 
@@ -12,7 +13,8 @@ export default new Vuex.Store({
   actions,
   state,
   modules: {
-    user
+    user,
+    race
   },
   strict: debug,
   plugins: debug ? [createLogger(), persistedState] : [persistedState] // 调试插件，控制台打印具体信息

@@ -3,11 +3,12 @@ import {
   Form, Button, Input, Icon, Checkbox, Radio,
   Menu, Layout, Table, Modal, Divider, Popconfirm,
   Statistic, Select, Upload, Row, Col, Dropdown,
-  PageHeader
+  PageHeader, DatePicker
   // Skeleton
 } from 'ant-design-vue'
 
 const components = [
+  DatePicker,
   PageHeader,
   // Skeleton,
   Dropdown,

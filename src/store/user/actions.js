@@ -6,7 +6,7 @@ import { ADD_USER, DELETE_USER, SET_USER_LIST, UPDATE_USER } from '../mutation-t
 import { addUser, deleteUser, getUserList, updateUser } from '../../plugins/api'
 
 export default {
-  [ADD_USER] ({ commit, state }, { type, users }) {
+  [ADD_USER] ({ commit }, { type, users }) {
     const stopLoading = message.loading('请稍后')
     return new Promise((resolve, reject) => {
       addUser(type, users).then(({ data }) => {
@@ -37,7 +37,7 @@ export default {
       })
     })
   },
-  [DELETE_USER] ({ commit, state }, { type, account }) {
+  [DELETE_USER] ({ commit }, { type, account }) {
     const stopLoading = message.loading('请稍后')
     return new Promise((resolve, reject) => {
       deleteUser(type, account).then(({ data }) => {
@@ -52,7 +52,7 @@ export default {
       })
     })
   },
-  [UPDATE_USER] ({ commit, state }, { type, data: user }) {
+  [UPDATE_USER] ({ commit }, { type, data: user }) {
     const stopLoading = message.loading('请稍后')
     return new Promise((resolve, reject) => {
       updateUser(type, user).then(({ data }) => {
