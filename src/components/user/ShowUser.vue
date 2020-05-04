@@ -91,7 +91,7 @@
 <script>
 import { createNamespacedHelpers } from 'vuex'
 import { DELETE_USER, SET_USER_LIST } from '../../store/mutation-types'
-const { mapActions, mapState } = createNamespacedHelpers('user')
+const { mapActions, mapState } = createNamespacedHelpers('users')
 
 export default {
   name: 'ShowUser',

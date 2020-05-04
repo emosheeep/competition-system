@@ -54,7 +54,7 @@
 <script>
 import { createNamespacedHelpers } from 'vuex'
 import ShowUser from '../user/ShowUser'
-const { mapState } = createNamespacedHelpers('user')
+const { mapState } = createNamespacedHelpers('users')
 export default {
   name: 'User',
   components: {

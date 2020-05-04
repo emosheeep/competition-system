@@ -87,7 +87,7 @@ import moment from 'moment'
 import { Modal } from 'ant-design-vue'
 import { createNamespacedHelpers } from 'vuex'
 import { SET_RACE_LIST, DELETE_RACE } from '../../store/mutation-types'
-const { mapState, mapActions } = createNamespacedHelpers('race')
+const { mapState, mapActions } = createNamespacedHelpers('races')
 export default {
   name: 'ShowRace',
   components: {

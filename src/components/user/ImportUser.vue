@@ -36,7 +36,7 @@
 import { message, Modal } from 'ant-design-vue'
 import { createNamespacedHelpers } from 'vuex'
 import { ADD_USER } from '../../store/mutation-types'
-const { mapActions } = createNamespacedHelpers('user')
+const { mapActions } = createNamespacedHelpers('users')
 export default {
   name: 'Upload',
   props: {

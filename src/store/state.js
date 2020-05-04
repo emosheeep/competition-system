@@ -3,5 +3,6 @@
  */
 export default {
   expires: '', // 过期时间为七天后
-  token: ''
+  token: '',
+  user: null
 }

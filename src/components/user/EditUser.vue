@@ -92,7 +92,7 @@
 import { message } from 'ant-design-vue'
 import { createNamespacedHelpers } from 'vuex'
 import { UPDATE_USER } from '../../store/mutation-types'
-const { mapActions } = createNamespacedHelpers('user')
+const { mapActions } = createNamespacedHelpers('users')
 export default {
   name: 'EditUser',
   props: {

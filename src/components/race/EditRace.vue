@@ -50,7 +50,7 @@
 import { createNamespacedHelpers } from 'vuex'
 import moment from 'moment'
 import { ADD_RACE, UPDATE_RACE } from '../../store/mutation-types'
-const { mapActions } = createNamespacedHelpers('race')
+const { mapActions } = createNamespacedHelpers('races')
 
 export default {
   name: 'EditRace',
@@ -75,7 +75,7 @@ export default {
     }
   },
   beforeCreate () {
-    this.form = this.$form.createForm(this, { name: 'add-race' })
+    this.form = this.$form.createForm(this, { name: 'add-races' })
   },
   mounted () {
     if (this.type === 'update') {
