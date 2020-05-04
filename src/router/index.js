@@ -28,12 +28,12 @@ const routes = [
       {
         path: 'race',
         name: 'race',
-        component: () => import(/* webpackChunkName: "Admin" */'../components/admin/Race')
+        component: () => import(/* webpackChunkName: "Race" */'../components/admin/Race')
       },
       {
         path: 'user',
         name: 'user',
-        component: () => import(/* webpackChunkName: "Admin" */'../components/admin/User')
+        component: () => import(/* webpackChunkName: "User" */'../components/admin/User')
       }
     ]
   }

@@ -54,7 +54,7 @@
 </template>
 
 <script>
-import { LOGIN } from '../store/mutation-types'
+import { LOGIN } from '../../store/mutation-types'
 const account = ['account', {
   rules: [{
     required: true,

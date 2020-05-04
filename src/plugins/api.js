@@ -1,5 +1,6 @@
 import axios from 'axios'
 axios.defaults.baseURL = 'http://localhost:3000/server'
+// axios.defaults.baseURL = 'http://www.biubiubius.com:3000/server'
 
 /**
  * 用户
@@ -19,3 +20,7 @@ export const updateUser = (type, data) => {
  */
 export const getRaceList = () => axios.get('/race/list')
 export const addRace = data => axios.post('/race/add', data)
+export const updateRace = (id, data) => axios.put('/race/update', { id, data })
+export const deleteRace = id => {
+  return axios.delete('/race/delete', { data: { id } })
+}

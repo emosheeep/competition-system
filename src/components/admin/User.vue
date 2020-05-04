@@ -53,7 +53,7 @@
 
 <script>
 import { createNamespacedHelpers } from 'vuex'
-import ShowUser from './ShowUser'
+import ShowUser from '../user/ShowUser'
 const { mapState } = createNamespacedHelpers('user')
 export default {
   name: 'User',
@@ -62,12 +62,12 @@ export default {
     AddUser: () => import(
       /* webpackChunkName: "AddUser" */
       /* webpackPrefetch: true */
-      './AddUser'
+      '../user/AddUser'
     ),
     ImportUser: () => import(
       /* webpackChunkName: "ImportUser" */
       /* webpackPrefetch: true */
-      './ImportUser'
+      '../user/ImportUser'
     )
   },
   data () {

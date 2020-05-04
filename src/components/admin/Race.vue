@@ -15,21 +15,21 @@
     </a-page-header>
 
     <ShowRace />
-    <AddRace v-if="addRaceVisible" :visible.sync="addRaceVisible" />
+    <EditRace type="add" v-if="addRaceVisible" :visible.sync="addRaceVisible" />
   </div>
 </template>
 
 <script>
-import ShowRace from './ShowRace'
+import ShowRace from '../race/ShowRace'
 
 export default {
   name: 'Race',
   components: {
     ShowRace,
-    AddRace: () => import(
+    EditRace: () => import(
       /* webpackChunkName: "AddRace" */
       /* webpackPrefetch: true */
-      './AddRace'
+      '../race/EditRace'
     )
   },
   data () {

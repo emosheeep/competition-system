@@ -1,4 +1,5 @@
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
+const CompressionWebpackPlugin = require('compression-webpack-plugin')
 
 module.exports = {
   chainWebpack: config => {
@@ -10,13 +11,18 @@ module.exports = {
     })
     if (process.env.NODE_ENV === 'production') {
       config.plugin('analyzer').use(BundleAnalyzerPlugin)
+      config.plugin('compress').use(CompressionWebpackPlugin, [{
+        test: /\.js$|\.html$|\.css$/,
+        threshold: 10240, // 超过10kb就压缩
+        deleteOriginalAssets: false
+      }])
     }
   },
   configureWebpack: {
     optimization: {
       splitChunks: {
         cacheGroups: {
-          antd_icons: { // 分离vue全家桶
+          antd_icons: { // ant图标分离
             name: true,
             test: /@ant-design/,
             priority: 10,

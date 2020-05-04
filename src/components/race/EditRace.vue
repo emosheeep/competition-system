@@ -3,8 +3,8 @@
     centered
     :visible="visible"
     :confirm-loading="loading"
-    title='新增赛事'
-    ok-text='创建'
+    :title="type === 'add' ? '新增赛事' : '更新数据'"
+    :ok-text="type === 'add' ? '创建' : '更新'"
     cancel-text="取消"
     @cancel="onCancel"
     @ok="onOk"
@@ -23,7 +23,7 @@
         <a-date-picker
           v-decorator="decorator.date"
           placeholder="选择比赛时间"
-          :disabled-date="cur => cur < Date.now()"
+          :disabled-date="disableDate"
         />
       </a-form-item>
       <a-form-item label="年度" :label-col="labelCol" :wrapper-col="wrapperCol">
@@ -33,10 +33,10 @@
       </a-form-item>
       <a-form-item label="级别" :label-col="labelCol" :wrapper-col="wrapperCol">
         <a-select v-decorator="decorator.level" style="width: 120px">
-          <a-select-option value="0">校级</a-select-option>
-          <a-select-option value="1">省级</a-select-option>
-          <a-select-option value="3">国家级一般</a-select-option>
-          <a-select-option value="2">国家级重点</a-select-option>
+          <a-select-option value="校级">校级</a-select-option>
+          <a-select-option value="省级">省级</a-select-option>
+          <a-select-option value="国家级一般">国家级一般</a-select-option>
+          <a-select-option value="国家级重点">国家级重点</a-select-option>
         </a-select>
       </a-form-item>
       <a-form-item label="描述" :label-col="labelCol" :wrapper-col="wrapperCol">
@@ -48,13 +48,22 @@
 
 <script>
 import { createNamespacedHelpers } from 'vuex'
-import { ADD_RACE } from '../../store/mutation-types'
+import moment from 'moment'
+import { ADD_RACE, UPDATE_RACE } from '../../store/mutation-types'
 const { mapActions } = createNamespacedHelpers('race')
 
 export default {
-  name: 'AddRace',
+  name: 'EditRace',
   props: {
-    visible: Boolean
+    visible: Boolean,
+    race: Object,
+    type: {
+      type: String,
+      default: 'add',
+      validator (value) {
+        return ['add', 'update'].includes(value)
+      }
+    }
   },
   data () {
     return {
@@ -68,15 +77,34 @@ export default {
   beforeCreate () {
     this.form = this.$form.createForm(this, { name: 'add-race' })
   },
+  mounted () {
+    if (this.type === 'update') {
+      const temp = {}
+      for (const key of Object.keys(this.race)) {
+        if (!key.startsWith('_')) {
+          temp[key] = this.race[key]
+        }
+      }
+      temp.date = moment(temp.date)
+      this.form.setFieldsValue(temp)
+    }
+  },
   methods: {
     ...mapActions({
-      addRace: ADD_RACE
+      addRace: ADD_RACE,
+      updateRace: UPDATE_RACE
     }),
+    disableDate (cur) {
+      const yesterday = moment().startOf('day')
+      return cur.isSameOrBefore(yesterday)
+    },
     onOk (e) {
       this.form.validateFields().then(data => {
         this.loading = true
         data.date = data.date.valueOf() // 将组件默认的moment对象转换为时间戳
-        return this.addRace(data)
+        return this.type === 'add'
+          ? this.addRace(data)
+          : this.updateRace({ id: this.race._id, data })
       }).then(_ => {
         this.$emit('update:visible', false)
       }).finally(() => {
@@ -86,7 +114,6 @@ export default {
       })
     },
     onCancel (e) {
-      console.log('failed')
       this.$emit('update:visible', false)
     }
   }
@@ -124,7 +151,7 @@ const decorator = {
     }]
   }],
   level: ['level', {
-    initialValue: '0'
+    initialValue: '校级'
   }],
   year: ['year', {
     initialValue: years[0]

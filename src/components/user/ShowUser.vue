@@ -114,7 +114,7 @@ export default {
     return {
       loading: true,
       editUserVisible: false,
-      curUser: {},
+      curUser: null,
       searchText: '',
       searchedColumn: 0,
       columns: createColumns.call(this)
