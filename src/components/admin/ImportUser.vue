@@ -155,7 +155,6 @@ export default {
           users: this.users
         }).then(res => {
           this.$emit('update:visible', false)
-          console.log(res)
         }).catch(users => {
           if (users?.length !== 0) {
             Modal.warning({
@@ -219,6 +218,10 @@ const columns = {
     {
       title: '部门',
       dataIndex: 'dept'
+    },
+    {
+      title: '描述',
+      dataIndex: 'description'
     }
   ]
 }

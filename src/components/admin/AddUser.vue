@@ -31,91 +31,33 @@
         </a-radio-group>
       </a-col>
     </a-row>
-    <a-form :form="form">
-      <!--通用部分：用户名、密码-->
-      <a-form-item
-        :label-col="labelCol"
-        :wrapper-col="wrapperCol"
-        label="账号"
-      >
-        <a-input ref="account" v-decorator="decorator.account" placeholder="账号/学号/职工号">
-          <a-icon slot="prefix" type="user" style="color: rgba(0,0,0,.25)" />
-        </a-input>
-      </a-form-item>
-      <a-form-item
-        :label-col="labelCol"
-        :wrapper-col="wrapperCol"
-        label="密码"
-      >
-        <a-input v-decorator="decorator.password" placeholder="密码">
-          <a-icon slot="prefix" type="lock" style="color: rgba(0,0,0,.25)" />
-        </a-input>
-      </a-form-item>
-
-      <!--管理员部分：管理员不需要姓名-->
-      <a-form-item
-        v-if="type !== 'admin'"
-        :label-col="labelCol"
-        :wrapper-col="wrapperCol"
-        label="姓名"
-      >
-        <a-input v-decorator="decorator.name" placeholder="姓名"/>
-      </a-form-item>
-
-      <!--学生部分：年级、班级、性别-->
-      <a-form-item
-        v-if="type === 'student'"
-        :label-col="labelCol"
-        :wrapper-col="wrapperCol"
-        label="年级">
-        <a-input v-decorator="decorator.grade" placeholder="年级"/>
-      </a-form-item>
-      <a-form-item
-        v-if="type === 'student'"
-        :label-col="labelCol"
-        :wrapper-col="wrapperCol"
-        label="班级"
-      >
-        <a-input v-decorator="decorator.classname" placeholder="班级"/>
-      </a-form-item>
-      <a-form-item
-        v-if="type === 'student'"
-        :label-col="labelCol"
-        :wrapper-col="wrapperCol"
-        label="性别"
-      >
-        <a-radio-group v-decorator="decorator.sex">
-          <a-radio value="man">
-            <span>男 &nbsp;</span>
-            <a-icon type="man" />
-          </a-radio>
-          <a-radio value="woman">
-            <span>女 &nbsp;</span>
-            <a-icon type="woman" />
-          </a-radio>
-        </a-radio-group>
-      </a-form-item>
-
-      <!--教师部分：部门-->
-      <a-form-item
-        v-if="type === 'teacher'"
-        :label-col="labelCol"
-        :wrapper-col="wrapperCol"
-        label="部门"
-      >
-        <a-input v-decorator="decorator.dept" placeholder="部门"/>
-      </a-form-item>
-    </a-form>
+    <EditStudent
+      v-if="type === 'student'"
+      ref="student"
+    />
+    <EditTeacher
+      v-else-if="type === 'teacher'"
+      ref="teacher"
+    />
+    <EditAdmin v-else ref="admin" />
   </a-modal>
 </template>
 
 <script>
 import { createNamespacedHelpers } from 'vuex'
+import EditStudent from '../common/EditStudent'
+import EditAdmin from '../common/EditAdmin'
+import EditTeacher from '../common/EditTeacher'
 import { ADD_USER } from '../../store/mutation-types'
 const { mapActions } = createNamespacedHelpers('users')
 
 export default {
-  name: 'Add',
+  name: 'AddUser',
+  components: {
+    EditStudent,
+    EditAdmin,
+    EditTeacher
+  },
   props: {
     visible: Boolean
   },
@@ -128,18 +70,13 @@ export default {
       decorator
     }
   },
-  beforeCreate () {
-    this.form = this.$form.createForm(this, { name: 'add' })
-  },
-  mounted () {
-    this.$refs.account.focus()
-  },
   methods: {
     ...mapActions({
       addUser: ADD_USER
     }),
     onOk (e) {
-      this.form.validateFields().then(values => {
+      // 调用子组件的confirm方法
+      this.$refs[this.type].confirm().then(values => {
         this.loading = true
         return this.addUser({
           type: this.type,
@@ -153,8 +90,8 @@ export default {
         }, 500)
       })
     },
-    onChange ({ target }) {
-      this.type = target.value
+    onChange ({ target: { value } }) {
+      this.type = value
     },
     onCancel (e) {
       if (this.loading) return
@@ -206,6 +143,7 @@ const decorator = {
       required: true,
       message: '请输入班级！'
     }]
-  }]
+  }],
+  description: ['description']
 }
 </script>

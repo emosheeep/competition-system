@@ -268,6 +268,11 @@ function createColumns () {
         dataIndex: 'password'
       },
       {
+        title: '描述',
+        dataIndex: 'description',
+        ellipsis: true
+      },
+      {
         title: '操作',
         key: 'action',
         scopedSlots: { customRender: 'action' }
