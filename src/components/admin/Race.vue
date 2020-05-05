@@ -14,13 +14,13 @@
       </template>
     </a-page-header>
 
-    <ShowRace />
+    <ShowRace type="admin" />
     <EditRace type="add" v-if="addRaceVisible" :visible.sync="addRaceVisible" />
   </div>
 </template>
 
 <script>
-import ShowRace from '../race/ShowRace'
+import ShowRace from '../common/ShowRace'
 
 export default {
   name: 'Race',
@@ -29,7 +29,7 @@ export default {
     EditRace: () => import(
       /* webpackChunkName: "AddRace" */
       /* webpackPrefetch: true */
-      '../race/EditRace'
+      '../common/EditRace'
     )
   },
   data () {

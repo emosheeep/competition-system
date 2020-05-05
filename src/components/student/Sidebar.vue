@@ -4,14 +4,14 @@
     <a-menu
       theme="dark"
       mode="inline"
-      :selected-keys="keys"
+      :selectedKeys="keys"
       @click="handleClick"
     >
       <a-menu-item key="race">
-        <a-icon type="project" /><span>赛事管理</span>
+        <a-icon type="project" /><span>竞赛列表</span>
       </a-menu-item>
-      <a-menu-item key="user">
-        <a-icon type="user" /><span>用户管理</span>
+      <a-menu-item key="record">
+        <a-icon type="solution" /><span>参赛记录</span>
       </a-menu-item>
     </a-menu>
   </div>
@@ -28,7 +28,9 @@ export default {
     }
   },
   mounted () {
-    this.$router.replace({ path: '/admin/race' }).then(({ path }) => {
+    this.$router.replace({
+      path: '/student/race'
+    }).then(({ path }) => {
       const key = path.split('/').pop()
       this.$set(this.keys, 0, key)
     }).catch(e => e)
@@ -37,7 +39,7 @@ export default {
     handleClick ({ key }) {
       this.$set(this.keys, 0, key)
       this.$router.push({
-        path: `/admin/${key}`
+        path: `/student/${key}`
       }).catch(e => e)
     }
   }

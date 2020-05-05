@@ -6,7 +6,7 @@ export default {
     return new Promise((resolve, reject) => {
       login(info).then(({ data }) => {
         commit(LOGIN, data)
-        resolve(data)
+        resolve(info)
       }).catch(reject)
     })
   }

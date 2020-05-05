@@ -4,10 +4,7 @@
       <Sidebar />
     </a-layout-sider>
     <a-layout>
-      <a-layout-header :style="{ background: '#fff', padding: 0 }">
-        <Navbar />
-      </a-layout-header>
-      <a-layout-content :style="{ background: '#fff', margin: '10px' }">
+      <a-layout-content style="padding: 20px; background: white; margin: 10px">
         <keep-alive>
           <router-view />
         </keep-alive>
@@ -20,15 +17,9 @@
 </template>
 
 <script>
-import Navbar from '../components/common/Navbar'
 import Sidebar from '../components/admin/Sidebar'
 export default {
   name: 'Home',
-  components: { Sidebar, Navbar },
-  data () {
-    return {
-      collapsed: false
-    }
-  }
+  components: { Sidebar }
 }
 </script>

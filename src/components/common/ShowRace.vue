@@ -56,7 +56,9 @@
       </template>
 
       <template #date="date">{{ formatDate(date) }}</template>
-      <template #action="item">
+
+      <!--管理员页面显示编辑按钮，学生界面不显示-->
+      <template v-if="type === 'admin'" #action="item">
         <a @click.prevent="onEdit(item)">编辑</a>
         <a-divider type="vertical" />
         <a-popconfirm
@@ -70,13 +72,24 @@
         <a-divider type="vertical" />
         <a @click.prevent="onDetail(item)">详情</a>
       </template>
+      <template v-else #action="item">
+        <a @click.prevent="onDetail(item)">详情</a>
+        <a-divider type="vertical" />
+        <a @click.prevent="addRecord(item)">登记</a>
+      </template>
     </a-table>
 
-    <!--编辑赛事信息-->
+    <!--更新赛事信息-->
     <EditRace
       type="update"
       v-if="updateVisible"
       :visible.sync="updateVisible"
+      :race="curRace"
+    />
+
+    <AddRecord
+      v-if="addRecordVisible"
+      :visible.sync="addRecordVisible"
       :race="curRace"
     />
   </div>
@@ -95,12 +108,27 @@ export default {
       /* webpackChunkName: "EditUser" */
       /* webpackPrefetch: true */
       './EditRace'
+    ),
+    AddRecord: () => import(
+      /* webpackChunkName: "EditUser" */
+      /* webpackPrefetch: true */
+      '../student/AddRecord'
     )
+  },
+  props: {
+    type: {
+      type: String,
+      default: 'admin',
+      validator (value) {
+        return ['admin', 'student'].includes(value)
+      }
+    }
   },
   data () {
     return {
       loading: true,
       updateVisible: false,
+      addRecordVisible: false,
       curRace: null,
       searchText: '',
       searchedColumn: 0,
@@ -128,26 +156,11 @@ export default {
       this.curRace = race
     },
     onDetail (race) {
-      Modal.info({
-        title: race.title,
-        class: 'detail-box',
-        centered: true,
-        maskClosable: true,
-        icon: 'profile',
-        content: h => {
-          return h('a-descriptions', {
-            props: { layout: 'vertical', bordered: true, size: 'small' }
-          }, [
-            h('a-descriptions-item', { props: { label: '主办方' } }, race.sponsor),
-            h('a-descriptions-item', { props: { label: '年度' } }, race.year),
-            h('a-descriptions-item', { props: { label: '级别' } }, race.level),
-            h('a-descriptions-item', { props: { label: '时间' } }, this.formatDate(race.date)),
-            h('a-descriptions-item', { props: { label: '地点' } }, race.location),
-            h('br'),
-            h('a-descriptions-item', { props: { label: '描述' } }, race.description)
-          ])
-        }
-      })
+      showDetail.call(this, race)
+    },
+    addRecord (race) {
+      this.addRecordVisible = true
+      this.curRace = race
     },
     handleSearch (selectedKeys, confirm, dataIndex) {
       confirm()
@@ -159,6 +172,30 @@ export default {
       this.searchText = ''
     }
   }
+}
+
+// 显示详情弹框
+function showDetail (race) {
+  Modal.info({
+    title: race.title,
+    class: 'custom-box',
+    centered: true,
+    maskClosable: true,
+    icon: 'profile',
+    content: h => {
+      return h('a-descriptions', {
+        props: { layout: 'vertical', bordered: true, size: 'small' }
+      }, [
+        h('a-descriptions-item', { props: { label: '主办方' } }, race.sponsor),
+        h('a-descriptions-item', { props: { label: '年度' } }, race.year),
+        h('a-descriptions-item', { props: { label: '级别' } }, race.level),
+        h('a-descriptions-item', { props: { label: '时间' } }, this.formatDate(race.date)),
+        h('a-descriptions-item', { props: { label: '地点' } }, race.location),
+        h('br'),
+        h('a-descriptions-item', { props: { label: '描述' } }, race.description)
+      ])
+    }
+  })
 }
 
 function createColumns () {
@@ -248,6 +285,6 @@ function createColumns () {
 </script>
 
 <style lang="stylus">
-  .detail-box .ant-modal-confirm-content
-    margin-left 0 !important
+  .custom-box .ant-modal-confirm-content
+    margin 20px 0 0 0 !important
 </style>

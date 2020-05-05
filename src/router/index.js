@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Login from '../pages/Login'
 
 Vue.use(VueRouter)
 
@@ -8,7 +7,7 @@ const routes = [
   {
     path: '/',
     name: 'login',
-    component: Login
+    component: () => import(/* webpackChunkName: "Login" */'../pages/Login')
   },
   {
     path: '/teacher',
@@ -18,7 +17,18 @@ const routes = [
   {
     path: '/student',
     name: 'student',
-    component: () => import(/* webpackChunkName: "Student" */'../pages/Student')
+    component: () => import(/* webpackChunkName: "Student" */'../pages/Student'),
+    children: [
+      {
+        path: 'race',
+        component: () => import(/* webpackChunkName: "Student" */'../components/student/index')
+      },
+      {
+        path: 'record',
+        name: 'record'
+        // component: () => import(/* webpackChunkName: "Student" */'../components/admin/User')
+      }
+    ]
   },
   {
     path: '/admin',
@@ -27,13 +37,11 @@ const routes = [
     children: [
       {
         path: 'race',
-        name: 'race',
-        component: () => import(/* webpackChunkName: "Race" */'../components/admin/Race')
+        component: () => import(/* webpackChunkName: "Admin" */'../components/admin/Race')
       },
       {
         path: 'user',
-        name: 'user',
-        component: () => import(/* webpackChunkName: "User" */'../components/admin/User')
+        component: () => import(/* webpackChunkName: "Admin" */'../components/admin/User')
       }
     ]
   }

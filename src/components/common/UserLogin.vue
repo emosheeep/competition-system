@@ -7,7 +7,7 @@
   >
     <a-form-item label="用户名">
       <a-input
-        v-decorator="account"
+        v-decorator="decorator.account"
         placeholder="Username"
       >
         <a-icon slot="prefix" type="user" style="color: rgba(0,0,0,.25)" />
@@ -15,7 +15,7 @@
     </a-form-item>
     <a-form-item label="密码">
       <a-input
-        v-decorator="password"
+        v-decorator="decorator.password"
         type="password"
         placeholder="Password"
       >
@@ -23,7 +23,7 @@
       </a-input>
     </a-form-item>
     <a-form-item>
-      <a-radio-group v-decorator="identity" class="identity">
+      <a-radio-group v-decorator="decorator.identity" class="identity">
         <a-radio value="student">
           学生
         </a-radio>
@@ -55,31 +55,13 @@
 
 <script>
 import { LOGIN } from '../../store/mutation-types'
-const account = ['account', {
-  rules: [{
-    required: true,
-    message: '请输入用户名！'
-  }]
-}]
-const password = ['password', {
-  rules: [{
-    required: true,
-    message: '请输入密码！'
-  }]
-}]
-const identity = ['identity', {
-  valuePropName: 'value',
-  initialValue: 'student'
-}]
 export default {
   name: 'Login',
   data () {
     return {
       loading: false,
       tips: '',
-      account,
-      password,
-      identity
+      decorator
     }
   },
   beforeCreate () {
@@ -93,7 +75,7 @@ export default {
         if (!err) {
           this.loading = true
           this.$store.dispatch(LOGIN, values).then(data => {
-            this.$router.push({ name: values.identity })
+            this.$router.replace({ name: values.identity })
           }).catch(e => {
             this.tips = '用户名或密码错误！'
           }).finally(() => {
@@ -103,6 +85,24 @@ export default {
       })
     }
   }
+}
+const decorator = {
+  account: ['account', {
+    rules: [{
+      required: true,
+      message: '请输入用户名！'
+    }]
+  }],
+  password: ['password', {
+    rules: [{
+      required: true,
+      message: '请输入密码！'
+    }]
+  }],
+  identity: ['identity', {
+    valuePropName: 'value',
+    initialValue: 'student'
+  }]
 }
 </script>
 
