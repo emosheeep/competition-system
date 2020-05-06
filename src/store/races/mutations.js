@@ -7,9 +7,9 @@ export default {
   [ADD_RACE] (state, race) {
     state.races.push(race)
   },
-  [UPDATE_RACE] (state, { id, race }) {
+  [UPDATE_RACE] (state, race) {
     state.races = state.races.map(item => {
-      return item._id === id ? race : item
+      return item._id === race._id ? race : item
     })
   },
   [DELETE_RACE] (state, id) {

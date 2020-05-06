@@ -28,7 +28,7 @@
 </template>
 
 <script>
-import EditMixin from './user-from-mixin'
+import EditMixin from './user-edit-mixin'
 
 export default {
   name: 'EditAdmin',

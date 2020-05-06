@@ -104,7 +104,10 @@ export default {
         data.date = data.date.valueOf() // 将组件默认的moment对象转换为时间戳
         return this.type === 'add'
           ? this.addRace(data)
-          : this.updateRace({ id: this.race._id, data })
+          : this.updateRace({
+            ...data,
+            _id: this.race._id // 手动添加_id属性，否则会出错
+          })
       }).then(_ => {
         this.$emit('update:visible', false)
       }).finally(() => {

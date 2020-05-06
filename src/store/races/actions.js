@@ -29,12 +29,12 @@ export default {
       })
     })
   },
-  [UPDATE_RACE] ({ commit }, { id, data: race }) {
+  [UPDATE_RACE] ({ commit }, race) {
     const stopLoading = message.loading('请稍后')
     return new Promise((resolve, reject) => {
-      updateRace(id, race).then(({ data }) => {
+      updateRace(race).then(({ data }) => {
         resolve(data)
-        commit(UPDATE_RACE, { id, race })
+        commit(UPDATE_RACE, race)
         message.success('更新成功')
       }).catch(e => {
         reject(e)

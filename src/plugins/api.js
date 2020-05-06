@@ -20,7 +20,7 @@ export const updateUser = (type, data) => {
  */
 export const getRaceList = () => axios.get('/race/list')
 export const addRace = data => axios.post('/race/add', data)
-export const updateRace = (id, data) => axios.put('/race/update', { id, data })
+export const updateRace = data => axios.put('/race/update', data)
 export const deleteRace = id => {
   return axios.delete('/race/delete', { data: { id } })
 }
