@@ -3,13 +3,13 @@
     <a-form-item
       :label-col="labelCol"
       :wrapper-col="wrapperCol"
-      label="账号"
+      label="名称"
     >
       <a-input
-        ref="account"
+        ref="title"
         :disabled="type === 'update'"
         v-decorator="decorator.account"
-        placeholder="学号"
+        placeholder="赛事名称"
       >
         <a-icon slot="prefix" type="user" style="color: rgba(0,0,0,.25)" />
       </a-input>
@@ -66,7 +66,7 @@
 import EditMixin from '../user-edit-mixin'
 
 export default {
-  name: 'EditStudent',
+  name: 'EditRecord',
   mixins: [EditMixin],
   data () {
     return {

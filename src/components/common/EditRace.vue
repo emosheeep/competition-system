@@ -50,6 +50,7 @@
 import { createNamespacedHelpers } from 'vuex'
 import moment from 'moment'
 import { ADD_RACE, UPDATE_RACE } from '../../store/mutation-types'
+import { message } from 'ant-design-vue'
 const { mapActions } = createNamespacedHelpers('races')
 
 export default {
@@ -70,12 +71,16 @@ export default {
       loading: false,
       labelCol: { span: 4 },
       wrapperCol: { span: 20 },
+      changed: false,
       decorator,
       years
     }
   },
   beforeCreate () {
-    this.form = this.$form.createForm(this, { name: 'add-races' })
+    this.form = this.$form.createForm(this, {
+      name: 'add-races',
+      onValuesChange: _ => { this.changed = true }
+    })
   },
   mounted () {
     if (this.type === 'update') {
@@ -87,6 +92,7 @@ export default {
       }
       temp.date = moment(temp.date)
       this.form.setFieldsValue(temp)
+      this.changed = false // 修正
     }
   },
   methods: {
@@ -99,6 +105,9 @@ export default {
       return cur.isSameOrBefore(yesterday)
     },
     onOk (e) {
+      if (!this.changed) {
+        return message.info('未检测到数据变动')
+      }
       this.form.validateFields().then(data => {
         this.loading = true
         data.date = data.date.valueOf() // 将组件默认的moment对象转换为时间戳

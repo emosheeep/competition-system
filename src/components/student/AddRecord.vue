@@ -83,7 +83,7 @@ export default {
       if (!this.selected) {
         return (this.tips = '请选择教师！')
       }
-      this.$store.dispatch(ADD_RECORD, {
+      this.$store.dispatch(`records/${ADD_RECORD}`, {
         id: this.race._id,
         title: this.race.title,
         date: this.race.date,

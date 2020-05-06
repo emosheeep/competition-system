@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div>
     <a-page-header
       :back-icon="false"
       title="竞赛管理"
@@ -39,9 +39,3 @@ export default {
   }
 }
 </script>
-
-<style scoped lang="stylus">
-  .container
-    padding 20px
-    background white
-</style>

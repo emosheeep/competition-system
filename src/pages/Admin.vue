@@ -4,8 +4,8 @@
       <Sidebar />
     </a-layout-sider>
     <a-layout>
-      <a-layout-content style="padding: 20px; background: white; margin: 10px">
-        <keep-alive>
+      <a-layout-content style="padding: 10px; background: white; margin: 10px">
+        <keep-alive exclude="Record">
           <router-view />
         </keep-alive>
       </a-layout-content>

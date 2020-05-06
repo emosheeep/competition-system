@@ -48,7 +48,7 @@
 </template>
 
 <script>
-import EditMixin from './user-edit-mixin'
+import EditMixin from '../user-edit-mixin'
 
 export default {
   name: 'EditTeacher',

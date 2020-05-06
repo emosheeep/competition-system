@@ -28,7 +28,7 @@ export const deleteRace = id => {
 /**
  * 参赛记录
  */
-export const getRecordList = () => axios.get('/record/list')
+export const getRecordList = id => axios.get('/record/list', { params: { id } })
 export const addRecord = data => axios.post('/record/add', data)
 export const updateRecord = (id, data) => axios.put('/record/update', { id, data })
 export const deleteRecord = id => {

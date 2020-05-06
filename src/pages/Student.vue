@@ -4,7 +4,7 @@
       <Sidebar />
     </a-layout-sider>
     <a-layout>
-      <a-layout-content style="padding: 20px; background: white; margin: 10px">
+      <a-layout-content style="padding: 10px; background: white; margin: 10px">
         <keep-alive>
           <router-view />
         </keep-alive>

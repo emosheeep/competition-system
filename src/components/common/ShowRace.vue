@@ -1,6 +1,7 @@
 <template>
   <div>
     <a-table
+      size="small"
       rowKey="_id"
       bordered
       :loading="loading"
@@ -73,8 +74,6 @@
         <a @click.prevent="onDetail(item)">详情</a>
       </template>
       <template v-else #action="item">
-        <a @click.prevent="onDetail(item)">详情</a>
-        <a-divider type="vertical" />
         <a @click.prevent="addRecord(item)">登记</a>
       </template>
     </a-table>
@@ -97,7 +96,6 @@
 
 <script>
 import moment from 'moment'
-import { Modal } from 'ant-design-vue'
 import { createNamespacedHelpers } from 'vuex'
 import { SET_RACE_LIST, DELETE_RACE } from '../../store/mutation-types'
 const { mapState, mapActions } = createNamespacedHelpers('races')
@@ -130,9 +128,9 @@ export default {
       updateVisible: false,
       addRecordVisible: false,
       curRace: null,
+      columns: createColumns.call(this),
       searchText: '',
-      searchedColumn: 0,
-      columns: createColumns.call(this)
+      searchedColumn: 0
     }
   },
   computed: mapState({
@@ -156,7 +154,12 @@ export default {
       this.curRace = race
     },
     onDetail (race) {
-      showDetail.call(this, race)
+      this.$router.push({
+        name: 'record',
+        query: {
+          id: race._id
+        }
+      })
     },
     addRecord (race) {
       this.addRecordVisible = true
@@ -172,30 +175,6 @@ export default {
       this.searchText = ''
     }
   }
-}
-
-// 显示详情弹框
-function showDetail (race) {
-  Modal.info({
-    title: race.title,
-    class: 'custom-box',
-    centered: true,
-    maskClosable: true,
-    icon: 'profile',
-    content: h => {
-      return h('a-descriptions', {
-        props: { layout: 'vertical', bordered: true, size: 'small' }
-      }, [
-        h('a-descriptions-item', { props: { label: '主办方' } }, race.sponsor),
-        h('a-descriptions-item', { props: { label: '年度' } }, race.year),
-        h('a-descriptions-item', { props: { label: '级别' } }, race.level),
-        h('a-descriptions-item', { props: { label: '时间' } }, this.formatDate(race.date)),
-        h('a-descriptions-item', { props: { label: '地点' } }, race.location),
-        h('br'),
-        h('a-descriptions-item', { props: { label: '描述' } }, race.description)
-      ])
-    }
-  })
 }
 
 function createColumns () {

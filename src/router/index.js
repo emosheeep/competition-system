@@ -24,8 +24,7 @@ const routes = [
         component: () => import(/* webpackChunkName: "Student" */'../components/student/index')
       },
       {
-        path: 'record',
-        name: 'record'
+        path: 'record'
         // component: () => import(/* webpackChunkName: "Student" */'../components/admin/User')
       }
     ]
@@ -42,6 +41,12 @@ const routes = [
       {
         path: 'user',
         component: () => import(/* webpackChunkName: "Admin" */'../components/admin/User')
+      },
+      {
+        path: 'record',
+        name: 'record',
+        component: () => import(/* webpackChunkName: "Admin" */'../components/admin/Record'),
+        props: route => ({ id: route.query.id })
       }
     ]
   }

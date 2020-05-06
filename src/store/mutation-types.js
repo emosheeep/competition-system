@@ -16,7 +16,7 @@ export const ADD_RACE = 'ADD_RACE'
 export const UPDATE_RACE = 'UPDATE_RACE'
 export const DELETE_RACE = 'DELETE_RACE'
 
-// record 模块
+// records 模块
 export const ADD_RECORD = 'ADD_RECORD'
 export const SET_RECORD_LIST = 'SET_RECORD_LIST'
 export const UPDATE_RECORD = 'UPDATE_RECORD'

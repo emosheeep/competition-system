@@ -4,8 +4,8 @@ import mutations from './mutations'
 import actions from './actions'
 import users from './users'
 import races from './races'
+import records from './records'
 import student from './student'
-import record from './record'
 import persistedState from '../plugins/persisted_state'
 import createLogger from 'vuex/dist/logger'
 
@@ -24,7 +24,7 @@ export default new Vuex.Store({
     users,
     races,
     student,
-    record
+    records
   },
   plugins: debug
     ? [createLogger(), persistedState]
