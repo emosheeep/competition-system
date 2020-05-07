@@ -66,7 +66,7 @@
           title="确认删除？"
           ok-text="确认"
           cancel-text="取消"
-          @confirm="deleteUser(item._id)"
+          @confirm="deleteRace(item._id)"
         >
           <a>删除</a>
         </a-popconfirm>
@@ -97,7 +97,7 @@
 <script>
 import moment from 'moment'
 import { createNamespacedHelpers } from 'vuex'
-import { SET_RACE_LIST, DELETE_RACE } from '../../store/mutation-types'
+import { DELETE_RACE, SET_RACE_LIST } from '../../store/mutation-types'
 const { mapState, mapActions } = createNamespacedHelpers('races')
 export default {
   name: 'ShowRace',
@@ -137,14 +137,14 @@ export default {
     races: 'races'
   }),
   mounted () {
-    this.setRaceList().then(data => {
+    this.setRaceList().then(_ => {
       this.loading = false
     })
   },
   methods: {
     ...mapActions({
       setRaceList: SET_RACE_LIST,
-      deleteUser: DELETE_RACE
+      deleteRace: DELETE_RACE
     }),
     formatDate (date) {
       return moment(date).format('YYYY-MM-DD')

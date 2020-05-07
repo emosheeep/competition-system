@@ -18,8 +18,7 @@ export default {
     const stopLoading = message.loading('请稍后')
     return new Promise((resolve, reject) => {
       addRecord(record).then(({ data: result }) => {
-        const { code } = result
-        if (code === 1) {
+        if (result?.code === 1) {
           message.warn('请勿重复报名')
         } else {
           resolve(result.data)

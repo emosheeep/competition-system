@@ -24,8 +24,8 @@ const routes = [
         component: () => import(/* webpackChunkName: "Student" */'../components/student/index')
       },
       {
-        path: 'record'
-        // component: () => import(/* webpackChunkName: "Student" */'../components/admin/User')
+        path: 'record',
+        component: () => import(/* webpackChunkName: "Student" */'../components/student/ShowRecord')
       }
     ]
   },

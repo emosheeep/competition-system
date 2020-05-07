@@ -1,19 +1,8 @@
 <template>
-  <a-table
-    bordered
-    size="small"
-    row-key="sid"
-    :columns="columns"
-    :data-source="records"
-    :loading="loading"
-    :pagination="{
-      showSizeChanger: true,
-      showQuickJumper: true
-    }"
-  >
+  <a-table v-bind="table">
     <template #title="records">
       <h1 style="margin: 0; font-weight: bold; font-size: 16px">
-        参赛选手 - {{records.length}}人
+        参赛记录 - {{records.length}}条
       </h1>
     </template>
     <template #filterIcon="filtered">
@@ -61,53 +50,45 @@
       <template v-else>{{ text }}</template>
     </template>
 
-    <!--最后一排的操作按钮-->
-    <template #action="record">
-      <a @click="onEdit(record)">
-        <a-icon type="edit" />
-      </a>
-      <a-divider type="vertical" />
-      <a-popconfirm
-        title="确认删除？"
-        ok-text="确认"
-        cancel-text="取消"
-        @confirm="deleteRecord(record.id)"
-      >
-        <template #icon>
-          <a-icon type="question-circle-o" style="color: orange" />
-        </template>
-        <a><a-icon type="delete"/></a>
-      </a-popconfirm>
-    </template>
+    <!--date-->
+    <template #date="date">{{ formatDate(date) }}</template>
   </a-table>
 </template>
 
 <script>
+import moment from 'moment'
 import { getRecordList } from '../../plugins/api'
 export default {
   name: 'ShowRecord',
-  props: {
-    id: String
-  },
   data () {
     return {
-      records: [],
-      loading: false,
-      columns: createColumns.call(this),
       searchText: '',
-      searchedColumn: 0
+      searchedColumn: 0,
+      // 表格配置
+      table: {
+        dataSource: [],
+        columns: createColumns.call(this),
+        bordered: true,
+        size: 'small',
+        rowKey: 'id',
+        loading: true,
+        pagination: {
+          showSizeChanger: true,
+          showQuickJumper: true
+        }
+      }
     }
   },
   mounted () {
-    this.loading = true
-    getRecordList(this.id).then(({ data }) => {
-      this.records = data
-      this.loading = false
+    const { account } = this.$store.state.user
+    getRecordList({ sid: account }).then(({ data }) => {
+      this.table.dataSource = data
+      this.table.loading = false
     })
   },
   methods: {
-    onEdit (record) {
-      this.curRecord = record
+    formatDate (date) {
+      return moment(date).format('YYYY-MM-DD')
     },
     handleSearch (selectedKeys, confirm, dataIndex) {
       confirm()
@@ -144,20 +125,20 @@ function createColumns () {
   }
   return [
     {
-      title: '学生账号',
-      dataIndex: 'sid',
-      ellipsis: true,
-      sorter: (a, b) => a.sid > b.sid,
-      scopedSlots: filterSlots,
-      onFilter: filter('sid'),
-      onFilterDropdownVisibleChange: changeVisible
+      title: '举办时间',
+      dataIndex: 'date',
+      width: 110,
+      sorter: (a, b) => a.date > b.date,
+      scopedSlots: {
+        customRender: 'date'
+      }
     },
     {
-      title: '学生姓名',
-      dataIndex: 'sname',
+      title: '名称',
+      dataIndex: 'title',
       ellipsis: true,
       scopedSlots: filterSlots,
-      onFilter: filter('sname'),
+      onFilter: filter('sid'),
       onFilterDropdownVisibleChange: changeVisible
     },
     {
@@ -181,11 +162,6 @@ function createColumns () {
       title: '成绩',
       dataIndex: 'score',
       ellipsis: true
-    },
-    {
-      title: '操作',
-      key: 'action',
-      scopedSlots: { customRender: 'action' }
     }
   ]
 }

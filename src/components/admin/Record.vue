@@ -23,7 +23,7 @@
 
 <script>
 import moment from 'moment'
-import ShowRecord from '../common/ShowRecord'
+import ShowRecord from './ShowRecord'
 export default {
   name: 'Record',
   props: {
