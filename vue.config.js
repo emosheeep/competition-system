@@ -1,5 +1,6 @@
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
 const CompressionWebpackPlugin = require('compression-webpack-plugin')
+const LodashWebpackPlugin = require('lodash-webpack-plugin')
 const cdn = {
   js: [
     'https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.min.js',
@@ -13,16 +14,15 @@ const cdn = {
 }
 module.exports = {
   chainWebpack: config => {
-    const externals = {
-      xlsx: 'XLSX'
-    }
     if (process.env.NODE_ENV === 'production') {
-      Object.assign(externals, {
+      config.externals({
+        xlsx: 'XLSX',
         moment: 'moment',
         vue: 'Vue',
         'ant-design-vue': 'antd'
       })
       config.plugin('analyzer').use(BundleAnalyzerPlugin)
+      config.plugin('lodash').use(LodashWebpackPlugin)
       config.plugin('compress').use(CompressionWebpackPlugin, [{
         test: /\.js$|\.html$|\.css$/,
         threshold: 10240, // 超过10kb就压缩
@@ -33,7 +33,6 @@ module.exports = {
         return args
       })
     }
-    config.externals(externals)
   },
   configureWebpack: {
     optimization: {

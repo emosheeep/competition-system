@@ -63,10 +63,6 @@
 
     <!--最后一排的操作按钮-->
     <template #action="record">
-      <a @click="onEdit(record)">
-        <a-icon type="edit" />
-      </a>
-      <a-divider type="vertical" />
       <a-popconfirm
         title="确认删除？"
         ok-text="确认"

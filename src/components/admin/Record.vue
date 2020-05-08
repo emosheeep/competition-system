@@ -6,7 +6,10 @@
       style="padding: 0; margin-bottom: 20px"
       @back="e => $router.back()"
     />
-    <a-descriptions :title="`赛事详情：${race.title}`">
+    <a-descriptions
+      :title="`赛事详情：${race.title}`"
+      style="padding: 10px"
+    >
       <a-descriptions-item label="主办方">{{ race.sponsor }}</a-descriptions-item>
       <a-descriptions-item label="年度">{{ race.year }}</a-descriptions-item>
       <a-descriptions-item label="级别">{{ race.level }}</a-descriptions-item>
@@ -32,8 +35,7 @@ export default {
   components: { ShowRecord },
   data () {
     return {
-      addRecordVisible: false,
-      race: undefined
+      race: {}
     }
   },
   computed: {

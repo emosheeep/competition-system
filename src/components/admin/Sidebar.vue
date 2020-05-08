@@ -28,10 +28,9 @@ export default {
     }
   },
   mounted () {
-    this.$router.replace({ path: '/admin/race' }).then(({ path }) => {
-      const key = path.split('/').pop()
-      this.$set(this.keys, 0, key)
-    }).catch(e => e)
+    const { path } = this.$route
+    const key = path.split('/').pop()
+    this.$set(this.keys, 0, key)
   },
   methods: {
     handleClick ({ key }) {

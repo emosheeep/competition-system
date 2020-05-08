@@ -75,7 +75,16 @@ export default {
         if (!err) {
           this.loading = true
           this.$store.dispatch(LOGIN, values).then(data => {
-            this.$router.replace({ name: values.identity })
+            let config = {}
+            switch (values.identity) {
+              case 'student':
+              case 'admin':
+                config = { path: `${values.identity}/race` }
+                break
+              default:
+                config = { path: 'teacher' }
+            }
+            this.$router.replace(config)
           }).catch(e => {
             this.tips = '用户名或密码错误！'
           }).finally(() => {

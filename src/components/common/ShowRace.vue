@@ -103,12 +103,12 @@ export default {
   name: 'ShowRace',
   components: {
     EditRace: () => import(
-      /* webpackChunkName: "EditUser" */
+      /* webpackChunkName: "EditRace" */
       /* webpackPrefetch: true */
       './EditRace'
     ),
     AddRecord: () => import(
-      /* webpackChunkName: "EditUser" */
+      /* webpackChunkName: "AddRecord" */
       /* webpackPrefetch: true */
       '../student/AddRecord'
     )
@@ -155,10 +155,7 @@ export default {
     },
     onDetail (race) {
       this.$router.push({
-        name: 'record',
-        query: {
-          id: race._id
-        }
+        path: `/admin/${race._id}`
       })
     },
     addRecord (race) {

@@ -3,11 +3,12 @@ import createPersistedState from 'vuex-persistedstate'
 export default createPersistedState({
   key: 'loginUser',
   storage: window.localStorage,
-  reducer: function ({ expires, token, user }) {
+  reducer: function (state) {
     return {
-      expires,
-      token,
-      user
+      expires: state.expires,
+      token: state.token,
+      user: state.user,
+      races: state.races
     }
   }
 })

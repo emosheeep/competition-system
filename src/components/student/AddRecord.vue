@@ -33,6 +33,7 @@
 </template>
 
 <script>
+import { debounce } from 'lodash'
 import { createNamespacedHelpers } from 'vuex'
 import { ADD_RECORD } from '../../store/mutation-types'
 
@@ -79,7 +80,7 @@ export default {
     onCancel () {
       this.$emit('update:visible', false)
     },
-    onOk () {
+    onOk: debounce(function () {
       if (!this.selected) {
         return (this.tips = '请选择教师！')
       }
@@ -96,7 +97,7 @@ export default {
       }).catch(e => e).finally(() => {
         this.loading = false
       })
-    }
+    }, 200)
   }
 }
 </script>

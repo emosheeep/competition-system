@@ -43,10 +43,9 @@ const routes = [
         component: () => import(/* webpackChunkName: "Admin" */'../components/admin/User')
       },
       {
-        path: 'record',
-        name: 'record',
+        path: ':id',
         component: () => import(/* webpackChunkName: "Admin" */'../components/admin/Record'),
-        props: route => ({ id: route.query.id })
+        props: route => ({ id: route.params.id })
       }
     ]
   }
