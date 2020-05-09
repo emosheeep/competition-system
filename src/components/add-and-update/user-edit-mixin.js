@@ -24,19 +24,16 @@ export default {
     })
   },
   mounted () {
-    if (this.type === 'add') {
-      return this.$refs.account.focus()
-    }
-    // 更新
-    this.$refs.password.focus()
-    const temp = {}
-    for (const key of Object.keys(this.user)) {
-      if (!key.startsWith('_')) {
-        temp[key] = this.user[key]
+    if (this.type === 'update') {
+      const temp = {}
+      for (const key of Object.keys(this.user)) {
+        if (!key.startsWith('_')) {
+          temp[key] = this.user[key]
+        }
       }
+      this.form.setFieldsValue(temp)
+      this.changed = false // 修正
     }
-    this.form.setFieldsValue(temp)
-    this.changed = false // 修正changed的状态
   },
   methods: {
     confirm () {

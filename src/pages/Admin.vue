@@ -5,7 +5,7 @@
     </a-layout-sider>
     <a-layout>
       <a-layout-content style="padding: 10px; background: white; margin: 10px">
-        <keep-alive exclude="Record">
+        <keep-alive>
           <router-view />
         </keep-alive>
       </a-layout-content>

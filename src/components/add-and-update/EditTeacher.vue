@@ -3,13 +3,13 @@
     <a-form-item
       :label-col="labelCol"
       :wrapper-col="wrapperCol"
-      label="名称"
+      label="账号"
     >
       <a-input
-        ref="title"
+        ref="account"
         :disabled="type === 'update'"
         v-decorator="decorator.account"
-        placeholder="赛事名称"
+        placeholder="职工号"
       >
         <a-icon slot="prefix" type="user" style="color: rgba(0,0,0,.25)" />
       </a-input>
@@ -33,41 +33,26 @@
     <a-form-item
       :label-col="labelCol"
       :wrapper-col="wrapperCol"
-      label="年级">
-      <a-input v-decorator="decorator.grade" placeholder="年级"/>
+      label="部门"
+    >
+      <a-input v-decorator="decorator.dept" placeholder="部门"/>
     </a-form-item>
     <a-form-item
       :label-col="labelCol"
       :wrapper-col="wrapperCol"
-      label="班级"
+      label="描述"
     >
-      <a-input v-decorator="decorator.classname" placeholder="班级"/>
-    </a-form-item>
-    <a-form-item
-      :label-col="labelCol"
-      :wrapper-col="wrapperCol"
-      label="性别"
-    >
-      <a-radio-group v-decorator="decorator.sex">
-        <a-radio value="man">
-          <span>男 &nbsp;</span>
-          <a-icon type="man" />
-        </a-radio>
-        <a-radio value="woman">
-          <span>女 &nbsp;</span>
-          <a-icon type="woman" />
-        </a-radio>
-      </a-radio-group>
+      <a-textarea v-decorator="decorator.description" placeholder="描述"/>
     </a-form-item>
   </a-form>
 </template>
 
 <script>
-import EditMixin from '../user-edit-mixin'
+import UserEditMixin from './user-edit-mixin'
 
 export default {
-  name: 'EditRecord',
-  mixins: [EditMixin],
+  name: 'EditTeacher',
+  mixins: [UserEditMixin],
   data () {
     return {
       decorator
@@ -82,7 +67,7 @@ const decorator = {
   account: ['account', {
     rules: [{
       required: true,
-      message: '请输入账号！'
+      message: '请输入职工号！'
     }]
   }],
   password: ['password', {
@@ -97,21 +82,12 @@ const decorator = {
       message: '请输入姓名！'
     }]
   }],
-  sex: ['sex', {
-    valuePropName: 'value',
-    initialValue: 'man'
-  }],
-  classname: ['classname', {
+  dept: ['dept', {
     rules: [{
       required: true,
-      message: '请输入班级！'
+      message: '请输入部门！'
     }]
   }],
-  grade: ['grade', {
-    rules: [{
-      required: true,
-      message: '请输入班级！'
-    }]
-  }]
+  description: ['description']
 }
 </script>

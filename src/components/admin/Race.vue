@@ -14,27 +14,51 @@
       </template>
     </a-page-header>
 
-    <ShowRace type="admin" />
-    <EditRace type="add" v-if="addRaceVisible" :visible.sync="addRaceVisible" />
+    <ShowRace type="admin" @update-race="onUpdate" @delete-race="onDelete" />
+    <AddRace
+      v-if="addRaceVisible"
+      :visible.sync="addRaceVisible" />
+    <UpdateRace
+      v-if="updateRaceVisible"
+      :visible.sync="updateRaceVisible"
+      :race="curRace" />
   </div>
 </template>
 
 <script>
-import ShowRace from '../common/ShowRace'
+import ShowRace from '../race/ShowRace'
+import { DELETE_RACE } from '../../store/mutation-types'
 
 export default {
   name: 'Race',
   components: {
     ShowRace,
-    EditRace: () => import(
+    UpdateRace: () => import(
+      /* webpackChunkName: "UpdateRace" */
+      /* webpackPrefetch: true */
+      '../race/UpdateRace'
+    ),
+    AddRace: () => import(
       /* webpackChunkName: "AddRace" */
       /* webpackPrefetch: true */
-      '../common/EditRace'
+      '../race/AddRace'
     )
   },
   data () {
     return {
-      addRaceVisible: false
+      addRaceVisible: false,
+      updateRaceVisible: false,
+      curRace: {}
+    }
+  },
+  methods: {
+    onUpdate (race) {
+      this.updateRaceVisible = true
+      this.curRace = race
+      console.log(race)
+    },
+    onDelete ({ _id }) {
+      this.$store.dispatch(`races/${DELETE_RACE}`, _id)
     }
   }
 }

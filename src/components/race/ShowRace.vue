@@ -59,78 +59,52 @@
       <template #date="date">{{ formatDate(date) }}</template>
 
       <!--管理员页面显示编辑按钮，学生界面不显示-->
-      <template v-if="type === 'admin'" #action="item">
-        <a @click.prevent="onEdit(item)">编辑</a>
+      <template v-if="type === 'student'" #action="item">
+        <a @click.prevent="$emit('add-record', item)">登记</a>
+      </template>
+      <template v-else-if="type === 'teacher'" #action="item">
+        <a @click.prevent="onDetail(item)">详情</a>
+      </template>
+      <template v-else #action="item">
+        <a @click.prevent="$emit('update-race', item)">编辑</a>
         <a-divider type="vertical" />
         <a-popconfirm
           title="确认删除？"
           ok-text="确认"
           cancel-text="取消"
-          @confirm="deleteRace(item._id)"
+          @confirm="$emit('delete-race', item)"
         >
           <a>删除</a>
         </a-popconfirm>
         <a-divider type="vertical" />
         <a @click.prevent="onDetail(item)">详情</a>
       </template>
-      <template v-else #action="item">
-        <a @click.prevent="addRecord(item)">登记</a>
-      </template>
     </a-table>
-
-    <!--更新赛事信息-->
-    <EditRace
-      type="update"
-      v-if="updateVisible"
-      :visible.sync="updateVisible"
-      :race="curRace"
-    />
-
-    <AddRecord
-      v-if="addRecordVisible"
-      :visible.sync="addRecordVisible"
-      :race="curRace"
-    />
   </div>
 </template>
 
 <script>
 import moment from 'moment'
 import { createNamespacedHelpers } from 'vuex'
-import { DELETE_RACE, SET_RACE_LIST } from '../../store/mutation-types'
+import { SET_RACE_LIST } from '../../store/mutation-types'
+import TableSearchMixin from '../table-search-mixin'
 const { mapState, mapActions } = createNamespacedHelpers('races')
 export default {
   name: 'ShowRace',
-  components: {
-    EditRace: () => import(
-      /* webpackChunkName: "EditRace" */
-      /* webpackPrefetch: true */
-      './EditRace'
-    ),
-    AddRecord: () => import(
-      /* webpackChunkName: "AddRecord" */
-      /* webpackPrefetch: true */
-      '../student/AddRecord'
-    )
-  },
+  mixins: [TableSearchMixin],
   props: {
     type: {
       type: String,
       default: 'admin',
       validator (value) {
-        return ['admin', 'student'].includes(value)
+        return ['admin', 'student', 'teacher'].includes(value)
       }
     }
   },
   data () {
     return {
       loading: true,
-      updateVisible: false,
-      addRecordVisible: false,
-      curRace: null,
-      columns: createColumns.call(this),
-      searchText: '',
-      searchedColumn: 0
+      columns: createColumns.call(this)
     }
   },
   computed: mapState({
@@ -143,33 +117,15 @@ export default {
   },
   methods: {
     ...mapActions({
-      setRaceList: SET_RACE_LIST,
-      deleteRace: DELETE_RACE
+      setRaceList: SET_RACE_LIST
     }),
     formatDate (date) {
       return moment(date).format('YYYY-MM-DD')
     },
-    onEdit (race) {
-      this.updateVisible = true
-      this.curRace = race
-    },
     onDetail (race) {
       this.$router.push({
-        path: `/admin/${race._id}`
+        path: race._id
       })
-    },
-    addRecord (race) {
-      this.addRecordVisible = true
-      this.curRace = race
-    },
-    handleSearch (selectedKeys, confirm, dataIndex) {
-      confirm()
-      this.searchText = selectedKeys[0]
-      this.searchedColumn = dataIndex
-    },
-    handleReset (clearFilters) {
-      clearFilters()
-      this.searchText = ''
     }
   }
 }

@@ -1,20 +1,15 @@
 <template>
-  <a-table
-    bordered
-    size="small"
-    row-key="sid"
-    :columns="columns"
-    :data-source="records"
-    :loading="loading"
-    :pagination="{
-      showSizeChanger: true,
-      showQuickJumper: true
-    }"
-  >
+  <a-table v-bind="table" :columns="columns">
     <template #title="records">
-      <h1 style="margin: 0; font-weight: bold; font-size: 16px">
-        参赛选手 - {{records.length}}人
-      </h1>
+      <div class="title">
+        <h1>参赛记录 - {{records.length}}条</h1>
+        <a-button
+          size="small"
+          type="primary"
+          @click="refresh"
+          class="fresh-button"
+        >刷新</a-button>
+      </div>
     </template>
     <template #filterIcon="filtered">
       <a-icon type="search" :style="{ color: filtered ? '#108ee9' : undefined }"/>
@@ -60,9 +55,13 @@
         </span>
       <template v-else>{{ text }}</template>
     </template>
-
-    <!--最后一排的操作按钮-->
-    <template #action="record">
+    <!--date-->
+    <template v-if="type !== 'admin'" #date="date">{{ formatDate(date) }}</template>
+    <!--最后一排的操作按钮，action操作只有管理员和教师需要，学生只能查看不能操作-->
+    <template v-if="type === 'teacher'" #action="record">
+      {{ record }}
+    </template>
+    <template v-else #action="record">
       <a-popconfirm
         title="确认删除？"
         ok-text="确认"
@@ -81,123 +80,91 @@
 <script>
 import { message } from 'ant-design-vue'
 import { getRecordList, deleteRecord } from '../../plugins/api'
+import TableSearchMixin from '../table-search-mixin'
+import CreateColumns from './create-record-columns'
+import { throttle } from 'lodash'
+import moment from 'moment'
 export default {
   name: 'ShowRecord',
+  mixins: [TableSearchMixin],
   props: {
-    id: String
+    id: String,
+    type: {
+      type: String,
+      default: 'admin',
+      validator (value) {
+        return ['student', 'admin', 'teacher'].includes(value)
+      }
+    }
   },
   data () {
     return {
-      records: [],
-      loading: true,
-      columns: createColumns.call(this),
-      searchText: '',
-      searchedColumn: 0
+      columns: [],
+      table: {
+        dataSource: [],
+        bordered: true,
+        size: 'small',
+        rowKey: 'id',
+        loading: true,
+        pagination: {
+          showSizeChanger: true,
+          showQuickJumper: true
+        }
+      }
     }
   },
-  mounted () {
-    getRecordList({ id: this.id }).then(({ data }) => {
-      this.records = data
-      this.loading = false
-    })
+  created () {
+    this.columns = CreateColumns(this.type)
+    this.$on('hook:activated', this.init) // 注意组件是被缓存过的
   },
   methods: {
-    onEdit (record) {
-      this.curRecord = record
+    init () {
+      let promise
+      const { account } = this.$store.state.user
+      this.table.loading = true
+      switch (this.type) {
+        case 'student':
+          promise = getRecordList({ type: 'sid', value: account })
+          break
+        case 'teacher':
+          promise = getRecordList({ type: 'tid', value: account })
+          break
+        default: // admin
+          promise = getRecordList({ type: 'id', value: this.id })
+      }
+      promise.then(({ data }) => {
+        this.table.dataSource = data
+        this.table.loading = false
+      })
+    },
+    refresh: throttle(function () {
+      this.init()
+    }, 500),
+    formatDate (date) {
+      return moment(date).format('YYYY-MM-DD')
     },
     onDelete (id) {
       const stopLoading = message.loading('请稍后')
       deleteRecord(id).then(res => {
-        this.records = this.records.filter(item => item.id !== id)
+        this.table.dataSource = this.table.dataSource.filter(item => item.id !== id)
         message.success('删除成功')
       }).catch(e => {
         message.error('系统错误')
       }).finally(() => {
         stopLoading()
       })
-    },
-    handleSearch (selectedKeys, confirm, dataIndex) {
-      confirm()
-      this.searchText = selectedKeys[0]
-      this.searchedColumn = dataIndex
-    },
-    handleReset (clearFilters) {
-      clearFilters()
-      this.searchText = ''
     }
   }
-}
-
-function createColumns () {
-  const filterSlots = {
-    filterDropdown: 'filterDropdown',
-    filterIcon: 'filterIcon',
-    customRender: 'filter'
-  }
-  const changeVisible = visible => {
-    if (visible) {
-      setTimeout(() => {
-        this.$refs.searchInput.focus()
-      }, 0)
-    }
-  }
-  const filter = key => {
-    return (value, record) => {
-      return record[key]
-        .toString()
-        .toLowerCase()
-        .includes(value.toLowerCase())
-    }
-  }
-  return [
-    {
-      title: '学生账号',
-      dataIndex: 'sid',
-      ellipsis: true,
-      sorter: (a, b) => a.sid > b.sid,
-      scopedSlots: filterSlots,
-      onFilter: filter('sid'),
-      onFilterDropdownVisibleChange: changeVisible
-    },
-    {
-      title: '学生姓名',
-      dataIndex: 'sname',
-      ellipsis: true,
-      scopedSlots: filterSlots,
-      onFilter: filter('sname'),
-      onFilterDropdownVisibleChange: changeVisible
-    },
-    {
-      title: '教师工号',
-      dataIndex: 'tid',
-      ellipsis: true,
-      sorter: (a, b) => a.tid > b.tid,
-      scopedSlots: filterSlots,
-      onFilter: filter('tid'),
-      onFilterDropdownVisibleChange: changeVisible
-    },
-    {
-      title: '教师姓名',
-      dataIndex: 'tname',
-      ellipsis: true,
-      scopedSlots: filterSlots,
-      onFilter: filter('tname'),
-      onFilterDropdownVisibleChange: changeVisible
-    },
-    {
-      title: '成绩',
-      dataIndex: 'score',
-      ellipsis: true
-    },
-    {
-      title: '操作',
-      key: 'action',
-      scopedSlots: { customRender: 'action' }
-    }
-  ]
 }
 </script>
 
-<style scoped>
-
+<style scoped lang="stylus">
+  .title
+    h1
+      display inline-block
+      margin 0
+      font-weight bold
+      font-size 16px
+    .fresh-button
+      float right
 </style>

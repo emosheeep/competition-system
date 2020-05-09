@@ -33,9 +33,9 @@
 
 <script>
 import { createNamespacedHelpers } from 'vuex'
-import EditStudent from '../common/EditStudent'
-import EditAdmin from '../common/EditAdmin'
-import EditTeacher from '../common/EditTeacher'
+import EditStudent from '../add-and-update/EditStudent'
+import EditAdmin from '../add-and-update/EditAdmin'
+import EditTeacher from '../add-and-update/EditTeacher'
 import { UPDATE_USER } from '../../store/mutation-types'
 const { mapActions } = createNamespacedHelpers('users')
 export default {

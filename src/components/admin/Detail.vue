@@ -20,15 +20,15 @@
     </a-descriptions>
 
     <!--展示对应赛事的参赛人员，id为赛事id-->
-    <ShowRecord :id="id"/>
+    <ShowRecord type="admin" :id="id"/>
   </div>
 </template>
 
 <script>
 import moment from 'moment'
-import ShowRecord from './ShowRecord'
+import ShowRecord from '../record/ShowRecord'
 export default {
-  name: 'Record',
+  name: 'Detail',
   props: {
     id: String
   },
@@ -38,13 +38,18 @@ export default {
       race: {}
     }
   },
+  watch: {
+    id: {
+      handler (newID) {
+        this.race = this.races.find(race => race._id === newID)
+      },
+      immediate: true
+    }
+  },
   computed: {
     races () {
       return this.$store.state.races.races // 注意命名空间
     }
-  },
-  created () {
-    this.race = this.races.find(race => race._id === this.id)
   },
   methods: {
     formatDate (date) {

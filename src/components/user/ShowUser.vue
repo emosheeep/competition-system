@@ -99,7 +99,7 @@ export default {
     EditUser: () => import(
       /* webpackChunkName: "EditUser" */
       /* webpackPrefetch: true */
-      './EditUser'
+      './UpdateUser'
     )
   },
   props: {

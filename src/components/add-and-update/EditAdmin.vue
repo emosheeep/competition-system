@@ -28,11 +28,11 @@
 </template>
 
 <script>
-import EditMixin from '../user-edit-mixin'
+import UserEditMixin from './user-edit-mixin'
 
 export default {
   name: 'EditAdmin',
-  mixins: [EditMixin],
+  mixins: [UserEditMixin],
   data () {
     return {
       decorator
