@@ -3,12 +3,18 @@
     <template #title="records">
       <div class="title">
         <h1>参赛记录 - {{records.length}}条</h1>
-        <a-button
-          size="small"
-          type="primary"
-          @click="refresh"
-          class="fresh-button"
-        >刷新</a-button>
+        <a-button-group class="button-group">
+          <a-button
+            size="small"
+            type="link"
+            @click="refresh"
+          >刷新</a-button>
+          <a-button
+            type="link"
+            size="small"
+            @click="exportExcel"
+          >导出Excel</a-button>
+        </a-button-group>
       </div>
     </template>
     <template #filterIcon="filtered">
@@ -82,8 +88,9 @@ import { message } from 'ant-design-vue'
 import { getRecordList, deleteRecord } from '../../api'
 import TableSearchMixin from '../table-search-mixin'
 import CreateColumns from './create-record-columns'
-import { throttle } from 'lodash'
+import { throttle, omit } from 'lodash'
 import moment from 'moment'
+import { makeExcel } from '../../utils/excel'
 export default {
   name: 'ShowRecord',
   mixins: [TableSearchMixin],
@@ -153,6 +160,16 @@ export default {
       }).finally(() => {
         stopLoading()
       })
+    },
+    exportExcel () {
+      const data = this.table.dataSource.map(item => {
+        const temp = omit(item, ['_id', 'id', '__v'])
+        temp.date = new Date(temp.date)
+        return temp
+      })
+      makeExcel({
+        records: data
+      })
     }
   }
 }
@@ -165,6 +182,6 @@ export default {
       margin 0
       font-weight bold
       font-size 16px
-    .fresh-button
+    .button-group
       float right
 </style>

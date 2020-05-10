@@ -59,8 +59,8 @@
       </template>
 
       <!--最后一排的操作按钮-->
-      <template #action="{ account }, record, index">
-        <a @click="onEdit(record, index)">
+      <template #action="{ account }, record">
+        <a @click="onEdit(record)">
           <a-icon type="edit" />
         </a>
         <a-divider type="vertical" />
@@ -68,7 +68,7 @@
           title="确认删除？"
           ok-text="确认"
           cancel-text="取消"
-          @confirm="onDelete(account, index)"
+          @confirm="onDelete(account)"
         >
           <template #icon>
             <a-icon type="question-circle-o" style="color: orange" />
@@ -77,32 +77,17 @@
         </a-popconfirm>
       </template>
     </a-table>
-
-    <!--修改用户-->
-    <EditUser
-      v-if="editUserVisible"
-      :visible.sync="editUserVisible"
-      :type="type"
-      :user="curUser"
-    />
   </div>
 </template>
 
 <script>
-import { createNamespacedHelpers } from 'vuex'
-import { DELETE_USER, SET_USER_LIST } from '../../store/mutation-types'
-const { mapActions, mapState } = createNamespacedHelpers('users')
-
+import TableSearchMixin from '../table-search-mixin'
 export default {
   name: 'ShowUser',
-  components: {
-    EditUser: () => import(
-      /* webpackChunkName: "EditUser" */
-      /* webpackPrefetch: true */
-      './UpdateUser'
-    )
-  },
+  mixins: [TableSearchMixin],
   props: {
+    users: Object,
+    loading: Boolean,
     type: {
       type: String,
       validator (value) {
@@ -112,69 +97,39 @@ export default {
   },
   data () {
     return {
-      loading: true,
-      editUserVisible: false,
-      curUser: null,
-      searchText: '',
-      searchedColumn: 0,
       columns: createColumns.call(this)
     }
   },
   computed: {
-    ...mapState({
-      students: 'students',
-      teachers: 'teachers',
-      admins: 'admins'
-    }),
     current () {
       switch (this.type) {
         case 'student':
           return {
-            data: this.students,
+            data: this.users.students,
             column: this.columns.students
           }
         case 'teacher':
           return {
-            data: this.teachers,
+            data: this.users.teachers,
             column: this.columns.teachers
           }
         default:
           return {
-            data: this.admins,
+            data: this.users.admins,
             column: this.columns.admins
           }
       }
     }
   },
-  mounted () {
-    this.setUserList().then(data => {
-      this.loading = false
-    })
-  },
   methods: {
-    ...mapActions({
-      setUserList: SET_USER_LIST,
-      deleteUser: DELETE_USER
-    }),
-    onEdit (data, index) {
-      this.editUserVisible = true
-      this.curUser = data
+    onEdit (user) {
+      this.$emit('update-user', user)
     },
-    onDelete (account, index) {
-      this.deleteUser({
+    onDelete (account) {
+      this.$emit('delete-user', {
         type: this.type,
-        account,
-        index
+        account
       })
-    },
-    handleSearch (selectedKeys, confirm, dataIndex) {
-      confirm()
-      this.searchText = selectedKeys[0]
-      this.searchedColumn = dataIndex
-    },
-    handleReset (clearFilters) {
-      clearFilters()
-      this.searchText = ''
     }
   }
 }

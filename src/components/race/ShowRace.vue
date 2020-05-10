@@ -85,14 +85,13 @@
 
 <script>
 import moment from 'moment'
-import { createNamespacedHelpers } from 'vuex'
-import { SET_RACE_LIST } from '../../store/mutation-types'
 import TableSearchMixin from '../table-search-mixin'
-const { mapState, mapActions } = createNamespacedHelpers('races')
 export default {
   name: 'ShowRace',
   mixins: [TableSearchMixin],
   props: {
+    races: Array,
+    loading: Boolean,
     type: {
       type: String,
       default: 'admin',
@@ -103,22 +102,10 @@ export default {
   },
   data () {
     return {
-      loading: true,
       columns: createColumns.call(this)
     }
   },
-  computed: mapState({
-    races: 'races'
-  }),
-  mounted () {
-    this.setRaceList().then(_ => {
-      this.loading = false
-    })
-  },
   methods: {
-    ...mapActions({
-      setRaceList: SET_RACE_LIST
-    }),
     formatDate (date) {
       return moment(date).format('YYYY-MM-DD')
     },

@@ -18,13 +18,14 @@
               </a-menu>
             </template>
           </a-dropdown>
+          <a-button @click="exportExcel">导出Excel</a-button>
         </a-button-group>
       </template>
       <div class="header-info">
         <a-statistic class="number" title="用户总数" :value="allUsersNum" />
-        <a-statistic class="number" title="学生" :value="studentsNum" />
-        <a-statistic class="number" title="教师" :value="teachersNum" />
-        <a-statistic class="number" title="管理员" :value="adminsNum" />
+        <a-statistic class="number" title="学生" :value="students.length" />
+        <a-statistic class="number" title="教师" :value="teachers.length" />
+        <a-statistic class="number" title="管理员" :value="admins.length" />
         <a-select
           class="selection-box"
           defaultValue="student"
@@ -38,7 +39,13 @@
       </div>
     </a-page-header>
 
-    <ShowUser :type="showUserType"/>
+    <ShowUser
+      :users="users"
+      :loaading="loading"
+      :type="showUserType"
+      @update-user="onUpdate"
+      @delete-user="onDelete"
+    />
 
     <!--弹出层表单-->
     <AddUser v-if="addUserVisible" :visible.sync="addUserVisible"/>
@@ -47,14 +54,23 @@
       :visible.sync="importUserVisible"
       :type="importUserType"
     />
-
+    <!--修改用户-->
+    <EditUser
+      v-if="updateUserVisible"
+      :visible.sync="updateUserVisible"
+      :type="showUserType"
+      :user="curUser"
+    />
   </div>
 </template>
 
 <script>
+import { omit } from 'lodash'
 import { createNamespacedHelpers } from 'vuex'
-import ShowUser from '../user/ShowUser'
-const { mapState } = createNamespacedHelpers('users')
+import ShowUser from './ShowUser'
+import { makeExcel } from '../../utils/excel'
+import { DELETE_USER, SET_USER_LIST, UPDATE_USER } from '../../store/mutation-types'
+const { mapActions, mapState } = createNamespacedHelpers('users')
 export default {
   name: 'User',
   components: {
@@ -62,33 +78,65 @@ export default {
     AddUser: () => import(
       /* webpackChunkName: "AddUser" */
       /* webpackPrefetch: true */
-      '../user/AddUser'
+      './AddUser'
     ),
     ImportUser: () => import(
       /* webpackChunkName: "ImportUser" */
       /* webpackPrefetch: true */
-      '../user/ImportUser'
+      './ImportUser'
+    ),
+    EditUser: () => import(
+      /* webpackChunkName: "EditUser" */
+      /* webpackPrefetch: true */
+      './UpdateUser'
     )
   },
   data () {
     return {
+      loading: true,
       addUserVisible: false,
       importUserVisible: false,
+      updateUserVisible: false,
+      curUser: null,
       importUserType: 'student',
       showUserType: 'student'
     }
   },
   computed: {
     ...mapState({
-      studentsNum: state => state.students.length,
-      teachersNum: state => state.teachers.length,
-      adminsNum: state => state.admins.length
+      students: 'students',
+      teachers: 'teachers',
+      admins: 'admins'
     }),
+    users () {
+      return {
+        students: this.students,
+        teachers: this.teachers,
+        admins: this.admins
+      }
+    },
     allUsersNum () {
-      return this.studentsNum + this.teachersNum + this.adminsNum
+      return this.students.length + this.teachers.length + this.admins.length
     }
   },
+  mounted () {
+    this.setUserList().then(data => {
+      this.loading = false
+    })
+  },
   methods: {
+    ...mapActions({
+      setUserList: SET_USER_LIST,
+      deleteUser: DELETE_USER,
+      updateUser: UPDATE_USER
+    }),
+    onUpdate (user) {
+      this.curUser = user
+      this.updateUserVisible = true
+    },
+    onDelete ({ type, account }) {
+      this.deleteUser({ type, account })
+    },
     changeType (value) {
       this.showUserType = value
     },
@@ -98,6 +146,13 @@ export default {
     importUser ({ key }) {
       this.importUserType = key
       this.importUserVisible = true
+    },
+    exportExcel () {
+      makeExcel({
+        students: this.students.map(item => omit(item, ['_id', '__v'])),
+        teachers: this.teachers.map(item => omit(item, ['_id', '__v'])),
+        admins: this.admins.map(item => omit(item, ['_id', '__v']))
+      })
     }
   }
 }

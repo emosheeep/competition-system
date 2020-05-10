@@ -36,6 +36,8 @@
 import { message, Modal } from 'ant-design-vue'
 import { createNamespacedHelpers } from 'vuex'
 import { ADD_USER } from '../../store/mutation-types'
+import { readExcel } from '../../utils/excel'
+
 const { mapActions } = createNamespacedHelpers('users')
 export default {
   name: 'Upload',
@@ -71,18 +73,12 @@ export default {
       const reader = new FileReader()
       reader.readAsBinaryString(file)
       reader.onload = e => {
-        import('xlsx').then(xlsx => {
-          const workbook = xlsx.read(e.target.result, {
-            type: 'binary'
-          })
-          const { SheetNames } = workbook
-          const sheet = workbook.Sheets[SheetNames[0]] // 只读取第一张表
-          const result = xlsx.utils.sheet_to_json(sheet)
-          this.generateData(result)
-          message.success('文件读取成功')
-        }).catch(e => {
-          message.error('文件读取失败')
-        })
+        const result = readExcel(e.target.result)
+        this.generateData(result)
+        message.success('文件读取成功')
+      }
+      reader.onerror = e => {
+        message.error('文件读取失败')
       }
       return false // 阻止上传
     },

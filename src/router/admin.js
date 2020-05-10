@@ -15,7 +15,7 @@ export default [
       },
       {
         path: 'user',
-        component: () => import(/* webpackChunkName: "User" */'../components/admin/User')
+        component: () => import(/* webpackChunkName: "User" */'../components/user/User')
       },
       {
         path: ':id',
