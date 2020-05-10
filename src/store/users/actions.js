@@ -3,7 +3,7 @@
  */
 import { message } from 'ant-design-vue'
 import { ADD_USER, DELETE_USER, SET_USER_LIST, UPDATE_USER } from '../mutation-types'
-import { addUser, deleteUser, getUserList, updateUser } from '../../plugins/api'
+import { addUser, deleteUser, getUserList, updateUser } from '../../api'
 
 export default {
   [ADD_USER] ({ commit }, { type, users }) {

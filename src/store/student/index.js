@@ -1,5 +1,5 @@
 import { SET_TEACHERS } from '../mutation-types'
-import { getUserList } from '../../plugins/api'
+import { getUserList } from '../../api'
 import { message } from 'ant-design-vue'
 
 export default {

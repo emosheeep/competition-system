@@ -1,5 +1,5 @@
 import { LOGIN } from './mutation-types'
-import { login } from '../plugins/api'
+import { login } from '../api'
 
 export default {
   [LOGIN] ({ commit, state }, info) {

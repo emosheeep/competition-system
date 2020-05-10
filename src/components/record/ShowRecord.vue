@@ -79,7 +79,7 @@
 
 <script>
 import { message } from 'ant-design-vue'
-import { getRecordList, deleteRecord } from '../../plugins/api'
+import { getRecordList, deleteRecord } from '../../api'
 import TableSearchMixin from '../table-search-mixin'
 import CreateColumns from './create-record-columns'
 import { throttle } from 'lodash'

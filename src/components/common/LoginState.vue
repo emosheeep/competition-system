@@ -20,21 +20,17 @@
 </template>
 
 <script>
-import { mapMutations, mapState } from 'vuex'
-import { LOGOUT } from '../../store/mutation-types'
 
 export default {
   name: 'LoginState',
-  computed: mapState({
-    user: 'user'
-  }),
+  computed: {
+    user () {
+      return this.$store.state.user
+    }
+  },
   methods: {
-    ...mapMutations({
-      logout: LOGOUT
-    }),
     changeUser () {
-      this.logout()
-      this.$router.push({ path: '/' })
+      this.$router.replace({ path: '/' })
     }
   },
   filters: {

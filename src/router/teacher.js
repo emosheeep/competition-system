@@ -3,6 +3,11 @@ export default [
     path: '/teacher',
     name: 'teacher',
     component: () => import(/* webpackChunkName: "Teacher" */'../pages/Teacher'),
+    redirect: '/teacher/race',
+    meta: {
+      auth: true,
+      identity: 'teacher'
+    },
     children: [
       {
         path: 'race',

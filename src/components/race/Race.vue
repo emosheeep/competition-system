@@ -26,7 +26,7 @@
 </template>
 
 <script>
-import ShowRace from '../race/ShowRace'
+import ShowRace from './ShowRace'
 import { DELETE_RACE } from '../../store/mutation-types'
 
 export default {
@@ -36,12 +36,12 @@ export default {
     UpdateRace: () => import(
       /* webpackChunkName: "UpdateRace" */
       /* webpackPrefetch: true */
-      '../race/UpdateRace'
+      './UpdateRace'
     ),
     AddRace: () => import(
       /* webpackChunkName: "AddRace" */
       /* webpackPrefetch: true */
-      '../race/AddRace'
+      './AddRace'
     )
   },
   data () {
@@ -55,7 +55,6 @@ export default {
     onUpdate (race) {
       this.updateRaceVisible = true
       this.curRace = race
-      console.log(race)
     },
     onDelete ({ _id }) {
       this.$store.dispatch(`races/${DELETE_RACE}`, _id)

@@ -3,6 +3,8 @@ import VueRouter from 'vue-router'
 import teacher from './teacher'
 import admin from './admin'
 import student from './student'
+import CheckState from './navigation-guard/check-state'
+import CheckIdentity from './navigation-guard/check-identity'
 
 Vue.use(VueRouter)
 
@@ -10,6 +12,7 @@ const routes = [
   {
     path: '/',
     name: 'login',
+    meta: { auth: false },
     component: () => import(/* webpackChunkName: "Login" */'../pages/Login')
   },
   ...teacher,
@@ -22,5 +25,8 @@ const router = new VueRouter({
   base: process.env.BASE_URL,
   routes
 })
+
+router.beforeEach(CheckState)
+router.beforeEach(CheckIdentity)
 
 export default router
