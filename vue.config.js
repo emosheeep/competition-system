@@ -16,9 +16,9 @@ module.exports = {
   chainWebpack: config => {
     if (process.env.NODE_ENV === 'production') {
       config.externals({
-        xlsx: 'XLSX',
-        moment: 'moment',
         vue: 'Vue',
+        moment: 'moment',
+        xlsx: 'XLSX',
         'ant-design-vue': 'antd'
       })
       config.plugin('analyzer').use(BundleAnalyzerPlugin)
@@ -38,9 +38,21 @@ module.exports = {
     optimization: {
       splitChunks: {
         cacheGroups: {
+          common: { // 公共依赖提取
+            name: 'common',
+            chunks: 'all',
+            minChunks: 2,
+            priority: 10
+          },
           antd_icons: { // ant图标分离
             name: true,
             test: /@ant-design/,
+            priority: 10,
+            chunks: 'all'
+          },
+          vue: { // vue依赖分离
+            name: true,
+            test: /vue/,
             priority: 10,
             chunks: 'all'
           }

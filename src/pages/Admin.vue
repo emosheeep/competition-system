@@ -20,6 +20,9 @@
 import Sidebar from '../components/admin/Sidebar'
 export default {
   name: 'Home',
-  components: { Sidebar }
+  components: { Sidebar },
+  metaInfo: {
+    title: '管理员'
+  }
 }
 </script>

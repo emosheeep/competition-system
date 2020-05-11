@@ -8,7 +8,10 @@
 import UserLogin from '../components/common/UserLogin'
 export default {
   name: 'Login',
-  components: { UserLogin }
+  components: { UserLogin },
+  metaInfo: {
+    title: '登录'
+  }
 }
 </script>
 

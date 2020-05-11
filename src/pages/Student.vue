@@ -20,6 +20,9 @@
 import Sidebar from '../components/student/Sidebar'
 export default {
   name: 'Student',
-  components: { Sidebar }
+  components: { Sidebar },
+  metaInfo: {
+    title: '学生'
+  }
 }
 </script>
