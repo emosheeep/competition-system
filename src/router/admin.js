@@ -18,6 +18,11 @@ export default [
         component: () => import(/* webpackChunkName: "User" */'../components/user/User')
       },
       {
+        path: 'record',
+        component: () => import(/* webpackChunkName: "Record" */'../components/record/Record'),
+        props: route => ({ type: 'admin' })
+      },
+      {
         path: ':id',
         component: () => import(/* webpackChunkName: "Detail" */'../components/admin/Detail'),
         props: route => ({ id: route.params.id, type: 'admin' })

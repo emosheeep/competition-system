@@ -42,7 +42,7 @@ export default {
     AddRecord: () => import(
       /* webpackChunkName: "AddRecord" */
       /* webpackPrefetch: true */
-      './AddRecord'
+      '../record/AddRecord'
     )
   },
   data () {

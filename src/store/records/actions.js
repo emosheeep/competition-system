@@ -3,9 +3,9 @@ import { getRecordList, addRecord, updateRecord, deleteRecord } from '../../api'
 import { message } from 'ant-design-vue'
 
 export default {
-  [SET_RECORD_LIST] ({ commit }) {
+  [SET_RECORD_LIST] ({ commit }, params) {
     return new Promise((resolve, reject) => {
-      getRecordList().then(({ data: records }) => {
+      getRecordList(params).then(({ data: records }) => {
         resolve(records)
         commit(SET_RECORD_LIST, records)
       }).catch(e => {

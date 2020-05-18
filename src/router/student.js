@@ -15,7 +15,7 @@ export default [
       },
       {
         path: 'record',
-        component: () => import(/* webpackChunkName: "ShowRecord" */'../components/record/ShowRecord'),
+        component: () => import(/* webpackChunkName: "StudentShowRecord" */'../components/student/StudentShowRecord'),
         props: route => ({ type: 'student' })
       }
     ]

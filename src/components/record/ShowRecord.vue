@@ -1,28 +1,12 @@
 <template>
   <a-table
     v-bind="table"
+    :loading="loading"
     :columns="columns"
+    :data-source="records"
   >
-    <template #title="records">
-      <div class="title">
-        <h1>参赛记录 - {{ records.length }}条</h1>
-        <a-button-group class="button-group">
-          <a-button
-            size="small"
-            type="link"
-            @click="refresh"
-          >
-            刷新
-          </a-button>
-          <a-button
-            type="link"
-            size="small"
-            @click="exportExcel"
-          >
-            导出Excel
-          </a-button>
-        </a-button-group>
-      </div>
+    <template #title="data">
+      <h1>参赛记录 - {{ data.length }}条</h1>
     </template>
     <template #filterIcon="filtered">
       <a-icon
@@ -98,6 +82,8 @@
       v-else
       #action="record"
     >
+      <a @click="onEdit(record)"><a-icon type="edit" /></a>
+      <a-divider type="vertical" />
       <a-popconfirm
         title="确认删除？"
         ok-text="确认"
@@ -117,19 +103,16 @@
 </template>
 
 <script>
-import { message } from 'ant-design-vue'
-import { getRecordList, deleteRecord } from '../../api'
 import TableSearchMixin from '../table-search-mixin'
-import CreateColumns from './create-record-columns'
-import { throttle, omit } from 'lodash'
+import createColumns from './create-record-columns'
 import moment from 'moment'
-import { makeExcel } from '../../utils/excel'
 export default {
   name: 'ShowRecord',
   mixins: [TableSearchMixin],
   props: {
-    id: {
-      type: String,
+    loading: Boolean,
+    records: {
+      type: Array,
       required: true
     },
     type: {
@@ -142,13 +125,11 @@ export default {
   },
   data () {
     return {
-      columns: [],
+      columns: createColumns(this.type),
       table: {
-        dataSource: [],
         bordered: true,
         size: 'small',
         rowKey: 'id',
-        loading: true,
         pagination: {
           showSizeChanger: true,
           showQuickJumper: true
@@ -156,68 +137,24 @@ export default {
       }
     }
   },
-  created () {
-    this.columns = CreateColumns(this.type)
-    this.$on('hook:activated', this.init) // 注意组件是被缓存过的
-  },
   methods: {
-    init () {
-      let promise
-      const { account } = this.$store.state.user
-      this.table.loading = true
-      switch (this.type) {
-        case 'student':
-          promise = getRecordList({ type: 'sid', value: account })
-          break
-        case 'teacher':
-          promise = getRecordList({ type: 'tid', value: account })
-          break
-        default: // admin
-          promise = getRecordList({ type: 'id', value: this.id })
-      }
-      promise.then(({ data }) => {
-        this.table.dataSource = data
-        this.table.loading = false
-      })
-    },
-    refresh: throttle(function () {
-      this.init()
-    }, 500),
     formatDate (date) {
       return moment(date).format('YYYY-MM-DD')
     },
     onDelete (id) {
-      const stopLoading = message.loading('请稍后')
-      deleteRecord(id).then(res => {
-        this.table.dataSource = this.table.dataSource.filter(item => item.id !== id)
-        message.success('删除成功')
-      }).catch(e => {
-        message.error('系统错误')
-      }).finally(() => {
-        stopLoading()
-      })
+      this.$emit('delete-record', id)
     },
-    exportExcel () {
-      const data = this.table.dataSource.map(item => {
-        const temp = omit(item, ['_id', 'id', '__v'])
-        temp.date = new Date(temp.date)
-        return temp
-      })
-      makeExcel({
-        records: data
-      })
+    onEdit (record) {
+      this.$emit('update-record', record)
     }
   }
 }
 </script>
 
 <style scoped lang="stylus">
-  .title
-    h1
-      display inline-block
-      margin 0
-      font-weight bold
-      font-size 16px
-    .button-group
-      float right
+  h1
+    display inline-block
+    margin 0
+    font-weight bold
+    font-size 16px
 </style>

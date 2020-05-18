@@ -8,10 +8,16 @@
       @click="handleClick"
     >
       <a-menu-item key="race">
-        <a-icon type="project" /><span>赛事管理</span>
+        <a-icon type="project" />
+        <span>赛事管理</span>
       </a-menu-item>
       <a-menu-item key="user">
-        <a-icon type="user" /><span>用户管理</span>
+        <a-icon type="user" />
+        <span>用户管理</span>
+      </a-menu-item>
+      <a-menu-item key="record">
+        <a-icon type="solution" />
+        <span>参赛记录管理</span>
       </a-menu-item>
     </a-menu>
   </div>
