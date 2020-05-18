@@ -13,21 +13,18 @@ export default {
   },
   [ADD_USER] (state, { type, users }) {
     const { students, teachers, admins } = state
+    if (!Array.isArray(users)) {
+      users = [users]
+    }
     switch (type) {
       case 'student':
-        state.students = Array.isArray(users)
-          ? students.concat(users)
-          : [...students, users]
+        state.students = students.concat(users)
         break
       case 'teacher':
-        state.teachers = Array.isArray(users)
-          ? teachers.concat(users)
-          : [...teachers, users]
+        state.teachers = teachers.concat(users)
         break
       default:
-        state.admins = Array.isArray(users)
-          ? admins.concat(users)
-          : [...admins, users]
+        state.admins = admins.concat(users)
     }
   },
   [DELETE_USER] (state, { type, account }) {

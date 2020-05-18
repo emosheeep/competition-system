@@ -82,14 +82,33 @@
 
 <script>
 import TableSearchMixin from '../table-search-mixin'
+import createColumns from './craete-showuser-columns'
 export default {
   name: 'ShowUser',
   mixins: [TableSearchMixin],
   props: {
-    users: Object,
+    admins: {
+      type: Array,
+      default () {
+        return []
+      }
+    },
+    students: {
+      type: Array,
+      default () {
+        return []
+      }
+    },
+    teachers: {
+      type: Array,
+      default () {
+        return []
+      }
+    },
     loading: Boolean,
     type: {
       type: String,
+      default: 'admin',
       validator (value) {
         return ['student', 'teacher', 'admin'].includes(value)
       }
@@ -105,17 +124,17 @@ export default {
       switch (this.type) {
         case 'student':
           return {
-            data: this.users.students,
+            data: this.students,
             column: this.columns.students
           }
         case 'teacher':
           return {
-            data: this.users.teachers,
+            data: this.teachers,
             column: this.columns.teachers
           }
         default:
           return {
-            data: this.users.admins,
+            data: this.admins,
             column: this.columns.admins
           }
       }
@@ -134,123 +153,6 @@ export default {
   }
 }
 
-// 生成列参数
-function createColumns () {
-  const filterSlots = {
-    filterDropdown: 'filterDropdown',
-    filterIcon: 'filterIcon',
-    customRender: 'filter'
-  }
-  const changeVisible = visible => {
-    if (visible) {
-      setTimeout(() => {
-        this.$refs.searchInput.focus()
-      }, 0)
-    }
-  }
-  const filter = key => {
-    return (value, record) => {
-      return record[key]
-        .toString()
-        .toLowerCase()
-        .includes(value.toLowerCase())
-    }
-  }
-  return {
-    students: [
-      {
-        title: '学号',
-        dataIndex: 'account',
-        sorter: (a, b) => a.account > b.account,
-        scopedSlots: filterSlots,
-        onFilter: filter('account'),
-        onFilterDropdownVisibleChange: changeVisible
-      },
-      {
-        title: '姓名',
-        dataIndex: 'name',
-        scopedSlots: filterSlots,
-        onFilter: filter('name'),
-        onFilterDropdownVisibleChange: changeVisible
-      },
-      {
-        title: '性别',
-        dataIndex: 'sex'
-      },
-      {
-        title: '年级',
-        dataIndex: 'grade'
-      },
-      {
-        title: '班级',
-        dataIndex: 'classname'
-      },
-      {
-        title: '密码',
-        dataIndex: 'password'
-      },
-      {
-        title: '操作',
-        key: 'action',
-        scopedSlots: { customRender: 'action' }
-      }
-    ],
-    teachers: [
-      {
-        title: '工号',
-        dataIndex: 'account',
-        sorter: (a, b) => a.account > b.account,
-        scopedSlots: filterSlots,
-        onFilter: filter('account'),
-        onFilterDropdownVisibleChange: changeVisible
-      },
-      {
-        title: '姓名',
-        dataIndex: 'name',
-        scopedSlots: filterSlots,
-        onFilter: filter('name'),
-        onFilterDropdownVisibleChange: changeVisible
-      },
-      {
-        title: '部门',
-        dataIndex: 'dept',
-        scopedSlots: filterSlots,
-        onFilter: filter('dept'),
-        onFilterDropdownVisibleChange: changeVisible
-      },
-      {
-        title: '密码',
-        dataIndex: 'password'
-      },
-      {
-        title: '描述',
-        dataIndex: 'description',
-        ellipsis: true
-      },
-      {
-        title: '操作',
-        key: 'action',
-        scopedSlots: { customRender: 'action' }
-      }
-    ],
-    admins: [
-      {
-        title: '账号',
-        dataIndex: 'account',
-        sorter: (a, b) => a.account > b.account
-      },
-      {
-        title: '密码',
-        dataIndex: 'password'
-      },
-      {
-        title: '操作',
-        key: 'action',
-        scopedSlots: { customRender: 'action' }
-      }
-    ]
-  }
-}
 </script>
 
 <style scoped lang="stylus">

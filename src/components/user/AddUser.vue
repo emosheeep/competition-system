@@ -66,8 +66,7 @@ export default {
       type: 'student',
       labelCol: { span: 3 },
       wrapperCol: { span: 20 },
-      loading: false,
-      decorator
+      loading: false
     }
   },
   methods: {
@@ -98,52 +97,5 @@ export default {
       this.$emit('update:visible', false)
     }
   }
-}
-
-/**
- * 定义decorator
- */
-const decorator = {
-  account: ['account', {
-    rules: [{
-      required: true,
-      message: '请输入账号/学号/职工号！'
-    }]
-  }],
-  password: ['password', {
-    rules: [{
-      required: true,
-      message: '请输入密码！'
-    }]
-  }],
-  name: ['name', {
-    rules: [{
-      required: true,
-      message: '请输入姓名！'
-    }]
-  }],
-  sex: ['sex', {
-    valuePropName: 'value',
-    initialValue: 'man'
-  }],
-  dept: ['dept', {
-    rules: [{
-      required: true,
-      message: '请输入部门！'
-    }]
-  }],
-  classname: ['classname', {
-    rules: [{
-      required: true,
-      message: '请输入班级！'
-    }]
-  }],
-  grade: ['grade', {
-    rules: [{
-      required: true,
-      message: '请输入班级！'
-    }]
-  }],
-  description: ['description']
 }
 </script>

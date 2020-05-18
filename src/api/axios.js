@@ -17,7 +17,7 @@ axios.interceptors.response.use(null, error => {
   if (/401/.test(error.message)) {
     router.replace({ name: 'login' }).catch(e => e)
   }
-  return error
+  return Promise.reject(error)
 })
 
 export default axios

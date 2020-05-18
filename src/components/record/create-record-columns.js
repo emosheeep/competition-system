@@ -1,3 +1,5 @@
+import { filterSlots, filter, changeVisible } from '../culumns-helper'
+
 export default function createColumns (type) {
   if (type === 'admin') {
     return AdminRecordColumns
@@ -7,26 +9,6 @@ export default function createColumns (type) {
     return StudentRecordColumns
   }
   throw new Error("type must be one of ['admin', 'student', 'teacher']")
-}
-const filterSlots = {
-  filterDropdown: 'filterDropdown',
-  filterIcon: 'filterIcon',
-  customRender: 'filter'
-}
-const changeVisible = visible => {
-  if (visible) {
-    setTimeout(() => {
-      this.$refs.searchInput.focus()
-    }, 0)
-  }
-}
-const filter = key => {
-  return (value, record) => {
-    return record[key]
-      .toString()
-      .toLowerCase()
-      .includes(value.toLowerCase())
-  }
 }
 const AdminRecordColumns = [
   {
