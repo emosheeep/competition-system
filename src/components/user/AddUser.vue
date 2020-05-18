@@ -4,19 +4,21 @@
     :mask-closable="false"
     :confirm-loading="loading"
     title="新增用户"
-    ok-text='确认添加'
+    ok-text="确认添加"
     cancel-text="取消"
+    centered
     @cancel="onCancel"
     @ok="onOk"
-    centered
   >
     <a-row
       type="flex"
       align="middle"
-      style="margin-bottom: 20px; color: black">
+      style="margin-bottom: 20px; color: black"
+    >
       <a-col
         :span="labelCol.span"
-        style="text-align: right">
+        style="text-align: right"
+      >
         类型：
       </a-col>
       <a-col :span="wrapperCol.span">
@@ -25,9 +27,15 @@
           button-style="solid"
           @change="onChange"
         >
-          <a-radio-button value="student">学生</a-radio-button>
-          <a-radio-button value="teacher">教师</a-radio-button>
-          <a-radio-button value="admin">管理员</a-radio-button>
+          <a-radio-button value="student">
+            学生
+          </a-radio-button>
+          <a-radio-button value="teacher">
+            教师
+          </a-radio-button>
+          <a-radio-button value="admin">
+            管理员
+          </a-radio-button>
         </a-radio-group>
       </a-col>
     </a-row>
@@ -39,7 +47,10 @@
       v-else-if="type === 'teacher'"
       ref="teacher"
     />
-    <EditAdmin v-else ref="admin" />
+    <EditAdmin
+      v-else
+      ref="admin"
+    />
   </a-modal>
 </template>
 

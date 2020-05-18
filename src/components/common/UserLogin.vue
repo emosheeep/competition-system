@@ -10,7 +10,11 @@
         v-decorator="decorator.account"
         placeholder="Username"
       >
-        <a-icon slot="prefix" type="user" style="color: rgba(0,0,0,.25)" />
+        <a-icon
+          slot="prefix"
+          type="user"
+          style="color: rgba(0,0,0,.25)"
+        />
       </a-input>
     </a-form-item>
     <a-form-item label="密码">
@@ -19,11 +23,18 @@
         type="password"
         placeholder="Password"
       >
-        <a-icon slot="prefix" type="lock" style="color: rgba(0,0,0,.25)" />
+        <a-icon
+          slot="prefix"
+          type="lock"
+          style="color: rgba(0,0,0,.25)"
+        />
       </a-input>
     </a-form-item>
     <a-form-item>
-      <a-radio-group v-decorator="decorator.identity" class="identity">
+      <a-radio-group
+        v-decorator="decorator.identity"
+        class="identity"
+      >
         <a-radio value="student">
           学生
         </a-radio>
@@ -45,8 +56,14 @@
       >
         登录
       </a-button>
-      <span class="tips" v-text="tips" />
-      <a class="forgot" href="#">
+      <span
+        class="tips"
+        v-text="tips"
+      />
+      <a
+        class="forgot"
+        href="#"
+      >
         找回密码
       </a>
     </a-form-item>

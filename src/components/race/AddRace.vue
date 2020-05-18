@@ -9,7 +9,10 @@
     @cancel="onCancel"
     @ok="onOk"
   >
-    <EditRace ref="addUser" type="add" />
+    <EditRace
+      ref="addUser"
+      type="add"
+    />
   </a-modal>
 </template>
 

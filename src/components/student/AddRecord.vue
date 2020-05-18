@@ -15,7 +15,9 @@
       type="flex"
       style="user-select: none"
     >
-      <a-col span="6">请选择指导老师：</a-col>
+      <a-col span="6">
+        请选择指导老师：
+      </a-col>
       <a-col span="11">
         <a-auto-complete
           :data-source="results"
@@ -42,7 +44,10 @@ export default {
   name: 'AddRecord',
   props: {
     visible: Boolean,
-    race: Object
+    race: {
+      type: Object,
+      required: true
+    }
   },
   data () {
     return {

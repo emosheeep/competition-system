@@ -3,14 +3,23 @@
     <a-page-header
       :back-icon="false"
       title="竞赛列表"
-      subTitle="已录入系统的所有竞赛，点击详情查看参赛名单"
+      sub-title="已录入系统的所有竞赛，点击详情查看参赛名单"
       style="padding: 0; margin-bottom: 20px"
     >
       <template #extra>
-        <a-button type="primary" @click="exportExcel">导出Excel</a-button>
+        <a-button
+          type="primary"
+          @click="exportExcel"
+        >
+          导出Excel
+        </a-button>
       </template>
     </a-page-header>
-    <ShowRace type="teacher" :loading="loading" :races="races"/>
+    <ShowRace
+      type="teacher"
+      :loading="loading"
+      :races="races"
+    />
   </div>
 </template>
 

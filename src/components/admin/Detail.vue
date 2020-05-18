@@ -12,17 +12,32 @@
         :title="`赛事详情：${race.title}`"
         style="padding: 10px"
       >
-        <a-descriptions-item label="主办方">{{ race.sponsor }}</a-descriptions-item>
-        <a-descriptions-item label="年度">{{ race.year }}</a-descriptions-item>
-        <a-descriptions-item label="级别">{{ race.level }}</a-descriptions-item>
-        <a-descriptions-item label="时间">{{ formatDate(race.date) }}</a-descriptions-item>
-        <a-descriptions-item label="地点">{{ race.location }}</a-descriptions-item>
-        <br />
-        <a-descriptions-item label="描述">{{ race.description }}</a-descriptions-item>
+        <a-descriptions-item label="主办方">
+          {{ race.sponsor }}
+        </a-descriptions-item>
+        <a-descriptions-item label="年度">
+          {{ race.year }}
+        </a-descriptions-item>
+        <a-descriptions-item label="级别">
+          {{ race.level }}
+        </a-descriptions-item>
+        <a-descriptions-item label="时间">
+          {{ formatDate(race.date) }}
+        </a-descriptions-item>
+        <a-descriptions-item label="地点">
+          {{ race.location }}
+        </a-descriptions-item>
+        <br>
+        <a-descriptions-item label="描述">
+          {{ race.description }}
+        </a-descriptions-item>
       </a-descriptions>
     </a-skeleton>
     <!--展示对应赛事的参赛人员，id为赛事id-->
-    <ShowRecord type="admin" :id="id"/>
+    <ShowRecord
+      :id="id"
+      type="admin"
+    />
   </div>
 </template>
 
@@ -36,16 +51,22 @@ const { mapState } = createNamespacedHelpers('races')
 
 export default {
   name: 'Detail',
-  props: {
-    id: String
-  },
   components: { ShowRecord },
+  props: {
+    id: {
+      type: String,
+      required: true
+    }
+  },
   data () {
     return {
       loading: true,
       race: {}
     }
   },
+  computed: mapState({
+    races: 'races'
+  }),
   watch: {
     id: {
       handler (newID) {
@@ -62,9 +83,6 @@ export default {
       immediate: true
     }
   },
-  computed: mapState({
-    races: 'races'
-  }),
   methods: {
     formatDate (date) {
       return moment(date).format('YYYY-MM-DD')

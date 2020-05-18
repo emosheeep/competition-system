@@ -3,11 +3,16 @@
     <a-page-header
       :back-icon="false"
       title="赛事信息列表"
-      subTitle="请根据提示操作"
+      sub-title="请根据提示操作"
       style="padding: 0; margin-bottom: 20px"
     >
       <template #extra>
-        <a-button type="primary" @click="exportExcel">导出Excel</a-button>
+        <a-button
+          type="primary"
+          @click="exportExcel"
+        >
+          导出Excel
+        </a-button>
       </template>
     </a-page-header>
     <ShowRace

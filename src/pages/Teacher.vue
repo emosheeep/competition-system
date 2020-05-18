@@ -1,6 +1,9 @@
 <template>
   <a-layout style="min-height: 100vh">
-    <a-layout-sider breakpoint="lg" collapsedWidth="0">
+    <a-layout-sider
+      breakpoint="lg"
+      collapsed-width="0"
+    >
       <Sidebar />
     </a-layout-sider>
     <a-layout>

@@ -3,7 +3,7 @@
     <a-page-header
       :back-icon="false"
       title="竞赛管理"
-      subTitle="管理竞赛数据"
+      sub-title="管理竞赛数据"
       style="padding: 0; margin-bottom: 20px"
     >
       <template #extra>
@@ -11,8 +11,12 @@
           <a-button
             type="primary"
             @click="addRaceVisible = true"
-          >添加赛事</a-button>
-          <a-button @click="exportExcel">导出Excel</a-button>
+          >
+            添加赛事
+          </a-button>
+          <a-button @click="exportExcel">
+            导出Excel
+          </a-button>
         </a-button-group>
       </template>
     </a-page-header>
@@ -22,14 +26,17 @@
       :races="races"
       :loading="loading"
       @update-race="onUpdate"
-      @delete-race="onDelete" />
+      @delete-race="onDelete"
+    />
     <AddRace
       v-if="addRaceVisible"
-      :visible.sync="addRaceVisible" />
+      :visible.sync="addRaceVisible"
+    />
     <UpdateRace
       v-if="updateRaceVisible"
       :visible.sync="updateRaceVisible"
-      :race="curRace" />
+      :race="curRace"
+    />
   </div>
 </template>
 

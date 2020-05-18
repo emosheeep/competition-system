@@ -2,11 +2,11 @@
   <div>
     <a-table
       size="small"
-      rowKey="_id"
+      row-key="_id"
       bordered
       :loading="loading"
       :columns="columns"
-      :dataSource="races"
+      :data-source="races"
       :pagination="{
         showSizeChanger: true,
         showQuickJumper: true
@@ -14,7 +14,10 @@
     >
       <!--自定义搜索下拉菜单-->
       <template #filterIcon="filtered">
-        <a-icon type="search" :style="{ color: filtered ? '#108ee9' : undefined }"/>
+        <a-icon
+          type="search"
+          :style="{ color: filtered ? '#108ee9' : undefined }"
+        />
       </template>
       <template #filterDropdown="{ setSelectedKeys, selectedKeys, confirm, clearFilters, column }">
         <div style="padding: 8px">
@@ -22,22 +25,26 @@
             ref="searchInput"
             :placeholder="`Search ${column.dataIndex}`"
             :value="selectedKeys[0]"
+            style="width: 188px; margin-bottom: 8px; display: block;"
             @change="e => setSelectedKeys(e.target.value ? [e.target.value] : [])"
             @pressEnter="handleSearch(selectedKeys, confirm, column.dataIndex)"
-            style="width: 188px; margin-bottom: 8px; display: block;"
           />
           <a-button
             size="small"
             style="margin-right: 10px; width: 90px"
             @click="() => handleReset(clearFilters)"
-          >重置</a-button>
+          >
+            重置
+          </a-button>
           <a-button
             type="primary"
             icon="search"
             size="small"
             style="width: 90px"
             @click="handleSearch(selectedKeys, confirm, column.dataIndex)"
-          >搜索</a-button>
+          >
+            搜索
+          </a-button>
         </div>
       </template>
       <template #filter="text, record, index, column">
@@ -47,25 +54,41 @@
               .toString()
               .split(new RegExp(`(?<=${searchText})|(?=${searchText})`, 'i'))"
           >
-            <mark v-if="fragment.toLowerCase() === searchText.toLowerCase()" :key="i">
+            <mark
+              v-if="fragment.toLowerCase() === searchText.toLowerCase()"
+              :key="i"
+            >
               {{ fragment }}
             </mark>
             <template v-else>{{ fragment }}</template>
           </template>
         </span>
-        <template v-else>{{ text }}</template>
+        <template v-else>
+          {{ text }}
+        </template>
       </template>
 
-      <template #date="date">{{ formatDate(date) }}</template>
+      <template #date="date">
+        {{ formatDate(date) }}
+      </template>
 
       <!--管理员页面显示编辑按钮，学生界面不显示-->
-      <template v-if="type === 'student'" #action="item">
+      <template
+        v-if="type === 'student'"
+        #action="item"
+      >
         <a @click.prevent="$emit('add-record', item)">登记</a>
       </template>
-      <template v-else-if="type === 'teacher'" #action="item">
+      <template
+        v-else-if="type === 'teacher'"
+        #action="item"
+      >
         <a @click.prevent="onDetail(item)">详情</a>
       </template>
-      <template v-else #action="item">
+      <template
+        v-else
+        #action="item"
+      >
         <a @click.prevent="$emit('update-race', item)">编辑</a>
         <a-divider type="vertical" />
         <a-popconfirm
@@ -90,8 +113,11 @@ export default {
   name: 'ShowRace',
   mixins: [TableSearchMixin],
   props: {
-    races: Array,
     loading: Boolean,
+    races: {
+      type: Array,
+      required: true
+    },
     type: {
       type: String,
       default: 'admin',

@@ -4,7 +4,7 @@
     <a-menu
       theme="dark"
       mode="inline"
-      :selectedKeys="keys"
+      :selected-keys="keys"
       @click="handleClick"
     >
       <a-menu-item key="race">

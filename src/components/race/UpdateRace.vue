@@ -9,7 +9,11 @@
     @cancel="onCancel"
     @ok="onOk"
   >
-    <EditRace ref="updateRace" type="update" :race="race" />
+    <EditRace
+      ref="updateRace"
+      type="update"
+      :data="race"
+    />
   </a-modal>
 </template>
 
@@ -23,7 +27,10 @@ export default {
   components: { EditRace },
   props: {
     visible: Boolean,
-    race: Object
+    race: {
+      type: Object,
+      required: true
+    }
   },
   data () {
     return {

@@ -9,10 +9,15 @@
       @confirm="changeUser"
     >
       <template #icon>
-        <a-icon type="question-circle-o" style="color: orange" />
+        <a-icon
+          type="question-circle-o"
+          style="color: orange"
+        />
       </template>
       <a-tooltip placement="right">
-        <template #title>切换用户</template>
+        <template #title>
+          切换用户
+        </template>
         <a><a-icon type="swap" /></a>
       </a-tooltip>
     </a-popconfirm>
@@ -23,6 +28,15 @@
 
 export default {
   name: 'LoginState',
+  filters: {
+    ellipsis (value) {
+      if (value?.toString().length > 10) {
+        return value.slice(0, 7) + '...'
+      } else {
+        return value
+      }
+    }
+  },
   computed: {
     user () {
       return this.$store.state.user
@@ -31,15 +45,6 @@ export default {
   methods: {
     changeUser () {
       this.$router.replace({ path: '/' })
-    }
-  },
-  filters: {
-    ellipsis (value) {
-      if (value?.toString().length > 10) {
-        return value.slice(0, 7) + '...'
-      } else {
-        return value
-      }
     }
   }
 }

@@ -14,7 +14,10 @@
       }"
     >
       <template #filterIcon="filtered">
-        <a-icon type="search" :style="{ color: filtered ? '#108ee9' : undefined }"/>
+        <a-icon
+          type="search"
+          :style="{ color: filtered ? '#108ee9' : undefined }"
+        />
       </template>
       <template #filterDropdown="{ setSelectedKeys, selectedKeys, confirm, clearFilters, column }">
         <div style="padding: 8px">
@@ -22,22 +25,26 @@
             ref="searchInput"
             :placeholder="`Search ${column.dataIndex}`"
             :value="selectedKeys[0]"
+            style="width: 188px; margin-bottom: 8px; display: block;"
             @change="e => setSelectedKeys(e.target.value ? [e.target.value] : [])"
             @pressEnter="handleSearch(selectedKeys, confirm, column.dataIndex)"
-            style="width: 188px; margin-bottom: 8px; display: block;"
           />
           <a-button
             size="small"
             style="margin-right: 10px; width: 90px"
             @click="() => handleReset(clearFilters)"
-          >重置</a-button>
+          >
+            重置
+          </a-button>
           <a-button
             type="primary"
             icon="search"
             size="small"
             style="width: 90px"
             @click="handleSearch(selectedKeys, confirm, column.dataIndex)"
-          >搜索</a-button>
+          >
+            搜索
+          </a-button>
         </div>
       </template>
 
@@ -49,13 +56,18 @@
               .toString()
               .split(new RegExp(`(?<=${searchText})|(?=${searchText})`, 'i'))"
           >
-            <mark v-if="fragment.toLowerCase() === searchText.toLowerCase()" :key="i">
+            <mark
+              v-if="fragment.toLowerCase() === searchText.toLowerCase()"
+              :key="i"
+            >
               {{ fragment }}
             </mark>
             <template v-else>{{ fragment }}</template>
           </template>
         </span>
-        <template v-else>{{ text }}</template>
+        <template v-else>
+          {{ text }}
+        </template>
       </template>
 
       <!--最后一排的操作按钮-->
@@ -71,9 +83,12 @@
           @confirm="onDelete(account)"
         >
           <template #icon>
-            <a-icon type="question-circle-o" style="color: orange" />
+            <a-icon
+              type="question-circle-o"
+              style="color: orange"
+            />
           </template>
-          <a><a-icon type="delete"/></a>
+          <a><a-icon type="delete" /></a>
         </a-popconfirm>
       </template>
     </a-table>

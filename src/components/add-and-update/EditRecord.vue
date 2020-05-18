@@ -7,11 +7,15 @@
     >
       <a-input
         ref="title"
-        :disabled="type === 'update'"
         v-decorator="decorator.account"
+        :disabled="type === 'update'"
         placeholder="赛事名称"
       >
-        <a-icon slot="prefix" type="user" style="color: rgba(0,0,0,.25)" />
+        <a-icon
+          slot="prefix"
+          type="user"
+          style="color: rgba(0,0,0,.25)"
+        />
       </a-input>
     </a-form-item>
     <a-form-item
@@ -19,8 +23,16 @@
       :wrapper-col="wrapperCol"
       label="密码"
     >
-      <a-input ref="password" v-decorator="decorator.password" placeholder="密码">
-        <a-icon slot="prefix" type="lock" style="color: rgba(0,0,0,.25)" />
+      <a-input
+        ref="password"
+        v-decorator="decorator.password"
+        placeholder="密码"
+      >
+        <a-icon
+          slot="prefix"
+          type="lock"
+          style="color: rgba(0,0,0,.25)"
+        />
       </a-input>
     </a-form-item>
     <a-form-item
@@ -28,20 +40,30 @@
       :wrapper-col="wrapperCol"
       label="姓名"
     >
-      <a-input v-decorator="decorator.name" placeholder="姓名" />
+      <a-input
+        v-decorator="decorator.name"
+        placeholder="姓名"
+      />
     </a-form-item>
     <a-form-item
       :label-col="labelCol"
       :wrapper-col="wrapperCol"
-      label="年级">
-      <a-input v-decorator="decorator.grade" placeholder="年级"/>
+      label="年级"
+    >
+      <a-input
+        v-decorator="decorator.grade"
+        placeholder="年级"
+      />
     </a-form-item>
     <a-form-item
       :label-col="labelCol"
       :wrapper-col="wrapperCol"
       label="班级"
     >
-      <a-input v-decorator="decorator.classname" placeholder="班级"/>
+      <a-input
+        v-decorator="decorator.classname"
+        placeholder="班级"
+      />
     </a-form-item>
     <a-form-item
       :label-col="labelCol"
@@ -63,7 +85,7 @@
 </template>
 
 <script>
-import EditMixin from './user-edit-mixin'
+import EditMixin from './edit-mixin'
 
 export default {
   name: 'EditRecord',

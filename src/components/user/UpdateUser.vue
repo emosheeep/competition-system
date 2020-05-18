@@ -4,29 +4,29 @@
     :mask-closable="false"
     :confirm-loading="loading"
     title="修改信息"
-    ok-text='确认'
+    ok-text="确认"
     cancel-text="取消"
+    centered
     @cancel="onCancel"
     @ok="onOk"
-    centered
   >
     <EditStudent
       v-if="type === 'student'"
       ref="student"
       type="update"
-      :user="user"
+      :data="user"
     />
     <EditTeacher
       v-else-if="type === 'teacher'"
       ref="teacher"
       type="update"
-      :user="user"
+      :data="user"
     />
     <EditAdmin
       v-else
       ref="admin"
       type="update"
-      :user="user"
+      :data="user"
     />
   </a-modal>
 </template>
@@ -47,8 +47,17 @@ export default {
   },
   props: {
     visible: Boolean,
-    user: Object,
-    type: String
+    user: {
+      type: Object,
+      required: true
+    },
+    type: {
+      type: String,
+      default: 'admin',
+      validator (value) {
+        return ['student', 'teacher', 'admin'].includes(value)
+      }
+    }
   },
   data () {
     return {
