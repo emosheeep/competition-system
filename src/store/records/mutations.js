@@ -7,12 +7,12 @@ export default {
   [ADD_RECORD] (state, record) {
     state.records.push(record)
   },
-  [UPDATE_RECORD] (state, { id, record }) {
+  [UPDATE_RECORD] (state, record) {
     state.records = state.records.map(item => {
-      return item.id === id ? record : item
+      return item._id === record._id ? record : item
     })
   },
-  [DELETE_RECORD] (state, id) {
-    state.records = state.records.filter(item => item.id !== id)
+  [DELETE_RECORD] (state, _id) {
+    state.records = state.records.filter(item => item._id !== _id)
   }
 }

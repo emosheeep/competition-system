@@ -7,12 +7,17 @@
       style="padding: 0; margin-bottom: 20px"
     >
       <template #extra>
-        <a-button
-          type="primary"
-          @click="exportExcel"
-        >
-          导出Excel
-        </a-button>
+        <a-button-group class="button-group">
+          <a-button @click="init">
+            刷新
+          </a-button>
+          <a-button
+            type="primary"
+            @click="exportExcel"
+          >
+            导出Excel
+          </a-button>
+        </a-button-group>
       </template>
     </a-page-header>
     <ShowRace
@@ -36,7 +41,7 @@ import { makeExcel } from '../../utils/excel'
 import { SET_TEACHERS, SET_RACE_LIST } from '../../store/mutation-types'
 
 export default {
-  name: 'ShowRaceInStudent',
+  name: 'StudentShowRace',
   components: {
     ShowRace,
     AddRecord: () => import(
@@ -47,7 +52,7 @@ export default {
   },
   data () {
     return {
-      loading: true,
+      loading: false,
       addRecordVisible: false,
       curRace: null
     }
@@ -58,14 +63,19 @@ export default {
     }
   },
   mounted () {
-    Promise.all([
-      this.$store.dispatch(`student/${SET_TEACHERS}`),
-      this.$store.dispatch(`races/${SET_RACE_LIST}`)
-    ]).then(_ => {
-      this.loading = false
-    })
+    this.init()
   },
   methods: {
+    init () {
+      if (this.loading) return
+      this.loading = true
+      Promise.all([
+        this.$store.dispatch(`student/${SET_TEACHERS}`),
+        this.$store.dispatch(`races/${SET_RACE_LIST}`)
+      ]).finally(_ => {
+        this.loading = false
+      })
+    },
     exportExcel () {
       makeExcel({
         races: this.races.map(item => {

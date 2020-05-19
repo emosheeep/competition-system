@@ -11,7 +11,7 @@
         <a-icon type="project" /><span>竞赛列表</span>
       </a-menu-item>
       <a-menu-item key="record">
-        <a-icon type="solution" /><span>参赛记录</span>
+        <a-icon type="solution" /><span>学生参赛记录</span>
       </a-menu-item>
     </a-menu>
   </div>

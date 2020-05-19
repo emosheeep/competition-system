@@ -2,7 +2,10 @@ export default [
   {
     path: '/admin',
     name: 'admin',
-    component: () => import(/* webpackChunkName: "Admin" */'../pages/Admin'),
+    component: () => import(
+      /* webpackChunkName: "Admin" */
+      '../pages/Admin'
+    ),
     redirect: '/admin/race',
     meta: {
       auth: true,
@@ -11,20 +14,32 @@ export default [
     children: [
       {
         path: 'race',
-        component: () => import(/* webpackChunkName: "Race" */'../components/race/Race')
+        component: () => import(
+          /* webpackChunkName: "Race" */
+          '../components/race/Race'
+        )
       },
       {
         path: 'user',
-        component: () => import(/* webpackChunkName: "User" */'../components/user/User')
+        component: () => import(
+          /* webpackChunkName: "User" */
+          '../components/user/User'
+        )
       },
       {
         path: 'record',
-        component: () => import(/* webpackChunkName: "Record" */'../components/record/Record'),
+        component: () => import(
+          /* webpackChunkName: "AdminShowRecord" */
+          '../components/admin/AdminShowRecord'
+        ),
         props: route => ({ type: 'admin' })
       },
       {
         path: ':id',
-        component: () => import(/* webpackChunkName: "Detail" */'../components/admin/Detail'),
+        component: () => import(
+          /* webpackChunkName: "Detail" */
+          '../components/admin/Detail'
+        ),
         props: route => ({ id: route.params.id, type: 'admin' })
       }
     ]

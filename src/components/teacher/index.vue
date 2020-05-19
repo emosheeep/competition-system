@@ -7,12 +7,17 @@
       style="padding: 0; margin-bottom: 20px"
     >
       <template #extra>
-        <a-button
-          type="primary"
-          @click="exportExcel"
-        >
-          导出Excel
-        </a-button>
+        <a-button-group class="button-group">
+          <a-button @click="init">
+            刷新
+          </a-button>
+          <a-button
+            type="primary"
+            @click="exportExcel"
+          >
+            导出Excel
+          </a-button>
+        </a-button-group>
       </template>
     </a-page-header>
     <ShowRace
@@ -33,7 +38,7 @@ export default {
   components: { ShowRace },
   data () {
     return {
-      loading: true
+      loading: false
     }
   },
   computed: {
@@ -42,11 +47,18 @@ export default {
     }
   },
   mounted () {
-    this.$store.dispatch(`races/${SET_RACE_LIST}`).then(() => {
-      this.loading = false
-    })
+    this.init()
   },
   methods: {
+    init () {
+      if (this.loading) return
+      this.loading = true
+      this.$store.dispatch(
+        `races/${SET_RACE_LIST}`
+      ).finally(() => {
+        this.loading = false
+      })
+    },
     exportExcel () {
       makeExcel({
         races: this.races.map(item => {

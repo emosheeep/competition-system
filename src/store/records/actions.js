@@ -33,12 +33,12 @@ export default {
       })
     })
   },
-  [UPDATE_RECORD] ({ commit }, { id, data: record }) {
+  [UPDATE_RECORD] ({ commit }, record) {
     const stopLoading = message.loading('请稍后')
     return new Promise((resolve, reject) => {
-      updateRecord(id, record).then(({ data }) => {
+      updateRecord(record).then(({ data }) => {
         resolve(data)
-        commit(UPDATE_RECORD, { id, record })
+        commit(UPDATE_RECORD, record)
         message.success('更新成功')
       }).catch(e => {
         reject(e)

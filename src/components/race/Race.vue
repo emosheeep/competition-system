@@ -75,7 +75,7 @@ export default {
     races: 'races'
   }),
   mounted () {
-    this.setRaceList().then(_ => {
+    this.setRaceList().finally(_ => {
       this.loading = false
     })
   },

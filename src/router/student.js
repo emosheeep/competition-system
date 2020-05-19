@@ -2,7 +2,10 @@ export default [
   {
     path: '/student',
     name: 'student',
-    component: () => import(/* webpackChunkName: "Student" */'../pages/Student'),
+    component: () => import(
+      /* webpackChunkName: "Student" */
+      '../pages/Student'
+    ),
     redirect: '/student/race',
     meta: {
       auth: true,
@@ -11,12 +14,17 @@ export default [
     children: [
       {
         path: 'race',
-        component: () => import(/* webpackChunkName: "Student" */'../components/student/index')
+        component: () => import(
+          /* webpackChunkName: "Student" */
+          '../components/student/index'
+        )
       },
       {
         path: 'record',
-        component: () => import(/* webpackChunkName: "StudentShowRecord" */'../components/student/StudentShowRecord'),
-        props: route => ({ type: 'student' })
+        component: () => import(
+          /* webpackChunkName: "StudentShowRecord" */
+          '../components/student/StudentShowRecord'
+        )
       }
     ]
   }

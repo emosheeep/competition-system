@@ -65,24 +65,17 @@
       </template>
     </template>
     <!--date-->
-    <template
-      v-if="type !== 'admin'"
-      #date="date"
-    >
+    <template #date="date">
       {{ formatDate(date) }}
     </template>
-    <!--最后一排的操作按钮，action操作只有管理员和教师需要，学生只能查看不能操作-->
+    <!--最后一排的操作按钮，只有管理员和教师需要action，学生只能查看,以及Detail也不需要-->
     <template
-      v-if="type === 'teacher'"
+      v-if="type !== 'student' && type !== 'common'"
       #action="record"
     >
-      {{ record }}
-    </template>
-    <template
-      v-else
-      #action="record"
-    >
-      <a @click="onEdit(record)"><a-icon type="edit" /></a>
+      <a @click="onEdit(record)">
+        <a-icon type="edit" />
+      </a>
       <a-divider type="vertical" />
       <a-popconfirm
         title="确认删除？"
@@ -111,15 +104,19 @@ export default {
   mixins: [TableSearchMixin],
   props: {
     loading: Boolean,
+    allowModify: {
+      type: Boolean,
+      default: true
+    },
     records: {
       type: Array,
       required: true
     },
     type: {
       type: String,
-      default: 'admin',
+      default: 'common',
       validator (value) {
-        return ['student', 'admin', 'teacher'].includes(value)
+        return ['student', 'admin', 'teacher', 'common'].includes(value)
       }
     }
   },
@@ -129,7 +126,7 @@ export default {
       table: {
         bordered: true,
         size: 'small',
-        rowKey: 'id',
+        rowKey: '_id',
         pagination: {
           showSizeChanger: true,
           showQuickJumper: true

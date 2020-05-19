@@ -3,83 +3,90 @@
     <a-form-item
       :label-col="labelCol"
       :wrapper-col="wrapperCol"
-      label="名称"
+      label="赛事ID"
     >
       <a-input
-        ref="title"
-        v-decorator="decorator.account"
-        :disabled="type === 'update'"
+        v-decorator="decorator.id"
+        disabled
+        placeholder="赛事ID"
+      />
+    </a-form-item>
+    <a-form-item
+      :label-col="labelCol"
+      :wrapper-col="wrapperCol"
+      label="赛事名称"
+    >
+      <a-input
+        v-decorator="decorator.title"
+        disabled
         placeholder="赛事名称"
-      >
-        <a-icon
-          slot="prefix"
-          type="user"
-          style="color: rgba(0,0,0,.25)"
-        />
-      </a-input>
-    </a-form-item>
-    <a-form-item
-      :label-col="labelCol"
-      :wrapper-col="wrapperCol"
-      label="密码"
-    >
-      <a-input
-        ref="password"
-        v-decorator="decorator.password"
-        placeholder="密码"
-      >
-        <a-icon
-          slot="prefix"
-          type="lock"
-          style="color: rgba(0,0,0,.25)"
-        />
-      </a-input>
-    </a-form-item>
-    <a-form-item
-      :label-col="labelCol"
-      :wrapper-col="wrapperCol"
-      label="姓名"
-    >
-      <a-input
-        v-decorator="decorator.name"
-        placeholder="姓名"
       />
     </a-form-item>
     <a-form-item
       :label-col="labelCol"
       :wrapper-col="wrapperCol"
-      label="年级"
+      label="比赛时间"
     >
-      <a-input
-        v-decorator="decorator.grade"
-        placeholder="年级"
+      <a-date-picker
+        v-decorator="decorator.date"
+        disabled
+        placeholder="比赛时间"
       />
     </a-form-item>
     <a-form-item
       :label-col="labelCol"
       :wrapper-col="wrapperCol"
-      label="班级"
+      label="学生账号"
     >
       <a-input
-        v-decorator="decorator.classname"
-        placeholder="班级"
+        v-decorator="decorator.sid"
+        disabled
+        placeholder="学生账号"
       />
     </a-form-item>
     <a-form-item
       :label-col="labelCol"
       :wrapper-col="wrapperCol"
-      label="性别"
+      label="学生姓名"
     >
-      <a-radio-group v-decorator="decorator.sex">
-        <a-radio value="man">
-          <span>男 &nbsp;</span>
-          <a-icon type="man" />
-        </a-radio>
-        <a-radio value="woman">
-          <span>女 &nbsp;</span>
-          <a-icon type="woman" />
-        </a-radio>
-      </a-radio-group>
+      <a-input
+        v-decorator="decorator.sname"
+        disabled
+        placeholder="学生姓名"
+      />
+    </a-form-item>
+    <a-form-item
+      :label-col="labelCol"
+      :wrapper-col="wrapperCol"
+      label="教师账号"
+    >
+      <a-input
+        v-decorator="decorator.tid"
+        disabled
+        placeholder="教师账号"
+      />
+    </a-form-item>
+    <a-form-item
+      :label-col="labelCol"
+      :wrapper-col="wrapperCol"
+      label="教师姓名"
+    >
+      <a-input
+        v-decorator="decorator.tname"
+        disabled
+        placeholder="教师姓名"
+      />
+    </a-form-item>
+    <a-form-item
+      :label-col="labelCol"
+      :wrapper-col="wrapperCol"
+      label="成绩"
+    >
+      <a-input
+        ref="score"
+        v-decorator="decorator.score"
+        placeholder="填入获奖情况"
+      />
     </a-form-item>
   </a-form>
 </template>
@@ -92,8 +99,13 @@ export default {
   mixins: [EditMixin],
   data () {
     return {
+      labelCol: { span: 4 },
+      wrapperCol: { span: 18 },
       decorator
     }
+  },
+  mounted () {
+    this.$refs.score.focus()
   }
 }
 
@@ -101,39 +113,13 @@ export default {
  * 定义decorator
  */
 const decorator = {
-  account: ['account', {
-    rules: [{
-      required: true,
-      message: '请输入账号！'
-    }]
-  }],
-  password: ['password', {
-    rules: [{
-      required: true,
-      message: '请输入密码！'
-    }]
-  }],
-  name: ['name', {
-    rules: [{
-      required: true,
-      message: '请输入姓名！'
-    }]
-  }],
-  sex: ['sex', {
-    valuePropName: 'value',
-    initialValue: 'man'
-  }],
-  classname: ['classname', {
-    rules: [{
-      required: true,
-      message: '请输入班级！'
-    }]
-  }],
-  grade: ['grade', {
-    rules: [{
-      required: true,
-      message: '请输入班级！'
-    }]
-  }]
+  id: ['id'],
+  title: ['title'],
+  date: ['date'],
+  sid: ['sid'],
+  sname: ['sname'],
+  tid: ['tid'],
+  tname: ['tname'],
+  score: ['score']
 }
 </script>

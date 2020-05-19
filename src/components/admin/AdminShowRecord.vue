@@ -8,7 +8,7 @@
     >
       <template #extra>
         <a-button-group class="button-group">
-          <a-button @click="refresh">
+          <a-button @click="init">
             刷新
           </a-button>
           <a-button
@@ -21,7 +21,7 @@
       </template>
     </a-page-header>
     <ShowRecord
-      :type="type"
+      type="admin"
       :loading="loading"
       :records="records"
       @delete-record="onDelete"
@@ -37,33 +37,24 @@
 
 <script>
 import { createNamespacedHelpers } from 'vuex'
-import { throttle, omit } from 'lodash'
+import { omit } from 'lodash'
 import { makeExcel } from '../../utils/excel'
 import ShowRecord from '../record/ShowRecord'
 import { DELETE_RECORD, SET_RECORD_LIST } from '../../store/mutation-types'
 const { mapState, mapActions } = createNamespacedHelpers('records')
 export default {
-  name: 'Record',
+  name: 'AdminShowRecord',
   components: {
     ShowRecord,
-    UpdateRecord: import(
+    UpdateRecord: () => import(
       /* webpackChunkName: "UpdateRecord" */
       /* webpackPrefetch: true */
-      './UpdateRecord'
+      '../record/UpdateRecord'
     )
-  },
-  props: {
-    type: {
-      type: String,
-      required: true,
-      validator (value) {
-        return ['student', 'teacher', 'admin'].includes(value)
-      }
-    }
   },
   data () {
     return {
-      loading: true,
+      loading: false,
       updateRecordVisible: false,
       curRecord: null
     }
@@ -79,24 +70,10 @@ export default {
       setRecordList: SET_RECORD_LIST,
       deleteRecord: DELETE_RECORD
     }),
-    refresh: throttle(function () {
-      this.init()
-    }, 500),
     init () {
-      let promise
-      const { account } = this.$store.state.user
+      if (this.loading) return
       this.loading = true
-      switch (this.type) {
-        case 'student':
-          promise = this.setRecordList({ type: 'sid', value: account })
-          break
-        case 'teacher':
-          promise = this.setRecordList({ type: 'tid', value: account })
-          break
-        default: // admin
-          promise = this.setRecordList()
-      }
-      promise.then(res => {
+      this.setRecordList().finally(() => {
         this.loading = false
       })
     },

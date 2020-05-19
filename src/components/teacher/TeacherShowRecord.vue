@@ -3,7 +3,7 @@
     <a-page-header
       :back-icon="false"
       title="记录管理"
-      sub-title="查看我的参赛记录信息"
+      sub-title="学生的参赛记录"
       style="padding: 0; margin-bottom: 20px"
     >
       <template #extra>
@@ -21,9 +21,16 @@
       </template>
     </a-page-header>
     <ShowRecord
-      type="student"
+      type="teacher"
       :loading="loading"
       :records="records"
+      @delete-record="onDelete"
+      @update-record="onUpdate"
+    />
+    <UpdateRecord
+      v-if="updateRecordVisible"
+      :visible.sync="updateRecordVisible"
+      :record="curRecord"
     />
   </div>
 </template>
@@ -33,16 +40,23 @@ import { omit } from 'lodash'
 import { createNamespacedHelpers } from 'vuex'
 import { makeExcel } from '../../utils/excel'
 import ShowRecord from '../record/ShowRecord'
-import { SET_RECORD_LIST } from '../../store/mutation-types'
+import { SET_RECORD_LIST, DELETE_RECORD } from '../../store/mutation-types'
 const { mapState, mapActions } = createNamespacedHelpers('records')
 export default {
-  name: 'StudentShowRecord',
+  name: 'TeacherShowRecord',
   components: {
-    ShowRecord
+    ShowRecord,
+    UpdateRecord: () => import(
+      /* webpackChunkName: "UpdateRecord" */
+      /* webpackPrefetch: true */
+      '../record/UpdateRecord'
+    )
   },
   data () {
     return {
-      loading: false
+      loading: false,
+      updateRecordVisible: false,
+      curRecord: null
     }
   },
   computed: mapState({
@@ -53,17 +67,25 @@ export default {
   },
   methods: {
     ...mapActions({
-      setRecordList: SET_RECORD_LIST
+      setRecordList: SET_RECORD_LIST,
+      deleteRecord: DELETE_RECORD
     }),
     init () {
       if (this.loading) return
       this.loading = true
       const { account } = this.$store.state.user
       this.setRecordList({
-        sid: account
+        tid: account
       }).finally(() => {
         this.loading = false
       })
+    },
+    onDelete (id) {
+      this.deleteRecord(id)
+    },
+    onUpdate (record) {
+      this.curRecord = record
+      this.updateRecordVisible = true
     },
     exportExcel () {
       makeExcel({

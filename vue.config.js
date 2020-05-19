@@ -5,11 +5,11 @@ const cdn = {
   js: [
     'https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.min.js',
     'https://cdn.staticfile.org/moment.js/2.25.0/moment.min.js',
-    'https://cdn.jsdelivr.net/npm/ant-design-vue@1.5.4/dist/antd.min.js',
+    'https://cdn.jsdelivr.net/npm/ant-design-vue@1.6.0/dist/antd.min.js',
     'https://cdn.staticfile.org/xlsx/0.16.0/xlsx.full.min.js'
   ],
   css: [
-    'https://cdn.jsdelivr.net/npm/ant-design-vue@1.5.4/dist/antd.min.css'
+    'https://cdn.jsdelivr.net/npm/ant-design-vue@1.6.0/dist/antd.min.css'
   ]
 }
 module.exports = {
