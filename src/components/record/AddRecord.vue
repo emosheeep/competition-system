@@ -36,10 +36,9 @@
 
 <script>
 import { debounce } from 'lodash'
-import { createNamespacedHelpers } from 'vuex'
+import { message } from 'ant-design-vue'
+import { getUserList } from '../../api'
 import { ADD_RECORD } from '../../store/mutation-types'
-
-const { mapState } = createNamespacedHelpers('student')
 export default {
   name: 'AddRecord',
   props: {
@@ -53,6 +52,7 @@ export default {
     return {
       loading: false,
       selected: false,
+      teachers: [],
       tips: '', // 信息填写不完整警告
       results: [], // 搜索结果数组
       tid: '',
@@ -60,14 +60,21 @@ export default {
     }
   },
   computed: {
-    ...mapState({
-      teachers: ({ teachers }) => teachers.map(item => {
+    teacherSearcher () {
+      return this.teachers.map(item => {
         return `${item.account}-${item.name}`
       })
-    }),
+    },
     user () {
       return this.$store.state.user
     }
+  },
+  mounted () {
+    getUserList('teacher').then(({ data }) => {
+      this.teachers = data
+    }).catch(() => {
+      message.error('系统错误，未获得教师数据')
+    })
   },
   methods: {
     onSelect (value) {
@@ -80,7 +87,7 @@ export default {
       this.tips = ''
       this.results = !value
         ? []
-        : this.teachers.filter(item => item.includes(value))
+        : this.teacherSearcher.filter(item => item.includes(value))
     },
     onCancel () {
       this.$emit('update:visible', false)
@@ -89,7 +96,9 @@ export default {
       if (!this.selected) {
         return (this.tips = '请选择教师！')
       }
-      this.$store.dispatch(`records/${ADD_RECORD}`, {
+      this.$store.dispatch(
+      `records/${ADD_RECORD}`,
+      {
         id: this.race._id,
         title: this.race.title,
         date: this.race.date,

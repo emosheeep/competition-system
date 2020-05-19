@@ -38,7 +38,7 @@
 import { omit } from 'lodash'
 import ShowRace from '../race/ShowRace'
 import { makeExcel } from '../../utils/excel'
-import { SET_TEACHERS, SET_RACE_LIST } from '../../store/mutation-types'
+import { SET_RACE_LIST } from '../../store/mutation-types'
 
 export default {
   name: 'StudentShowRace',
@@ -69,10 +69,7 @@ export default {
     init () {
       if (this.loading) return
       this.loading = true
-      Promise.all([
-        this.$store.dispatch(`student/${SET_TEACHERS}`),
-        this.$store.dispatch(`races/${SET_RACE_LIST}`)
-      ]).finally(_ => {
+      this.$store.dispatch(`races/${SET_RACE_LIST}`).finally(_ => {
         this.loading = false
       })
     },

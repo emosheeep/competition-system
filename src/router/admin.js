@@ -35,12 +35,12 @@ export default [
         props: route => ({ type: 'admin' })
       },
       {
-        path: ':id',
+        path: 'detail',
         component: () => import(
-          /* webpackChunkName: "Detail" */
-          '../components/admin/Detail'
+          /* webpackChunkName: "RaceDetailWithRecords" */
+          '../components/race/RaceDetailWithRecords'
         ),
-        props: route => ({ id: route.params.id, type: 'admin' })
+        props: route => ({ id: route.query.id, type: 'admin' })
       }
     ]
   }

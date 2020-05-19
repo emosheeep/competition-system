@@ -137,7 +137,10 @@ export default {
     },
     onDetail (race) {
       this.$router.push({
-        path: race._id
+        path: 'detail',
+        query: {
+          id: race._id
+        }
       })
     }
   }

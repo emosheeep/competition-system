@@ -6,7 +6,6 @@ import getters from './getters'
 import users from './users'
 import races from './races'
 import records from './records'
-import student from './student'
 import persistedState from '../plugins/persisted_state'
 import createLogger from 'vuex/dist/logger'
 
@@ -17,7 +16,7 @@ export default new Vuex.Store({
   state: {
     token: '',
     identity: '',
-    user: null
+    user: {}
   },
   actions,
   mutations,
@@ -25,7 +24,6 @@ export default new Vuex.Store({
   modules: {
     users,
     races,
-    student,
     records
   },
   plugins: debug

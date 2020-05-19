@@ -1,17 +1,5 @@
 <template>
   <div class="container">
-    <a-page-header
-      title="参赛记录"
-      sub-title="对应赛事的登记信息"
-      style="padding: 0; margin-bottom: 20px"
-      @back="e => $router.back()"
-    >
-      <template #extra>
-        <a-button @click="init">
-          刷新
-        </a-button>
-      </template>
-    </a-page-header>
     <a-skeleton
       active
       :loading="loading"
@@ -47,7 +35,7 @@
     <ShowRecord
       type="common"
       :loading="loading"
-      :records="localRecords"
+      :records="records"
     />
   </div>
 </template>
@@ -55,53 +43,24 @@
 <script>
 import moment from 'moment'
 import ShowRecord from '../record/ShowRecord'
-import { getRaceList, getRecordList } from '../../api'
 
 export default {
   name: 'Detail',
   components: { ShowRecord },
   props: {
-    id: {
-      type: String,
+    loading: Boolean,
+    race: {
+      type: Object,
       required: true
-    }
-  },
-  data () {
-    return {
-      loading: false,
-      race: {},
-      localRecords: []
-    }
-  },
-  watch: {
-    id: {
-      handler (newID) {
-        this.init()
-      },
-      immediate: true
+    },
+    records: {
+      type: Array,
+      required: true
     }
   },
   methods: {
     formatDate (date) {
       return moment(date).format('YYYY-MM-DD')
-    },
-    init () {
-      if (this.loading) return
-      this.loading = true
-      const { id } = this
-      const { account } = this.$store.state.user
-      Promise.all([
-        getRaceList({ _id: id }),
-        getRecordList({ id, tid: account })
-      ]).then(([
-        { data: races },
-        { data: records }
-      ]) => {
-        this.race = races[0]
-        this.localRecords = records
-      }).finally(() => {
-        this.loading = false
-      })
     }
   }
 }
