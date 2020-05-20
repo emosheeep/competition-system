@@ -6,7 +6,7 @@
     :data-source="records"
   >
     <template #title="data">
-      <h1>参赛记录 - {{ data.length }}条</h1>
+      <h1>参赛记录 - 共{{ data.length }}条</h1>
     </template>
     <template #filterIcon="filtered">
       <a-icon
@@ -14,56 +14,10 @@
         :style="{ color: filtered ? '#108ee9' : undefined }"
       />
     </template>
-    <template #filterDropdown="{ setSelectedKeys, selectedKeys, confirm, clearFilters, column }">
-      <div style="padding: 8px">
-        <a-input
-          ref="searchInput"
-          :placeholder="`Search ${column.dataIndex}`"
-          :value="selectedKeys[0]"
-          style="width: 188px; margin-bottom: 8px; display: block;"
-          @change="e => setSelectedKeys(e.target.value ? [e.target.value] : [])"
-          @pressEnter="handleSearch(selectedKeys, confirm, column.dataIndex)"
-        />
-        <a-button
-          size="small"
-          style="margin-right: 10px; width: 90px"
-          @click="() => handleReset(clearFilters)"
-        >
-          重置
-        </a-button>
-        <a-button
-          type="primary"
-          icon="search"
-          size="small"
-          style="width: 90px"
-          @click="handleSearch(selectedKeys, confirm, column.dataIndex)"
-        >
-          搜索
-        </a-button>
-      </div>
+    <template #filterDropdown="options">
+      <TableSearch v-bind="options" />
     </template>
 
-    <!--具体参见ant-design-vue的表格搜索用法-->
-    <template #filter="text, record, index, column">
-      <span v-if="searchText && searchedColumn === column.dataIndex">
-        <template
-          v-for="(fragment, i) in text
-            .toString()
-            .split(new RegExp(`(?<=${searchText})|(?=${searchText})`, 'i'))"
-        >
-          <mark
-            v-if="fragment.toLowerCase() === searchText.toLowerCase()"
-            :key="i"
-          >
-            {{ fragment }}
-          </mark>
-          <template v-else>{{ fragment }}</template>
-        </template>
-      </span>
-      <template v-else>
-        {{ text }}
-      </template>
-    </template>
     <!--date-->
     <template #date="date">
       {{ formatDate(date) }}
@@ -96,12 +50,13 @@
 </template>
 
 <script>
-import TableSearchMixin from '../table-search-mixin'
-import createColumns from './create-record-columns'
+import ColumnsMixin from '../../table-search-mixin/showrecord-cloumns-mixin'
 import moment from 'moment'
+import TableSearch from '../common/TableSearch'
 export default {
   name: 'ShowRecord',
-  mixins: [TableSearchMixin],
+  components: { TableSearch },
+  mixins: [ColumnsMixin],
   props: {
     loading: Boolean,
     allowModify: {
@@ -122,7 +77,7 @@ export default {
   },
   data () {
     return {
-      columns: createColumns(this.type),
+      columns: this.CREATE_COLUMNS(this.type),
       table: {
         bordered: true,
         size: 'small',

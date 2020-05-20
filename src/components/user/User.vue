@@ -110,7 +110,7 @@
 import { omit } from 'lodash'
 import { Modal } from 'ant-design-vue'
 import { createNamespacedHelpers } from 'vuex'
-import createColumns from './create-importuser-columns'
+import createColumns from '../../table-search-mixin/create-importuser-columns'
 import ShowUser from './ShowUser'
 import { makeExcel } from '../../utils/excel'
 import {
