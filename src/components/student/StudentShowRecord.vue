@@ -8,21 +8,20 @@
     >
       <template #extra>
         <a-button-group class="button-group">
-          <a-button @click="init">
-            刷新
-          </a-button>
           <a-button
             type="primary"
             @click="exportExcel"
           >
             导出Excel
           </a-button>
+          <a-button @click="init">
+            刷新
+          </a-button>
         </a-button-group>
       </template>
     </a-page-header>
     <ShowRecord
       type="student"
-      :loading="loading"
       :records="records"
     />
   </div>
@@ -34,37 +33,21 @@ import { createNamespacedHelpers } from 'vuex'
 import { makeExcel } from '../../utils/excel'
 import ShowRecord from '../record/ShowRecord'
 import { SET_RECORD_LIST } from '../../store/mutation-types'
+
 const { mapState, mapActions } = createNamespacedHelpers('records')
 export default {
   name: 'StudentShowRecord',
   components: {
     ShowRecord
   },
-  data () {
-    return {
-      loading: false
-    }
-  },
+  inject: ['init'],
   computed: mapState({
     records: 'records'
   }),
-  mounted () {
-    this.init()
-  },
   methods: {
     ...mapActions({
       setRecordList: SET_RECORD_LIST
     }),
-    init () {
-      if (this.loading) return
-      this.loading = true
-      const { account } = this.$store.state.user
-      this.setRecordList({
-        sid: account
-      }).finally(() => {
-        this.loading = false
-      })
-    },
     exportExcel () {
       makeExcel({
         records: this.records.map(item => {

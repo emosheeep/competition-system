@@ -7,7 +7,7 @@ export default {
         {
           title: '学号',
           dataIndex: 'account',
-          sorter: (a, b) => a.account > b.account,
+          sorter: (a, b) => a.account - b.account,
           scopedSlots: filterSlots,
           onFilter: filter('account')
         },
@@ -20,7 +20,7 @@ export default {
         {
           title: '性别',
           dataIndex: 'sex',
-          onFilter: (value, record) => record.sex.includes(value),
+          onFilter: filter('sex'),
           filters: [
             {
               text: '男',
@@ -54,7 +54,7 @@ export default {
         {
           title: '工号',
           dataIndex: 'account',
-          sorter: (a, b) => a.account > b.account,
+          sorter: (a, b) => a.account - b.account,
           scopedSlots: filterSlots,
           onFilter: filter('account')
         },
@@ -89,7 +89,7 @@ export default {
         {
           title: '账号',
           dataIndex: 'account',
-          sorter: (a, b) => a.account > b.account
+          sorter: (a, b) => a.account - b.account
         },
         {
           title: '密码',

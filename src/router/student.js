@@ -16,7 +16,7 @@ export default [
         path: 'race',
         component: () => import(
           /* webpackChunkName: "Student" */
-          '../components/student/index'
+          '../components/student/StudentShowRace'
         )
       },
       {

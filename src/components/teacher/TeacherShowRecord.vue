@@ -8,21 +8,20 @@
     >
       <template #extra>
         <a-button-group class="button-group">
-          <a-button @click="init">
-            刷新
-          </a-button>
           <a-button
             type="primary"
             @click="exportExcel"
           >
             导出Excel
           </a-button>
+          <a-button @click="init">
+            刷新
+          </a-button>
         </a-button-group>
       </template>
     </a-page-header>
     <ShowRecord
       type="teacher"
-      :loading="loading"
       :records="records"
       @delete-record="onDelete"
       @update-record="onUpdate"
@@ -40,7 +39,7 @@ import { omit } from 'lodash'
 import { createNamespacedHelpers } from 'vuex'
 import { makeExcel } from '../../utils/excel'
 import ShowRecord from '../record/ShowRecord'
-import { SET_RECORD_LIST, DELETE_RECORD } from '../../store/mutation-types'
+import { DELETE_RECORD } from '../../store/mutation-types'
 const { mapState, mapActions } = createNamespacedHelpers('records')
 export default {
   name: 'TeacherShowRecord',
@@ -52,9 +51,9 @@ export default {
       '../record/UpdateRecord'
     )
   },
+  inject: ['init'],
   data () {
     return {
-      loading: false,
       updateRecordVisible: false,
       curRecord: null
     }
@@ -62,24 +61,10 @@ export default {
   computed: mapState({
     records: 'records'
   }),
-  mounted () {
-    this.init()
-  },
   methods: {
     ...mapActions({
-      setRecordList: SET_RECORD_LIST,
       deleteRecord: DELETE_RECORD
     }),
-    init () {
-      if (this.loading) return
-      this.loading = true
-      const { account } = this.$store.state.user
-      this.setRecordList({
-        tid: account
-      }).finally(() => {
-        this.loading = false
-      })
-    },
     onDelete (id) {
       this.deleteRecord(id)
     },

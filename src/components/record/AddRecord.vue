@@ -20,6 +20,7 @@
       </a-col>
       <a-col span="11">
         <a-auto-complete
+          :auto-focus="true"
           :data-source="results"
           style="width: 200px"
           placeholder="职工号/教师姓名"

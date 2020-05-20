@@ -13,19 +13,20 @@
       </template>
     </a-page-header>
     <Detail
-      :loading="loading"
       :race="race"
       :records="records"
     />
+    <Loading :loading="loading" />
   </div>
 </template>
 
 <script>
 import { getRaceList, getRecordList } from '../../api'
 import Detail from '../common/Detail'
+import Loading from '../common/Loading'
 export default {
   name: 'RaceDetailWithRecords',
-  components: { Detail },
+  components: { Loading, Detail },
   props: {
     id: {
       type: String,

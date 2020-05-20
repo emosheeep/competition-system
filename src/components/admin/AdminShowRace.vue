@@ -17,6 +17,9 @@
           <a-button @click="exportExcel">
             导出Excel
           </a-button>
+          <a-button @click="init">
+            刷新
+          </a-button>
         </a-button-group>
       </template>
     </a-page-header>
@@ -24,7 +27,6 @@
     <ShowRace
       type="admin"
       :races="races"
-      :loading="loading"
       @update-race="onUpdate"
       @delete-race="onDelete"
     />
@@ -43,40 +45,37 @@
 <script>
 import { omit } from 'lodash'
 import { createNamespacedHelpers } from 'vuex'
-import ShowRace from './ShowRace'
 import { DELETE_RACE, SET_RACE_LIST } from '../../store/mutation-types'
 import { makeExcel } from '../../utils/excel'
+import ShowRace from '../race/ShowRace'
 const { mapState, mapActions } = createNamespacedHelpers('races')
 
 export default {
-  name: 'Race',
+  name: 'AdminShowRace',
   components: {
     ShowRace,
     UpdateRace: () => import(
       /* webpackChunkName: "UpdateRace" */
       /* webpackPrefetch: true */
-      './UpdateRace'
+      '../race/UpdateRace'
     ),
     AddRace: () => import(
       /* webpackChunkName: "AddRace" */
       /* webpackPrefetch: true */
-      './AddRace'
+      '../race/AddRace'
     )
   },
+  inject: ['init'],
   data () {
     return {
-      loading: true,
       addRaceVisible: false,
       updateRaceVisible: false,
       curRace: {}
     }
   },
-  computed: mapState({
-    races: 'races'
-  }),
-  mounted () {
-    this.setRaceList().finally(_ => {
-      this.loading = false
+  computed: {
+    ...mapState({
+      races: 'races'
     })
   },
   methods: {

@@ -7,7 +7,7 @@ export default {
     state.token = token
   },
   [LOGOUT] (state) {
-    state.user = null
+    state.user = {}
     state.token = ''
     state.identity = ''
   }

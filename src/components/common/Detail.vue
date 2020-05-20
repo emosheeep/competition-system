@@ -1,40 +1,32 @@
 <template>
   <div class="container">
-    <a-skeleton
-      active
-      :loading="loading"
-      :paragraph="{ rows: 4 }"
+    <a-descriptions
+      :title="`赛事详情：${race.title}`"
+      style="padding: 10px"
     >
-      <a-descriptions
-        v-if="!loading"
-        :title="`赛事详情：${race.title}`"
-        style="padding: 10px"
-      >
-        <a-descriptions-item label="主办方">
-          {{ race.sponsor }}
-        </a-descriptions-item>
-        <a-descriptions-item label="年度">
-          {{ race.year }}
-        </a-descriptions-item>
-        <a-descriptions-item label="级别">
-          {{ race.level }}
-        </a-descriptions-item>
-        <a-descriptions-item label="时间">
-          {{ formatDate(race.date) }}
-        </a-descriptions-item>
-        <a-descriptions-item label="地点">
-          {{ race.location }}
-        </a-descriptions-item>
-        <br>
-        <a-descriptions-item label="描述">
-          {{ race.description }}
-        </a-descriptions-item>
-      </a-descriptions>
-    </a-skeleton>
+      <a-descriptions-item label="主办方">
+        {{ race.sponsor }}
+      </a-descriptions-item>
+      <a-descriptions-item label="年度">
+        {{ race.year }}
+      </a-descriptions-item>
+      <a-descriptions-item label="级别">
+        {{ race.level }}
+      </a-descriptions-item>
+      <a-descriptions-item label="时间">
+        {{ formatDate(race.date) }}
+      </a-descriptions-item>
+      <a-descriptions-item label="地点">
+        {{ race.location }}
+      </a-descriptions-item>
+      <br>
+      <a-descriptions-item label="描述">
+        {{ race.description }}
+      </a-descriptions-item>
+    </a-descriptions>
     <!--展示对应赛事的参赛人员，id为赛事id-->
     <ShowRecord
       type="common"
-      :loading="loading"
       :records="records"
     />
   </div>
@@ -48,7 +40,6 @@ export default {
   name: 'Detail',
   components: { ShowRecord },
   props: {
-    loading: Boolean,
     race: {
       type: Object,
       required: true

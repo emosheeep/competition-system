@@ -8,21 +8,20 @@
     >
       <template #extra>
         <a-button-group class="button-group">
-          <a-button @click="init">
-            刷新
-          </a-button>
           <a-button
             type="primary"
             @click="exportExcel"
           >
             导出Excel
           </a-button>
+          <a-button @click="init">
+            刷新
+          </a-button>
         </a-button-group>
       </template>
     </a-page-header>
     <ShowRace
       type="teacher"
-      :loading="loading"
       :races="races"
     />
   </div>
@@ -32,33 +31,16 @@
 import { omit } from 'lodash'
 import ShowRace from '../race/ShowRace'
 import { makeExcel } from '../../utils/excel'
-import { SET_RACE_LIST } from '../../store/mutation-types'
 export default {
-  name: 'ShowRaceInTeacher',
+  name: 'TeacherShowRace',
   components: { ShowRace },
-  data () {
-    return {
-      loading: false
-    }
-  },
+  inject: ['init'],
   computed: {
     races () {
       return this.$store.state.races.races
     }
   },
-  mounted () {
-    this.init()
-  },
   methods: {
-    init () {
-      if (this.loading) return
-      this.loading = true
-      this.$store.dispatch(
-        `races/${SET_RACE_LIST}`
-      ).finally(() => {
-        this.loading = false
-      })
-    },
     exportExcel () {
       makeExcel({
         races: this.races.map(item => {

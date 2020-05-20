@@ -27,19 +27,30 @@
         {{ formatDate(date) }}
       </template>
 
-      <!--管理员页面显示编辑按钮，学生界面不显示-->
+      <!--学生界面操作-->
       <template
         v-if="type === 'student'"
         #action="item"
       >
-        <a @click.prevent="$emit('add-record', item)">登记</a>
+        <template v-if="isParticipate(item._id)">
+          <a-icon
+            type="check-circle"
+            style="color: limegreen"
+          />
+          <span> 已报备</span>
+        </template>
+        <template v-else>
+          <a @click.prevent="$emit('add-record', item)">登记</a>
+        </template>
       </template>
+      <!--教师界面操作-->
       <template
         v-else-if="type === 'teacher'"
         #action="item"
       >
         <a @click.prevent="onDetail(item)">详情</a>
       </template>
+      <!--管理员界面操作-->
       <template
         v-else
         #action="item"
@@ -88,6 +99,11 @@ export default {
       columns: createColumns.call(this)
     }
   },
+  computed: {
+    records () {
+      return this.$store.state.records.records
+    }
+  },
   methods: {
     formatDate (date) {
       return moment(date).format('YYYY-MM-DD')
@@ -99,6 +115,9 @@ export default {
           id: race._id
         }
       })
+    },
+    isParticipate (raceID) {
+      return !!this.records.find(record => record.id === raceID)
     }
   }
 }
@@ -110,7 +129,7 @@ function createColumns () {
       dataIndex: 'date',
       ellipsis: true,
       width: 110,
-      sorter: (a, b) => a.date > b.date,
+      sorter: (a, b) => a.date - b.date,
       scopedSlots: {
         customRender: 'date'
       }
@@ -121,8 +140,7 @@ function createColumns () {
       ellipsis: true,
       scopedSlots: {
         filterDropdown: 'filterDropdown',
-        filterIcon: 'filterIcon',
-        customRender: 'filter'
+        filterIcon: 'filterIcon'
       },
       onFilter: (value, record) => record.title.includes(value)
     },

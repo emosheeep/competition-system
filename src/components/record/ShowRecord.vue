@@ -1,7 +1,6 @@
 <template>
   <a-table
     v-bind="table"
-    :loading="loading"
     :columns="columns"
     :data-source="records"
   >
@@ -58,7 +57,6 @@ export default {
   components: { TableSearch },
   mixins: [ColumnsMixin],
   props: {
-    loading: Boolean,
     allowModify: {
       type: Boolean,
       default: true

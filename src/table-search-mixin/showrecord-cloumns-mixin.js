@@ -12,7 +12,7 @@ function CREATE_COLUMNS (type) {
         title: '举办时间',
         dataIndex: 'date',
         width: 110,
-        sorter: (a, b) => a.date > b.date,
+        sorter: (a, b) => a.date - b.date,
         scopedSlots: {
           customRender: 'date'
         }
@@ -22,13 +22,13 @@ function CREATE_COLUMNS (type) {
         dataIndex: 'title',
         ellipsis: true,
         scopedSlots: filterSlots,
-        onFilter: filter('sid')
+        onFilter: filter('title')
       },
       {
         title: '学生账号',
         dataIndex: 'sid',
         ellipsis: true,
-        sorter: (a, b) => a.sid > b.sid,
+        sorter: (a, b) => a.sid - b.sid,
         scopedSlots: filterSlots,
         onFilter: filter('sid')
       },
@@ -43,7 +43,7 @@ function CREATE_COLUMNS (type) {
         title: '教师工号',
         dataIndex: 'tid',
         ellipsis: true,
-        sorter: (a, b) => a.tid > b.tid,
+        sorter: (a, b) => a.tid - b.tid,
         scopedSlots: filterSlots,
         onFilter: filter('tid')
       },
@@ -71,7 +71,7 @@ function CREATE_COLUMNS (type) {
         title: '举办时间',
         dataIndex: 'date',
         width: 110,
-        sorter: (a, b) => a.date > b.date,
+        sorter: (a, b) => a.date - b.date,
         scopedSlots: {
           customRender: 'date'
         }
@@ -81,13 +81,13 @@ function CREATE_COLUMNS (type) {
         dataIndex: 'title',
         ellipsis: true,
         scopedSlots: filterSlots,
-        onFilter: filter('sid')
+        onFilter: filter('title')
       },
       {
         title: '学号',
         dataIndex: 'sid',
         ellipsis: true,
-        sorter: (a, b) => a.sid > b.sid,
+        sorter: (a, b) => a.sid - b.sid,
         scopedSlots: filterSlots,
         onFilter: filter('sid')
       },
@@ -115,7 +115,7 @@ function CREATE_COLUMNS (type) {
         title: '举办时间',
         dataIndex: 'date',
         width: 110,
-        sorter: (a, b) => a.date > b.date,
+        sorter: (a, b) => a.date - b.date,
         scopedSlots: {
           customRender: 'date'
         }
@@ -125,13 +125,13 @@ function CREATE_COLUMNS (type) {
         dataIndex: 'title',
         ellipsis: true,
         scopedSlots: filterSlots,
-        onFilter: filter('sid')
+        onFilter: filter('title')
       },
       {
         title: '教师工号',
         dataIndex: 'tid',
         ellipsis: true,
-        sorter: (a, b) => a.tid > b.tid,
+        sorter: (a, b) => a.tid - b.tid,
         scopedSlots: filterSlots,
         onFilter: filter('tid')
       },
@@ -154,7 +154,7 @@ function CREATE_COLUMNS (type) {
         title: '举办时间',
         dataIndex: 'date',
         width: 110,
-        sorter: (a, b) => a.date > b.date,
+        sorter: (a, b) => a.date - b.date,
         scopedSlots: {
           customRender: 'date'
         }
@@ -170,7 +170,7 @@ function CREATE_COLUMNS (type) {
         title: '学生账号',
         dataIndex: 'sid',
         ellipsis: true,
-        sorter: (a, b) => a.sid > b.sid,
+        sorter: (a, b) => a.sid - b.sid,
         scopedSlots: filterSlots,
         onFilter: filter('sid')
       },
@@ -185,7 +185,7 @@ function CREATE_COLUMNS (type) {
         title: '教师工号',
         dataIndex: 'tid',
         ellipsis: true,
-        sorter: (a, b) => a.tid > b.tid,
+        sorter: (a, b) => a.tid - b.tid,
         scopedSlots: filterSlots,
         onFilter: filter('tid')
       },

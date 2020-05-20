@@ -32,6 +32,9 @@
           <a-button @click="exportExcel">
             导出Excel
           </a-button>
+          <a-button @click="init">
+            刷新
+          </a-button>
         </a-button-group>
       </template>
       <div class="header-info">
@@ -78,7 +81,6 @@
       :students="students"
       :teachers="teachers"
       :admins="admins"
-      :loading="loading"
       :type="showUserType"
       @update-user="onUpdate"
       @delete-user="onDelete"
@@ -111,14 +113,9 @@ import { omit } from 'lodash'
 import { Modal } from 'ant-design-vue'
 import { createNamespacedHelpers } from 'vuex'
 import createColumns from '../../table-search-mixin/create-importuser-columns'
-import ShowUser from './ShowUser'
 import { makeExcel } from '../../utils/excel'
-import {
-  DELETE_USER,
-  SET_USER_LIST,
-  UPDATE_USER,
-  ADD_USER
-} from '../../store/mutation-types'
+import { DELETE_USER, UPDATE_USER, ADD_USER } from '../../store/mutation-types'
+import ShowUser from './ShowUser'
 const { mapActions, mapState } = createNamespacedHelpers('users')
 export default {
   name: 'User',
@@ -140,9 +137,9 @@ export default {
       './UpdateUser'
     )
   },
+  inject: ['init'],
   data () {
     return {
-      loading: true,
       addUserVisible: false,
       importUserVisible: false,
       updateUserVisible: false,
@@ -164,14 +161,8 @@ export default {
       return this.students.length + this.teachers.length + this.admins.length
     }
   },
-  mounted () {
-    this.setUserList().then(data => {
-      this.loading = false
-    })
-  },
   methods: {
     ...mapActions({
-      setUserList: SET_USER_LIST,
       deleteUser: DELETE_USER,
       updateUser: UPDATE_USER,
       addUser: ADD_USER

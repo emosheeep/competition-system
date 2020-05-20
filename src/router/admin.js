@@ -15,8 +15,8 @@ export default [
       {
         path: 'race',
         component: () => import(
-          /* webpackChunkName: "Race" */
-          '../components/race/Race'
+          /* webpackChunkName: "Admin" */
+          '../components/admin/AdminShowRace'
         )
       },
       {

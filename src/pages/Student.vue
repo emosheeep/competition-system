@@ -16,16 +16,47 @@
         Ant Design ©2018 Created by Ant UED
       </a-layout-footer>
     </a-layout>
+    <Loading :loading="loading" />
   </a-layout>
 </template>
 
 <script>
 import Sidebar from '../components/student/Sidebar'
+import Loading from '../components/common/Loading'
+import { SET_RACE_LIST, SET_RECORD_LIST } from '../store/mutation-types'
+
 export default {
   name: 'Student',
-  components: { Sidebar },
+  components: { Loading, Sidebar },
   metaInfo: {
     title: '学生'
+  },
+  provide () {
+    return {
+      init: this.init
+    }
+  },
+  data () {
+    return {
+      loading: false
+    }
+  },
+  created () {
+    this.init()
+  },
+  methods: {
+    init () {
+      this.loading = true
+      const { account } = this.$store.state.user
+      Promise.all([
+        this.$store.dispatch(`races/${SET_RACE_LIST}`),
+        this.$store.dispatch(`records/${SET_RECORD_LIST}`, {
+          sid: account
+        })
+      ]).finally(() => {
+        this.loading = false
+      })
+    }
   }
 }
 </script>

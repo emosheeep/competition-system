@@ -3,7 +3,7 @@ const columns = {
     {
       title: '学号',
       dataIndex: 'account',
-      sort: (a, b) => a.account > b.account
+      sort: (a, b) => a.account - b.account
     },
     {
       title: '密码',
@@ -30,7 +30,7 @@ const columns = {
     {
       title: '工号',
       dataIndex: 'account',
-      sort: (a, b) => a.account > b.account
+      sort: (a, b) => a.account - b.account
     },
     {
       title: '密码',

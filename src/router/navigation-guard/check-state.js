@@ -13,8 +13,8 @@ export default function (to, from, next) {
     if (store.getters.isLogin) {
       next()
     } else {
-      store.commit(LOGOUT)
       next({ name: 'login' })
+      store.commit(LOGOUT)
     }
   } else {
     next()
