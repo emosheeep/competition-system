@@ -3,7 +3,7 @@
     <a-page-header
       :back-icon="false"
       title="记录管理"
-      sub-title="学生的参赛记录"
+      sub-title="查看参赛记录信息"
       style="padding: 0; margin-bottom: 20px"
     >
       <template #extra>
@@ -21,7 +21,7 @@
       </template>
     </a-page-header>
     <ShowRecord
-      type="teacher"
+      type="admin"
       :records="records"
       @delete-record="onDelete"
       @update-record="onUpdate"
@@ -35,20 +35,20 @@
 </template>
 
 <script>
-import { omit } from 'lodash'
 import { createNamespacedHelpers } from 'vuex'
+import { omit } from 'lodash'
 import { makeExcel } from '../../utils/excel'
-import ShowRecord from '../record/ShowRecord'
+import ShowRecord from '../../components/record/ShowRecord'
 import { DELETE_RECORD } from '../../store/mutation-types'
 const { mapState, mapActions } = createNamespacedHelpers('records')
 export default {
-  name: 'TeacherShowRecord',
+  name: 'AdminShowRecord',
   components: {
     ShowRecord,
     UpdateRecord: () => import(
       /* webpackChunkName: "UpdateRecord" */
       /* webpackPrefetch: true */
-      '../record/UpdateRecord'
+      '../../components/record/UpdateRecord'
     )
   },
   inject: ['init'],

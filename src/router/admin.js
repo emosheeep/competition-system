@@ -16,7 +16,7 @@ export default [
         path: 'race',
         component: () => import(
           /* webpackChunkName: "Admin" */
-          '../components/admin/AdminShowRace'
+          '../pages/admin/AdminShowRace'
         )
       },
       {
@@ -30,7 +30,7 @@ export default [
         path: 'record',
         component: () => import(
           /* webpackChunkName: "AdminShowRecord" */
-          '../components/admin/AdminShowRecord'
+          '../pages/admin/AdminShowRecord'
         ),
         props: route => ({ type: 'admin' })
       },

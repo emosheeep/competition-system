@@ -16,14 +16,14 @@ export default [
         path: 'race',
         component: () => import(
           /* webpackChunkName: "Student" */
-          '../components/student/StudentShowRace'
+          '../pages/student/StudentShowRace'
         )
       },
       {
         path: 'record',
         component: () => import(
           /* webpackChunkName: "StudentShowRecord" */
-          '../components/student/StudentShowRecord'
+          '../pages/student/StudentShowRecord'
         )
       }
     ]

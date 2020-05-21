@@ -21,7 +21,7 @@
 </template>
 
 <script>
-import Sidebar from '../components/student/Sidebar'
+import Sidebar from './student/Sidebar'
 import Loading from '../components/common/Loading'
 import { SET_RACE_LIST, SET_RECORD_LIST } from '../store/mutation-types'
 

@@ -29,7 +29,7 @@
 
 <script>
 import { omit } from 'lodash'
-import ShowRace from '../race/ShowRace'
+import ShowRace from '../../components/race/ShowRace'
 import { makeExcel } from '../../utils/excel'
 export default {
   name: 'TeacherShowRace',

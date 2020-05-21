@@ -112,7 +112,7 @@
 import { omit } from 'lodash'
 import { Modal } from 'ant-design-vue'
 import { createNamespacedHelpers } from 'vuex'
-import createColumns from '../../table-search-mixin/create-importuser-columns'
+import createColumns from '../../table-columns/importuser-columns'
 import { makeExcel } from '../../utils/excel'
 import { DELETE_USER, UPDATE_USER, ADD_USER } from '../../store/mutation-types'
 import ShowUser from './ShowUser'

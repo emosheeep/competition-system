@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import LoginState from '../common/LoginState'
+import LoginState from '../../components/common/LoginState'
 export default {
   name: 'Sidebar',
   components: { LoginState },

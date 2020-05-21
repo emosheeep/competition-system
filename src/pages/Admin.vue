@@ -21,7 +21,7 @@
 </template>
 
 <script>
-import Sidebar from '../components/admin/Sidebar'
+import Sidebar from './admin/Sidebar'
 import Loading from '../components/common/Loading'
 import { SET_RACE_LIST, SET_RECORD_LIST, SET_USER_LIST } from '../store/mutation-types'
 export default {

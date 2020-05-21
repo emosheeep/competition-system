@@ -47,7 +47,7 @@ import { omit } from 'lodash'
 import { createNamespacedHelpers } from 'vuex'
 import { DELETE_RACE, SET_RACE_LIST } from '../../store/mutation-types'
 import { makeExcel } from '../../utils/excel'
-import ShowRace from '../race/ShowRace'
+import ShowRace from '../../components/race/ShowRace'
 const { mapState, mapActions } = createNamespacedHelpers('races')
 
 export default {
@@ -57,12 +57,12 @@ export default {
     UpdateRace: () => import(
       /* webpackChunkName: "UpdateRace" */
       /* webpackPrefetch: true */
-      '../race/UpdateRace'
+      '../../components/race/UpdateRace'
     ),
     AddRace: () => import(
       /* webpackChunkName: "AddRace" */
       /* webpackPrefetch: true */
-      '../race/AddRace'
+      '../../components/race/AddRace'
     )
   },
   inject: ['init'],

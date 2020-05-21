@@ -4,9 +4,11 @@
     :columns="columns"
     :data-source="records"
   >
+    <!--表头-->
     <template #title="data">
-      <h1>参赛记录 - 共{{ data.length }}条</h1>
+      <h1>参赛记录 - 共 {{ data.length }} 条</h1>
     </template>
+    <!--搜索-->
     <template #filterIcon="filtered">
       <a-icon
         type="search"
@@ -16,7 +18,6 @@
     <template #filterDropdown="options">
       <TableSearch v-bind="options" />
     </template>
-
     <!--date-->
     <template #date="date">
       {{ formatDate(date) }}
@@ -49,7 +50,7 @@
 </template>
 
 <script>
-import ColumnsMixin from '../../table-search-mixin/showrecord-cloumns-mixin'
+import ColumnsMixin from '../../table-columns/showrecord-cloumns-mixin'
 import moment from 'moment'
 import TableSearch from '../common/TableSearch'
 export default {

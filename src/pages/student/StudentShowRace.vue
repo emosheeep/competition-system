@@ -35,7 +35,7 @@
 
 <script>
 import { omit } from 'lodash'
-import ShowRace from '../race/ShowRace'
+import ShowRace from '../../components/race/ShowRace'
 import { makeExcel } from '../../utils/excel'
 import { SET_RACE_LIST } from '../../store/mutation-types'
 import { createNamespacedHelpers } from 'vuex'
@@ -48,7 +48,7 @@ export default {
     AddRecord: () => import(
       /* webpackChunkName: "AddRecord" */
       /* webpackPrefetch: true */
-      '../record/AddRecord'
+      '../../components/record/AddRecord'
     )
   },
   inject: ['init'],

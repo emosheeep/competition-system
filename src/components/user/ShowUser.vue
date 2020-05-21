@@ -49,7 +49,7 @@
 </template>
 
 <script>
-import ColumnsMixin from '../../table-search-mixin/showuser-columns-mixin'
+import ColumnsMixin from '../../table-columns/showuser-columns-mixin'
 import TableSearch from '../common/TableSearch'
 export default {
   name: 'ShowUser',

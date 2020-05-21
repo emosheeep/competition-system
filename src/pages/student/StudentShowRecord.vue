@@ -3,7 +3,7 @@
     <a-page-header
       :back-icon="false"
       title="记录管理"
-      sub-title="查看参赛记录信息"
+      sub-title="查看我的参赛记录信息"
       style="padding: 0; margin-bottom: 20px"
     >
       <template #extra>
@@ -21,57 +21,33 @@
       </template>
     </a-page-header>
     <ShowRecord
-      type="admin"
+      type="student"
       :records="records"
-      @delete-record="onDelete"
-      @update-record="onUpdate"
-    />
-    <UpdateRecord
-      v-if="updateRecordVisible"
-      :visible.sync="updateRecordVisible"
-      :record="curRecord"
     />
   </div>
 </template>
 
 <script>
-import { createNamespacedHelpers } from 'vuex'
 import { omit } from 'lodash'
+import { createNamespacedHelpers } from 'vuex'
 import { makeExcel } from '../../utils/excel'
-import ShowRecord from '../record/ShowRecord'
-import { DELETE_RECORD } from '../../store/mutation-types'
+import ShowRecord from '../../components/record/ShowRecord'
+import { SET_RECORD_LIST } from '../../store/mutation-types'
+
 const { mapState, mapActions } = createNamespacedHelpers('records')
 export default {
-  name: 'AdminShowRecord',
+  name: 'StudentShowRecord',
   components: {
-    ShowRecord,
-    UpdateRecord: () => import(
-      /* webpackChunkName: "UpdateRecord" */
-      /* webpackPrefetch: true */
-      '../record/UpdateRecord'
-    )
+    ShowRecord
   },
   inject: ['init'],
-  data () {
-    return {
-      updateRecordVisible: false,
-      curRecord: null
-    }
-  },
   computed: mapState({
     records: 'records'
   }),
   methods: {
     ...mapActions({
-      deleteRecord: DELETE_RECORD
+      setRecordList: SET_RECORD_LIST
     }),
-    onDelete (id) {
-      this.deleteRecord(id)
-    },
-    onUpdate (record) {
-      this.curRecord = record
-      this.updateRecordVisible = true
-    },
     exportExcel () {
       makeExcel({
         records: this.records.map(item => {
