@@ -14,9 +14,7 @@ export default {
           return item.dataIndex !== 'sid' && item.dataIndex !== 'sname'
         })
       } else if (type === 'common') {
-        return allColumns.filter(item => {
-          return item.dataIndex !== 'action'
-        })
+        return allColumns.slice(0, allColumns.length - 1) // 去掉action
       }
       throw new Error(
         "type must be one of ['admin', 'student', 'teacher', 'common']"
@@ -78,8 +76,28 @@ const allColumns = [
     ellipsis: true
   },
   {
+    title: '审核状态',
+    dataIndex: 'reviewed',
+    ellipsis: true,
+    onFilter: filter('reviewed'),
+    filters: [
+      {
+        text: '已审核',
+        value: 'true'
+      },
+      {
+        text: '未审核',
+        value: 'false'
+      }
+    ],
+    scopedSlots: {
+      customRender: 'reviewed'
+    }
+  },
+  {
     title: '操作',
-    key: 'action',
-    scopedSlots: { customRender: 'action' }
+    scopedSlots: {
+      customRender: 'action'
+    }
   }
 ]

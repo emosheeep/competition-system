@@ -35,10 +35,10 @@
 
 <script>
 import { omit } from 'lodash'
-import ShowRace from '../../components/race/ShowRace'
 import { makeExcel } from '../../utils/excel'
 import { SET_RACE_LIST } from '../../store/mutation-types'
 import { createNamespacedHelpers } from 'vuex'
+import ShowRace from '../../components/race/ShowRace'
 const { mapState, mapActions } = createNamespacedHelpers('races')
 
 export default {

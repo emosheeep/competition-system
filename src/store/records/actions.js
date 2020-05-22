@@ -39,7 +39,7 @@ export default {
       updateRecord(record).then(({ data }) => {
         resolve(data)
         commit(UPDATE_RECORD, record)
-        message.success('更新成功')
+        message.success('成功')
       }).catch(e => {
         reject(e)
         message.error('系统错误，请重试')

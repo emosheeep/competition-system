@@ -32,3 +32,4 @@ export const updateRecord = record => axios.put('/record/update', record)
 export const deleteRecord = id => {
   return axios.delete('/record/delete', { data: { id } })
 }
+export const getToken = params => axios.get('/record/auth', { params })

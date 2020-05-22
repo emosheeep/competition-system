@@ -3,7 +3,7 @@
     :visible="visible"
     :mask-closable="false"
     :body-style="{ padding: '10px' }"
-    :title="`导入数据`"
+    title="导入数据"
     ok-text="确认导入"
     cancel-text="取消"
     centered
