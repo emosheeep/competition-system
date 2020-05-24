@@ -1,6 +1,6 @@
 <template>
   <div>
-    <!--详情界面的纯展示（本身收到columns限制不会渲染，这里以防万一）-->
+    <!--详情界面的纯展示（本身受到columns限制不会渲染，这里以防万一）-->
     <template v-if="common" />
     <!--教师，管理员的编辑和删除功能-->
     <template v-if="teacherAndAdmin">
@@ -26,9 +26,11 @@
     <!--学生的附件上传功能-->
     <template v-if="student">
       <div v-if="record.uploaded">
-        <a>预览</a>
-        <a-divider type="vertical" />
-        <a @click="$emit('upload', record)">重传</a>
+        <a @click="$emit('detail', record)">查看详情</a>
+<!--        <a-divider type="vertical" />-->
+<!--        <a @click="$emit('upload', record)">重传</a>-->
+<!--        <a-divider type="vertical" />-->
+<!--        <a @click="download">下载</a>-->
       </div>
       <div v-else>
         <a @click="$emit('upload', record)">附件上传</a>
@@ -45,7 +47,8 @@ export default {
       type: String,
       required: true,
       validator (value) {
-        return ['student', 'admin', 'teacher', 'common'].includes(value)
+        const types = ['student', 'admin', 'teacher', 'common']
+        return types.includes(value)
       }
     },
     record: {

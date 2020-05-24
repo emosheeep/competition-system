@@ -1,9 +1,9 @@
 <template>
   <a-modal
-    title="附件上传"
     ok-text="开始上传"
     cancel-text="取消"
     centered
+    :title="`${getTitle()} 附件上传`"
     :visible="visible"
     :mask-closable="false"
     :body-style="{ padding: '10px' }"
@@ -35,7 +35,6 @@
     />
     <a-modal
       width="min-content"
-      centered
       :visible="previewVisible"
       :footer="null"
       :destroy-on-close="true"
@@ -54,7 +53,7 @@
 import { message } from 'ant-design-vue'
 import { createNamespacedHelpers } from 'vuex'
 import { UPDATE_RECORD } from '../../store/mutation-types'
-import { getToken } from '../../api'
+import { getToken, fresh } from '../../api'
 import { uploader } from '../../utils/qiniu'
 
 const { mapActions } = createNamespacedHelpers('records')
@@ -81,17 +80,19 @@ export default {
       previewVisible: false
     }
   },
-  computed: {
-    showUploadList () {
-      return !!this.file
-    }
-  },
   methods: {
     ...mapActions({
       updateRecord: UPDATE_RECORD
     }),
     onCancel () {
       this.$emit('update:visible', false)
+    },
+    getTitle () {
+      const length = 20
+      const value = this.record.title
+      return value.length > length
+        ? value.slice(0, length - 1) + '...'
+        : value
     },
     getFile (file) {
       this.file = file
@@ -119,33 +120,11 @@ export default {
       return true
     },
     uploadFile () {
-      if (!this.file) {
-        return message.warn('请选择要上传的文件')
-      }
-      const { file } = this
-      if (!this.sizeLimited(file.size)) {
-        return
-      }
-      const name = this.record._id
-      const promise = this.record.uploaded
-        ? getToken({ name }) // 覆盖上传
-        : getToken()
-      promise.then(({ data: token }) => {
-        const observer = uploader(name, file, token)
-        // 开始传输
-        this.uploadStatus = 'active'
-        this.uploadPercent = 0
-        this.loading = true
-        this.showProgress = true
-        observer.subscribe(
-          next.bind(this),
-          error.bind(this),
-          complete.bind(this)
-        )
-      })
+      uploadFile.call(this)
     }
   }
 }
+
 function createObjectUrl (file) {
   return new Promise((resolve, reject) => {
     const reader = new FileReader()
@@ -163,17 +142,52 @@ function error (err) {
   this.loading = false
   console.error(err)
 }
-function complete (res) {
+function complete ({ key: name }) {
   const record = { ...this.record }
   record.uploaded = true // 标记为已上传状态
-  this.updateRecord(record).then(() => {
+  Promise.all([
+    fresh({ name }), // 重新上传文件，需要刷新cdn缓存，否则预览文件不会变化
+    this.updateRecord(record)
+  ]).then(([{ data: result }]) => {
     this.uploadStatus = 'success'
+    if (result.code === 1) {
+      console.warn('CDN刷新失败，errMsg: ' + result.msg)
+    }
     setTimeout(() => {
       this.loading = false
       this.$emit('update:visible', false)
+      this.$emit('complete')
     }, 800)
   })
 }
+// 文件上传
+function uploadFile () {
+  if (!this.file) {
+    return message.warn('请选择要上传的文件')
+  }
+  const { file } = this
+  if (!this.sizeLimited(file.size)) {
+    return
+  }
+  const name = this.record._id
+  const promise = this.record.uploaded
+    ? getToken({ name }) // 覆盖上传
+    : getToken()
+  promise.then(({ data: token }) => {
+    const observer = uploader(name, file, token)
+    // 开始传输
+    this.uploadStatus = 'active'
+    this.uploadPercent = 0
+    this.loading = true
+    this.showProgress = true
+    observer.subscribe(
+      next.bind(this),
+      error.bind(this),
+      complete.bind(this)
+    )
+  })
+}
+
 </script>
 
 <style scoped lang="stylus">

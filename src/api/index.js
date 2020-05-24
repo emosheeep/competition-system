@@ -33,3 +33,6 @@ export const deleteRecord = id => {
   return axios.delete('/record/delete', { data: { id } })
 }
 export const getToken = params => axios.get('/record/auth', { params })
+export const getFileInfo = params => axios.get('/record/file', { params })
+export const getDownloadUrl = params => axios.get('/record/download', { params })
+export const fresh = params => axios.get('/record/fresh', { params })

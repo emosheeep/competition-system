@@ -45,13 +45,21 @@
           @edit-record="onEdit"
           @delete-record="onDelete"
           @upload="onUpload"
+          @detail="onDetail"
         />
       </template>
     </a-table>
+    <!--文件上传-->
     <Upload
       v-if="uploadVisible"
       :visible.sync="uploadVisible"
       :record="curRecord"
+    />
+    <!--Record详情-->
+    <ShowRecordDetail
+      :visible.sync="recordDetailVisible"
+      :record="curRecord"
+      @re-upload="onUpload"
     />
   </div>
 </template>
@@ -70,14 +78,15 @@ export default {
       /* webpackChunkName: "Upload" */
       /* webpackPrefetch: true */
       '../../components/common/Upload'
+    ),
+    ShowRecordDetail: () => import(
+      /* webpackChunkName: "ShowRecordDetail" */
+      /* webpackPrefetch: true */
+      './ShowRecordDetail'
     )
   },
   mixins: [ColumnsMixin],
   props: {
-    allowModify: {
-      type: Boolean,
-      default: true
-    },
     records: {
       type: Array,
       required: true
@@ -95,7 +104,8 @@ export default {
       columns: this.CREATE_COLUMNS(this.type),
       table: table,
       uploadVisible: false,
-      curRecord: null
+      recordDetailVisible: false,
+      curRecord: {}
     }
   },
   methods: {
@@ -111,6 +121,11 @@ export default {
     onUpload (record) {
       this.uploadVisible = true
       this.curRecord = record
+    },
+    onDetail (record) {
+      console.log(record)
+      this.curRecord = record
+      this.recordDetailVisible = true
     }
   }
 }

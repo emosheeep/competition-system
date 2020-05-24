@@ -11,6 +11,7 @@
     "ant-design-vue": "^1.6.0",
     "axios": "^0.19.2",
     "core-js": "^3.6.4",
+    "file-saver": "^2.0.2",
     "lodash": "^4.17.15",
     "moment": "^2.21.0",
     "qiniu-js": "^2.5.5",
