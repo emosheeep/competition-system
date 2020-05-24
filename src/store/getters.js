@@ -1,9 +1,9 @@
 export default {
   isLogin (state) {
-    if (!state.user || !state.token || !state.identity) {
-      return false
-    } else {
-      return true
-    }
+    return !!(
+      state.token &&
+      state.user.account &&
+      state.user.identity
+    )
   }
 }

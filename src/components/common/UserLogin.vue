@@ -57,10 +57,6 @@
         >
           登录
         </a-button>
-        <span
-          class="tips"
-          v-text="tips"
-        />
         <a
           class="forgot"
           href="#"
@@ -82,7 +78,6 @@ export default {
   data () {
     return {
       loading: false,
-      tips: '',
       decorator
     }
   },
@@ -92,18 +87,14 @@ export default {
   methods: {
     onSubmit (e) {
       e.preventDefault()
-      this.tips = ''
-      this.form.validateFields((err, values) => {
-        if (!err) {
-          this.loading = true
-          this.$store.dispatch(LOGIN, values).then(data => {
-            this.$router.replace({ path: values.identity })
-          }).catch(e => {
-            this.tips = '用户名或密码错误！'
-          }).finally(() => {
-            this.loading = false
-          })
-        }
+      this.form.validateFields().then(values => {
+        this.loading = true
+        return this.$store.dispatch(LOGIN, values)
+      }).then(data => {
+        const { user } = data
+        return this.$router.replace({ path: user.identity })
+      }).finally(() => {
+        this.loading = false
       })
     }
   }
@@ -149,8 +140,6 @@ const decorator = {
     margin-bottom 0
     .login-button
       margin-bottom 20px
-    .tips
-      color red
 
   .forgot
     float right

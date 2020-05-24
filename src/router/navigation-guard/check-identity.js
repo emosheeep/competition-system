@@ -9,7 +9,7 @@ export default function (to, from, next) {
   if (to.fullPath === '/') {
     return next()
   }
-  const curIdentity = store.state.identity
+  const curIdentity = store.state.user.identity
   const { meta: { identity } } = to.matched.find(item => item.meta.identity)
   if (curIdentity !== identity) {
     store.commit(LOGOUT)

@@ -6,8 +6,7 @@ export default createPersistedState({
   reducer: function (state) {
     return {
       token: state.token,
-      user: state.user,
-      identity: state.identity
+      user: state.user
     }
   }
 })

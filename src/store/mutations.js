@@ -1,14 +1,12 @@
 import { LOGIN, LOGOUT } from './mutation-types'
 
 export default {
-  [LOGIN] (state, { user, token, identity }) {
-    state.identity = identity
+  [LOGIN] (state, { user, token }) {
     state.user = user
     state.token = token
   },
   [LOGOUT] (state) {
     state.user = {}
     state.token = ''
-    state.identity = ''
   }
 }

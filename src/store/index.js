@@ -15,7 +15,6 @@ export default new Vuex.Store({
   strict: debug,
   state: {
     token: '',
-    identity: '',
     user: {}
   },
   actions,
