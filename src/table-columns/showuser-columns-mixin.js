@@ -24,11 +24,11 @@ export default {
           filters: [
             {
               text: '男',
-              value: 'man'
+              value: '男'
             },
             {
               text: '女',
-              value: 'woman'
+              value: '女'
             }
           ]
         },

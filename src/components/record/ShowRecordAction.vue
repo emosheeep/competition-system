@@ -27,10 +27,6 @@
     <template v-if="student">
       <div v-if="record.uploaded">
         <a @click="$emit('detail', record)">查看详情</a>
-<!--        <a-divider type="vertical" />-->
-<!--        <a @click="$emit('upload', record)">重传</a>-->
-<!--        <a-divider type="vertical" />-->
-<!--        <a @click="download">下载</a>-->
       </div>
       <div v-else>
         <a @click="$emit('upload', record)">附件上传</a>

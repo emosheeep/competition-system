@@ -36,6 +36,7 @@
 </template>
 
 <script>
+import { uniqBy } from 'lodash'
 import { message, Modal } from 'ant-design-vue'
 import { readExcel } from '../../utils/excel'
 export default {
@@ -74,6 +75,11 @@ export default {
       return false // 阻止上传
     },
     generateData (result) {
+      const length = result.length
+      result = uniqBy(result, 'account')
+      if (result.length !== length) {
+        message.warn('学号有重复，已按学号去重')
+      }
       // 防止将不必要的属性展开到最终数据中
       result = result.map(item => {
         Reflect.ownKeys(item).forEach(key => {

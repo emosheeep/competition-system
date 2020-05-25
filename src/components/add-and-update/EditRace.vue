@@ -114,6 +114,18 @@ export default {
       const yesterday = moment().startOf('day')
       return cur.isSameOrBefore(yesterday)
     },
+    initData () {
+      const { data } = this
+      this.form.setFieldsValue({
+        title: data.title,
+        sponsor: data.sponsor,
+        date: moment(data.date),
+        location: data.location,
+        level: data.level,
+        year: data.year,
+        description: data.description
+      })
+    },
     confirm () {
       if (this.type === 'update' && !this.changed) {
         message.info('未检测到数据变动')

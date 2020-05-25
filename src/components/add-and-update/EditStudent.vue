@@ -71,11 +71,11 @@
       label="性别"
     >
       <a-radio-group v-decorator="decorator.sex">
-        <a-radio value="man">
+        <a-radio value="男">
           <span>男 &nbsp;</span>
           <a-icon type="man" />
         </a-radio>
-        <a-radio value="woman">
+        <a-radio value="女">
           <span>女 &nbsp;</span>
           <a-icon type="woman" />
         </a-radio>
@@ -93,6 +93,19 @@ export default {
   data () {
     return {
       decorator
+    }
+  },
+  methods: {
+    initData () {
+      const { data } = this
+      this.form.setFieldsValue({
+        account: data.account,
+        password: data.password,
+        name: data.name,
+        sex: data.sex,
+        classname: data.classname,
+        grade: data.grade
+      })
     }
   }
 }

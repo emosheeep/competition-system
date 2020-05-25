@@ -14,7 +14,15 @@ export default {
           message.warn(result.msg)
           reject(new Error(result.msg))
         }
-      }).catch(reject)
+      }).catch(() => {
+        if (!navigator.onLine) {
+          message.error('网络错误')
+          reject(new Error('网络错误'))
+        } else {
+          message.error('系统错误')
+          reject(new Error('系统错误'))
+        }
+      })
     })
   }
 }

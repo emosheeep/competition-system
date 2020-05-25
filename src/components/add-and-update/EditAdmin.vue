@@ -49,6 +49,15 @@ export default {
     return {
       decorator
     }
+  },
+  methods: {
+    initData () {
+      const { data } = this
+      this.form.setFieldsValue({
+        account: data.account,
+        password: data.password
+      })
+    }
   }
 }
 

@@ -92,6 +92,7 @@
 </template>
 
 <script>
+import moment from 'moment'
 import EditMixin from './edit-mixin'
 
 export default {
@@ -105,7 +106,22 @@ export default {
     }
   },
   mounted () {
-    this.$refs.score.focus()
+    this.$nextTick(this.$refs.score.focus)
+  },
+  methods: {
+    initData () {
+      const { data } = this
+      this.form.setFieldsValue({
+        id: data.id,
+        title: data.title,
+        date: moment(data.date),
+        sid: data.sid,
+        sname: data.sname,
+        tid: data.tid,
+        tname: data.tname,
+        score: data.score
+      })
+    }
   }
 }
 

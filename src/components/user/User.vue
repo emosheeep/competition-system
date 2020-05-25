@@ -184,9 +184,9 @@ export default {
     importUser (users) {
       this.addUser({
         type: this.importUserType,
-        users
+        users: generateDefaultDate(this.importUserType, users)
       }).then(res => {
-        this.$emit('update:visible', false)
+        this.importUserVisible = false
       }).catch(users => {
         if (users?.length !== 0) {
           Modal.warning({
@@ -210,6 +210,26 @@ export default {
       })
     }
   }
+}
+
+function generateDefaultDate (type, users) {
+  if (type === 'student') {
+    return users.map(user => ({
+      password: '123456',
+      sex: '男',
+      grade: '未设置',
+      classname: '未设置',
+      ...user
+    }))
+  } else if (type === 'teacher') {
+    return users.map(user => ({
+      password: '123456',
+      dept: '未设置',
+      description: '',
+      ...user
+    }))
+  }
+  throw new Error('type must be of ["student", "teacher"]')
 }
 </script>
 

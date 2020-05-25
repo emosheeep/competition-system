@@ -31,16 +31,7 @@ export default {
   },
   mounted () {
     if (this.type === 'update') {
-      const temp = {}
-      // 过滤下划线属性，处理时间属性
-      Object.keys(this.data).forEach(key => {
-        if (testTimeKey(key)) {
-          temp[key] = moment(temp[key])
-        } else if (!key.startsWith('_')) {
-          temp[key] = this.data[key]
-        }
-      })
-      this.form.setFieldsValue(temp)
+      this.initData()
       this.changed = false // 修正
     }
   },
@@ -64,10 +55,4 @@ export default {
       })
     }
   }
-}
-
-// 初始化时间值，便于datepicker识别
-const keys = ['date']
-function testTimeKey (key) {
-  return keys.includes(key)
 }
