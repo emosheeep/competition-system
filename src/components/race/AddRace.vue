@@ -3,6 +3,7 @@
     centered
     :visible="visible"
     :confirm-loading="loading"
+    :destroy-on-close="true"
     title="新增赛事"
     ok-text="创建"
     cancel-text="取消"

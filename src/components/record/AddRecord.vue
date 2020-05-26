@@ -4,6 +4,7 @@
     :visible="visible"
     :confirm-loading="loading"
     :mask-closable="false"
+    :destroy-on-close="true"
     title="参赛登记"
     ok-text="确认参赛"
     cancel-text="取消"

@@ -3,6 +3,7 @@
     :visible="visible"
     :mask-closable="false"
     :confirm-loading="loading"
+    :destroy-on-close="true"
     title="新增用户"
     ok-text="确认添加"
     cancel-text="取消"

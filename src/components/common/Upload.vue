@@ -3,11 +3,12 @@
     ok-text="开始上传"
     cancel-text="取消"
     centered
-    :title="`${getTitle()} 附件上传`"
+    :title="`${record.title} 附件上传`"
     :visible="visible"
     :mask-closable="false"
     :body-style="{ padding: '10px' }"
     :confirm-loading="loading"
+    :destroy-on-close="true"
     @cancel="onCancel"
     @ok="uploadFile"
   >
@@ -86,13 +87,6 @@ export default {
     }),
     onCancel () {
       this.$emit('update:visible', false)
-    },
-    getTitle () {
-      const length = 20
-      const value = this.record.title
-      return value.length > length
-        ? value.slice(0, length - 1) + '...'
-        : value
     },
     getFile (file) {
       this.file = file

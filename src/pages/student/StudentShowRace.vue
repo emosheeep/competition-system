@@ -26,7 +26,6 @@
       @add-record="onAddRecord"
     />
     <AddRecord
-      v-if="addRecordVisible"
       :visible.sync="addRecordVisible"
       :race="curRace"
     />
@@ -39,17 +38,14 @@ import { makeExcel } from '../../utils/excel'
 import { SET_RACE_LIST } from '../../store/mutation-types'
 import { createNamespacedHelpers } from 'vuex'
 import ShowRace from '../../components/race/ShowRace'
+import AddRecord from '../../components/record/AddRecord'
 const { mapState, mapActions } = createNamespacedHelpers('races')
 
 export default {
   name: 'StudentShowRace',
   components: {
     ShowRace,
-    AddRecord: () => import(
-      /* webpackChunkName: "AddRecord" */
-      /* webpackPrefetch: true */
-      '../../components/record/AddRecord'
-    )
+    AddRecord
   },
   inject: ['init'],
   data () {

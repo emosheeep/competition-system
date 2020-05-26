@@ -3,9 +3,9 @@ import { getRaceList, addRace, updateRace, deleteRace } from '../../api'
 import { message } from 'ant-design-vue'
 
 export default {
-  [SET_RACE_LIST] ({ commit }) {
+  [SET_RACE_LIST] ({ commit }, params) {
     return new Promise((resolve, reject) => {
-      getRaceList().then(({ data: races }) => {
+      getRaceList(params).then(({ data: races }) => {
         resolve(races)
         commit(SET_RACE_LIST, races)
       }).catch(e => {

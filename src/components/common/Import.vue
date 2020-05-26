@@ -3,6 +3,8 @@
     :visible="visible"
     :mask-closable="false"
     :body-style="{ padding: '10px' }"
+    :destroy-on-close="true"
+    :after-close="removeFile"
     title="导入数据"
     ok-text="确认导入"
     cancel-text="取消"

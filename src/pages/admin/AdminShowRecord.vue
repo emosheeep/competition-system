@@ -27,7 +27,6 @@
       @update-record="onUpdate"
     />
     <UpdateRecord
-      v-if="updateRecordVisible"
       :visible.sync="updateRecordVisible"
       :record="curRecord"
     />
@@ -39,23 +38,20 @@ import { createNamespacedHelpers } from 'vuex'
 import { omit } from 'lodash'
 import { makeExcel } from '../../utils/excel'
 import ShowRecord from '../../components/record/ShowRecord'
+import UpdateRecord from '../../components/record/UpdateRecord'
 import { DELETE_RECORD } from '../../store/mutation-types'
 const { mapState, mapActions } = createNamespacedHelpers('records')
 export default {
   name: 'AdminShowRecord',
   components: {
     ShowRecord,
-    UpdateRecord: () => import(
-      /* webpackChunkName: "UpdateRecord" */
-      /* webpackPrefetch: true */
-      '../../components/record/UpdateRecord'
-    )
+    UpdateRecord
   },
   inject: ['init'],
   data () {
     return {
       updateRecordVisible: false,
-      curRecord: null
+      curRecord: {}
     }
   },
   computed: mapState({

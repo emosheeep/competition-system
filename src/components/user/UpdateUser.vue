@@ -3,6 +3,7 @@
     :visible="visible"
     :mask-closable="false"
     :confirm-loading="loading"
+    :destroy-on-close="true"
     title="修改信息"
     ok-text="确认"
     cancel-text="取消"
@@ -33,10 +34,10 @@
 
 <script>
 import { createNamespacedHelpers } from 'vuex'
+import { UPDATE_USER } from '../../store/mutation-types'
 import EditStudent from '../add-and-update/EditStudent'
 import EditAdmin from '../add-and-update/EditAdmin'
 import EditTeacher from '../add-and-update/EditTeacher'
-import { UPDATE_USER } from '../../store/mutation-types'
 const { mapActions } = createNamespacedHelpers('users')
 export default {
   name: 'EditUser',

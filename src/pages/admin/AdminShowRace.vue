@@ -30,12 +30,8 @@
       @update-race="onUpdate"
       @delete-race="onDelete"
     />
-    <AddRace
-      v-if="addRaceVisible"
-      :visible.sync="addRaceVisible"
-    />
+    <AddRace :visible.sync="addRaceVisible" />
     <UpdateRace
-      v-if="updateRaceVisible"
       :visible.sync="updateRaceVisible"
       :race="curRace"
     />
@@ -48,22 +44,16 @@ import { createNamespacedHelpers } from 'vuex'
 import { DELETE_RACE, SET_RACE_LIST } from '../../store/mutation-types'
 import { makeExcel } from '../../utils/excel'
 import ShowRace from '../../components/race/ShowRace'
+import AddRace from '../../components/race/AddRace'
+import UpdateRace from '../../components/race/UpdateRace'
 const { mapState, mapActions } = createNamespacedHelpers('races')
 
 export default {
   name: 'AdminShowRace',
   components: {
     ShowRace,
-    UpdateRace: () => import(
-      /* webpackChunkName: "UpdateRace" */
-      /* webpackPrefetch: true */
-      '../../components/race/UpdateRace'
-    ),
-    AddRace: () => import(
-      /* webpackChunkName: "AddRace" */
-      /* webpackPrefetch: true */
-      '../../components/race/AddRace'
-    )
+    UpdateRace,
+    AddRace
   },
   inject: ['init'],
   data () {

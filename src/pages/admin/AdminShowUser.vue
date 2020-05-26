@@ -86,21 +86,17 @@
       @delete-user="onDelete"
     />
 
-    <!--弹出层表单-->
-    <AddUser
-      v-if="addUserVisible"
-      :visible.sync="addUserVisible"
-    />
+    <!--添加用户-->
+    <AddUser :visible.sync="addUserVisible" />
+    <!--导入用户-->
     <Import
-      v-if="importUserVisible"
       row-key="account"
       :visible.sync="importUserVisible"
       :columns="curColumns"
       @confirm="importUser"
     />
     <!--修改用户-->
-    <EditUser
-      v-if="updateUserVisible"
+    <UpdateUser
       :visible.sync="updateUserVisible"
       :type="showUserType"
       :user="curUser"
@@ -115,27 +111,18 @@ import { createNamespacedHelpers } from 'vuex'
 import createColumns from '../../table-columns/importuser-columns'
 import { makeExcel } from '../../utils/excel'
 import { DELETE_USER, UPDATE_USER, ADD_USER } from '../../store/mutation-types'
-import ShowUser from './ShowUser'
+import ShowUser from '../../components/user/ShowUser'
+import AddUser from '../../components/user/AddUser'
+import Import from '../../components/common/Import'
+import UpdateUser from '../../components/user/UpdateUser'
 const { mapActions, mapState } = createNamespacedHelpers('users')
 export default {
   name: 'User',
   components: {
     ShowUser,
-    AddUser: () => import(
-      /* webpackChunkName: "AddUser" */
-      /* webpackPrefetch: true */
-      './AddUser'
-    ),
-    Import: () => import(
-      /* webpackChunkName: "Import" */
-      /* webpackPrefetch: true */
-      '../common/Import'
-    ),
-    EditUser: () => import(
-      /* webpackChunkName: "EditUser" */
-      /* webpackPrefetch: true */
-      './UpdateUser'
-    )
+    AddUser,
+    Import,
+    UpdateUser
   },
   inject: ['init'],
   data () {
@@ -145,7 +132,7 @@ export default {
       updateUserVisible: false,
       importUserType: 'student',
       showUserType: 'student',
-      curUser: null
+      curUser: {}
     }
   },
   computed: {

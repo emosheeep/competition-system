@@ -35,7 +35,8 @@ export default {
   },
   mounted () {
     const { path } = this.$route
-    const key = path.split('/').pop()
+    let key = path.split('/').pop()
+    key = key === 'detail' ? 'race' : key
     this.$set(this.keys, 0, key)
   },
   methods: {

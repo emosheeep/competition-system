@@ -3,6 +3,7 @@
     centered
     :visible="visible"
     :confirm-loading="loading"
+    :destroy-on-close="true"
     title="更新数据"
     ok-text="更新"
     cancel-text="取消"

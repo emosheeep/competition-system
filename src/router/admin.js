@@ -22,8 +22,8 @@ export default [
       {
         path: 'user',
         component: () => import(
-          /* webpackChunkName: "User" */
-          '../components/user/User'
+          /* webpackChunkName: "AdminShowUser" */
+          '../pages/admin/AdminShowUser'
         )
       },
       {

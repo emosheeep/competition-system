@@ -32,7 +32,11 @@
         v-if="type === 'student'"
         #action="item"
       >
-        <template v-if="isParticipate(item._id)">
+        <template v-if="item.date <= Date.now()">
+          <a-icon type="stop" />
+          <span> 已截止</span>
+        </template>
+        <template v-else-if="isParticipate(item._id)">
           <a-icon
             type="check-circle"
             style="color: limegreen"
@@ -40,7 +44,9 @@
           <span> 已报备</span>
         </template>
         <template v-else>
-          <a @click.prevent="$emit('add-record', item)">登记</a>
+          <a @click="$emit('add-record', item)">
+            <span>报名参赛</span>
+          </a>
         </template>
       </template>
       <!--教师界面操作-->
@@ -48,14 +54,16 @@
         v-else-if="type === 'teacher'"
         #action="item"
       >
-        <a @click.prevent="onDetail(item)">详情</a>
+        <a @click="onDetail(item)">详情</a>
       </template>
       <!--管理员界面操作-->
       <template
         v-else
         #action="item"
       >
-        <a @click.prevent="$emit('update-race', item)">编辑</a>
+        <a @click="$emit('update-race', item)">
+          <a-icon type="edit" />
+        </a>
         <a-divider type="vertical" />
         <a-popconfirm
           title="确认删除？"
@@ -63,10 +71,23 @@
           cancel-text="取消"
           @confirm="$emit('delete-race', item)"
         >
-          <a>删除</a>
+          <template #icon>
+            <a-icon
+              type="question-circle-o"
+              style="color: orange"
+            />
+          </template>
+          <a><a-icon type="delete" /></a>
         </a-popconfirm>
         <a-divider type="vertical" />
-        <a @click.prevent="onDetail(item)">详情</a>
+        <a-tooltip
+          placement="top"
+          title="查看详情"
+        >
+          <a @click.prevent="onDetail(item)">
+            <a-icon type="file-text" />
+          </a>
+        </a-tooltip>
       </template>
     </a-table>
   </div>

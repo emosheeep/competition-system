@@ -134,7 +134,7 @@ const decorator = {
   }],
   sex: ['sex', {
     valuePropName: 'value',
-    initialValue: 'man'
+    initialValue: '男'
   }],
   classname: ['classname', {
     rules: [{
