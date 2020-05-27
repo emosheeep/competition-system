@@ -191,9 +191,9 @@ export default {
     },
     exportExcel () {
       makeExcel({
-        students: this.students.map(item => omit(item, ['_id', '__v'])),
-        teachers: this.teachers.map(item => omit(item, ['_id', '__v'])),
-        admins: this.admins.map(item => omit(item, ['_id', '__v']))
+        students: this.students.map(item => omit(item, ['_id'])),
+        teachers: this.teachers.map(item => omit(item, ['_id'])),
+        admins: this.admins.map(item => omit(item, ['_id']))
       })
     }
   }

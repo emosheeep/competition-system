@@ -34,7 +34,7 @@ export default {
     return new Promise((resolve, reject) => {
       updateRace(race).then(({ data }) => {
         resolve(data)
-        commit(UPDATE_RACE, race)
+        commit(UPDATE_RACE, data)
         message.success('更新成功')
       }).catch(e => {
         reject(e)

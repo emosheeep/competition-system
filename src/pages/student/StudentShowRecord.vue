@@ -51,7 +51,7 @@ export default {
     exportExcel () {
       makeExcel({
         records: this.records.map(item => {
-          const temp = omit(item, ['_id', 'id', '__v'])
+          const temp = omit(item, ['_id', 'id'])
           temp.date = new Date(temp.date)
           return temp
         })

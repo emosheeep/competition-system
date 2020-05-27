@@ -39,7 +39,7 @@ export default {
     return new Promise((resolve, reject) => {
       updateRecord(record).then(({ data }) => {
         resolve(data)
-        commit(UPDATE_RECORD, record)
+        commit(UPDATE_RECORD, data)
         message.success('成功')
       }).catch(e => {
         reject(e)

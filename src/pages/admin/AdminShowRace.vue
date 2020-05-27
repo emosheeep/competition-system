@@ -82,7 +82,7 @@ export default {
     exportExcel () {
       makeExcel({
         races: this.races.map(item => {
-          const temp = omit(item, ['_id', '__v'])
+          const temp = omit(item, ['_id'])
           temp.date = new Date(temp.date)
           return temp
         })

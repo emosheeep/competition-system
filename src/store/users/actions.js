@@ -6,6 +6,17 @@ import { ADD_USER, DELETE_USER, SET_USER_LIST, UPDATE_USER } from '../mutation-t
 import { addUser, deleteUser, getUserList, updateUser } from '../../api'
 
 export default {
+  [SET_USER_LIST] ({ commit }) {
+    return new Promise((resolve, reject) => {
+      getUserList().then(({ data }) => {
+        resolve(data)
+        commit(SET_USER_LIST, data)
+      }).catch(e => {
+        reject(e)
+        message.error('系统错误，请重试')
+      })
+    })
+  },
   [ADD_USER] ({ commit }, { type, users }) {
     const stopLoading = message.loading('请稍后')
     return new Promise((resolve, reject) => {
@@ -26,14 +37,18 @@ export default {
       })
     })
   },
-  [SET_USER_LIST] ({ commit }) {
+  [UPDATE_USER] ({ commit }, { type, data: user }) {
+    const stopLoading = message.loading('请稍后')
     return new Promise((resolve, reject) => {
-      getUserList().then(({ data }) => {
+      updateUser(type, user).then(({ data }) => {
         resolve(data)
-        commit(SET_USER_LIST, data)
+        commit(UPDATE_USER, { type, user: data })
+        message.success('修改成功')
       }).catch(e => {
         reject(e)
         message.error('系统错误，请重试')
+      }).finally(() => {
+        stopLoading()
       })
     })
   },
@@ -44,21 +59,6 @@ export default {
         resolve(data)
         commit(DELETE_USER, { type, account })
         message.success('删除成功')
-      }).catch(e => {
-        reject(e)
-        message.error('系统错误，请重试')
-      }).finally(() => {
-        stopLoading()
-      })
-    })
-  },
-  [UPDATE_USER] ({ commit }, { type, data: user }) {
-    const stopLoading = message.loading('请稍后')
-    return new Promise((resolve, reject) => {
-      updateUser(type, user).then(({ data }) => {
-        resolve(data)
-        commit(UPDATE_USER, { type, user })
-        message.success('修改成功')
       }).catch(e => {
         reject(e)
         message.error('系统错误，请重试')

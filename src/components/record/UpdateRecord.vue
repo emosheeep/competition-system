@@ -50,7 +50,6 @@ export default {
         return
       }
       this.loading = true
-      values.date = values.date.valueOf() // 将组件默认的moment对象转换为时间戳
       this.updateRecord({
         ...values,
         _id: this.record._id // 本地更新的时候要加上_id作为表格的rowKey，否则更新会出错
