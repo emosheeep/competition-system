@@ -4,9 +4,10 @@ const LodashWebpackPlugin = require('lodash-webpack-plugin')
 const cdn = {
   js: [
     'https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.min.js',
-    'https://cdn.staticfile.org/moment.js/2.25.0/moment.min.js',
     'https://cdn.jsdelivr.net/npm/ant-design-vue@1.6.0/dist/antd.min.js',
-    'https://cdn.staticfile.org/xlsx/0.16.0/xlsx.full.min.js'
+    'https://cdn.staticfile.org/moment.js/2.25.0/moment.min.js',
+    'https://cdn.staticfile.org/xlsx/0.16.1/xlsx.full.min.js',
+    'https://unpkg.com/qiniu-js@2.5.5/dist/qiniu.min.js'
   ],
   css: [
     'https://cdn.jsdelivr.net/npm/ant-design-vue@1.6.0/dist/antd.min.css'
@@ -19,6 +20,7 @@ module.exports = {
         vue: 'Vue',
         moment: 'moment',
         xlsx: 'XLSX',
+        'qiniu-js': 'qiniu',
         'ant-design-vue': 'antd'
       })
       config.plugin('analyzer').use(BundleAnalyzerPlugin)

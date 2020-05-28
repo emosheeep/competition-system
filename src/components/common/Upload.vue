@@ -9,6 +9,7 @@
     :body-style="{ padding: '10px' }"
     :confirm-loading="loading"
     :destroy-on-close="true"
+    :after-close="reset"
     @cancel="onCancel"
     @ok="uploadFile"
   >
@@ -85,6 +86,18 @@ export default {
     ...mapActions({
       updateRecord: UPDATE_RECORD
     }),
+    reset () {
+      // TODO: 使用更好的方式来控制组件的初始化以及显示与隐藏
+      Object.assign(this, {
+        loading: false,
+        showProgress: false,
+        imgUrl: '',
+        file: null,
+        uploadPercent: 0,
+        uploadStatus: 'active',
+        previewVisible: false
+      })
+    },
     onCancel () {
       this.$emit('update:visible', false)
     },

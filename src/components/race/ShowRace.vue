@@ -45,10 +45,11 @@
         </template>
         <template v-else>
           <a @click="$emit('add-record', item)">
-            <span>报名参赛</span>
+            成绩录入
           </a>
         </template>
       </template>
+
       <!--教师界面操作-->
       <template
         v-else-if="type === 'teacher'"
@@ -56,6 +57,7 @@
       >
         <a @click="onDetail(item)">详情</a>
       </template>
+
       <!--管理员界面操作-->
       <template
         v-else

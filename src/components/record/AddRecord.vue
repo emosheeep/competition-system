@@ -11,33 +11,42 @@
     @cancel="onCancel"
     @ok="onOk"
   >
-    <a-row
-      align="middle"
-      type="flex"
-      style="user-select: none"
-    >
-      <a-col span="6">
-        请选择指导老师：
-      </a-col>
-      <a-col span="11">
-        <a-auto-complete
+    <a-form :form="form">
+      <a-form-item
+        :label-col="labelCol"
+        :wrapper-col="wrapperCol"
+        label="成绩"
+      >
+        <a-input
+          v-decorator="decorator.score"
+          placeholder="比赛成绩"
           :auto-focus="true"
-          :data-source="results"
-          style="width: 200px"
-          placeholder="职工号/教师姓名"
-          @select="onSelect"
-          @search="onSearch"
         />
-      </a-col>
-      <a-col span="7">
-        <span style="color: red">{{ tips }}</span>
-      </a-col>
-    </a-row>
+      </a-form-item>
+      <a-form-item
+        :label-col="labelCol"
+        :wrapper-col="wrapperCol"
+        label="导师"
+      >
+        <a-select
+          v-decorator="decorator.teacher"
+          show-search
+          placeholder="选择导师，没有可不填"
+        >
+          <a-select-option
+            v-for="teacher in teachers"
+            :key="teacher.account"
+            :value="`${teacher.account}-${teacher.name}`"
+          >
+            {{ teacher.account }} - {{ teacher.name }}
+          </a-select-option>
+        </a-select>
+      </a-form-item>
+    </a-form>
   </a-modal>
 </template>
 
 <script>
-import { debounce } from 'lodash'
 import { message } from 'ant-design-vue'
 import { getUserList } from '../../api'
 import { ADD_RECORD } from '../../store/mutation-types'
@@ -53,68 +62,70 @@ export default {
   data () {
     return {
       loading: false,
-      selected: false,
-      teachers: [],
-      tips: '', // 信息填写不完整警告
-      results: [], // 搜索结果数组
-      tid: '',
-      tname: ''
+      labelCol: { span: 4 },
+      wrapperCol: { span: 20 },
+      decorator,
+      teachers: []
     }
   },
   computed: {
-    teacherSearcher () {
-      return this.teachers.map(item => {
-        return `${item.account}-${item.name}`
-      })
-    },
     user () {
       return this.$store.state.user
     }
   },
-  mounted () {
-    getUserList('teacher').then(({ data }) => {
-      this.teachers = data
-    }).catch(() => {
-      message.error('系统错误，未获得教师数据')
-    })
+  watch: {
+    visible (newVal) {
+      if (!newVal) return
+      getUserList('teacher').then(({ data }) => {
+        this.teachers = data
+      }).catch(() => {
+        message.error('系统错误，未获得教师数据')
+      })
+    }
+  },
+  beforeCreate () {
+    this.form = this.$form.createForm(this, { name: 'add-record' })
   },
   methods: {
-    onSelect (value) {
-      this.selected = true
-      const [tid, tname] = value.split('-')
-      this.tid = tid
-      this.tname = tname
-    },
-    onSearch (value) {
-      this.tips = ''
-      this.results = !value
-        ? []
-        : this.teacherSearcher.filter(item => item.includes(value))
-    },
     onCancel () {
       this.$emit('update:visible', false)
     },
-    onOk: debounce(function () {
-      if (!this.selected) {
-        return (this.tips = '请选择教师！')
-      }
-      this.$store.dispatch(
-      `records/${ADD_RECORD}`,
-      {
-        id: this.race._id,
-        title: this.race.title,
-        date: this.race.date,
-        sid: this.user.account, // 当前登录用户
-        sname: this.user.name,
-        tid: this.tid,
-        tname: this.tname
-      }).then(_ => {
-        this.onCancel()
-      }).catch(e => e).finally(() => {
-        this.loading = false
+    onOk () {
+      this.form.validateFields().then(values => {
+        let teacher = {}
+        if (values.teacher) {
+          const [tid, tname] = values.teacher.split('-')
+          teacher = { tid, tname }
+        }
+        const result = {
+          id: this.race._id, // record的id为race的_id
+          title: this.race.title,
+          date: this.race.date,
+          sid: this.user.account, // 当前登录用户
+          sname: this.user.name,
+          score: values.score,
+          ...teacher
+        }
+        this.$store.dispatch(
+          `records/${ADD_RECORD}`,
+          result).then(_ => {
+          this.onCancel()
+        }).catch(e => e).finally(() => {
+          this.loading = false
+        })
       })
-    }, 200)
+    }
   }
+}
+
+const decorator = {
+  teacher: ['teacher'],
+  score: ['score', {
+    rules: [{
+      required: true,
+      message: '请输入比赛成绩'
+    }]
+  }]
 }
 </script>
 

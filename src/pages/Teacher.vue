@@ -8,7 +8,7 @@
     </a-layout-sider>
     <a-layout>
       <a-layout-content style="padding: 10px; background: white; margin: 10px">
-        <keep-alive>
+        <keep-alive exclude="RaceDetailWithRecords">
           <router-view />
         </keep-alive>
       </a-layout-content>

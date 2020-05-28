@@ -51,7 +51,7 @@ export default {
   data () {
     return {
       updateRecordVisible: false,
-      curRecord: null
+      curRecord: {}
     }
   },
   computed: mapState({

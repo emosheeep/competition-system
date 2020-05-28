@@ -60,15 +60,44 @@ const allColumns = [
     dataIndex: 'tid',
     ellipsis: true,
     sorter: (a, b) => a.tid - b.tid,
-    scopedSlots: filterSlots,
-    onFilter: filter('tid')
+    onFilter: filter('tid'),
+    scopedSlots: {
+      customRender: 'tid',
+      ...filterSlots
+    }
   },
   {
     title: '教师姓名',
     dataIndex: 'tname',
     ellipsis: true,
-    scopedSlots: filterSlots,
-    onFilter: filter('tname')
+    onFilter: filter('tname'),
+    scopedSlots: {
+      customRender: 'tname',
+      ...filterSlots
+    }
+  },
+  {
+    title: '状态',
+    dataIndex: 'state',
+    ellipsis: true,
+    onFilter: filter('state'),
+    filters: [
+      {
+        text: '未审核',
+        value: 'pending'
+      },
+      {
+        text: '成功',
+        value: 'fulfilled'
+      },
+      {
+        text: '失败',
+        value: 'rejected'
+      }
+    ],
+    scopedSlots: {
+      customRender: 'state'
+    }
   },
   {
     title: '成绩',
@@ -76,23 +105,9 @@ const allColumns = [
     ellipsis: true
   },
   {
-    title: '审核状态',
-    dataIndex: 'reviewed',
-    ellipsis: true,
-    onFilter: filter('reviewed'),
-    filters: [
-      {
-        text: '已审核',
-        value: 'true'
-      },
-      {
-        text: '未审核',
-        value: 'false'
-      }
-    ],
-    scopedSlots: {
-      customRender: 'reviewed'
-    }
+    title: '备注',
+    dataIndex: 'description',
+    ellipsis: true
   },
   {
     title: '操作',

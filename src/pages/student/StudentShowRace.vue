@@ -51,7 +51,7 @@ export default {
   data () {
     return {
       addRecordVisible: false,
-      curRace: null
+      curRace: {}
     }
   },
   computed: {

@@ -9,6 +9,7 @@
       <template #title="data">
         <h1>参赛记录 - 共 {{ data.length }} 条</h1>
       </template>
+
       <!--搜索-->
       <template #filterIcon="filtered">
         <a-icon
@@ -19,22 +20,44 @@
       <template #filterDropdown="options">
         <TableSearch v-bind="options" />
       </template>
+
       <!--date-->
       <template #date="date">
         {{ formatDate(date) }}
       </template>
+
+      <!--教师信息（可选）-->
+      <template #tid="tid">
+        {{ tid || '暂无' }}
+      </template>
+      <template #tname="tname">
+        {{ tname || '暂无' }}
+      </template>
+
       <!--审核状态-->
-      <template #reviewed="reviewed">
-        <div
-          v-if="reviewed"
-          style="color: limegreen"
-        >
-          <a-icon type="check-circle" />
-          <span> 已审核</span>
-        </div>
-        <template v-else>
-          <a-icon type="exclamation-circle" />
+      <template #state="state">
+        <template v-if="state === 'pending'">
+          <a-icon type="question-circle" />
           <span> 未审核</span>
+        </template>
+        <template v-else-if="state === 'fulfilled'">
+          <a-icon
+            style="color: limegreen"
+            type="check-circle"
+          />
+          <span style="color: limegreen"> 审核通过</span>
+        </template>
+        <template v-else>
+          <a-icon
+            style="color: red"
+            type="exclamation-circle"
+          />
+          <span
+            style="color: red"
+            :title="state"
+          >
+            审核失败
+          </span>
         </template>
       </template>
       <!--最后一排的操作按钮，只有管理员和教师需要action，学生只能查看,以及Detail也不需要-->
@@ -42,7 +65,7 @@
         <ShowRecordAction
           :type="type"
           :record="record"
-          @edit-record="onEdit"
+          @update-record="onEdit"
           @delete-record="onDelete"
           @upload="onUpload"
           @detail="onDetail"
@@ -51,7 +74,6 @@
     </a-table>
     <!--文件上传-->
     <Upload
-      v-if="uploadVisible"
       :visible.sync="uploadVisible"
       :record="curRecord"
     />
@@ -59,7 +81,6 @@
     <ShowRecordDetail
       :visible.sync="recordDetailVisible"
       :record="curRecord"
-      @re-upload="onUpload"
     />
   </div>
 </template>
@@ -68,22 +89,16 @@
 import moment from 'moment'
 import ColumnsMixin from '../../table-columns/showrecord-cloumns-mixin'
 import TableSearch from '../common/TableSearch'
+import Upload from '../../components/common/Upload'
 import ShowRecordAction from './ShowRecordAction'
+import ShowRecordDetail from './ShowRecordDetail'
 export default {
   name: 'ShowRecord',
   components: {
+    Upload,
     TableSearch,
     ShowRecordAction,
-    Upload: () => import(
-      /* webpackChunkName: "Upload" */
-      /* webpackPrefetch: true */
-      '../../components/common/Upload'
-    ),
-    ShowRecordDetail: () => import(
-      /* webpackChunkName: "ShowRecordDetail" */
-      /* webpackPrefetch: true */
-      './ShowRecordDetail'
-    )
+    ShowRecordDetail
   },
   mixins: [ColumnsMixin],
   props: {
@@ -112,8 +127,8 @@ export default {
     formatDate (date) {
       return moment(date).format('YYYY-MM-DD')
     },
-    onDelete (id) {
-      this.$emit('delete-record', id)
+    onDelete (record) {
+      this.$emit('delete-record', record._id)
     },
     onEdit (record) {
       this.$emit('update-record', record)
@@ -123,7 +138,6 @@ export default {
       this.curRecord = record
     },
     onDetail (record) {
-      console.log(record)
       this.curRecord = record
       this.recordDetailVisible = true
     }

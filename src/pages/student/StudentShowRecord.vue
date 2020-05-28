@@ -23,6 +23,12 @@
     <ShowRecord
       type="student"
       :records="records"
+      @update-record="onUpdate"
+    />
+    <UpdateRecord
+      ref="updateRecord"
+      :visible.sync="updateRecordVisible"
+      :record="curRecord"
     />
   </div>
 </template>
@@ -32,22 +38,30 @@ import { omit } from 'lodash'
 import { createNamespacedHelpers } from 'vuex'
 import { makeExcel } from '../../utils/excel'
 import ShowRecord from '../../components/record/ShowRecord'
-import { SET_RECORD_LIST } from '../../store/mutation-types'
+import UpdateRecord from '../../components/record/UpdateRecord'
 
-const { mapState, mapActions } = createNamespacedHelpers('records')
+const { mapState } = createNamespacedHelpers('records')
 export default {
   name: 'StudentShowRecord',
   components: {
-    ShowRecord
+    ShowRecord,
+    UpdateRecord
   },
   inject: ['init'],
+  data () {
+    return {
+      updateRecordVisible: false,
+      curRecord: {}
+    }
+  },
   computed: mapState({
     records: 'records'
   }),
   methods: {
-    ...mapActions({
-      setRecordList: SET_RECORD_LIST
-    }),
+    onUpdate (record) {
+      this.updateRecordVisible = true
+      this.curRecord = record
+    },
     exportExcel () {
       makeExcel({
         records: this.records.map(item => {
