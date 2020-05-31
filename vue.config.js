@@ -4,8 +4,8 @@ const LodashWebpackPlugin = require('lodash-webpack-plugin')
 const cdn = {
   js: [
     'https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.min.js',
+    'https://lib.baomitu.com/moment.js/latest/moment.min.js',
     'https://cdn.jsdelivr.net/npm/ant-design-vue@1.6.0/dist/antd.min.js',
-    'https://cdn.staticfile.org/moment.js/2.25.0/moment.min.js',
     'https://cdn.staticfile.org/xlsx/0.16.1/xlsx.full.min.js',
     'https://unpkg.com/qiniu-js@2.5.5/dist/qiniu.min.js'
   ],
@@ -18,8 +18,8 @@ module.exports = {
     if (process.env.NODE_ENV === 'production') {
       config.externals({
         vue: 'Vue',
-        moment: 'moment',
         xlsx: 'XLSX',
+        moment: 'moment',
         'qiniu-js': 'qiniu',
         'ant-design-vue': 'antd'
       })
@@ -46,12 +46,6 @@ module.exports = {
             minChunks: 2,
             priority: 10
           },
-          antd_icons: { // ant图标分离
-            name: true,
-            test: /@ant-design/,
-            priority: 10,
-            chunks: 'all'
-          },
           vue: { // vue依赖分离
             name: true,
             test: /vue/,
@@ -65,7 +59,7 @@ module.exports = {
   devServer: {
     proxy: {
       '/server': {
-        target: 'http://localhost:3000',
+        target: 'http://www.biubiubius.com:3000',
         changeOrigin: true,
         pathRewrite: {
           '^/server': '/server'

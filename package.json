@@ -5,7 +5,8 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "inspect": "vue-cli-service inspect --mode production"
   },
   "dependencies": {
     "ant-design-vue": "^1.6.0",
@@ -13,7 +14,7 @@
     "core-js": "^3.6.5",
     "file-saver": "^2.0.2",
     "lodash": "^4.17.15",
-    "moment": "^2.21.0",
+    "moment": "^2.26.0",
     "qiniu-js": "^2.5.5",
     "vue": "^2.6.11",
     "vue-meta": "^2.3.4",

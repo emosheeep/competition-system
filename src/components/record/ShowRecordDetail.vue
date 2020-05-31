@@ -114,7 +114,7 @@
       <a-result
         status="404"
         title="暂未上传附件"
-        sub-title="上传附件后，才能进行查看、下载、重传"
+        sub-title="上传附件后，才能进行查看和下载"
       />
     </template>
   </a-drawer>
