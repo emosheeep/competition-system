@@ -44,12 +44,12 @@ export default {
       })
     })
   },
-  [DELETE_RACE] ({ commit }, id) {
+  [DELETE_RACE] ({ commit }, _id) {
     const stopLoading = message.loading('请稍后')
     return new Promise((resolve, reject) => {
-      deleteRace(id).then(({ data }) => {
+      deleteRace(_id).then(({ data }) => {
         resolve(data)
-        commit(DELETE_RACE, id)
+        commit(DELETE_RACE, _id)
         message.success('删除成功')
       }).catch(e => {
         reject(e)

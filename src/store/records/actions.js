@@ -49,12 +49,12 @@ export default {
       })
     })
   },
-  [DELETE_RECORD] ({ commit }, id) {
+  [DELETE_RECORD] ({ commit }, _id) {
     const stopLoading = message.loading('请稍后')
     return new Promise((resolve, reject) => {
-      deleteRecord(id).then(({ data }) => {
+      deleteRecord(_id).then(({ data }) => {
         resolve(data)
-        commit(DELETE_RECORD, id)
+        commit(DELETE_RECORD, _id)
         message.success('删除成功')
       }).catch(e => {
         reject(e)

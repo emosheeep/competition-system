@@ -12,7 +12,7 @@ export default {
       return item._id === race._id ? race : item
     })
   },
-  [DELETE_RACE] (state, id) {
-    state.races = state.races.filter(item => item._id !== id)
+  [DELETE_RACE] (state, _id) {
+    state.races = state.races.filter(item => item._id !== _id)
   }
 }

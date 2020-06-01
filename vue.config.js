@@ -23,6 +23,7 @@ module.exports = {
         'qiniu-js': 'qiniu',
         'ant-design-vue': 'antd'
       })
+      config.plugins.delete('prefetch') // 否则懒加载不生效
       config.plugin('analyzer').use(BundleAnalyzerPlugin)
       config.plugin('lodash').use(LodashWebpackPlugin)
       config.plugin('compress').use(CompressionWebpackPlugin, [{
@@ -59,7 +60,7 @@ module.exports = {
   devServer: {
     proxy: {
       '/server': {
-        target: 'http://www.biubiubius.com:3000',
+        target: 'http://localhost:3000',
         changeOrigin: true,
         pathRewrite: {
           '^/server': '/server'
