@@ -1,9 +1,17 @@
 import axios from './axios'
 
+export const login = data => axios.post('/auth/login', data)
+export const refreshToken = originToken => {
+  return axios.get('/auth/refresh', {
+    headers: {
+      authorization: originToken
+    }
+  })
+}
+
 /**
  * 用户
  */
-export const login = data => axios.post('/user/login', data)
 export const getUserList = type => axios.get('/user/list', { params: { type } })
 export const addUser = (type, data) => axios.post('/user/add', { type, data })
 export const deleteUser = (type, account) => {

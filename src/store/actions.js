@@ -1,6 +1,6 @@
 import { message } from 'ant-design-vue'
-import { LOGIN } from './mutation-types'
-import { login } from '../api'
+import { LOGIN, REFRESH_TOKEN } from './mutation-types'
+import { login, refreshToken } from '../api'
 
 export default {
   [LOGIN] ({ commit, state }, info) {
@@ -23,6 +23,14 @@ export default {
           reject(new Error('系统错误'))
         }
       })
+    })
+  },
+  [REFRESH_TOKEN] ({ commit, state }) {
+    return new Promise((resolve, reject) => {
+      refreshToken(state.refreshToken).then(({ data: newToken }) => {
+        commit(REFRESH_TOKEN, newToken)
+        resolve(newToken)
+      }).catch(reject)
     })
   }
 }

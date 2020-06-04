@@ -14,7 +14,8 @@ const debug = process.env.NODE_ENV !== 'production'
 export default new Vuex.Store({
   strict: debug,
   state: {
-    token: '',
+    token: '', // 控制短期鉴权
+    refreshToken: '', // 控制最长登陆时间
     user: {}
   },
   actions,

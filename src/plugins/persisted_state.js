@@ -5,8 +5,9 @@ export default createPersistedState({
   storage: window.localStorage,
   reducer: function (state) {
     return {
+      user: state.user,
       token: state.token,
-      user: state.user
+      refreshToken: state.refreshToken
     }
   }
 })
