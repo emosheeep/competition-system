@@ -37,21 +37,22 @@ export default {
   },
   methods: {
     confirm () {
-      if (this.type === 'update' && !this.changed) {
-        message.info('未检测到数据变动')
-        return false
-      }
       return new Promise((resolve, reject) => {
-        this.form.validateFields((err, values) => {
-          if (err) return reject(err)
-          // 转换时间属性
-          for (const key of Object.keys(values)) {
-            if (values[key] instanceof moment) {
-              values[key] = values[key].valueOf()
+        if (this.type === 'update' && !this.changed) {
+          message.info('未检测到数据变动')
+          reject('未检测到数据变动')
+        } else {
+          this.form.validateFields((err, values) => {
+            if (err) return reject(err)
+            // 转换可能存在的时间属性
+            for (const key of Object.keys(values)) {
+              if (values[key] instanceof moment) {
+                values[key] = values[key].valueOf()
+              }
             }
-          }
-          resolve(values)
-        })
+            resolve(values)
+          })
+        }
       })
     }
   }

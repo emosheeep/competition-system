@@ -74,18 +74,16 @@ export default {
     onCancel () {
       !this.loading && this.$emit('update:visible', false)
     },
-    async onOk () {
-      const values = await this.$refs[this.type].confirm()
-      if (!values) {
-        return
-      }
-      this.loading = true
-      this.updateUser({
-        type: this.type,
-        data: values
+    onOk () {
+      this.$refs[this.type].confirm().then(values => {
+        this.loading = true
+        return this.updateUser({
+          type: this.type,
+          data: values
+        })
       }).then(res => {
         this.$emit('update:visible', false)
-      }).catch(e => e).finally(() => {
+      }).catch(console.warn).finally(() => {
         setTimeout(() => {
           this.loading = false
         }, 500)

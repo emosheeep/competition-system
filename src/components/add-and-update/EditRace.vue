@@ -97,7 +97,6 @@
 
 <script>
 import moment from 'moment'
-import { message } from 'ant-design-vue'
 import EditMixin from './edit-mixin'
 
 export default {
@@ -125,13 +124,6 @@ export default {
         year: data.year,
         description: data.description
       })
-    },
-    confirm () {
-      if (this.type === 'update' && !this.changed) {
-        message.info('未检测到数据变动')
-        return false
-      }
-      return this.form.validateFields()
     }
   }
 }
