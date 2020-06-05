@@ -3,7 +3,6 @@
     <!--数据列表-->
     <a-table
       bordered
-      size="small"
       row-key="account"
       :columns="current.column"
       :data-source="current.data"

@@ -38,7 +38,7 @@ const allColumns = [
     dataIndex: 'title',
     ellipsis: true,
     scopedSlots: filterSlots,
-    onFilter: filter('sid')
+    onFilter: filter('title')
   },
   {
     title: '学生账号',

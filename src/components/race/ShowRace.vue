@@ -1,7 +1,6 @@
 <template>
   <div>
     <a-table
-      size="small"
       row-key="_id"
       bordered
       :loading="loading"

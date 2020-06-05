@@ -22,6 +22,3 @@ export const ADD_RECORD = 'ADD_RECORD'
 export const SET_RECORD_LIST = 'SET_RECORD_LIST'
 export const UPDATE_RECORD = 'UPDATE_RECORD'
 export const DELETE_RECORD = 'DELETE_RECORD'
-
-// 学生端
-export const SET_TEACHERS = 'SET_TEACHERS'

@@ -145,7 +145,6 @@ export default {
 }
 const table = {
   bordered: true,
-  size: 'small',
   rowKey: '_id',
   pagination: {
     showSizeChanger: true,
