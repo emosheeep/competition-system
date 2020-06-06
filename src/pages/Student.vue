@@ -1,12 +1,16 @@
 <template>
   <a-layout style="min-height: 100vh">
     <a-layout-sider
-      breakpoint="lg"
-      collapsed-width="0"
+      :collapsed="collapsed"
+      :collapsible="true"
+      :trigger="null"
     >
-      <Sidebar />
+      <Sidebar :collapsed="collapsed" />
     </a-layout-sider>
     <a-layout>
+      <a-layout-header style="background: #fff; padding: 0">
+        <Header :collapsed.sync="collapsed" />
+      </a-layout-header>
       <a-layout-content style="padding: 10px; background: white; margin: 10px">
         <keep-alive>
           <router-view />
@@ -21,13 +25,14 @@
 </template>
 
 <script>
-import Sidebar from './student/Sidebar'
+import Sidebar from '../components/Sidebar'
 import Loading from '../components/common/Loading'
+import Header from '../components/Header'
 import { SET_RACE_LIST, SET_RECORD_LIST } from '../store/mutation-types'
 
 export default {
   name: 'Student',
-  components: { Loading, Sidebar },
+  components: { Loading, Sidebar, Header },
   metaInfo: {
     title: '学生'
   },
@@ -38,7 +43,8 @@ export default {
   },
   data () {
     return {
-      loading: true
+      loading: true,
+      collapsed: false
     }
   },
   created () {

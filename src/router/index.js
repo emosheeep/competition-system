@@ -13,7 +13,10 @@ const routes = [
     path: '/',
     name: 'login',
     meta: { auth: false },
-    component: () => import(/* webpackChunkName: "Login" */'../pages/Login')
+    component: () => import(
+      /* webpackChunkName: "Login" */
+      '../pages/Login'
+    )
   },
   ...teacher,
   ...student,

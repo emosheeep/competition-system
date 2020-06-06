@@ -14,17 +14,13 @@
           style="color: orange"
         />
       </template>
-      <a-tooltip placement="right">
-        <template #title>
-          切换用户
-        </template>
-        <a><a-icon type="swap" /></a>
-      </a-tooltip>
+      <a><a-icon type="swap" /></a>
     </a-popconfirm>
   </div>
 </template>
 
 <script>
+import { LOGOUT } from '../../store/mutation-types'
 
 export default {
   name: 'LoginState',
@@ -44,6 +40,7 @@ export default {
   },
   methods: {
     changeUser () {
+      this.$store.commit(LOGOUT)
       this.$router.replace({ path: '/' })
     }
   }
@@ -52,11 +49,9 @@ export default {
 
 <style scoped lang="stylus">
   .login-state
-    display block
+    display inline-block
     height 32px
     margin 15px 10px
-    color lightgrey
-    background-color rgba(255, 255, 255, 0.2)
     line-height 32px
     font-size 20px
     text-align center

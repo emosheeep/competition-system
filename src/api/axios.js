@@ -20,8 +20,11 @@ axios.interceptors.response.use(null, error => {
   if (status === 401) {
     return handle401(config)
   } else if (status === 403) {
-    message.warn('身份凭证过期，请重新登录')
-    router.replace({ name: 'login' }).catch(e => e)
+    router.replace({
+      name: 'login'
+    }).catch(console.warn).finally(() => {
+      message.warn('身份凭证过期，请重新登录')
+    })
   }
   return Promise.reject(error)
 })

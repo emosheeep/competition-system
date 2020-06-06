@@ -1,7 +1,7 @@
 import createPersistedState from 'vuex-persistedstate'
 
 export default createPersistedState({
-  key: 'loginUser',
+  key: 'UserInfo',
   storage: window.localStorage,
   reducer: function (state) {
     return {
