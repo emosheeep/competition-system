@@ -1,22 +1,20 @@
 <template>
   <a-layout style="min-height: 100vh">
-    <a-layout-sider
-      :collapsed="collapsed"
-      :collapsible="true"
-      :trigger="null"
-    >
-      <Sidebar :collapsed="collapsed" />
+    <a-layout-sider class="sidebar-container">
+      <Sidebar />
     </a-layout-sider>
-    <a-layout>
-      <a-layout-header style="background: #fff; padding: 0">
-        <Header :collapsed.sync="collapsed" />
-      </a-layout-header>
-      <a-layout-content style="padding: 10px; background: white; margin: 10px">
+    <a-layout style="margin-left: 200px">
+      <a-affix>
+        <a-layout-header class="header-container">
+          <Header />
+        </a-layout-header>
+      </a-affix>
+      <a-layout-content class="content-container">
         <keep-alive exclude="RaceDetailWithRecords">
           <router-view />
         </keep-alive>
       </a-layout-content>
-      <a-layout-footer style="padding: 0 0 10px 0; text-align: center">
+      <a-layout-footer class="footer-container">
         Ant Design ©2018 Created by Ant UED
       </a-layout-footer>
     </a-layout>
@@ -42,8 +40,7 @@ export default {
   },
   data () {
     return {
-      loading: true,
-      collapsed: false
+      loading: true
     }
   },
   created () {
@@ -65,3 +62,22 @@ export default {
   }
 }
 </script>
+
+<style lang="stylus" scoped>
+  .sidebar-container
+    overflow auto
+    height 100vh
+    position fixed
+    left 0
+  .header-container
+    padding 0
+    background #fff
+    box-shadow 0 0 5px lightgrey
+  .content-container
+    padding 10px
+    background white
+    margin 10px
+  .footer-container
+    padding 0 0 10px 0
+    text-align center
+</style>

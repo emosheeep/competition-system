@@ -24,7 +24,7 @@
       </a-col>
       <a-col :span="wrapperCol.span">
         <a-radio-group
-          default-value="student"
+          :value="type"
           button-style="solid"
           @change="onChange"
         >

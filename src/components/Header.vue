@@ -1,10 +1,5 @@
 <template>
   <div>
-    <a-icon
-      class="trigger"
-      :type="collapsed ? 'menu-unfold' : 'menu-fold'"
-      @click="$emit('update:collapsed', !collapsed)"
-    />
     <LoginState class="login-state" />
   </div>
 </template>
@@ -13,13 +8,7 @@
 import LoginState from './common/LoginState'
 export default {
   name: 'Header',
-  components: { LoginState },
-  props: {
-    collapsed: {
-      type: Boolean,
-      required: true
-    }
-  }
+  components: { LoginState }
 }
 </script>
 

@@ -1,11 +1,14 @@
 <template>
   <div>
-    <div class="logo">
+    <div
+      class="logo"
+      @click="goHome"
+    >
       <img
         src="/logo.png"
         alt="logo"
       >
-      <span v-show="!collapsed">竞赛管理系统</span>
+      <span>竞赛管理系统</span>
     </div>
     <a-menu
       theme="dark"
@@ -14,36 +17,41 @@
       :selected-keys="keys"
       @click="handleClick"
     >
+      <!--学生侧栏-->
       <template v-if="user.identity === 'student'">
-        <a-menu-item key="race">
+        <a-menu-item key="/student/race">
           <a-icon type="project" />
           <span>竞赛列表</span>
         </a-menu-item>
-        <a-menu-item key="record">
+        <a-menu-item key="/student/record">
           <a-icon type="solution" />
           <span>参赛记录</span>
         </a-menu-item>
       </template>
+
+      <!--教师侧栏-->
       <template v-else-if="user.identity === 'teacher'">
-        <a-menu-item key="race">
+        <a-menu-item key="/teacher/race">
           <a-icon type="project" />
           <span>竞赛列表</span>
         </a-menu-item>
-        <a-menu-item key="record">
+        <a-menu-item key="/teacher/record">
           <a-icon type="solution" />
           <span>学生参赛记录</span>
         </a-menu-item>
       </template>
+
+      <!--管理员侧栏-->
       <template v-else>
-        <a-menu-item key="race">
+        <a-menu-item key="/admin/race">
           <a-icon type="project" />
           <span>赛事管理</span>
         </a-menu-item>
-        <a-menu-item key="user">
+        <a-menu-item key="/admin/user">
           <a-icon type="user" />
           <span>用户管理</span>
         </a-menu-item>
-        <a-menu-item key="record">
+        <a-menu-item key="/admin/record">
           <a-icon type="solution" />
           <span>参赛记录管理</span>
         </a-menu-item>
@@ -55,15 +63,9 @@
 <script>
 export default {
   name: 'Sidebar',
-  props: {
-    collapsed: {
-      type: Boolean,
-      required: true
-    }
-  },
   data () {
     return {
-      keys: ['race']
+      keys: []
     }
   },
   computed: {
@@ -71,17 +73,21 @@ export default {
       return this.$store.state.user
     }
   },
-  mounted () {
-    const { path } = this.$route
-    const key = path.split('/').pop()
-    this.$set(this.keys, 0, key)
+  watch: {
+    $route: {
+      handler (to) {
+        this.$set(this.keys, 0, to.path)
+      },
+      immediate: true
+    }
   },
   methods: {
-    handleClick ({ key }) {
-      this.$set(this.keys, 0, key)
-      this.$router.push({
-        path: `/${this.user.identity}/${key}`
-      }).catch(e => e)
+    handleClick ({ key: path }) {
+      this.$router.push(path).catch(e => e)
+    },
+    goHome () {
+      const { identity } = this.user
+      this.$router.replace(`/${identity}`).catch(e => e)
     }
   }
 }
@@ -97,9 +103,9 @@ export default {
     padding-left 20px
     margin 0 auto
     color white
-    background rgba(255, 255, 255, 0.2)
     overflow hidden
     white-space nowrap
+    cursor pointer
     img
       width 40px
       vertical-align middle

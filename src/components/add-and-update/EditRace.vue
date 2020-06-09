@@ -42,20 +42,21 @@
       />
     </a-form-item>
     <a-form-item
-      label="年度"
+      label="类别"
       :label-col="labelCol"
       :wrapper-col="wrapperCol"
     >
       <a-select
-        v-decorator="decorator.year"
-        style="width: 120px"
+        v-decorator="decorator.type"
+        placeholder="请选择赛事类别"
+        style="width: 175px"
       >
         <a-select-option
-          v-for="y in years"
-          :key="y"
-          :value="y"
+          v-for="item in ['A', 'B', 'C', 'D', 'E', 'F']"
+          :key="item"
+          :value="item"
         >
-          {{ y }}
+          {{ item }}
         </a-select-option>
       </a-select>
     </a-form-item>
@@ -104,8 +105,7 @@ export default {
   mixins: [EditMixin],
   data () {
     return {
-      decorator,
-      years
+      decorator
     }
   },
   methods: {
@@ -121,18 +121,13 @@ export default {
         date: moment(data.date),
         location: data.location,
         level: data.level,
-        year: data.year,
+        type: data.type,
         description: data.description
       })
     }
   }
 }
 
-// 初始化年份列表
-const years = []
-for (let y = new Date().getFullYear(), i = y; i <= y + 3; i++) {
-  years.push(i)
-}
 // 定义装饰器
 const decorator = {
   title: ['title', {
@@ -162,8 +157,11 @@ const decorator = {
   level: ['level', {
     initialValue: '校级'
   }],
-  year: ['year', {
-    initialValue: years[0]
+  type: ['type', {
+    rules: [{
+      required: true,
+      message: '请选择赛事类别！'
+    }]
   }],
   description: ['description']
 }

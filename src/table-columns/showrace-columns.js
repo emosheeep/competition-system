@@ -45,11 +45,11 @@ export default function () {
       ]
     },
     {
-      title: '年度',
-      dataIndex: 'year',
-      width: 70,
+      title: '类别',
+      dataIndex: 'type',
       ellipsis: true,
-      sorter: (a, b) => a.date - b.date
+      onFilter: filter('type'),
+      scopedSlots: filterSlots
     },
     {
       title: '主办方',
@@ -74,6 +74,7 @@ export default function () {
     },
     {
       title: '操作',
+      align: 'center',
       scopedSlots: {
         customRender: 'action'
       }

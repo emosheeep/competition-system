@@ -47,6 +47,7 @@ export default {
         {
           title: '操作',
           key: 'action',
+          align: 'center',
           scopedSlots: { customRender: 'action' }
         }
       ],
@@ -65,10 +66,10 @@ export default {
           onFilter: filter('name')
         },
         {
-          title: '部门',
-          dataIndex: 'dept',
+          title: '职称',
+          dataIndex: 'rank',
           scopedSlots: filterSlots,
-          onFilter: filter('dept')
+          onFilter: filter('rank')
         },
         {
           title: '密码',
@@ -82,6 +83,7 @@ export default {
         {
           title: '操作',
           key: 'action',
+          align: 'center',
           scopedSlots: { customRender: 'action' }
         }
       ],
@@ -92,12 +94,19 @@ export default {
           sorter: (a, b) => a.account - b.account
         },
         {
+          title: '姓名',
+          dataIndex: 'name',
+          scopedSlots: filterSlots,
+          onFilter: filter('name')
+        },
+        {
           title: '密码',
           dataIndex: 'password'
         },
         {
           title: '操作',
           key: 'action',
+          align: 'center',
           scopedSlots: { customRender: 'action' }
         }
       ]

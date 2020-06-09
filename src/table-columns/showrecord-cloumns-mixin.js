@@ -111,6 +111,7 @@ const allColumns = [
   },
   {
     title: '操作',
+    align: 'center',
     scopedSlots: {
       customRender: 'action'
     }

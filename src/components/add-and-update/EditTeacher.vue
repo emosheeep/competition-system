@@ -48,12 +48,25 @@
     <a-form-item
       :label-col="labelCol"
       :wrapper-col="wrapperCol"
-      label="部门"
+      label="职称"
     >
-      <a-input
-        v-decorator="decorator.dept"
-        placeholder="部门"
-      />
+      <a-select
+        v-decorator="decorator.rank"
+        placeholder="请选择职称"
+      >
+        <a-select-option value="教授">
+          教授
+        </a-select-option>
+        <a-select-option value="副教授">
+          副教授
+        </a-select-option>
+        <a-select-option value="讲师">
+          讲师
+        </a-select-option>
+        <a-select-option value="其他">
+          其他
+        </a-select-option>
+      </a-select>
     </a-form-item>
     <a-form-item
       :label-col="labelCol"
@@ -86,7 +99,7 @@ export default {
         account: data.account,
         password: data.password,
         name: data.name,
-        dept: data.dept,
+        rank: data.rank,
         classname: data.classname,
         description: data.description
       })
@@ -116,11 +129,8 @@ const decorator = {
       message: '请输入姓名！'
     }]
   }],
-  dept: ['dept', {
-    rules: [{
-      required: true,
-      message: '请输入部门！'
-    }]
+  rank: ['rank', {
+    initialValue: '讲师'
   }],
   description: ['description']
 }

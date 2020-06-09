@@ -6,6 +6,7 @@
       title="切换用户？"
       ok-text="确认"
       cancel-text="取消"
+      placement="bottomRight"
       @confirm="changeUser"
     >
       <template #icon>

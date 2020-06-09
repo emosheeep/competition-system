@@ -25,7 +25,6 @@
       label="密码"
     >
       <a-input
-        ref="password"
         v-decorator="decorator.password"
         placeholder="密码"
       >
@@ -35,6 +34,16 @@
           style="color: rgba(0,0,0,.25)"
         />
       </a-input>
+    </a-form-item>
+    <a-form-item
+      :label-col="labelCol"
+      :wrapper-col="wrapperCol"
+      label="姓名"
+    >
+      <a-input
+        v-decorator="decorator.name"
+        placeholder="姓名"
+      />
     </a-form-item>
   </a-form>
 </template>
@@ -55,7 +64,8 @@ export default {
       const { data } = this
       this.form.setFieldsValue({
         account: data.account,
-        password: data.password
+        password: data.password,
+        name: data.name
       })
     }
   }
@@ -75,6 +85,12 @@ const decorator = {
     rules: [{
       required: true,
       message: '请输入密码！'
+    }]
+  }],
+  name: ['name', {
+    rules: [{
+      required: true,
+      message: '请输入管理员姓名！'
     }]
   }]
 }

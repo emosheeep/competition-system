@@ -3,6 +3,7 @@ import axios from 'axios'
 import store from '../store'
 import router from '../router'
 import handle401 from './handle401'
+import { LOGOUT } from '../store/mutation-types'
 
 axios.defaults.baseURL = '/api'
 
@@ -20,6 +21,8 @@ axios.interceptors.response.use(null, error => {
   if (status === 401) {
     return handle401(config)
   } else if (status === 403) {
+    message.destroy()
+    store.commit(LOGOUT)
     router.replace({
       name: 'login'
     }).catch(console.warn).finally(() => {
