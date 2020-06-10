@@ -23,4 +23,18 @@ export default {
   -webkit-font-smoothing antialiased
   -moz-osx-font-smoothing grayscale
   color #2c3e50
+
+::-webkit-scrollbar
+  width 5px
+  height 5px
+  cursor pointer
+
+::-webkit-scrollbar-thumb
+  border-radius 5px
+  -webkit-box-shadow inset 0 0 5px rgba(0, 0, 0, 0.2)
+  background #e0e5eb
+
+::-webkit-scrollbar-track
+    box-shadow inset 0 0 5px rgba(0, 0, 0, 0.1)
+    border-radius 0
 </style>

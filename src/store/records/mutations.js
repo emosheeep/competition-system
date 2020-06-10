@@ -12,7 +12,7 @@ export default {
       return item._id === record._id ? record : item
     })
   },
-  [DELETE_RECORD] (state, _id) {
-    state.records = state.records.filter(item => item._id !== _id)
+  [DELETE_RECORD] (state, data) {
+    state.records = state.records.filter(item => !data.includes(item._id))
   }
 }

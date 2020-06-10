@@ -3,6 +3,7 @@
     <a-table
       row-key="_id"
       bordered
+      :row-selection="rowSelection"
       :loading="loading"
       :columns="columns"
       :data-source="races"
@@ -70,7 +71,7 @@
           title="确认删除？"
           ok-text="确认"
           cancel-text="取消"
-          @confirm="$emit('delete-race', item)"
+          @confirm="onDelete(item)"
         >
           <template #icon>
             <a-icon
@@ -97,12 +98,14 @@
 <script>
 import moment from 'moment'
 import TableSearch from '../common/TableSearch'
-import createColumns from '../../table-columns/showrace-columns'
+import createColumns from '../../helpers/showrace-columns'
+import MultipleDelete from '../../helpers/multiple-delete-mixin'
 export default {
   name: 'ShowRace',
   components: {
     TableSearch
   },
+  mixins: [MultipleDelete],
   props: {
     loading: Boolean,
     races: {
@@ -141,6 +144,14 @@ export default {
     },
     isParticipate (raceID) {
       return !!this.records.find(record => record.id === raceID)
+    },
+    onDelete (item) {
+      if (!this.multiple) {
+        this.$emit('delete-race', [item._id])
+      }
+    },
+    multipleDelete () {
+      this.$emit('delete-race', [...this.selectedKeys])
     }
   }
 }

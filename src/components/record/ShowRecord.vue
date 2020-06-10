@@ -2,6 +2,7 @@
   <div>
     <a-table
       v-bind="table"
+      :row-selection="rowSelection"
       :columns="columns"
       :data-source="records"
     >
@@ -87,7 +88,8 @@
 
 <script>
 import moment from 'moment'
-import ColumnsMixin from '../../table-columns/showrecord-cloumns-mixin'
+import ColumnsMixin from '../../helpers/showrecord-cloumns-mixin'
+import MultipleDelete from '../../helpers/multiple-delete-mixin'
 import TableSearch from '../common/TableSearch'
 import Upload from '../../components/common/Upload'
 import ShowRecordAction from './ShowRecordAction'
@@ -100,7 +102,7 @@ export default {
     ShowRecordAction,
     ShowRecordDetail
   },
-  mixins: [ColumnsMixin],
+  mixins: [ColumnsMixin, MultipleDelete],
   props: {
     records: {
       type: Array,
@@ -128,7 +130,12 @@ export default {
       return moment(date).format('YYYY-MM-DD')
     },
     onDelete (record) {
-      this.$emit('delete-record', record._id)
+      if (!this.multiple) {
+        this.$emit('delete-record', [record._id])
+      }
+    },
+    multipleDelete () {
+      this.$emit('delete-record', [...this.selectedKeys])
     },
     onEdit (record) {
       this.$emit('update-record', record)

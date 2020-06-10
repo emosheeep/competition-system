@@ -20,12 +20,41 @@
         </a-button-group>
       </template>
     </a-page-header>
+
+    <a-button-group>
+      <a-button
+        :type="isMultiple ? 'primary' : ''"
+        @click="isMultiple = !isMultiple"
+      >
+        {{ isMultiple ? '取消' : '批量删除' }}
+      </a-button>
+      <a-popconfirm
+        v-if="isMultiple"
+        title="确认删除？"
+        ok-text="确认"
+        cancel-text="取消"
+        placement="topRight"
+        @confirm="() => $refs.record.multipleDelete()"
+      >
+        <template #icon>
+          <a-icon
+            type="question-circle-o"
+            style="color: orange"
+          />
+        </template>
+        <a-button>确认删除</a-button>
+      </a-popconfirm>
+    </a-button-group>
+    <a-divider style="margin-top: 10px;" />
     <ShowRecord
+      ref="record"
       type="admin"
       :records="records"
+      :multiple="isMultiple"
       @delete-record="onDelete"
       @update-record="onUpdate"
     />
+
     <UpdateRecord
       :visible.sync="updateRecordVisible"
       :record="curRecord"
@@ -51,6 +80,7 @@ export default {
   data () {
     return {
       updateRecordVisible: false,
+      isMultiple: false,
       curRecord: {}
     }
   },
@@ -58,11 +88,11 @@ export default {
     records: 'records'
   }),
   methods: {
-    ...mapActions({
-      deleteRecord: DELETE_RECORD
-    }),
-    onDelete (id) {
-      this.deleteRecord(id)
+    ...mapActions([DELETE_RECORD]),
+    onDelete (data) {
+      this.DELETE_RECORD(data).finally(() => {
+        this.isMultiple = false
+      })
     },
     onUpdate (record) {
       this.curRecord = record

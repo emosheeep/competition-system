@@ -1,6 +1,7 @@
+import Vue from 'vue'
 import { filter, filterSlots } from './culumns-helper'
 
-export default {
+export default Vue.extend({
   methods: {
     CREATE_COLUMNS (type) {
       if (type === 'admin') {
@@ -21,7 +22,7 @@ export default {
       )
     }
   }
-}
+})
 
 const allColumns = [
   {

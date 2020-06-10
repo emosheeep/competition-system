@@ -52,12 +52,15 @@ export default {
       })
     })
   },
-  [DELETE_USER] ({ commit }, { type, account }) {
+  [DELETE_USER] ({ commit }, { type, data }) {
+    if (!Array.isArray(data) || data.length === 0) {
+      return
+    }
     const stopLoading = message.loading('请稍后')
     return new Promise((resolve, reject) => {
-      deleteUser(type, account).then(({ data }) => {
+      deleteUser(type, data).then(() => {
         resolve(data)
-        commit(DELETE_USER, { type, account })
+        commit(DELETE_USER, { type, data })
         message.success('删除成功')
       }).catch(e => {
         reject(e)

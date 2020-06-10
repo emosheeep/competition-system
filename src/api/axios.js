@@ -28,6 +28,8 @@ axios.interceptors.response.use(null, error => {
     }).catch(console.warn).finally(() => {
       message.warn('身份凭证过期，请重新登录')
     })
+  } else if (status === 400) {
+    message.warn('数据格式有误')
   }
   return Promise.reject(error)
 })

@@ -58,33 +58,81 @@
           title="管理员"
           :value="admins.length"
         />
-        <a-select
-          class="selection-box"
-          default-value="student"
-          style="width: 120px"
-          @change="changeType"
-        >
-          <a-select-option value="student">
-            学生信息
-          </a-select-option>
-          <a-select-option value="teacher">
-            教师信息
-          </a-select-option>
-          <a-select-option value="admin">
-            管理员信息
-          </a-select-option>
-        </a-select>
       </div>
     </a-page-header>
 
-    <ShowUser
-      :students="students"
-      :teachers="teachers"
-      :admins="admins"
-      :type="showUserType"
-      @update-user="onUpdate"
-      @delete-user="onDelete"
-    />
+    <a-tabs
+      type="card"
+      :active-key="showUserType"
+      @change="changeType"
+    >
+      <a-tab-pane
+        key="student"
+        tab="学生信息"
+      >
+        <ShowUser
+          ref="student"
+          :data="students"
+          :column="STUDENT_COLUMNS"
+          :multiple="isMultiple"
+          @update-user="onUpdate"
+          @delete-user="onDelete"
+        />
+      </a-tab-pane>
+      <a-tab-pane
+        key="teacher"
+        tab="教师信息"
+      >
+        <ShowUser
+          ref="teacher"
+          :data="teachers"
+          :column="TEACHER_COLUMNS"
+          :multiple="isMultiple"
+          @update-user="onUpdate"
+          @delete-user="onDelete"
+        />
+      </a-tab-pane>
+      <a-tab-pane
+        key="admin"
+        tab="管理员信息"
+      >
+        <ShowUser
+          ref="admin"
+          :data="admins"
+          :column="ADMIN_COLUMNS"
+          :multiple="isMultiple"
+          @update-user="onUpdate"
+          @delete-user="onDelete"
+        />
+      </a-tab-pane>
+      <template #tabBarExtraContent>
+        <a-button-group>
+          <!--变量来自Mixin-->
+          <a-button
+            :type="isMultiple ? 'primary' : ''"
+            @click="isMultiple = !isMultiple"
+          >
+            {{ isMultiple ? '取消' : '批量删除' }}
+          </a-button>
+          <a-popconfirm
+            v-if="isMultiple"
+            title="确认删除？"
+            ok-text="确认"
+            cancel-text="取消"
+            placement="topRight"
+            @confirm="() => $refs[showUserType].multipleDelete()"
+          >
+            <template #icon>
+              <a-icon
+                type="question-circle-o"
+                style="color: orange"
+              />
+            </template>
+            <a-button>确认删除</a-button>
+          </a-popconfirm>
+        </a-button-group>
+      </template>
+    </a-tabs>
 
     <!--添加用户-->
     <AddUser :visible.sync="addUserVisible" />
@@ -108,14 +156,15 @@
 import { omit } from 'lodash'
 import { Modal } from 'ant-design-vue'
 import { createNamespacedHelpers } from 'vuex'
-import createColumns from '../../table-columns/importuser-columns'
+import createColumns from '../../helpers/importuser-columns'
+import ColumnsMixin from '../../helpers/showuser-columns-mixin'
 import { makeExcel } from '../../utils/excel'
-import { DELETE_USER, UPDATE_USER, ADD_USER } from '../../store/mutation-types'
+import { ADD_USER, DELETE_USER } from '../../store/mutation-types'
 import ShowUser from '../../components/user/ShowUser'
 import AddUser from '../../components/user/AddUser'
 import Import from '../../components/common/Import'
 import UpdateUser from '../../components/user/UpdateUser'
-const { mapActions, mapState } = createNamespacedHelpers('users')
+const { mapState, mapActions } = createNamespacedHelpers('users')
 export default {
   name: 'User',
   components: {
@@ -124,23 +173,21 @@ export default {
     Import,
     UpdateUser
   },
+  mixins: [ColumnsMixin],
   inject: ['init'],
   data () {
     return {
       addUserVisible: false,
       importUserVisible: false,
       updateUserVisible: false,
+      isMultiple: false,
       importUserType: 'student',
       showUserType: 'student',
       curUser: {}
     }
   },
   computed: {
-    ...mapState({
-      students: 'students',
-      teachers: 'teachers',
-      admins: 'admins'
-    }),
+    ...mapState(['students', 'teachers', 'admins']),
     curColumns () {
       return createColumns(this.importUserType)
     },
@@ -149,17 +196,19 @@ export default {
     }
   },
   methods: {
-    ...mapActions({
-      deleteUser: DELETE_USER,
-      updateUser: UPDATE_USER,
-      addUser: ADD_USER
-    }),
+    ...mapActions([ADD_USER, DELETE_USER]),
     onUpdate (user) {
       this.curUser = user
       this.updateUserVisible = true
     },
-    onDelete ({ type, account }) {
-      this.deleteUser({ type, account })
+    onDelete (data) {
+      console.log(data)
+      this.DELETE_USER({
+        type: this.showUserType,
+        data
+      }).finally(() => {
+        this.isMultiple = false
+      })
     },
     changeType (value) {
       this.showUserType = value
@@ -169,7 +218,7 @@ export default {
       this.importUserVisible = true
     },
     importUser (users) {
-      this.addUser({
+      this.ADD_USER({
         type: this.importUserType,
         users: generateDefaultDate(this.importUserType, users)
       }).then(res => {
@@ -204,15 +253,11 @@ function generateDefaultDate (type, users) {
     return users.map(user => ({
       password: '123456',
       sex: '男',
-      grade: '未设置',
-      classname: '未设置',
       ...user
     }))
   } else if (type === 'teacher') {
     return users.map(user => ({
       password: '123456',
-      dept: '未设置',
-      description: '',
       ...user
     }))
   }
@@ -222,9 +267,6 @@ function generateDefaultDate (type, users) {
 
 <style scoped lang="stylus">
   .header-info
-    .selection-box
-      float right
-      margin-top 25px
     .number
       display inline-block
       width 100px

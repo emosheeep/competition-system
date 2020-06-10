@@ -44,12 +44,15 @@ export default {
       })
     })
   },
-  [DELETE_RACE] ({ commit }, _id) {
+  [DELETE_RACE] ({ commit }, data) {
+    if (!Array.isArray(data) || data.length === 0) {
+      return
+    }
     const stopLoading = message.loading('请稍后')
     return new Promise((resolve, reject) => {
-      deleteRace(_id).then(({ data }) => {
-        resolve(data)
-        commit(DELETE_RACE, _id)
+      deleteRace(data).then(res => {
+        resolve(res)
+        commit(DELETE_RACE, data)
         message.success('删除成功')
       }).catch(e => {
         reject(e)

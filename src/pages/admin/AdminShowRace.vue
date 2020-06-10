@@ -24,12 +24,40 @@
       </template>
     </a-page-header>
 
+    <a-button-group>
+      <a-button
+        :type="isMultiple ? 'primary' : ''"
+        @click="isMultiple = !isMultiple"
+      >
+        {{ isMultiple ? '取消' : '批量删除' }}
+      </a-button>
+      <a-popconfirm
+        v-if="isMultiple"
+        title="确认删除？"
+        ok-text="确认"
+        cancel-text="取消"
+        placement="topRight"
+        @confirm="() => $refs.race.multipleDelete()"
+      >
+        <template #icon>
+          <a-icon
+            type="question-circle-o"
+            style="color: orange"
+          />
+        </template>
+        <a-button>确认删除</a-button>
+      </a-popconfirm>
+    </a-button-group>
+    <a-divider style="margin-top: 10px" />
     <ShowRace
+      ref="race"
       type="admin"
       :races="races"
+      :multiple="isMultiple"
       @update-race="onUpdate"
       @delete-race="onDelete"
     />
+
     <AddRace :visible.sync="addRaceVisible" />
     <UpdateRace
       :visible.sync="updateRaceVisible"
@@ -60,6 +88,7 @@ export default {
     return {
       addRaceVisible: false,
       updateRaceVisible: false,
+      isMultiple: false,
       curRace: {}
     }
   },
@@ -76,8 +105,13 @@ export default {
       this.updateRaceVisible = true
       this.curRace = race
     },
-    onDelete ({ _id }) {
-      this.$store.dispatch(`races/${DELETE_RACE}`, _id)
+    onDelete (data) {
+      this.$store.dispatch(
+        `races/${DELETE_RACE}`,
+        data
+      ).finally(() => {
+        this.isMultiple = false
+      })
     },
     exportExcel () {
       makeExcel({

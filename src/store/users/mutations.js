@@ -13,9 +13,7 @@ export default {
   },
   [ADD_USER] (state, { type, users }) {
     const { students, teachers, admins } = state
-    if (!Array.isArray(users)) {
-      users = [users]
-    }
+    users = !Array.isArray(users) ? [users] : users
     switch (type) {
       case 'student':
         state.students = students.concat(users)
@@ -27,42 +25,36 @@ export default {
         state.admins = admins.concat(users)
     }
   },
-  [DELETE_USER] (state, { type, account }) {
+  [DELETE_USER] (state, { type, data }) {
     const { students, teachers, admins } = state
+    const handler = item => !data.includes(item.account)
     switch (type) {
       case 'student':
-        state.students = students.filter(item => account !== item.account)
+        state.students = students.filter(handler)
         break
       case 'teacher':
-        state.teachers = teachers.filter(item => account !== item.account)
+        state.teachers = teachers.filter(handler)
         break
       default:
-        state.admins = admins.filter(item => account !== item.account)
+        state.admins = admins.filter(handler)
     }
   },
   [UPDATE_USER] (state, { type, user }) {
     const { students, teachers, admins } = state
+    const handler = item => {
+      return user.account === item.account
+        ? user
+        : item
+    }
     switch (type) {
       case 'student':
-        state.students = students.map(item => {
-          return user.account === item.account
-            ? user
-            : item
-        })
+        state.students = students.map(handler)
         break
       case 'teacher':
-        state.teachers = teachers.map(item => {
-          return user.account === item.account
-            ? user
-            : item
-        })
+        state.teachers = teachers.map(handler)
         break
       default:
-        state.admins = admins.map(item => {
-          return user.account === item.account
-            ? user
-            : item
-        })
+        state.admins = admins.map(handler)
     }
   }
 }

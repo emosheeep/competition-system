@@ -1,117 +1,87 @@
 <template>
-  <div>
-    <!--数据列表-->
-    <a-table
-      bordered
-      row-key="account"
-      :columns="current.column"
-      :data-source="current.data"
-      :loading="loading"
-      :pagination="{
-        showSizeChanger: true,
-        showQuickJumper: true
-      }"
-    >
-      <template #filterIcon="filtered">
-        <a-icon
-          type="search"
-          :style="{ color: filtered ? '#108ee9' : undefined }"
-        />
-      </template>
-      <template #filterDropdown="options">
-        <TableSearch v-bind="options" />
-      </template>
+  <!--数据列表-->
+  <a-table
+    bordered
+    row-key="account"
+    :columns="column"
+    :data-source="data"
+    :row-selection="rowSelection"
+    :pagination="{
+      showSizeChanger: true,
+      showQuickJumper: true
+    }"
+  >
+    <template #filterIcon="filtered">
+      <a-icon
+        type="search"
+        :style="{ color: filtered ? '#108ee9' : undefined }"
+      />
+    </template>
+    <template #filterDropdown="options">
+      <TableSearch v-bind="options" />
+    </template>
 
-      <!--最后一排的操作按钮-->
-      <template #action="{ account }, record">
-        <a @click="onEdit(record)">
-          <a-icon type="edit" />
-        </a>
-        <a-divider type="vertical" />
-        <a-popconfirm
-          title="确认删除？"
-          ok-text="确认"
-          cancel-text="取消"
-          @confirm="onDelete(account)"
-        >
-          <template #icon>
-            <a-icon
-              type="question-circle-o"
-              style="color: orange"
-            />
-          </template>
-          <a><a-icon type="delete" /></a>
-        </a-popconfirm>
-      </template>
-    </a-table>
-  </div>
+    <!--最后一排的操作按钮-->
+    <template #action="{ account }, record">
+      <a @click="onEdit(record)">
+        <a-icon type="edit" />
+      </a>
+      <a-divider type="vertical" />
+      <a-popconfirm
+        title="确认删除？"
+        ok-text="确认"
+        cancel-text="取消"
+        placement="right"
+        @confirm="onDelete(account)"
+      >
+        <template #icon>
+          <a-icon
+            type="question-circle-o"
+            style="color: orange"
+          />
+        </template>
+        <a><a-icon type="delete" /></a>
+      </a-popconfirm>
+    </template>
+  </a-table>
 </template>
 
 <script>
-import ColumnsMixin from '../../table-columns/showuser-columns-mixin'
+import MultipleDelete from '../../helpers/multiple-delete-mixin'
 import TableSearch from '../common/TableSearch'
+import { DELETE_USER } from '../../store/mutation-types'
+import { createNamespacedHelpers } from 'vuex'
+const { mapActions } = createNamespacedHelpers('users')
+
 export default {
   name: 'ShowUser',
   components: { TableSearch },
-  mixins: [ColumnsMixin],
+  mixins: [MultipleDelete],
   props: {
-    admins: {
+    data: {
       type: Array,
-      default () {
-        return []
-      }
+      required: true
     },
-    students: {
+    column: {
       type: Array,
-      default () {
-        return []
-      }
-    },
-    teachers: {
-      type: Array,
-      default () {
-        return []
-      }
-    },
-    loading: Boolean,
-    type: {
-      type: String,
-      default: 'admin',
-      validator (value) {
-        return ['student', 'teacher', 'admin'].includes(value)
-      }
-    }
-  },
-  computed: {
-    current () {
-      switch (this.type) {
-        case 'student':
-          return {
-            data: this.students,
-            column: this.STUDENT_COLUMNS
-          }
-        case 'teacher':
-          return {
-            data: this.teachers,
-            column: this.TEACHER_COLUMNS
-          }
-        default:
-          return {
-            data: this.admins,
-            column: this.ADMIN_COLUMNS
-          }
-      }
+      required: true
     }
   },
   methods: {
+    ...mapActions([DELETE_USER]),
     onEdit (user) {
       this.$emit('update-user', user)
     },
     onDelete (account) {
-      this.$emit('delete-user', {
-        type: this.type,
-        account
-      })
+      if (!this.multiple) {
+        this.$emit('delete-user', [account])
+      }
+    },
+    multipleDelete () {
+      if (this.selectedKeys.length === 0) {
+        return
+      }
+      this.$emit('delete-user', [...this.selectedKeys])
     }
   }
 }
