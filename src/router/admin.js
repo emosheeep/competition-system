@@ -41,6 +41,13 @@ export default [
           '../components/race/RaceDetailWithRecords'
         ),
         props: route => ({ id: route.query.id, type: 'admin' })
+      },
+      {
+        path: 'self',
+        component: () => import(
+          /* webpackChunkName: "AdminUpdateSelfInfo" */
+          '../pages/admin/AdminUpdateSelfInfo'
+        )
       }
     ]
   }

@@ -27,6 +27,13 @@ export default [
         )
       },
       {
+        path: 'self',
+        component: () => import(
+          /* webpackChunkName: "TeacherUpdateSelfInfo" */
+          '../pages/teacher/TeacherUpdateSelfInfo'
+        )
+      },
+      {
         path: 'detail',
         component: () => import(
           /* webpackChunkName: "RaceDetailWithRecords" */

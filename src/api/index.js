@@ -20,6 +20,7 @@ export const deleteUser = (type, data) => {
 export const updateUser = (type, data) => {
   return axios.put('/user/update', { type, data })
 }
+export const updatePassword = data => axios.patch('/user/password', data)
 
 /**
  * 赛事

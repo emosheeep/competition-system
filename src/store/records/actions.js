@@ -8,10 +8,7 @@ export default {
       getRecordList(params).then(({ data: records }) => {
         resolve(records)
         commit(SET_RECORD_LIST, records)
-      }).catch(e => {
-        reject(e)
-        message.error('系统错误，请重试')
-      })
+      }).catch(reject)
     })
   },
   [ADD_RECORD] ({ commit }, record) {
@@ -26,12 +23,7 @@ export default {
           message.warn(result.msg)
           reject(new Error(result.msg))
         }
-      }).catch(e => {
-        reject(e)
-        message.error('系统错误，请重试')
-      }).finally(() => {
-        stopLoading()
-      })
+      }).catch(reject).finally(stopLoading)
     })
   },
   [UPDATE_RECORD] ({ commit }, record) {
@@ -41,12 +33,7 @@ export default {
         resolve(data)
         commit(UPDATE_RECORD, data)
         message.success('成功')
-      }).catch(e => {
-        reject(e)
-        message.error('系统错误，请重试')
-      }).finally(() => {
-        stopLoading()
-      })
+      }).catch(reject).finally(stopLoading)
     })
   },
   [DELETE_RECORD] ({ commit }, data) {
@@ -59,12 +46,7 @@ export default {
         resolve(res)
         commit(DELETE_RECORD, data)
         message.success('删除成功')
-      }).catch(e => {
-        reject(e)
-        message.error('系统错误，请重试')
-      }).finally(() => {
-        stopLoading()
-      })
+      }).catch(reject).finally(stopLoading)
     })
   }
 }

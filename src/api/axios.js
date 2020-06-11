@@ -5,10 +5,12 @@ import router from '../router'
 import handle401 from './handle401'
 import { LOGOUT } from '../store/mutation-types'
 
-axios.defaults.baseURL = '/api'
+const http = axios.create({
+  baseURL: '/api'
+})
 
 // 请求携带token
-axios.interceptors.request.use(config => {
+http.interceptors.request.use(config => {
   if (!config.headers.authorization && store.state.token) {
     config.headers.authorization = store.state.token
   }
@@ -16,7 +18,10 @@ axios.interceptors.request.use(config => {
 })
 
 // 若因401而拒绝，则刷新token，若403则跳转登录
-axios.interceptors.response.use(null, error => {
+http.interceptors.response.use(null, error => {
+  if (!navigator.onLine) {
+    return message.error('网络错误')
+  }
   const { status, config } = error.response
   if (status === 401) {
     return handle401(config)
@@ -30,8 +35,10 @@ axios.interceptors.response.use(null, error => {
     })
   } else if (status === 400) {
     message.warn('数据格式有误')
+  } else if (status === 500) {
+    message.error('系统错误')
   }
   return Promise.reject(error)
 })
 
-export default axios
+export default http

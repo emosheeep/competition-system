@@ -13,7 +13,7 @@ export default {
       type: String,
       default: 'add',
       validator (value) {
-        return ['add', 'update'].includes(value)
+        return ['add', 'update', 'self'].includes(value)
       }
     }
   },
@@ -30,15 +30,19 @@ export default {
     })
   },
   mounted () {
-    if (this.type === 'update') {
+    if (this.type !== 'add') {
       this.initData()
       this.changed = false // 修正
     }
   },
   methods: {
+    reset () {
+      this.form.resetFields()
+      this.changed = true
+    },
     confirm () {
       return new Promise((resolve, reject) => {
-        if (this.type === 'update' && !this.changed) {
+        if (this.type !== 'add' && !this.changed) {
           message.info('未检测到数据变动')
           reject('未检测到数据变动')
         } else {

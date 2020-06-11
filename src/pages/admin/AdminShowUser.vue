@@ -202,7 +202,6 @@ export default {
       this.updateUserVisible = true
     },
     onDelete (data) {
-      console.log(data)
       this.DELETE_USER({
         type: this.showUserType,
         data

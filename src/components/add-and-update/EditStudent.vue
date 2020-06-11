@@ -1,40 +1,42 @@
 <template>
   <a-form :form="form">
-    <a-form-item
-      :label-col="labelCol"
-      :wrapper-col="wrapperCol"
-      label="账号"
-    >
-      <a-input
-        ref="account"
-        v-decorator="decorator.account"
-        :disabled="type === 'update'"
-        placeholder="学号"
+    <template v-if="type !== 'self'">
+      <a-form-item
+        :label-col="labelCol"
+        :wrapper-col="wrapperCol"
+        label="账号"
       >
-        <a-icon
-          slot="prefix"
-          type="user"
-          style="color: rgba(0,0,0,.25)"
-        />
-      </a-input>
-    </a-form-item>
-    <a-form-item
-      :label-col="labelCol"
-      :wrapper-col="wrapperCol"
-      label="密码"
-    >
-      <a-input
-        ref="password"
-        v-decorator="decorator.password"
-        placeholder="密码"
+        <a-input
+          ref="account"
+          v-decorator="decorator.account"
+          :disabled="type === 'update'"
+          placeholder="学号"
+        >
+          <a-icon
+            slot="prefix"
+            type="user"
+            style="color: rgba(0,0,0,.25)"
+          />
+        </a-input>
+      </a-form-item>
+      <a-form-item
+        :label-col="labelCol"
+        :wrapper-col="wrapperCol"
+        label="密码"
       >
-        <a-icon
-          slot="prefix"
-          type="lock"
-          style="color: rgba(0,0,0,.25)"
-        />
-      </a-input>
-    </a-form-item>
+        <a-input
+          ref="password"
+          v-decorator="decorator.password"
+          placeholder="密码"
+        >
+          <a-icon
+            slot="prefix"
+            type="lock"
+            style="color: rgba(0,0,0,.25)"
+          />
+        </a-input>
+      </a-form-item>
+    </template>
     <a-form-item
       :label-col="labelCol"
       :wrapper-col="wrapperCol"
@@ -97,15 +99,18 @@ export default {
   },
   methods: {
     initData () {
-      const { data } = this
-      this.form.setFieldsValue({
-        account: data.account,
-        password: data.password,
+      const { data, type } = this
+      const result = {
         name: data.name,
         sex: data.sex,
         classname: data.classname,
         grade: data.grade
-      })
+      }
+      if (type !== 'self') {
+        result.account = data.account
+        result.password = data.password
+      }
+      this.form.setFieldsValue(result)
     }
   }
 }

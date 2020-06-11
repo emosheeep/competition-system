@@ -25,6 +25,13 @@ export default [
           /* webpackChunkName: "StudentShowRecord" */
           '../pages/student/StudentShowRecord'
         )
+      },
+      {
+        path: 'self',
+        component: () => import(
+          /* webpackChunkName: "StudentUpdateSelfInfo" */
+          '../pages/student/StudentUpdateSelfInfo'
+        )
       }
     ]
   }

@@ -19,9 +19,8 @@
         </a-input>
       </a-form-item>
       <a-form-item label="密码">
-        <a-input
+        <a-input-password
           v-decorator="decorator.password"
-          type="password"
           placeholder="Password"
         >
           <a-icon
@@ -29,7 +28,7 @@
             type="lock"
             style="color: rgba(0,0,0,.25)"
           />
-        </a-input>
+        </a-input-password>
       </a-form-item>
       <a-form-item>
         <a-radio-group

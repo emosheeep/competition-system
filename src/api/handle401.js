@@ -20,7 +20,7 @@ export default function (config) {
     lock = true
     store.dispatch(REFRESH_TOKEN).then(newToken => {
       const requests = originRequest.map(callback => callback(newToken))
-      return axios.all(requests)
+      return Promise.all(requests)
     }).finally(reset)
   }
   return new Promise(resolve => {

@@ -8,10 +8,7 @@ export default {
       getRaceList(params).then(({ data: races }) => {
         resolve(races)
         commit(SET_RACE_LIST, races)
-      }).catch(e => {
-        reject(e)
-        message.error('系统错误，请重试')
-      })
+      }).catch(reject)
     })
   },
   [ADD_RACE] ({ commit }, race) {
@@ -21,10 +18,7 @@ export default {
         resolve(data)
         commit(ADD_RACE, data)
         message.success('添加成功')
-      }).catch(e => {
-        reject(e)
-        message.error('系统错误，请重试')
-      }).finally(() => {
+      }).catch(reject).finally(() => {
         stopLoading()
       })
     })
@@ -36,12 +30,7 @@ export default {
         resolve(data)
         commit(UPDATE_RACE, data)
         message.success('更新成功')
-      }).catch(e => {
-        reject(e)
-        message.error('系统错误，请重试')
-      }).finally(() => {
-        stopLoading()
-      })
+      }).catch(reject).finally(stopLoading)
     })
   },
   [DELETE_RACE] ({ commit }, data) {
@@ -54,12 +43,7 @@ export default {
         resolve(res)
         commit(DELETE_RACE, data)
         message.success('删除成功')
-      }).catch(e => {
-        reject(e)
-        message.error('系统错误，请重试')
-      }).finally(() => {
-        stopLoading()
-      })
+      }).catch(reject).finally(stopLoading)
     })
   }
 }

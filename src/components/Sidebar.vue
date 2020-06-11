@@ -27,6 +27,10 @@
           <a-icon type="solution" />
           <span>参赛记录</span>
         </a-menu-item>
+        <a-menu-item key="/student/self">
+          <a-icon type="smile" />
+          <span>个人信息</span>
+        </a-menu-item>
       </template>
 
       <!--教师侧栏-->
@@ -39,10 +43,14 @@
           <a-icon type="solution" />
           <span>学生参赛记录</span>
         </a-menu-item>
+        <a-menu-item key="/teacher/self">
+          <a-icon type="smile" />
+          <span>个人信息</span>
+        </a-menu-item>
       </template>
 
       <!--管理员侧栏-->
-      <template v-else>
+      <template v-else-if="user.identity === 'admin'">
         <a-menu-item key="/admin/race">
           <a-icon type="project" />
           <span>赛事管理</span>
@@ -54,6 +62,10 @@
         <a-menu-item key="/admin/record">
           <a-icon type="solution" />
           <span>参赛记录管理</span>
+        </a-menu-item>
+        <a-menu-item key="/admin/self">
+          <a-icon type="smile" />
+          <span>个人信息</span>
         </a-menu-item>
       </template>
     </a-menu>

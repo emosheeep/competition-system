@@ -11,10 +11,7 @@ export default {
       getUserList().then(({ data }) => {
         resolve(data)
         commit(SET_USER_LIST, data)
-      }).catch(e => {
-        reject(e)
-        message.error('系统错误，请重试')
-      })
+      }).catch(reject)
     })
   },
   [ADD_USER] ({ commit }, { type, users }) {
@@ -29,12 +26,7 @@ export default {
           commit(ADD_USER, { type, users })
           message.success('添加成功')
         }
-      }).catch(e => {
-        reject(e)
-        message.error('系统错误，请重试')
-      }).finally(() => {
-        stopLoading()
-      })
+      }).catch(reject).finally(stopLoading)
     })
   },
   [UPDATE_USER] ({ commit }, { type, data: user }) {
@@ -44,12 +36,7 @@ export default {
         resolve(data)
         commit(UPDATE_USER, { type, user: data })
         message.success('修改成功')
-      }).catch(e => {
-        reject(e)
-        message.error('系统错误，请重试')
-      }).finally(() => {
-        stopLoading()
-      })
+      }).catch(reject).finally(stopLoading)
     })
   },
   [DELETE_USER] ({ commit }, { type, data }) {
@@ -62,12 +49,7 @@ export default {
         resolve(data)
         commit(DELETE_USER, { type, data })
         message.success('删除成功')
-      }).catch(e => {
-        reject(e)
-        message.error('系统错误，请重试')
-      }).finally(() => {
-        stopLoading()
-      })
+      }).catch(reject).finally(stopLoading)
     })
   }
 }
