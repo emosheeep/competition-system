@@ -7,8 +7,8 @@
       <a-descriptions-item label="主办方">
         {{ race.sponsor }}
       </a-descriptions-item>
-      <a-descriptions-item label="年度">
-        {{ race.year }}
+      <a-descriptions-item label="类别">
+        {{ race.type }}
       </a-descriptions-item>
       <a-descriptions-item label="级别">
         {{ race.level }}

@@ -23,6 +23,7 @@ export default function () {
       title: '级别',
       dataIndex: 'level',
       width: 80,
+      align: 'center',
       ellipsis: true,
       onFilter: filter('level'),
       filters: [
@@ -48,6 +49,8 @@ export default function () {
       title: '类别',
       dataIndex: 'type',
       ellipsis: true,
+      width: 80,
+      align: 'center',
       onFilter: filter('type'),
       scopedSlots: filterSlots
     },

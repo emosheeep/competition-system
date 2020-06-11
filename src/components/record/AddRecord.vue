@@ -47,8 +47,6 @@
 </template>
 
 <script>
-import { message } from 'ant-design-vue'
-import { getUserList } from '../../api'
 import { ADD_RECORD } from '../../store/mutation-types'
 export default {
   name: 'AddRecord',
@@ -63,28 +61,20 @@ export default {
     return {
       loading: false,
       labelCol: { span: 4 },
-      wrapperCol: { span: 20 },
-      decorator,
-      teachers: []
+      wrapperCol: { span: 20 }
     }
   },
   computed: {
     user () {
       return this.$store.state.user
-    }
-  },
-  watch: {
-    visible (newVal) {
-      if (!newVal) return
-      getUserList('teacher').then(({ data }) => {
-        this.teachers = data
-      }).catch(() => {
-        message.error('系统错误，未获得教师数据')
-      })
+    },
+    teachers () {
+      return this.$store.state.users.teachers
     }
   },
   beforeCreate () {
     this.form = this.$form.createForm(this, { name: 'add-record' })
+    this.decorator = decorator
   },
   methods: {
     onCancel () {
@@ -108,7 +98,8 @@ export default {
         }
         this.$store.dispatch(
           `records/${ADD_RECORD}`,
-          result).then(_ => {
+          result
+        ).then(_ => {
           this.onCancel()
         }).catch(e => e).finally(() => {
           this.loading = false

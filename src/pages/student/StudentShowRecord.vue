@@ -2,7 +2,7 @@
   <div>
     <a-page-header
       :back-icon="false"
-      title="记录管理"
+      title="我的参赛记录"
       sub-title="查看我的参赛记录信息"
       style="padding: 0; margin-bottom: 20px"
     >
@@ -74,7 +74,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-
-</style>

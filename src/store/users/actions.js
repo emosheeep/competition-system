@@ -6,9 +6,9 @@ import { ADD_USER, DELETE_USER, SET_USER_LIST, UPDATE_USER } from '../mutation-t
 import { addUser, deleteUser, getUserList, updateUser } from '../../api'
 
 export default {
-  [SET_USER_LIST] ({ commit }) {
+  [SET_USER_LIST] ({ commit }, type) {
     return new Promise((resolve, reject) => {
-      getUserList().then(({ data }) => {
+      getUserList(type).then(({ data }) => {
         resolve(data)
         commit(SET_USER_LIST, data)
       }).catch(reject)

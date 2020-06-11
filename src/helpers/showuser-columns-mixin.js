@@ -2,12 +2,12 @@ import Vue from 'vue'
 import { filter, filterSlots } from './culumns-helper'
 
 export default Vue.extend({
-  data () {
-    return {
+  created () {
+    Object.assign(this, {
       STUDENT_COLUMNS,
       TEACHER_COLUMNS,
       ADMIN_COLUMNS
-    }
+    })
   }
 })
 

@@ -71,6 +71,7 @@
 </template>
 
 <script>
+import { message } from 'ant-design-vue'
 import { UPDATE_RECORD } from '../../store/mutation-types'
 import { createNamespacedHelpers } from 'vuex'
 const { mapActions } = createNamespacedHelpers('records')
@@ -89,7 +90,8 @@ export default {
       labelCol: { span: 4 },
       wrapperCol: { span: 18 },
       decorator,
-      reviewState: 'fulfilled'
+      reviewState: 'fulfilled',
+      changed: false
     }
   },
   computed: {
@@ -107,17 +109,18 @@ export default {
           this.form.setFieldsValue({
             score: this.record.score
           })
+          this.changed = false
         })
       }
     }
   },
   beforeCreate () {
-    this.form = this.$form.createForm(this)
+    this.form = this.$form.createForm(this, {
+      onValuesChange: _ => { this.changed = true }
+    })
   },
   methods: {
-    ...mapActions({
-      updateRecord: UPDATE_RECORD
-    }),
+    ...mapActions([UPDATE_RECORD]),
     onCancel (e) {
       this.$emit('update:visible', false)
     },
@@ -144,18 +147,22 @@ export default {
       this.$nextTick(() => {
         this.form.setFieldsValue(result)
         this.$refs.score.focus()
+        this.changed = false
       })
     },
     changeReviewState ({ target: { value } }) {
       this.reviewState = value
     },
     confirm () {
+      if (!this.changed) {
+        return message.info('未检测到数据变动')
+      }
       this.form.validateFields().then(values => {
         this.loading = true
         const description = values.state === 'rejected'
           ? values.reason
           : values.description
-        return this.updateRecord({
+        return this.UPDATE_RECORD({
           _id: this.record._id,
           score: values.score,
           state: values.state,

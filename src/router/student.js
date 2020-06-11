@@ -20,6 +20,13 @@ export default [
         )
       },
       {
+        path: 'teacher',
+        component: () => import(
+          /* webpackChunkName: "StudentShowTeacher" */
+          '../pages/student/StudentShowTeacher'
+        )
+      },
+      {
         path: 'record',
         component: () => import(
           /* webpackChunkName: "StudentShowRecord" */

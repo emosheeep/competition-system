@@ -41,8 +41,8 @@ const columns = {
       dataIndex: 'name'
     },
     {
-      title: '部门',
-      dataIndex: 'dept'
+      title: '职称',
+      dataIndex: 'rank'
     },
     {
       title: '描述',

@@ -26,7 +26,7 @@
 import Sidebar from '../components/Sidebar'
 import Loading from '../components/common/Loading'
 import Header from '../components/Header'
-import { SET_RACE_LIST, SET_RECORD_LIST } from '../store/mutation-types'
+import { SET_RACE_LIST, SET_RECORD_LIST, SET_USER_LIST } from '../store/mutation-types'
 
 export default {
   name: 'Student',
@@ -53,6 +53,7 @@ export default {
       const { account } = this.$store.state.user
       Promise.all([
         this.$store.dispatch(`races/${SET_RACE_LIST}`),
+        this.$store.dispatch(`users/${SET_USER_LIST}`, 'teacher'),
         this.$store.dispatch(`records/${SET_RECORD_LIST}`, {
           sid: account
         })

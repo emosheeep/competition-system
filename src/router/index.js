@@ -20,7 +20,18 @@ const routes = [
   },
   ...teacher,
   ...student,
-  ...admin
+  ...admin,
+  {
+    path: '/404',
+    component: () => import(
+      /* webpackChunkName: "404" */
+      '../components/common/404'
+    )
+  },
+  {
+    path: '*',
+    redirect: '/404'
+  }
 ]
 
 const router = new VueRouter({

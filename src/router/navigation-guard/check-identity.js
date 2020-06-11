@@ -5,7 +5,7 @@ import store from '../../store'
 
 export default function (to, from, next) {
   // 登录页面不做校验
-  if (to.fullPath === '/') {
+  if (['/', '/404'].includes(to.path)) {
     return next()
   }
   const route = to.matched.find(item => item.meta.identity)
