@@ -78,7 +78,11 @@ export default {
     },
     generateData (result) {
       const length = result.length
-      result = uniqBy(result, 'account')
+      try {
+        result = uniqBy(result, item => item.account)
+      } catch (e) {
+        message.error('表格数据格式有误')
+      }
       if (result.length !== length) {
         message.warn('学号有重复，已按学号去重')
       }
