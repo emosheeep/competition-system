@@ -156,7 +156,6 @@
 
 <script>
 import { omit } from 'lodash'
-import { Modal } from 'ant-design-vue'
 import createColumns from '../../helpers/importuser-columns'
 import ColumnsMixin from '../../helpers/showuser-columns-mixin'
 import { makeExcel } from '../../utils/excel'
@@ -168,6 +167,7 @@ import UpdateUser from '../../components/user/UpdateUser'
 import { ADD_USER, DELETE_USER } from '../../store/mutation-types'
 import { createNamespacedHelpers } from 'vuex'
 const { mapState, mapActions } = createNamespacedHelpers('users')
+
 export default {
   name: 'User',
   components: {
@@ -226,22 +226,9 @@ export default {
       this.ADD_USER({
         type: this.importUserType,
         users: generateDefaultDate(this.importUserType, users)
-      }).then(res => {
+      }).then(() => {
         this.importUserVisible = false
-      }).catch(users => {
-        if (users?.length !== 0) {
-          Modal.warning({
-            title: '以下用户已存在',
-            centered: true,
-            content: h => h('div', users.map(user => {
-              return [
-                h('span', user),
-                h('a-divider', { props: { type: 'vertical' } })
-              ]
-            }))
-          })
-        }
-      })
+      }).catch(console.warn)
     },
     exportExcel () {
       makeExcel({

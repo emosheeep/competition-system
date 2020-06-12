@@ -82,20 +82,18 @@ export default {
     }
   },
   methods: {
-    ...mapActions({
-      addUser: ADD_USER
-    }),
+    ...mapActions([ADD_USER]),
     onOk (e) {
       // 调用子组件的confirm方法
       this.$refs[this.type].confirm().then(values => {
         this.loading = true
-        return this.addUser({
+        return this.ADD_USER({
           type: this.type,
           users: values
         })
       }).then(res => {
         this.$emit('update:visible', false)
-      }).finally(() => {
+      }).catch(console.warn).finally(() => {
         setTimeout(() => {
           this.loading = false
         }, 500)

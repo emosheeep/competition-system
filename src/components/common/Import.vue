@@ -26,13 +26,13 @@
       :columns="columns"
       :data-source="result"
       :loading="uploading"
+      size="small"
+      :row-key="rowKey"
+      style="margin-top: 10px"
       :pagination="{
         showSizeChanger: true,
         showQuickJumper: true
       }"
-      size="small"
-      :row-key="rowKey"
-      style="margin-top: 10px"
     />
   </a-modal>
 </template>
@@ -123,6 +123,7 @@ export default {
       const modal = Modal.confirm({
         title: '提示',
         content: '确认导入吗？',
+        centered: true,
         onOk: () => {
           modal.destroy()
           this.$emit('confirm', this.result)
