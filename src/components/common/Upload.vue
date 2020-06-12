@@ -73,13 +73,7 @@ export default {
   },
   data () {
     return {
-      loading: false,
-      showProgress: false,
-      imgUrl: '',
-      file: null,
-      uploadPercent: 0,
-      uploadStatus: 'active',
-      previewVisible: false
+      ...data
     }
   },
   methods: {
@@ -87,16 +81,7 @@ export default {
       updateRecord: UPDATE_RECORD
     }),
     reset () {
-      // TODO: 使用更好的方式来控制组件的初始化以及显示与隐藏
-      Object.assign(this, {
-        loading: false,
-        showProgress: false,
-        imgUrl: '',
-        file: null,
-        uploadPercent: 0,
-        uploadStatus: 'active',
-        previewVisible: false
-      })
+      Object.assign(this, data)
     },
     onCancel () {
       this.$emit('update:visible', false)
@@ -132,39 +117,22 @@ export default {
   }
 }
 
+const data = {
+  loading: false,
+  showProgress: false,
+  imgUrl: '',
+  file: null,
+  uploadPercent: 0,
+  uploadStatus: 'active',
+  previewVisible: false
+}
+
 function createObjectUrl (file) {
   return new Promise((resolve, reject) => {
     const reader = new FileReader()
     reader.readAsDataURL(file)
     reader.onload = () => resolve(reader.result)
     reader.onerror = reject
-  })
-}
-// 定义传输过程中的状态处理函数
-function next ({ total }) {
-  this.uploadPercent = +total.percent.toFixed(1) // toNum
-}
-function error (err) {
-  this.uploadStatus = 'exception'
-  this.loading = false
-  console.error(err)
-}
-function complete ({ key: name }) {
-  const record = { ...this.record }
-  record.uploaded = true // 标记为已上传状态
-  Promise.all([
-    fresh({ name }), // 重新上传文件，需要刷新cdn缓存，否则预览文件不会变化
-    this.updateRecord(record)
-  ]).then(([{ data: result }]) => {
-    this.uploadStatus = 'success'
-    if (result.code === 1) {
-      console.warn('CDN刷新失败，errMsg: ' + result.msg)
-    }
-    setTimeout(() => {
-      this.loading = false
-      this.$emit('update:visible', false)
-      this.$emit('complete')
-    }, 800)
   })
 }
 // 文件上传
@@ -192,6 +160,33 @@ function uploadFile () {
       error.bind(this),
       complete.bind(this)
     )
+  })
+}
+// 定义传输过程中的状态处理函数
+function next ({ total }) {
+  this.uploadPercent = +total.percent.toFixed(1) // toNum
+}
+function error (err) {
+  this.uploadStatus = 'exception'
+  this.loading = false
+  console.error(err)
+}
+function complete ({ key: name }) {
+  const record = { ...this.record }
+  record.uploaded = true // 标记为已上传状态
+  Promise.all([
+    fresh({ name }), // 重新上传文件，需要刷新cdn缓存，否则预览文件不会变化
+    this.updateRecord(record)
+  ]).then(([{ data: result }]) => {
+    this.uploadStatus = 'success'
+    if (result.code === 1) {
+      console.warn('CDN刷新失败，errMsg: ' + result.msg)
+    }
+    setTimeout(() => {
+      this.loading = false
+      this.$emit('update:visible', false)
+      this.$emit('complete')
+    }, 800)
   })
 }
 

@@ -19,13 +19,13 @@
     >
       <!--学生侧栏-->
       <template v-if="user.identity === 'student'">
-        <a-menu-item key="/student/race">
-          <a-icon type="project" />
-          <span>竞赛列表</span>
-        </a-menu-item>
         <a-menu-item key="/student/teacher">
           <a-icon type="experiment" />
           <span>教师信息</span>
+        </a-menu-item>
+        <a-menu-item key="/student/race">
+          <a-icon type="project" />
+          <span>竞赛列表</span>
         </a-menu-item>
         <a-menu-item key="/student/record">
           <a-icon type="solution" />

@@ -6,24 +6,24 @@ export default [
       /* webpackChunkName: "Student" */
       '../pages/Student'
     ),
-    redirect: '/student/race',
+    redirect: '/student/teacher',
     meta: {
       auth: true,
       identity: 'student'
     },
     children: [
       {
-        path: 'race',
-        component: () => import(
-          /* webpackChunkName: "Student" */
-          '../pages/student/StudentShowRace'
-        )
-      },
-      {
         path: 'teacher',
         component: () => import(
           /* webpackChunkName: "StudentShowTeacher" */
           '../pages/student/StudentShowTeacher'
+        )
+      },
+      {
+        path: 'race',
+        component: () => import(
+          /* webpackChunkName: "Student" */
+          '../pages/student/StudentShowRace'
         )
       },
       {
