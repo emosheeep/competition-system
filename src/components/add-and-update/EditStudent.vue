@@ -20,6 +20,7 @@
         </a-input>
       </a-form-item>
       <a-form-item
+        v-if="type === 'add'"
         :label-col="labelCol"
         :wrapper-col="wrapperCol"
         label="密码"

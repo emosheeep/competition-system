@@ -15,18 +15,26 @@ export default {
     })
   },
   [ADD_USER] ({ commit }, { type, users }) {
-    const stopLoading = message.loading('请稍后')
+    const key = Date.now()
+    const stopLoading = message.loading({
+      key,
+      content: '请稍后',
+      duration: 0
+    })
     return new Promise((resolve, reject) => {
       addUser(type, users).then(({ data }) => {
         if (data.code === 1) {
           reject(data.users)
-          message.warn('用户已存在！')
+          message.warn({ content: '用户已存在！', key })
         } else {
           resolve(data)
           commit(ADD_USER, { type, users })
-          message.success('添加成功')
+          message.success({ content: '添加成功', key })
         }
-      }).catch(reject).finally(stopLoading)
+      }).catch(() => {
+        stopLoading()
+        reject()
+      })
     })
   },
   [UPDATE_USER] ({ commit }, { type, data: user }) {

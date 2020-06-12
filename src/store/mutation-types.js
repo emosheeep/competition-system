@@ -4,7 +4,6 @@
 export const LOGIN = 'LOGIN'
 export const LOGOUT = 'LOGOUT'
 export const REFRESH_TOKEN = 'REFRESH_TOKEN'
-export const UPDATE_PASSWORD = 'UPDATE_PASSWORD'
 export const UPDATE_SELF = 'UPDATE_SELF'
 
 // users 模块

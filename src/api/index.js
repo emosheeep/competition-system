@@ -21,6 +21,7 @@ export const updateUser = (type, data) => {
   return axios.put('/user/update', { type, data })
 }
 export const updatePassword = data => axios.patch('/user/password', data)
+export const resetPassword = data => axios.put('/user/reset', data)
 
 /**
  * 赛事

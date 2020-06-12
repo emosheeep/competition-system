@@ -70,7 +70,8 @@
 </template>
 
 <script>
-import { UPDATE_PASSWORD } from '../../store/mutation-types'
+import { message } from 'ant-design-vue'
+import { updatePassword } from '../../api'
 
 export default {
   name: 'ModifyPassword',
@@ -95,21 +96,33 @@ export default {
       this.form.resetFields()
     },
     modifyPassword () {
+      const key = Date.now()
+      const stopLoading = message.loading({
+        key,
+        content: '请稍后',
+        duration: 0
+      })
       this.form.validateFields({
         first: true
       }).then(values => {
         this.loading = true
-        return this.$store.dispatch(UPDATE_PASSWORD, {
+        return updatePassword({
           account: this.user.account,
           identity: this.user.identity,
           oldVal: values.password,
           newVal: values.newPass
         })
-      }).then(this.reset)
-        .catch(e => e)
-        .finally(() => {
-          this.loading = false
-        })
+      }).then(res => {
+        const { code, msg } = res.data
+        if (code === 0) {
+          message.success({ content: '修改成功', key })
+          this.reset()
+        } else {
+          message.warn({ content: msg, key })
+        }
+      }).catch(stopLoading).finally(() => {
+        this.loading = false
+      })
     }
   }
 }

@@ -20,7 +20,8 @@ http.interceptors.request.use(config => {
 // 若因401而拒绝，则刷新token，若403则跳转登录
 http.interceptors.response.use(null, error => {
   if (!navigator.onLine) {
-    return message.error('网络错误')
+    message.error('网络错误')
+    return Promise.reject(error)
   }
   const { status, config } = error.response
   if (status === 401) {
@@ -34,9 +35,11 @@ http.interceptors.response.use(null, error => {
       message.warn('身份凭证过期，请重新登录')
     })
   } else if (status === 400) {
-    message.warn('数据格式有误')
+    message.warn('请求错误')
   } else if (status === 500) {
     message.error('系统错误')
+  } else {
+    message.error(error.message)
   }
   return Promise.reject(error)
 })

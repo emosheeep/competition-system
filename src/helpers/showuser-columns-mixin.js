@@ -49,10 +49,6 @@ const STUDENT_COLUMNS = [
     dataIndex: 'classname'
   },
   {
-    title: '密码',
-    dataIndex: 'password'
-  },
-  {
     title: '操作',
     key: 'action',
     align: 'center',
@@ -80,10 +76,6 @@ const TEACHER_COLUMNS = [
     onFilter: filter('rank')
   },
   {
-    title: '密码',
-    dataIndex: 'password'
-  },
-  {
     title: '描述',
     dataIndex: 'description',
     ellipsis: true
@@ -106,10 +98,6 @@ const ADMIN_COLUMNS = [
     dataIndex: 'name',
     scopedSlots: filterSlots,
     onFilter: filter('name')
-  },
-  {
-    title: '密码',
-    dataIndex: 'password'
   },
   {
     title: '操作',

@@ -77,6 +77,7 @@
           :multiple="isMultiple"
           @update-user="onUpdate"
           @delete-user="onDelete"
+          @reset="reset"
         />
       </a-tab-pane>
       <a-tab-pane
@@ -90,6 +91,7 @@
           :multiple="isMultiple"
           @update-user="onUpdate"
           @delete-user="onDelete"
+          @reset="reset"
         />
       </a-tab-pane>
       <a-tab-pane
@@ -155,15 +157,16 @@
 <script>
 import { omit } from 'lodash'
 import { Modal } from 'ant-design-vue'
-import { createNamespacedHelpers } from 'vuex'
 import createColumns from '../../helpers/importuser-columns'
 import ColumnsMixin from '../../helpers/showuser-columns-mixin'
 import { makeExcel } from '../../utils/excel'
-import { ADD_USER, DELETE_USER } from '../../store/mutation-types'
+import resetPassword from '../../utils/reset-password'
 import ShowUser from '../../components/user/ShowUser'
 import AddUser from '../../components/user/AddUser'
 import Import from '../../components/common/Import'
 import UpdateUser from '../../components/user/UpdateUser'
+import { ADD_USER, DELETE_USER } from '../../store/mutation-types'
+import { createNamespacedHelpers } from 'vuex'
 const { mapState, mapActions } = createNamespacedHelpers('users')
 export default {
   name: 'User',
@@ -200,6 +203,9 @@ export default {
     onUpdate (user) {
       this.curUser = user
       this.updateUserVisible = true
+    },
+    reset (account) {
+      resetPassword(this.showUserType, account)
     },
     onDelete (data) {
       this.DELETE_USER({

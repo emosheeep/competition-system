@@ -31,7 +31,7 @@
         title="确认删除？"
         ok-text="确认"
         cancel-text="取消"
-        placement="right"
+        placement="left"
         @confirm="onDelete(account)"
       >
         <template #icon>
@@ -41,6 +41,29 @@
           />
         </template>
         <a><a-icon type="delete" /></a>
+      </a-popconfirm>
+
+      <!--重置密码-->
+      <a-divider type="vertical" />
+      <a-popconfirm
+        title="确认重置密码？"
+        ok-text="确认"
+        cancel-text="取消"
+        placement="left"
+        @confirm="$emit('reset', account)"
+      >
+        <template #icon>
+          <a-icon
+            type="question-circle-o"
+            style="color: orange"
+          />
+        </template>
+        <a-tooltip placement="top">
+          <template #title>
+            <span>重置密码</span>
+          </template>
+          <a><a-icon type="rollback" /></a>
+        </a-tooltip>
       </a-popconfirm>
     </template>
   </a-table>
