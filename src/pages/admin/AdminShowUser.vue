@@ -140,7 +140,6 @@
     <AddUser :visible.sync="addUserVisible" />
     <!--导入用户-->
     <Import
-      row-key="account"
       :visible.sync="importUserVisible"
       :columns="curColumns"
       @confirm="importUser"
@@ -225,7 +224,7 @@ export default {
     importUser (users) {
       this.ADD_USER({
         type: this.importUserType,
-        users: generateDefaultDate(this.importUserType, users)
+        users
       }).then(() => {
         this.importUserVisible = false
       }).catch(console.warn)
@@ -238,22 +237,6 @@ export default {
       })
     }
   }
-}
-
-function generateDefaultDate (type, users) {
-  if (type === 'student') {
-    return users.map(user => ({
-      password: '123456',
-      sex: '男',
-      ...user
-    }))
-  } else if (type === 'teacher') {
-    return users.map(user => ({
-      password: '123456',
-      ...user
-    }))
-  }
-  throw new Error('type must be of ["student", "teacher"]')
 }
 </script>
 

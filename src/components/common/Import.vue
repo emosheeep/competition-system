@@ -23,12 +23,12 @@
       </a-button>
     </a-upload>
     <a-table
+      size="small"
+      style="margin-top: 10px"
       :columns="columns"
       :data-source="result"
       :loading="uploading"
-      size="small"
       :row-key="rowKey"
-      style="margin-top: 10px"
       :pagination="{
         showSizeChanger: true,
         showQuickJumper: true
@@ -47,7 +47,7 @@ export default {
     visible: Boolean,
     rowKey: {
       type: String,
-      required: true
+      default: 'account'
     },
     columns: {
       type: Array,
@@ -95,7 +95,10 @@ export default {
         })
         return { ...item }
       })
-      this.result = result
+      this.result = result.map(user => ({
+        password: '123456',
+        ...user
+      }))
       this.fileLoaded = true
       this.uploading = false
     },
