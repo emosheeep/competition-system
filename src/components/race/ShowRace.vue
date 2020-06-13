@@ -1,12 +1,11 @@
 <template>
   <div>
     <a-table
-      row-key="_id"
       bordered
+      :row-key="rowKey"
       :row-selection="rowSelection"
-      :loading="loading"
       :columns="columns"
-      :data-source="races"
+      :data-source="data"
       :pagination="{
         showSizeChanger: true,
         showQuickJumper: true
@@ -107,10 +106,13 @@ export default {
   },
   mixins: [MultipleDelete],
   props: {
-    loading: Boolean,
-    races: {
+    data: {
       type: Array,
       required: true
+    },
+    rowKey: {
+      type: String,
+      default: '_id'
     },
     type: {
       type: String,

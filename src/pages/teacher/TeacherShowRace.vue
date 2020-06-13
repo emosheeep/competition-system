@@ -22,7 +22,7 @@
     </a-page-header>
     <ShowRace
       type="teacher"
-      :races="races"
+      :data="races"
     />
   </div>
 </template>
@@ -53,7 +53,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-
-</style>

@@ -22,7 +22,7 @@
     </a-page-header>
     <ShowRace
       type="student"
-      :races="races"
+      :data="races"
       @add-record="onAddRecord"
     />
     <AddRecord
@@ -79,7 +79,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-
-</style>

@@ -52,7 +52,7 @@
     <ShowRace
       ref="race"
       type="admin"
-      :races="races"
+      :data="races"
       :multiple="isMultiple"
       @update-race="onUpdate"
       @delete-race="onDelete"

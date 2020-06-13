@@ -2,7 +2,7 @@
   <!--数据列表-->
   <a-table
     bordered
-    row-key="account"
+    :row-key="rowKey"
     :columns="column"
     :data-source="data"
     :row-selection="rowSelection"
@@ -84,6 +84,10 @@ export default {
     data: {
       type: Array,
       required: true
+    },
+    rowKey: {
+      type: String,
+      default: 'account'
     },
     column: {
       type: Array,

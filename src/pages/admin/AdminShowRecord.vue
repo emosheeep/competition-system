@@ -49,7 +49,7 @@
     <ShowRecord
       ref="record"
       type="admin"
-      :records="records"
+      :data="records"
       :multiple="isMultiple"
       @delete-record="onDelete"
       @update-record="onUpdate"

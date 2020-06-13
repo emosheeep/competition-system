@@ -1,14 +1,19 @@
 <template>
   <div>
     <a-table
-      v-bind="table"
+      bordered
+      :row-key="rowKey"
       :row-selection="rowSelection"
       :columns="columns"
-      :data-source="records"
+      :data-source="data"
+      :pagination="{
+        showSizeChanger: true,
+        showQuickJumper: true
+      }"
     >
       <!--表头-->
-      <template #title="data">
-        <h1>参赛记录 - 共 {{ data.length }} 条</h1>
+      <template #title="records">
+        <h1>参赛记录 - 共 {{ records.length }} 条</h1>
       </template>
 
       <!--搜索-->
@@ -104,9 +109,13 @@ export default {
   },
   mixins: [ColumnsMixin, MultipleDelete],
   props: {
-    records: {
+    data: {
       type: Array,
       required: true
+    },
+    rowKey: {
+      type: String,
+      default: '_id'
     },
     type: {
       type: String,
@@ -119,7 +128,6 @@ export default {
   data () {
     return {
       columns: this.CREATE_COLUMNS(this.type),
-      table: table,
       uploadVisible: false,
       recordDetailVisible: false,
       curRecord: {}
@@ -148,14 +156,6 @@ export default {
       this.curRecord = record
       this.recordDetailVisible = true
     }
-  }
-}
-const table = {
-  bordered: true,
-  rowKey: '_id',
-  pagination: {
-    showSizeChanger: true,
-    showQuickJumper: true
   }
 }
 </script>

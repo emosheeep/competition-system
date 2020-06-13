@@ -22,7 +22,7 @@
     </a-page-header>
     <ShowRecord
       type="teacher"
-      :records="records"
+      :data="records"
       @delete-record="onDelete"
       @update-record="onUpdate"
     />
@@ -80,7 +80,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-
-</style>

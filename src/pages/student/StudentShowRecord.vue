@@ -22,7 +22,7 @@
     </a-page-header>
     <ShowRecord
       type="student"
-      :records="records"
+      :data="records"
       @update-record="onUpdate"
     />
     <UpdateRecord

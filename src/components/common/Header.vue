@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import LoginState from './common/LoginState'
+import LoginState from './LoginState'
 export default {
   name: 'Header',
   components: { LoginState }

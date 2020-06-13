@@ -23,9 +23,9 @@
 </template>
 
 <script>
-import Sidebar from '../components/Sidebar'
+import Sidebar from '../components/common/Sidebar'
 import Loading from '../components/common/Loading'
-import Header from '../components/Header'
+import Header from '../components/common/Header'
 import { SET_RACE_LIST, SET_RECORD_LIST } from '../store/mutation-types'
 export default {
   name: 'Teacher',
