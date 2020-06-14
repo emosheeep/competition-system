@@ -27,7 +27,7 @@
     <!--展示对应赛事的参赛人员，id为赛事id-->
     <ShowRecord
       type="common"
-      :records="records"
+      :data="records"
     />
   </div>
 </template>
@@ -56,7 +56,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-
-</style>
