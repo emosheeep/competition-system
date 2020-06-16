@@ -69,7 +69,6 @@
       <!--最后一排的操作按钮，只有管理员和教师需要action，学生只能查看,以及Detail也不需要-->
       <template #action="record">
         <ShowRecordAction
-          :type="type"
           :record="record"
           @update-record="onEdit"
           @delete-record="onDelete"
@@ -92,14 +91,16 @@
 </template>
 
 <script>
+import Vue from 'vue'
 import moment from 'moment'
-import ColumnsMixin from '../../helpers/showrecord-cloumns-mixin'
-import MultipleDelete from '../../helpers/multiple-delete-mixin'
 import TableSearch from '../common/TableSearch'
 import Upload from '../../components/common/Upload'
 import ShowRecordAction from './ShowRecordAction'
 import ShowRecordDetail from './ShowRecordDetail'
-export default {
+import createColumns from '../../helpers/showrecord-cloumns'
+import MultipleDelete from '../../helpers/multiple-delete-mixin'
+
+export default Vue.extend({
   name: 'ShowRecord',
   components: {
     Upload,
@@ -107,7 +108,7 @@ export default {
     ShowRecordAction,
     ShowRecordDetail
   },
-  mixins: [ColumnsMixin, MultipleDelete],
+  mixins: [MultipleDelete],
   props: {
     data: {
       type: Array,
@@ -119,19 +120,21 @@ export default {
     },
     type: {
       type: String,
-      default: 'common',
+      default: 'readonly',
       validator (value) {
-        return ['student', 'admin', 'teacher', 'common'].includes(value)
+        return ['student', 'admin', 'teacher', 'readonly'].includes(value)
       }
     }
   },
   data () {
     return {
-      columns: this.CREATE_COLUMNS(this.type),
       uploadVisible: false,
       recordDetailVisible: false,
       curRecord: {}
     }
+  },
+  beforeMount () {
+    this.columns = createColumns(this.type)
   },
   methods: {
     formatDate (date) {
@@ -157,7 +160,7 @@ export default {
       this.recordDetailVisible = true
     }
   }
-}
+})
 </script>
 
 <style scoped lang="stylus">

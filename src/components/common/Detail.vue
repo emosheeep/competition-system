@@ -25,10 +25,7 @@
       </a-descriptions-item>
     </a-descriptions>
     <!--展示对应赛事的参赛人员，id为赛事id-->
-    <ShowRecord
-      type="common"
-      :data="records"
-    />
+    <ShowRecord :data="records" />
   </div>
 </template>
 

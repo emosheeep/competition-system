@@ -6,12 +6,17 @@
       style="padding: 0; margin-bottom: 10px"
     >
       <template #extra>
-        <a-button
-          type="primary"
-          @click="addAdminVisible = true"
-        >
-          添加管理员
-        </a-button>
+        <a-button-group>
+          <a-button
+            type="primary"
+            @click="addAdminVisible = true"
+          >
+            添加管理员
+          </a-button>
+          <a-button @click="init">
+            刷新
+          </a-button>
+        </a-button-group>
       </template>
     </a-page-header>
     <p style="padding-left: 5px; font-weight: bold">
@@ -34,6 +39,7 @@
 
 <script>
 import Vue from 'vue'
+import { message } from 'ant-design-vue'
 import ShowUser from '../../components/user/ShowUser'
 import UpdateAdmin from '../../components/user/UpdateAdmin'
 import AddAdmin from '../../components/user/AddAdmin'
@@ -46,6 +52,9 @@ const { mapState, mapActions } = createNamespacedHelpers('users')
 export default Vue.extend({
   name: 'RootShowAdmin',
   components: { UpdateAdmin, AddAdmin, ShowUser },
+  inject: {
+    init: 'init'
+  },
   data () {
     return {
       addAdminVisible: false,
@@ -53,7 +62,12 @@ export default Vue.extend({
       curAdmin: {}
     }
   },
-  computed: mapState(['admins']),
+  computed: {
+    ...mapState(['admins']),
+    user () {
+      return this.$store.state.user
+    }
+  },
   beforeMount () {
     // 无需响应式的数据
     this.ADMIN_COLUMNS = ADMIN_COLUMNS
@@ -68,6 +82,9 @@ export default Vue.extend({
       resetPassword('admin', account)
     },
     onDelete (data) {
+      if (this.user.account === data[0]) {
+        return message.warn('不能删除自己')
+      }
       this.DELETE_USER({
         type: 'admin',
         data

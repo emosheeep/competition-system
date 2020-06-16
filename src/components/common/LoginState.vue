@@ -34,6 +34,10 @@ export default {
       }
     }
   },
+  inject: {
+    loadingStart: 'loadingStart',
+    loadingEnd: 'loadingEnd'
+  },
   computed: {
     user () {
       return this.$store.state.user
@@ -41,8 +45,11 @@ export default {
   },
   methods: {
     changeUser () {
+      this.loadingStart()
       this.$store.commit(LOGOUT)
-      this.$router.replace({ path: '/' })
+      this.$router.replace({ path: '/' }).finally(() => {
+        this.loadingEnd()
+      })
     }
   }
 }

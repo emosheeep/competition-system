@@ -1,28 +1,24 @@
-import Vue from 'vue'
+import { dropRight } from 'lodash'
 import { filter, filterSlots } from './culumns-helper'
 
-export default Vue.extend({
-  methods: {
-    CREATE_COLUMNS (type) {
-      if (type === 'admin') {
-        return allColumns
-      } else if (type === 'teacher') {
-        return allColumns.filter(item => {
-          return item.dataIndex !== 'tid' && item.dataIndex !== 'tname'
-        })
-      } else if (type === 'student') {
-        return allColumns.filter(item => {
-          return item.dataIndex !== 'sid' && item.dataIndex !== 'sname'
-        })
-      } else if (type === 'common') {
-        return allColumns.slice(0, allColumns.length - 1) // 去掉action
-      }
-      throw new Error(
-        "type must be one of ['admin', 'student', 'teacher', 'common']"
-      )
-    }
+export default function (type) {
+  if (type === 'admin') {
+    return allColumns
+  } else if (type === 'teacher') {
+    return allColumns.filter(item => {
+      return item.dataIndex !== 'tid' && item.dataIndex !== 'tname'
+    })
+  } else if (type === 'student') {
+    return allColumns.filter(item => {
+      return item.dataIndex !== 'sid' && item.dataIndex !== 'sname'
+    })
+  } else if (type === 'readonly') {
+    return dropRight(allColumns) // 去掉action
   }
-})
+  throw new Error(
+    "type must be one of ['admin', 'student', 'teacher', 'readonly']"
+  )
+}
 
 const allColumns = [
   {

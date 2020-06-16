@@ -137,7 +137,7 @@
 
 <script>
 import Vue from 'vue'
-import { omit } from 'lodash'
+import { omit, dropRight } from 'lodash'
 import createColumns from '../../helpers/importuser-columns'
 import { STUDENT_COLUMNS, TEACHER_COLUMNS } from '../../helpers/showuser-columns'
 import { makeExcel } from '../../utils/excel'
@@ -177,12 +177,20 @@ export default Vue.extend({
     },
     allUsersNum () {
       return this.students.length + this.teachers.length
+    },
+    user () {
+      return this.$store.state.user
     }
   },
   beforeMount () {
     // 这些数据无需响应式
-    this.STUDENT_COLUMNS = STUDENT_COLUMNS
-    this.TEACHER_COLUMNS = TEACHER_COLUMNS
+    if (this.user.power !== 'read') {
+      this.STUDENT_COLUMNS = STUDENT_COLUMNS
+      this.TEACHER_COLUMNS = TEACHER_COLUMNS
+    } else {
+      this.STUDENT_COLUMNS = dropRight(STUDENT_COLUMNS)
+      this.TEACHER_COLUMNS = dropRight(TEACHER_COLUMNS)
+    }
   },
   methods: {
     ...mapActions([ADD_USER, DELETE_USER]),

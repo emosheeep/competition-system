@@ -37,6 +37,24 @@
           />
         </a-input>
       </a-form-item>
+      <a-form-item
+        v-if="type === 'add'"
+        :label-col="labelCol"
+        :wrapper-col="wrapperCol"
+        label="权限"
+      >
+        <a-select
+          v-decorator="decorator.power"
+          placeholder="管理员权限"
+        >
+          <a-select-option value="admin">
+            admin
+          </a-select-option>
+          <a-select-option value="root">
+            root
+          </a-select-option>
+        </a-select>
+      </a-form-item>
     </template>
     <a-form-item
       :label-col="labelCol"
@@ -47,26 +65,6 @@
         v-decorator="decorator.name"
         placeholder="姓名"
       />
-    </a-form-item>
-    <a-form-item
-      :label-col="labelCol"
-      :wrapper-col="wrapperCol"
-      label="权限"
-    >
-      <a-select
-        v-decorator="decorator.power"
-        placeholder="管理员权限"
-      >
-        <a-select-option value="read">
-          查看（readable）
-        </a-select-option>
-        <a-select-option value="write">
-          查看 & 编辑（readable & writeable）
-        </a-select-option>
-        <a-select-option value="root">
-          根管理员（root）
-        </a-select-option>
-      </a-select>
     </a-form-item>
   </a-form>
 </template>
@@ -86,8 +84,7 @@ export default {
     initData () {
       const { data, type } = this
       const result = {
-        name: data.name,
-        power: data.power
+        name: data.name
       }
       if (type !== 'self') {
         result.account = data.account
@@ -120,7 +117,7 @@ const decorator = {
     }]
   }],
   power: ['power', {
-    initialValue: 'read',
+    initialValue: 'admin',
     rules: [{
       required: true,
       message: '设置管理员权限！'

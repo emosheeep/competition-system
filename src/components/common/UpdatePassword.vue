@@ -74,7 +74,7 @@ import { message } from 'ant-design-vue'
 import { updatePassword } from '../../api'
 
 export default {
-  name: 'ModifyPassword',
+  name: 'UpdatePassword',
   data () {
     return {
       labelCol: { span: 4 },
@@ -96,16 +96,16 @@ export default {
       this.form.resetFields()
     },
     modifyPassword () {
+      let stopLoading
       const key = Date.now()
-      const stopLoading = message.loading({
+      const options = {
         key,
         content: '请稍后',
         duration: 0
-      })
-      this.form.validateFields({
-        first: true
-      }).then(values => {
+      }
+      this.form.validateFields({ first: true }).then(values => {
         this.loading = true
+        stopLoading = message.loading(options)
         return updatePassword({
           account: this.user.account,
           identity: this.user.identity,
@@ -120,7 +120,9 @@ export default {
         } else {
           message.warn({ content: msg, key })
         }
-      }).catch(stopLoading).finally(() => {
+      }).catch(() => {
+        stopLoading && stopLoading()
+      }).finally(() => {
         this.loading = false
       })
     }

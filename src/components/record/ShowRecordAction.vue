@@ -1,29 +1,29 @@
 <template>
   <div>
-    <!--详情界面的纯展示（本身受到columns限制不会渲染，这里以防万一）-->
-    <template v-if="common" />
-
     <!--管理员的编辑和删除功能-->
-    <template v-if="admin">
-      <a @click="$emit('update-record', record)">
-        <a-icon type="edit" />
-      </a>
-      <a-divider type="vertical" />
-      <a-popconfirm
-        title="确认删除？"
-        ok-text="确认"
-        cancel-text="取消"
-        @confirm="$emit('delete-record', record)"
-      >
-        <template #icon>
-          <a-icon
-            type="question-circle-o"
-            style="color: orange"
-          />
-        </template>
-        <a><a-icon type="delete" /></a>
-      </a-popconfirm>
-      <a-divider type="vertical" />
+    <template v-if="identity === 'admin'">
+      <!--编辑和删除 需要管理员权限为root或write-->
+      <template>
+        <a @click="$emit('update-record', record)">
+          <a-icon type="edit" />
+        </a>
+        <a-divider type="vertical" />
+        <a-popconfirm
+          title="确认删除？"
+          ok-text="确认"
+          cancel-text="取消"
+          @confirm="$emit('delete-record', record)"
+        >
+          <template #icon>
+            <a-icon
+              type="question-circle-o"
+              style="color: orange"
+            />
+          </template>
+          <a><a-icon type="delete" /></a>
+        </a-popconfirm>
+        <a-divider type="vertical" />
+      </template>
       <a-tooltip
         placement="top"
         title="查看详情"
@@ -35,7 +35,7 @@
     </template>
 
     <!--教师只能查看-->
-    <template v-else-if="teacher">
+    <template v-else-if="identity === 'teacher'">
       <a-tooltip
         placement="top"
         title="查看详情"
@@ -47,7 +47,7 @@
     </template>
 
     <!--学生的附件上传功能-->
-    <template v-if="student">
+    <template v-else-if="identity === 'student'">
       <!--审核状态为成功（fulfilled）时，记录将锁定，不能再上传和修改-->
       <template v-if="!isFulfilled">
         <a-tooltip
@@ -85,31 +85,14 @@
 export default {
   name: 'RecordAction',
   props: {
-    type: {
-      type: String,
-      required: true,
-      validator (value) {
-        const types = ['student', 'admin', 'teacher', 'common']
-        return types.includes(value)
-      }
-    },
     record: {
       type: Object,
       required: true
     }
   },
   computed: {
-    admin () {
-      return this.type === 'admin'
-    },
-    teacher () {
-      return this.type === 'teacher'
-    },
-    common () {
-      return this.type === 'common'
-    },
-    student () {
-      return this.type === 'student'
+    identity () {
+      return this.$store.state.user.identity
     },
     isFulfilled () {
       return this.record.state === 'fulfilled'
