@@ -2,8 +2,7 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
-import './plugins/antd-ui'
-import './plugins/vue-meta'
+import './plugins'
 
 Vue.config.productionTip = false
 

@@ -55,18 +55,29 @@
 
       <!--管理员侧栏-->
       <template v-else-if="user.identity === 'admin'">
-        <a-menu-item key="/admin/race">
-          <a-icon type="project" />
-          <span>赛事管理</span>
-        </a-menu-item>
-        <a-menu-item key="/admin/user">
-          <a-icon type="user" />
-          <span>用户管理</span>
-        </a-menu-item>
-        <a-menu-item key="/admin/record">
-          <a-icon type="solution" />
-          <span>参赛记录管理</span>
-        </a-menu-item>
+        <a-menu-item-group title="赛事管理">
+          <a-menu-item key="/admin/race">
+            <a-icon type="project" />
+            <span>赛事</span>
+          </a-menu-item>
+          <a-menu-item key="/admin/record">
+            <a-icon type="solution" />
+            <span>参赛记录</span>
+          </a-menu-item>
+        </a-menu-item-group>
+        <a-menu-item-group title="用户管理">
+          <a-menu-item key="/admin/user">
+            <a-icon type="team" />
+            <span>学生教师</span>
+          </a-menu-item>
+          <a-menu-item
+            v-if="user.power === 'root'"
+            key="/admin/root"
+          >
+            <a-icon type="user" />
+            <span>管理员</span>
+          </a-menu-item>
+        </a-menu-item-group>
         <a-menu-item key="/admin/self">
           <a-icon type="smile" />
           <span>个人信息</span>

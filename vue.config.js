@@ -10,6 +10,7 @@ const cdn = {
     'https://unpkg.com/qiniu-js@2.5.5/dist/qiniu.min.js'
   ],
   css: [
+    'https://cdn.staticfile.org/normalize/8.0.1/normalize.min.css',
     'https://cdn.jsdelivr.net/npm/ant-design-vue@1.6.2/dist/antd.min.css'
   ]
 }

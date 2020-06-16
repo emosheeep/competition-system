@@ -1,3 +1,5 @@
+import store from '../store'
+
 export default [
   {
     path: '/admin',
@@ -25,6 +27,21 @@ export default [
           /* webpackChunkName: "AdminShowUser" */
           '../pages/admin/AdminShowUser'
         )
+      },
+      {
+        path: 'root',
+        component: () => import(
+          /* webpackChunkName: "RootShowAdmin" */
+          '../pages/admin/RootShowAdmin'
+        ),
+        beforeEnter (to, from, next) {
+          const { power } = store.state.user
+          if (power === 'root') {
+            next()
+          } else {
+            next({ path: '/404' })
+          }
+        }
       },
       {
         path: 'record',

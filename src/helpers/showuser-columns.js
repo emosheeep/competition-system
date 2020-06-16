@@ -1,17 +1,6 @@
-import Vue from 'vue'
 import { filter, filterSlots } from './culumns-helper'
 
-export default Vue.extend({
-  created () {
-    Object.assign(this, {
-      STUDENT_COLUMNS,
-      TEACHER_COLUMNS,
-      ADMIN_COLUMNS
-    })
-  }
-})
-
-const STUDENT_COLUMNS = [
+export const STUDENT_COLUMNS = [
   {
     title: '学号',
     dataIndex: 'account',
@@ -55,7 +44,7 @@ const STUDENT_COLUMNS = [
     scopedSlots: { customRender: 'action' }
   }
 ]
-const TEACHER_COLUMNS = [
+export const TEACHER_COLUMNS = [
   {
     title: '工号',
     dataIndex: 'account',
@@ -87,7 +76,7 @@ const TEACHER_COLUMNS = [
     scopedSlots: { customRender: 'action' }
   }
 ]
-const ADMIN_COLUMNS = [
+export const ADMIN_COLUMNS = [
   {
     title: '账号',
     dataIndex: 'account',
@@ -98,6 +87,25 @@ const ADMIN_COLUMNS = [
     dataIndex: 'name',
     scopedSlots: filterSlots,
     onFilter: filter('name')
+  },
+  {
+    title: '权限',
+    dataIndex: 'power',
+    onFilter: filter('power'),
+    filters: [
+      {
+        text: 'readable',
+        value: 'readable'
+      },
+      {
+        text: 'writeable',
+        value: 'writeable'
+      },
+      {
+        text: 'root',
+        value: 'root'
+      }
+    ]
   },
   {
     title: '操作',

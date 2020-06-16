@@ -1,6 +1,6 @@
 <template>
   <a-form :form="form">
-    <!--通用部分：用户名、密码-->
+    <!--用户自己修改的时候不能改这部分-->
     <template v-if="type !== 'self'">
       <a-form-item
         :label-col="labelCol"
@@ -48,6 +48,26 @@
         placeholder="姓名"
       />
     </a-form-item>
+    <a-form-item
+      :label-col="labelCol"
+      :wrapper-col="wrapperCol"
+      label="权限"
+    >
+      <a-select
+        v-decorator="decorator.power"
+        placeholder="管理员权限"
+      >
+        <a-select-option value="read">
+          查看（readable）
+        </a-select-option>
+        <a-select-option value="write">
+          查看 & 编辑（readable & writeable）
+        </a-select-option>
+        <a-select-option value="root">
+          根管理员（root）
+        </a-select-option>
+      </a-select>
+    </a-form-item>
   </a-form>
 </template>
 
@@ -66,11 +86,11 @@ export default {
     initData () {
       const { data, type } = this
       const result = {
-        name: data.name
+        name: data.name,
+        power: data.power
       }
       if (type !== 'self') {
         result.account = data.account
-        result.password = data.password
       }
       this.form.setFieldsValue(result)
     }
@@ -97,6 +117,13 @@ const decorator = {
     rules: [{
       required: true,
       message: '请输入管理员姓名！'
+    }]
+  }],
+  power: ['power', {
+    initialValue: 'read',
+    rules: [{
+      required: true,
+      message: '设置管理员权限！'
     }]
   }]
 }

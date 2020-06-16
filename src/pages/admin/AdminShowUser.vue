@@ -53,11 +53,6 @@
           title="教师"
           :value="teachers.length"
         />
-        <a-statistic
-          class="number"
-          title="管理员"
-          :value="admins.length"
-        />
       </div>
     </a-page-header>
 
@@ -92,19 +87,6 @@
           @update-user="onUpdate"
           @delete-user="onDelete"
           @reset="reset"
-        />
-      </a-tab-pane>
-      <a-tab-pane
-        key="admin"
-        tab="管理员信息"
-      >
-        <ShowUser
-          ref="admin"
-          :data="admins"
-          :column="ADMIN_COLUMNS"
-          :multiple="isMultiple"
-          @update-user="onUpdate"
-          @delete-user="onDelete"
         />
       </a-tab-pane>
       <template #tabBarExtraContent>
@@ -148,15 +130,16 @@
     <UpdateUser
       :visible.sync="updateUserVisible"
       :type="showUserType"
-      :user="curUser"
+      :data="curUser"
     />
   </div>
 </template>
 
 <script>
+import Vue from 'vue'
 import { omit } from 'lodash'
 import createColumns from '../../helpers/importuser-columns'
-import ColumnsMixin from '../../helpers/showuser-columns-mixin'
+import { STUDENT_COLUMNS, TEACHER_COLUMNS } from '../../helpers/showuser-columns'
 import { makeExcel } from '../../utils/excel'
 import resetPassword from '../../utils/reset-password'
 import ShowUser from '../../components/user/ShowUser'
@@ -167,7 +150,7 @@ import { ADD_USER, DELETE_USER } from '../../store/mutation-types'
 import { createNamespacedHelpers } from 'vuex'
 const { mapState, mapActions } = createNamespacedHelpers('users')
 
-export default {
+export default Vue.extend({
   name: 'User',
   components: {
     ShowUser,
@@ -175,7 +158,6 @@ export default {
     Import,
     UpdateUser
   },
-  mixins: [ColumnsMixin],
   inject: ['init'],
   data () {
     return {
@@ -189,13 +171,18 @@ export default {
     }
   },
   computed: {
-    ...mapState(['students', 'teachers', 'admins']),
+    ...mapState(['students', 'teachers']),
     curColumns () {
       return createColumns(this.importUserType)
     },
     allUsersNum () {
-      return this.students.length + this.teachers.length + this.admins.length
+      return this.students.length + this.teachers.length
     }
+  },
+  beforeMount () {
+    // 这些数据无需响应式
+    this.STUDENT_COLUMNS = STUDENT_COLUMNS
+    this.TEACHER_COLUMNS = TEACHER_COLUMNS
   },
   methods: {
     ...mapActions([ADD_USER, DELETE_USER]),
@@ -232,12 +219,11 @@ export default {
     exportExcel () {
       makeExcel({
         students: this.students.map(item => omit(item, ['_id'])),
-        teachers: this.teachers.map(item => omit(item, ['_id'])),
-        admins: this.admins.map(item => omit(item, ['_id']))
+        teachers: this.teachers.map(item => omit(item, ['_id']))
       })
     }
   }
-}
+})
 </script>
 
 <style scoped lang="stylus">

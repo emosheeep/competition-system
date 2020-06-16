@@ -11,9 +11,9 @@ export default function (to, from, next) {
   const route = to.matched.find(item => item.meta.identity)
   const curIdentity = store.state.user.identity
   const targetIdentity = route.meta.identity
-  // 当前登录身份与目标地址需要的身份不符，拒绝访问，并跳回当前身份的主页
+  // 当前登录身份与目标地址需要的身份不符，拒绝访问
   if (curIdentity !== targetIdentity) {
-    next({ name: curIdentity })
+    next({ path: '/404' })
   } else {
     next()
   }

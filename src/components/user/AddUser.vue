@@ -34,9 +34,6 @@
           <a-radio-button value="teacher">
             教师
           </a-radio-button>
-          <a-radio-button value="admin">
-            管理员
-          </a-radio-button>
         </a-radio-group>
       </a-col>
     </a-row>
@@ -48,17 +45,12 @@
       v-else-if="type === 'teacher'"
       ref="teacher"
     />
-    <EditAdmin
-      v-else
-      ref="admin"
-    />
   </a-modal>
 </template>
 
 <script>
 import { createNamespacedHelpers } from 'vuex'
 import EditStudent from '../add-and-update/EditStudent'
-import EditAdmin from '../add-and-update/EditAdmin'
 import EditTeacher from '../add-and-update/EditTeacher'
 import { ADD_USER } from '../../store/mutation-types'
 const { mapActions } = createNamespacedHelpers('users')
@@ -67,7 +59,6 @@ export default {
   name: 'AddUser',
   components: {
     EditStudent,
-    EditAdmin,
     EditTeacher
   },
   props: {

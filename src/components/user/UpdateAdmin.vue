@@ -11,15 +11,8 @@
     @cancel="onCancel"
     @ok="onOk"
   >
-    <EditStudent
-      v-if="type === 'student'"
-      ref="student"
-      type="update"
-      :data="data"
-    />
-    <EditTeacher
-      v-else-if="type === 'teacher'"
-      ref="teacher"
+    <EditAdmin
+      ref="admin"
       type="update"
       :data="data"
     />
@@ -29,33 +22,20 @@
 <script>
 import { createNamespacedHelpers } from 'vuex'
 import { UPDATE_USER } from '../../store/mutation-types'
-import EditStudent from '../add-and-update/EditStudent'
-import EditTeacher from '../add-and-update/EditTeacher'
+import EditAdmin from '../add-and-update/EditAdmin'
 const { mapActions } = createNamespacedHelpers('users')
 export default {
-  name: 'UpdateUser',
-  components: {
-    EditStudent,
-    EditTeacher
-  },
+  name: 'UpdateAdmin',
+  components: { EditAdmin },
   props: {
     visible: Boolean,
     data: {
       type: Object,
       required: true
-    },
-    type: {
-      type: String,
-      default: 'admin',
-      validator (value) {
-        return ['student', 'teacher'].includes(value)
-      }
     }
   },
   data () {
     return {
-      labelCol: { span: 3 },
-      wrapperCol: { span: 20 },
       loading: false
     }
   },
@@ -67,10 +47,10 @@ export default {
       !this.loading && this.$emit('update:visible', false)
     },
     onOk () {
-      this.$refs[this.type].confirm().then(values => {
+      this.$refs.admin.confirm().then(values => {
         this.loading = true
         return this.updateUser({
-          type: this.type,
+          type: 'admin',
           data: values
         })
       }).then(res => {

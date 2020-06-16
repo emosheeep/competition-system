@@ -109,7 +109,6 @@ export default {
       }
       if (type !== 'self') {
         result.account = data.account
-        result.password = data.password
       }
       this.form.setFieldsValue(result)
     }
