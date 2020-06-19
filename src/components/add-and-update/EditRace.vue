@@ -1,20 +1,16 @@
 <template>
-  <a-form :form="form">
-    <a-form-item
-      label="名称"
-      :label-col="labelCol"
-      :wrapper-col="wrapperCol"
-    >
+  <a-form
+    :label-col="labelCol"
+    :wrapper-col="wrapperCol"
+    :form="form"
+  >
+    <a-form-item label="名称">
       <a-input
         v-decorator="decorator.title"
         placeholder="赛事名称"
       />
     </a-form-item>
-    <a-form-item
-      label="主办方"
-      :label-col="labelCol"
-      :wrapper-col="wrapperCol"
-    >
+    <a-form-item label="主办方">
       <a-input
         v-decorator="decorator.sponsor"
         placeholder="主办方"
@@ -30,22 +26,14 @@
         placeholder="地点"
       />
     </a-form-item>
-    <a-form-item
-      label="时间"
-      :label-col="labelCol"
-      :wrapper-col="wrapperCol"
-    >
+    <a-form-item label="时间">
       <a-date-picker
         v-decorator="decorator.date"
         placeholder="选择比赛时间"
         :disabled-date="disableDate"
       />
     </a-form-item>
-    <a-form-item
-      label="类别"
-      :label-col="labelCol"
-      :wrapper-col="wrapperCol"
-    >
+    <a-form-item label="类别">
       <a-select
         v-decorator="decorator.type"
         placeholder="请选择赛事类别"
@@ -60,11 +48,7 @@
         </a-select-option>
       </a-select>
     </a-form-item>
-    <a-form-item
-      label="级别"
-      :label-col="labelCol"
-      :wrapper-col="wrapperCol"
-    >
+    <a-form-item label="级别">
       <a-select
         v-decorator="decorator.level"
         style="width: 120px"
@@ -83,11 +67,7 @@
         </a-select-option>
       </a-select>
     </a-form-item>
-    <a-form-item
-      label="描述"
-      :label-col="labelCol"
-      :wrapper-col="wrapperCol"
-    >
+    <a-form-item label="描述">
       <a-textarea
         v-decorator="decorator.description"
         placeholder="描述"
@@ -103,10 +83,8 @@ import EditMixin from './edit-mixin'
 export default {
   name: 'EditRace',
   mixins: [EditMixin],
-  data () {
-    return {
-      decorator
-    }
+  beforeMount () {
+    this.decorator = decorator
   },
   methods: {
     disableDate (cur) {

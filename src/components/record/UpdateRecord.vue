@@ -9,12 +9,12 @@
     @cancel="onCancel"
     @ok="confirm"
   >
-    <a-form :form="form">
-      <a-form-item
-        :label-col="labelCol"
-        :wrapper-col="wrapperCol"
-        label="成绩"
-      >
+    <a-form
+      :label-col="{ span: 4 }"
+      :wrapper-col="{ span: 18 }"
+      :form="form"
+    >
+      <a-form-item label="成绩">
         <a-input
           ref="score"
           v-decorator="decorator.score"
@@ -24,11 +24,7 @@
 
       <!--以下内容管理员才能修改-->
       <template v-if="identity === 'admin'">
-        <a-form-item
-          :label-col="labelCol"
-          :wrapper-col="wrapperCol"
-          label="状态"
-        >
+        <a-form-item label="状态">
           <a-radio-group
             v-decorator="decorator.state"
             @change="changeReviewState"
@@ -44,8 +40,6 @@
         <!--审核失败是渲染原因-->
         <a-form-item
           v-if="reviewState === 'rejected'"
-          :label-col="labelCol"
-          :wrapper-col="wrapperCol"
           label="原因"
         >
           <a-input
@@ -56,8 +50,6 @@
         </a-form-item>
         <a-form-item
           v-else
-          :label-col="labelCol"
-          :wrapper-col="wrapperCol"
           label="备注"
         >
           <a-input
@@ -87,9 +79,6 @@ export default {
   data () {
     return {
       loading: false,
-      labelCol: { span: 4 },
-      wrapperCol: { span: 18 },
-      decorator,
       reviewState: 'fulfilled',
       changed: false
     }
@@ -118,6 +107,7 @@ export default {
     this.form = this.$form.createForm(this, {
       onValuesChange: _ => { this.changed = true }
     })
+    this.decorator = decorator
   },
   methods: {
     ...mapActions([UPDATE_RECORD]),

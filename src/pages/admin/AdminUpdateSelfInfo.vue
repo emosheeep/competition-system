@@ -48,21 +48,21 @@ export default {
   components: { ModifyPassword, EditAdmin },
   data () {
     return {
-      labelCol: { span: 4 },
-      wrapperCol: { span: 20 },
-      loading: false,
-      name: ['name', {
-        rules: [{
-          required: true,
-          message: '请输入管理员姓名！'
-        }]
-      }]
+      loading: false
     }
   },
   computed: {
     user () {
       return this.$store.state.user
     }
+  },
+  beforeMount () {
+    this.name = ['name', {
+      rules: [{
+        required: true,
+        message: '请输入管理员姓名！'
+      }]
+    }]
   },
   methods: {
     reset () {

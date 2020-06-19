@@ -17,12 +17,12 @@
       style="margin-bottom: 20px; color: black"
     >
       <a-col
-        :span="labelCol.span"
+        span="3"
         style="text-align: right"
       >
         类型：
       </a-col>
-      <a-col :span="wrapperCol.span">
+      <a-col span="20">
         <a-radio-group
           :value="type"
           button-style="solid"
@@ -67,8 +67,6 @@ export default {
   data () {
     return {
       type: 'student',
-      labelCol: { span: 3 },
-      wrapperCol: { span: 20 },
       loading: false
     }
   },

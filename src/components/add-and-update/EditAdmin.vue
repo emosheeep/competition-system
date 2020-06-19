@@ -1,12 +1,12 @@
 <template>
-  <a-form :form="form">
+  <a-form
+    :label-col="labelCol"
+    :wrapper-col="wrapperCol"
+    :form="form"
+  >
     <!--用户自己修改的时候不能改这部分-->
     <template v-if="type !== 'self'">
-      <a-form-item
-        :label-col="labelCol"
-        :wrapper-col="wrapperCol"
-        label="账号"
-      >
+      <a-form-item label="账号">
         <a-input
           ref="account"
           v-decorator="decorator.account"
@@ -22,8 +22,6 @@
       </a-form-item>
       <a-form-item
         v-if="type === 'add'"
-        :label-col="labelCol"
-        :wrapper-col="wrapperCol"
         label="密码"
       >
         <a-input
@@ -39,8 +37,6 @@
       </a-form-item>
       <a-form-item
         v-if="type === 'add'"
-        :label-col="labelCol"
-        :wrapper-col="wrapperCol"
         label="权限"
       >
         <a-select
@@ -56,11 +52,7 @@
         </a-select>
       </a-form-item>
     </template>
-    <a-form-item
-      :label-col="labelCol"
-      :wrapper-col="wrapperCol"
-      label="姓名"
-    >
+    <a-form-item label="姓名">
       <a-input
         v-decorator="decorator.name"
         placeholder="姓名"
@@ -75,10 +67,8 @@ import EditMixin from './edit-mixin'
 export default {
   name: 'EditAdmin',
   mixins: [EditMixin],
-  data () {
-    return {
-      decorator
-    }
+  beforeMount () {
+    this.decorator = decorator
   },
   methods: {
     initData () {

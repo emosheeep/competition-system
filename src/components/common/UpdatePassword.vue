@@ -1,13 +1,11 @@
 <template>
   <a-form
     class="form"
+    :label-col="{ span: 4 }"
+    :wrapper-col="{ span: 20 }"
     :form="form"
   >
-    <a-form-item
-      :label-col="labelCol"
-      :wrapper-col="wrapperCol"
-      label="原密码"
-    >
+    <a-form-item label="原密码">
       <a-input-password
         v-decorator="decorator.password"
         placeholder="原密码"
@@ -19,11 +17,7 @@
         />
       </a-input-password>
     </a-form-item>
-    <a-form-item
-      :label-col="labelCol"
-      :wrapper-col="wrapperCol"
-      label="新密码"
-    >
+    <a-form-item label="新密码">
       <a-input-password
         v-decorator="decorator.newPass"
         placeholder="新密码"
@@ -35,11 +29,7 @@
         />
       </a-input-password>
     </a-form-item>
-    <a-form-item
-      :label-col="labelCol"
-      :wrapper-col="wrapperCol"
-      label="再次输入"
-    >
+    <a-form-item label="再次输入">
       <a-input-password
         v-decorator="decorator.reNewPass"
         placeholder="再次输入"
@@ -77,8 +67,6 @@ export default {
   name: 'UpdatePassword',
   data () {
     return {
-      labelCol: { span: 4 },
-      wrapperCol: { span: 20 },
       loading: false
     }
   },

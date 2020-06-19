@@ -1,11 +1,11 @@
 <template>
-  <a-form :form="form">
+  <a-form
+    :label-col="labelCol"
+    :wrapper-col="wrapperCol"
+    :form="form"
+  >
     <template v-if="type !== 'self'">
-      <a-form-item
-        :label-col="labelCol"
-        :wrapper-col="wrapperCol"
-        label="账号"
-      >
+      <a-form-item label="账号">
         <a-input
           ref="account"
           v-decorator="decorator.account"
@@ -21,8 +21,6 @@
       </a-form-item>
       <a-form-item
         v-if="type === 'add'"
-        :label-col="labelCol"
-        :wrapper-col="wrapperCol"
         label="密码"
       >
         <a-input
@@ -38,41 +36,25 @@
         </a-input>
       </a-form-item>
     </template>
-    <a-form-item
-      :label-col="labelCol"
-      :wrapper-col="wrapperCol"
-      label="姓名"
-    >
+    <a-form-item label="姓名">
       <a-input
         v-decorator="decorator.name"
         placeholder="姓名"
       />
     </a-form-item>
-    <a-form-item
-      :label-col="labelCol"
-      :wrapper-col="wrapperCol"
-      label="年级"
-    >
+    <a-form-item label="年级">
       <a-input
         v-decorator="decorator.grade"
         placeholder="年级"
       />
     </a-form-item>
-    <a-form-item
-      :label-col="labelCol"
-      :wrapper-col="wrapperCol"
-      label="班级"
-    >
+    <a-form-item label="班级">
       <a-input
         v-decorator="decorator.classname"
         placeholder="班级"
       />
     </a-form-item>
-    <a-form-item
-      :label-col="labelCol"
-      :wrapper-col="wrapperCol"
-      label="性别"
-    >
+    <a-form-item label="性别">
       <a-radio-group v-decorator="decorator.sex">
         <a-radio value="男">
           <span>男 &nbsp;</span>
@@ -93,10 +75,8 @@ import EditMixin from './edit-mixin'
 export default {
   name: 'EditStudent',
   mixins: [EditMixin],
-  data () {
-    return {
-      decorator
-    }
+  beforeMount () {
+    this.decorator = decorator
   },
   methods: {
     initData () {

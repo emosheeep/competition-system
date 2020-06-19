@@ -11,23 +11,19 @@
     @cancel="onCancel"
     @ok="onOk"
   >
-    <a-form :form="form">
-      <a-form-item
-        :label-col="labelCol"
-        :wrapper-col="wrapperCol"
-        label="成绩"
-      >
+    <a-form
+      :label-col="{ span: 4 }"
+      :wrapper-col="{ span: 20 }"
+      :form="form"
+    >
+      <a-form-item label="成绩">
         <a-input
           v-decorator="decorator.score"
           placeholder="比赛成绩"
           :auto-focus="true"
         />
       </a-form-item>
-      <a-form-item
-        :label-col="labelCol"
-        :wrapper-col="wrapperCol"
-        label="导师"
-      >
+      <a-form-item label="导师">
         <a-select
           v-decorator="decorator.teacher"
           show-search
@@ -59,9 +55,7 @@ export default {
   },
   data () {
     return {
-      loading: false,
-      labelCol: { span: 4 },
-      wrapperCol: { span: 20 }
+      loading: false
     }
   },
   computed: {

@@ -1,11 +1,11 @@
 <template>
-  <a-form :form="form">
+  <a-form
+    :label-col="labelCol"
+    :wrapper-col="wrapperCol"
+    :form="form"
+  >
     <template v-if="type !== 'self'">
-      <a-form-item
-        :label-col="labelCol"
-        :wrapper-col="wrapperCol"
-        label="账号"
-      >
+      <a-form-item label="账号">
         <a-input
           ref="account"
           v-decorator="decorator.account"
@@ -21,8 +21,6 @@
       </a-form-item>
       <a-form-item
         v-if="type === 'add'"
-        :label-col="labelCol"
-        :wrapper-col="wrapperCol"
         label="密码"
       >
         <a-input
@@ -38,21 +36,13 @@
         </a-input>
       </a-form-item>
     </template>
-    <a-form-item
-      :label-col="labelCol"
-      :wrapper-col="wrapperCol"
-      label="姓名"
-    >
+    <a-form-item label="姓名">
       <a-input
         v-decorator="decorator.name"
         placeholder="姓名"
       />
     </a-form-item>
-    <a-form-item
-      :label-col="labelCol"
-      :wrapper-col="wrapperCol"
-      label="职称"
-    >
+    <a-form-item label="职称">
       <a-select
         v-decorator="decorator.rank"
         placeholder="请选择职称"
@@ -71,11 +61,7 @@
         </a-select-option>
       </a-select>
     </a-form-item>
-    <a-form-item
-      :label-col="labelCol"
-      :wrapper-col="wrapperCol"
-      label="描述"
-    >
+    <a-form-item label="描述">
       <a-textarea
         v-decorator="decorator.description"
         placeholder="描述"
@@ -90,10 +76,8 @@ import EditMixin from './edit-mixin'
 export default {
   name: 'EditTeacher',
   mixins: [EditMixin],
-  data () {
-    return {
-      decorator
-    }
+  beforeMount () {
+    this.decorator = decorator
   },
   methods: {
     initData () {

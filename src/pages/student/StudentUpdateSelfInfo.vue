@@ -48,8 +48,6 @@ export default {
   components: { ModifyPassword, EditStudent },
   data () {
     return {
-      labelCol: { span: 4 },
-      wrapperCol: { span: 20 },
       loading: false,
       name: ['name', {
         rules: [{
