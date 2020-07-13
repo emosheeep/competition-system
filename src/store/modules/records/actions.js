@@ -1,5 +1,5 @@
-import { SET_RECORD_LIST, ADD_RECORD, UPDATE_RECORD, DELETE_RECORD } from '../mutation-types'
-import { getRecordList, addRecord, updateRecord, deleteRecord } from '../../api'
+import { SET_RECORD_LIST, ADD_RECORD, UPDATE_RECORD, DELETE_RECORD } from '../../mutation-types'
+import { getRecordList, addRecord, updateRecord, deleteRecord } from '../../../api'
 import { message } from 'ant-design-vue'
 
 export default {

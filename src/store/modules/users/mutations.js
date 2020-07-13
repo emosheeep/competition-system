@@ -3,7 +3,7 @@
  */
 import {
   ADD_USER, DELETE_USER, UPDATE_USER, SET_USER_LIST
-} from '../mutation-types'
+} from '../../mutation-types'
 
 export default {
   [SET_USER_LIST] (state, data) {

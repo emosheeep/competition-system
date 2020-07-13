@@ -61,11 +61,8 @@ module.exports = {
   devServer: {
     proxy: {
       '/api': {
-        target: 'http://localhost:3000',
-        changeOrigin: true,
-        pathRewrite: {
-          '^/api': '/api'
-        }
+        target: 'http://www.biubiubius.com:3000',
+        changeOrigin: true
       }
     }
   }

@@ -2,9 +2,9 @@
  * 通过mutations间接更新state，这里的方法可以是异步的
  */
 import { message, Modal } from 'ant-design-vue'
-import { ADD_USER, DELETE_USER, SET_USER_LIST, UPDATE_USER } from '../mutation-types'
-import { addUser, deleteUser, getUserList, updateUser } from '../../api'
-import DisplayFailedUser from '../../components/common/DisplayFailedUser'
+import { ADD_USER, DELETE_USER, SET_USER_LIST, UPDATE_USER } from '../../mutation-types'
+import { addUser, deleteUser, getUserList, updateUser } from '../../../api'
+import DisplayFailedUser from '../../../components/common/DisplayFailedUser'
 
 export default {
   [SET_USER_LIST] ({ commit }, type) {

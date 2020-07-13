@@ -1,5 +1,5 @@
-import { SET_RACE_LIST, ADD_RACE, UPDATE_RACE, DELETE_RACE } from '../mutation-types'
-import { getRaceList, addRace, updateRace, deleteRace } from '../../api'
+import { SET_RACE_LIST, ADD_RACE, UPDATE_RACE, DELETE_RACE } from '../../mutation-types'
+import { getRaceList, addRace, updateRace, deleteRace } from '../../../api'
 import { message } from 'ant-design-vue'
 
 export default {
