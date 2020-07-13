@@ -137,12 +137,7 @@ export default {
       return moment(date).format('YYYY-MM-DD')
     },
     onDetail (race) {
-      this.$router.push({
-        path: 'detail',
-        query: {
-          id: race._id
-        }
-      })
+      this.$emit('show-detail', race)
     },
     isParticipate (raceID) {
       return !!this.records.find(record => record.id === raceID)

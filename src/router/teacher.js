@@ -14,6 +14,7 @@ export default [
     children: [
       {
         path: 'race',
+        name: '竞赛信息',
         component: () => import(
           /* webpackChunkName: "Teacher" */
           '../pages/teacher/TeacherShowRace'
@@ -21,6 +22,7 @@ export default [
       },
       {
         path: 'record',
+        name: '学生参赛记录',
         component: () => import(
           /* webpackChunkName: "TeacherShowRecord" */
           '../pages/teacher/TeacherShowRecord'
@@ -28,18 +30,11 @@ export default [
       },
       {
         path: 'self',
+        name: '个人信息',
         component: () => import(
           /* webpackChunkName: "TeacherUpdateSelfInfo" */
           '../pages/teacher/TeacherUpdateSelfInfo'
         )
-      },
-      {
-        path: 'detail',
-        component: () => import(
-          /* webpackChunkName: "RaceDetailWithRecords" */
-          '../components/race/RaceDetailWithRecords'
-        ),
-        props: route => ({ id: route.query.id, type: 'teacher' })
       }
     ]
   }

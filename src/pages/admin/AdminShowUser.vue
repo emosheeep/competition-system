@@ -136,7 +136,7 @@
 </template>
 
 <script>
-import Vue from 'vue'
+import { mapState, mapActions } from 'vuex'
 import { omit, dropRight } from 'lodash'
 import createColumns from '../../helpers/importuser-columns'
 import { STUDENT_COLUMNS, TEACHER_COLUMNS } from '../../helpers/showuser-columns'
@@ -147,11 +147,9 @@ import AddUser from '../../components/user/AddUser'
 import Import from '../../components/common/Import'
 import UpdateUser from '../../components/user/UpdateUser'
 import { ADD_USER, DELETE_USER } from '../../store/mutation-types'
-import { createNamespacedHelpers } from 'vuex'
-const { mapState, mapActions } = createNamespacedHelpers('users')
 
-export default Vue.extend({
-  name: 'User',
+export default {
+  name: 'AdminShowUser',
   components: {
     ShowUser,
     AddUser,
@@ -171,7 +169,7 @@ export default Vue.extend({
     }
   },
   computed: {
-    ...mapState(['students', 'teachers']),
+    ...mapState('users', ['students', 'teachers']),
     curColumns () {
       return createColumns(this.importUserType)
     },
@@ -193,7 +191,7 @@ export default Vue.extend({
     }
   },
   methods: {
-    ...mapActions([ADD_USER, DELETE_USER]),
+    ...mapActions('users', [ADD_USER, DELETE_USER]),
     onUpdate (user) {
       this.curUser = user
       this.updateUserVisible = true
@@ -231,7 +229,7 @@ export default Vue.extend({
       })
     }
   }
-})
+}
 </script>
 
 <style scoped lang="stylus">

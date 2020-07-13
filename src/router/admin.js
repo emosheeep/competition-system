@@ -16,13 +16,24 @@ export default [
     children: [
       {
         path: 'race',
+        name: '赛事',
         component: () => import(
           /* webpackChunkName: "Admin" */
           '../pages/admin/AdminShowRace'
         )
       },
       {
+        path: 'record',
+        name: '参赛记录',
+        component: () => import(
+          /* webpackChunkName: "AdminShowRecord" */
+          '../pages/admin/AdminShowRecord'
+        ),
+        props: route => ({ type: 'admin' })
+      },
+      {
         path: 'user',
+        name: '学生教师',
         component: () => import(
           /* webpackChunkName: "AdminShowUser" */
           '../pages/admin/AdminShowUser'
@@ -30,6 +41,7 @@ export default [
       },
       {
         path: 'root',
+        name: '管理员',
         component: () => import(
           /* webpackChunkName: "RootShowAdmin" */
           '../pages/admin/RootShowAdmin'
@@ -44,23 +56,8 @@ export default [
         }
       },
       {
-        path: 'record',
-        component: () => import(
-          /* webpackChunkName: "AdminShowRecord" */
-          '../pages/admin/AdminShowRecord'
-        ),
-        props: route => ({ type: 'admin' })
-      },
-      {
-        path: 'detail',
-        component: () => import(
-          /* webpackChunkName: "RaceDetailWithRecords" */
-          '../components/race/RaceDetailWithRecords'
-        ),
-        props: route => ({ id: route.query.id, type: 'admin' })
-      },
-      {
         path: 'self',
+        name: '账号信息',
         component: () => import(
           /* webpackChunkName: "AdminUpdateSelfInfo" */
           '../pages/admin/AdminUpdateSelfInfo'

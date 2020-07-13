@@ -56,6 +56,7 @@
       :multiple="isMultiple"
       @update-race="onUpdate"
       @delete-race="onDelete"
+      @show-detail="onDetail"
     />
 
     <AddRace :visible.sync="addRaceVisible" />
@@ -63,22 +64,32 @@
       :visible.sync="updateRaceVisible"
       :race="curRace"
     />
+    <a-drawer
+      width="50%"
+      :visible.sync="showDetailVisible"
+      :title="`${curRace.title} 赛事详情`"
+      :destroy-on-close="true"
+      @close="showDetailVisible = false"
+    >
+      <RaceDetail :id="curRace._id" type="admin"/>
+    </a-drawer>
   </div>
 </template>
 
 <script>
 import { omit } from 'lodash'
-import { createNamespacedHelpers } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 import { DELETE_RACE, SET_RACE_LIST } from '../../store/mutation-types'
 import { makeExcel } from '../../utils/excel'
 import ShowRace from '../../components/race/ShowRace'
 import AddRace from '../../components/race/AddRace'
 import UpdateRace from '../../components/race/UpdateRace'
-const { mapState, mapActions } = createNamespacedHelpers('races')
+import RaceDetail from '../../components/race/RaceDetail'
 
 export default {
   name: 'AdminShowRace',
   components: {
+    RaceDetail,
     ShowRace,
     UpdateRace,
     AddRace
@@ -88,21 +99,22 @@ export default {
     return {
       addRaceVisible: false,
       updateRaceVisible: false,
+      showDetailVisible: false,
       isMultiple: false,
       curRace: {}
     }
   },
-  computed: {
-    ...mapState({
-      races: 'races'
-    })
-  },
+  computed: mapState('races', ['races']),
   methods: {
-    ...mapActions({
+    ...mapActions('races', {
       setRaceList: SET_RACE_LIST
     }),
     onUpdate (race) {
       this.updateRaceVisible = true
+      this.curRace = race
+    },
+    onDetail (race) {
+      this.showDetailVisible = true
       this.curRace = race
     },
     onDelete (data) {

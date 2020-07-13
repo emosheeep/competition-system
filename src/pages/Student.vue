@@ -1,18 +1,17 @@
 <template>
   <GlobalLayout :loading="loading">
-    <keep-alive>
-      <router-view />
-    </keep-alive>
+    <TabLayout />
   </GlobalLayout>
 </template>
 
 <script>
 import GlobalLayout from '../layouts/GlobalLayout'
+import TabLayout from '../layouts/TabLayout'
 import { SET_RACE_LIST, SET_RECORD_LIST, SET_USER_LIST } from '../store/mutation-types'
 
 export default {
   name: 'Student',
-  components: { GlobalLayout },
+  components: { GlobalLayout, TabLayout },
   metaInfo: {
     title: '学生'
   },

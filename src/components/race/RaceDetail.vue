@@ -1,31 +1,19 @@
 <template>
   <div>
-    <a-page-header
-      title="参赛记录"
-      sub-title="对应赛事的登记信息"
-      style="padding: 0; margin-bottom: 20px"
-      @back="e => $router.back()"
-    >
-      <template #extra>
-        <a-button @click="init">
-          刷新
-        </a-button>
-      </template>
-    </a-page-header>
-    <Detail
-      :race="race"
-      :records="records"
-    />
+    <a-button style="float: right" @click="init">
+      刷新
+    </a-button>
+    <Detail :race="race" :records="records"/>
     <Loading :loading="loading" />
   </div>
 </template>
 
 <script>
 import { getRaceList, getRecordList } from '../../api'
-import Detail from '../common/Detail'
+import Detail from './Detail'
 import Loading from '../common/Loading'
 export default {
-  name: 'RaceDetailWithRecords',
+  name: 'RaceDetail',
   components: { Loading, Detail },
   props: {
     id: {
@@ -45,14 +33,6 @@ export default {
       loading: false,
       race: {},
       records: []
-    }
-  },
-  watch: {
-    id: {
-      handler () {
-        this.init()
-      },
-      immediate: true
     }
   },
   mounted () {

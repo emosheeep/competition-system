@@ -14,6 +14,7 @@ export default [
     children: [
       {
         path: 'teacher',
+        name: '教师信息',
         component: () => import(
           /* webpackChunkName: "StudentShowTeacher" */
           '../pages/student/StudentShowTeacher'
@@ -21,6 +22,7 @@ export default [
       },
       {
         path: 'race',
+        name: '竞赛列表',
         component: () => import(
           /* webpackChunkName: "Student" */
           '../pages/student/StudentShowRace'
@@ -28,6 +30,7 @@ export default [
       },
       {
         path: 'record',
+        name: '我的参赛记录',
         component: () => import(
           /* webpackChunkName: "StudentShowRecord" */
           '../pages/student/StudentShowRecord'
@@ -35,6 +38,7 @@ export default [
       },
       {
         path: 'self',
+        name: '我的个人信息',
         component: () => import(
           /* webpackChunkName: "StudentUpdateSelfInfo" */
           '../pages/student/StudentUpdateSelfInfo'

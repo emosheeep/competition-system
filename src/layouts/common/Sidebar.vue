@@ -41,7 +41,7 @@
       <template v-else-if="user.identity === 'teacher'">
         <a-menu-item key="/teacher/race">
           <a-icon type="project" />
-          <span>竞赛列表</span>
+          <span>竞赛信息</span>
         </a-menu-item>
         <a-menu-item key="/teacher/record">
           <a-icon type="solution" />

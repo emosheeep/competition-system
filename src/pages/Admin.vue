@@ -1,13 +1,12 @@
 <template>
   <GlobalLayout :loading="loading">
-    <keep-alive exclude="RaceDetailWithRecords">
-      <router-view />
-    </keep-alive>
+    <TabLayout />
   </GlobalLayout>
 </template>
 
 <script>
 import GlobalLayout from '../layouts/GlobalLayout'
+import TabLayout from '../layouts/TabLayout'
 import { SET_RACE_LIST, SET_RECORD_LIST, SET_USER_LIST } from '../store/mutation-types'
 
 export default {
@@ -15,7 +14,7 @@ export default {
   metaInfo: {
     title: '管理员'
   },
-  components: { GlobalLayout },
+  components: { TabLayout, GlobalLayout },
   provide () {
     return {
       init: this.init

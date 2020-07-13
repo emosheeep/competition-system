@@ -56,12 +56,6 @@
         >
           登录
         </a-button>
-        <a
-          class="forgot"
-          href="#"
-        >
-          找回密码
-        </a>
       </a-form-item>
     </a-form>
     <Loading :loading="loading" />
@@ -140,10 +134,4 @@ const decorator = {
     .login-button
       margin-bottom 20px
 
-  .forgot
-    float right
-    color dodgerblue
-    text-decoration none
-    &:hover
-      text-decoration underline
 </style>

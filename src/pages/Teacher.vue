@@ -1,13 +1,12 @@
 <template>
   <GlobalLayout :loading="loading">
-    <keep-alive exclude="RaceDetailWithRecords">
-      <router-view />
-    </keep-alive>
+    <TabLayout />
   </GlobalLayout>
 </template>
 
 <script>
 import GlobalLayout from '../layouts/GlobalLayout'
+import TabLayout from '../layouts/TabLayout'
 import {
   SET_RACE_LIST,
   SET_RECORD_LIST
@@ -15,7 +14,7 @@ import {
 
 export default {
   name: 'Teacher',
-  components: { GlobalLayout },
+  components: { GlobalLayout, TabLayout },
   metaInfo: {
     title: '教师'
   },

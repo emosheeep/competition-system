@@ -23,24 +23,46 @@
     <ShowRace
       type="teacher"
       :data="races"
+      @show-detail="onDetail"
     />
+    <a-drawer
+      width="50%"
+      :visible.sync="showDetailVisible"
+      :title="`${curRace.title} 赛事详情`"
+      :destroy-on-close="true"
+      @close="showDetailVisible = false"
+    >
+      <RaceDetail :id="curRace._id" type="teacher"/>
+    </a-drawer>
   </div>
 </template>
 
 <script>
 import { omit } from 'lodash'
 import ShowRace from '../../components/race/ShowRace'
+import RaceDetail from '../../components/race/RaceDetail'
+
 import { makeExcel } from '../../utils/excel'
 export default {
   name: 'TeacherShowRace',
-  components: { ShowRace },
+  components: { ShowRace, RaceDetail },
   inject: ['init'],
+  data () {
+    return {
+      curRace: {},
+      showDetailVisible: false
+    }
+  },
   computed: {
     races () {
       return this.$store.state.races.races
     }
   },
   methods: {
+    onDetail (race) {
+      this.curRace = race
+      this.showDetailVisible = true
+    },
     exportExcel () {
       makeExcel({
         races: this.races.map(item => {

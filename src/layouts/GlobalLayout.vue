@@ -24,8 +24,8 @@
 
 <script>
 import Loading from '../components/common/Loading'
-import Header from './Header'
-import Sidebar from './Sidebar'
+import Header from './common/Header'
+import Sidebar from './common/Sidebar'
 export default {
   name: 'Layout',
   components: { Loading, Header, Sidebar },

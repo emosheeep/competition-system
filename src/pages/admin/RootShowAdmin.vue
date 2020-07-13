@@ -38,7 +38,7 @@
 </template>
 
 <script>
-import Vue from 'vue'
+import { mapState, mapActions } from 'vuex'
 import { message } from 'ant-design-vue'
 import ShowUser from '../../components/user/ShowUser'
 import UpdateAdmin from '../../components/user/UpdateAdmin'
@@ -46,10 +46,8 @@ import AddAdmin from '../../components/user/AddAdmin'
 import resetPassword from '../../utils/reset-password'
 import { ADMIN_COLUMNS } from '../../helpers/showuser-columns'
 import { ADD_USER, DELETE_USER } from '../../store/mutation-types'
-import { createNamespacedHelpers } from 'vuex'
-const { mapState, mapActions } = createNamespacedHelpers('users')
 
-export default Vue.extend({
+export default {
   name: 'RootShowAdmin',
   components: { UpdateAdmin, AddAdmin, ShowUser },
   inject: {
@@ -63,17 +61,16 @@ export default Vue.extend({
     }
   },
   computed: {
-    ...mapState(['admins']),
+    ...mapState('users', ['admins']),
     user () {
       return this.$store.state.user
     }
   },
   beforeMount () {
-    // 无需响应式的数据
-    this.ADMIN_COLUMNS = ADMIN_COLUMNS
+    this.ADMIN_COLUMNS = ADMIN_COLUMNS // 无需响应式的数据
   },
   methods: {
-    ...mapActions([ADD_USER, DELETE_USER]),
+    ...mapActions('users', [ADD_USER, DELETE_USER]),
     onUpdate (user) {
       this.curAdmin = user
       this.updateAdminVisible = true
@@ -91,5 +88,5 @@ export default Vue.extend({
       })
     }
   }
-})
+}
 </script>
