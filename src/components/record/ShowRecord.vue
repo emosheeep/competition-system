@@ -27,19 +27,6 @@
         <TableSearch v-bind="options" />
       </template>
 
-      <!--date-->
-      <template #date="date">
-        {{ formatDate(date) }}
-      </template>
-
-      <!--教师信息（可选）-->
-      <template #tid="tid">
-        {{ tid || '暂无' }}
-      </template>
-      <template #tname="tname">
-        {{ tname || '暂无' }}
-      </template>
-
       <!--审核状态-->
       <template #state="state">
         <template v-if="state === 'pending'">
@@ -91,8 +78,6 @@
 </template>
 
 <script>
-import Vue from 'vue'
-import moment from 'moment'
 import TableSearch from '../common/TableSearch'
 import Upload from '../../components/common/Upload'
 import ShowRecordAction from './ShowRecordAction'
@@ -100,7 +85,7 @@ import ShowRecordDetail from './ShowRecordDetail'
 import createColumns from '../../helpers/showrecord-cloumns'
 import MultipleDelete from '../../helpers/multiple-delete-mixin'
 
-export default Vue.extend({
+export default {
   name: 'ShowRecord',
   components: {
     Upload,
@@ -137,9 +122,6 @@ export default Vue.extend({
     this.columns = createColumns(this.type)
   },
   methods: {
-    formatDate (date) {
-      return moment(date).format('YYYY-MM-DD')
-    },
     onDelete (record) {
       if (!this.multiple) {
         this.$emit('delete-record', [record._id])
@@ -160,7 +142,7 @@ export default Vue.extend({
       this.recordDetailVisible = true
     }
   }
-})
+}
 </script>
 
 <style scoped lang="stylus">

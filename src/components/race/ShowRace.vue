@@ -22,10 +22,6 @@
         <TableSearch v-bind="options" />
       </template>
 
-      <template #date="date">
-        {{ formatDate(date) }}
-      </template>
-
       <!--学生界面操作-->
       <template
         v-if="type === 'student'"
@@ -95,7 +91,6 @@
 </template>
 
 <script>
-import moment from 'moment'
 import TableSearch from '../common/TableSearch'
 import createColumns from '../../helpers/showrace-columns'
 import MultipleDelete from '../../helpers/multiple-delete-mixin'
@@ -133,9 +128,6 @@ export default {
     }
   },
   methods: {
-    formatDate (date) {
-      return moment(date).format('YYYY-MM-DD')
-    },
     onDetail (race) {
       this.$emit('show-detail', race)
     },

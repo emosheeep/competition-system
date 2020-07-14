@@ -1,5 +1,6 @@
 import { dropRight } from 'lodash'
 import { filter, filterSlots } from './culumns-helper'
+import moment from 'moment'
 
 export default function (type) {
   if (type === 'admin') {
@@ -26,9 +27,7 @@ const allColumns = [
     dataIndex: 'date',
     width: 110,
     sorter: (a, b) => a.date - b.date,
-    scopedSlots: {
-      customRender: 'date'
-    }
+    customRender: date => moment(date).format('YYYY-MM-DD')
   },
   {
     title: '名称',
@@ -38,14 +37,6 @@ const allColumns = [
     onFilter: filter('title')
   },
   {
-    title: '学生账号',
-    dataIndex: 'sid',
-    ellipsis: true,
-    sorter: (a, b) => a.sid - b.sid,
-    scopedSlots: filterSlots,
-    onFilter: filter('sid')
-  },
-  {
     title: '学生姓名',
     dataIndex: 'sname',
     ellipsis: true,
@@ -53,25 +44,9 @@ const allColumns = [
     onFilter: filter('sname')
   },
   {
-    title: '教师工号',
-    dataIndex: 'tid',
-    ellipsis: true,
-    sorter: (a, b) => a.tid - b.tid,
-    onFilter: filter('tid'),
-    scopedSlots: {
-      customRender: 'tid',
-      ...filterSlots
-    }
-  },
-  {
-    title: '教师姓名',
-    dataIndex: 'tname',
-    ellipsis: true,
-    onFilter: filter('tname'),
-    scopedSlots: {
-      customRender: 'tname',
-      ...filterSlots
-    }
+    title: '成绩',
+    dataIndex: 'score',
+    ellipsis: true
   },
   {
     title: '状态',
@@ -95,11 +70,6 @@ const allColumns = [
     scopedSlots: {
       customRender: 'state'
     }
-  },
-  {
-    title: '成绩',
-    dataIndex: 'score',
-    ellipsis: true
   },
   {
     title: '备注',

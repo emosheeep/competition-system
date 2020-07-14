@@ -16,7 +16,7 @@
         {{ record.sid }}
       </a-descriptions-item>
       <a-descriptions-item label="举办时间">
-        {{ $parent.formatDate(record.date) }}
+        {{ formatDate(record.date) }}
       </a-descriptions-item>
       <a-descriptions-item label="指导教师">
         {{ record.tname || '暂无' }}
@@ -121,6 +121,7 @@
 </template>
 
 <script>
+import moment from 'moment'
 import { message } from 'ant-design-vue'
 import { debounce } from 'lodash'
 import { saveAs } from 'file-saver'
@@ -155,6 +156,9 @@ export default {
     }
   },
   methods: {
+    formatDate (date) {
+      return moment(date).format('YYYY-MM-DD')
+    },
     initFileInfo () {
       this.loading = true
       getFileInfo({

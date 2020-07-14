@@ -35,9 +35,9 @@ http.interceptors.response.use(null, error => {
       message.warn('身份凭证过期，请重新登录')
     })
   } else if (status === 400) {
-    message.warn('请求错误')
+    message.warn('客户端请求格式错误')
   } else if (status === 500) {
-    message.error('系统错误')
+    message.error('服务器错误！状态码 500', 3000)
   } else {
     message.error(error.message)
   }
