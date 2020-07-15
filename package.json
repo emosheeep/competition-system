@@ -9,6 +9,7 @@
     "inspect": "vue-cli-service inspect --mode production"
   },
   "dependencies": {
+    "animate.css": "^4.1.0",
     "ant-design-vue": "^1.6.3",
     "axios": "^0.19.2",
     "core-js": "^3.6.5",

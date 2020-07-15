@@ -11,7 +11,8 @@ const cdn = {
   ],
   css: [
     'https://cdn.staticfile.org/normalize/8.0.1/normalize.min.css',
-    'https://cdn.jsdelivr.net/npm/ant-design-vue@1.6.2/dist/antd.min.css'
+    'https://cdn.jsdelivr.net/npm/ant-design-vue@1.6.2/dist/antd.min.css',
+    'https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.0.0/animate.min.css'
   ]
 }
 module.exports = {

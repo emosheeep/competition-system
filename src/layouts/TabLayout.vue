@@ -17,9 +17,11 @@
         </template>
       </a-tab-pane>
     </a-tabs>
-    <keep-alive :exclude="dustbin">
-      <router-view />
-    </keep-alive>
+    <PageToggleTransition>
+      <keep-alive :exclude="dustbin">
+        <router-view />
+      </keep-alive>
+    </PageToggleTransition>
   </PageLayout>
 </template>
 
@@ -28,10 +30,11 @@ import { message } from 'ant-design-vue'
 import { last } from 'lodash'
 import PageLayout from './PageLayout'
 import ContextMenu from '../components/common/ContextMenu'
+import PageToggleTransition from '../components/transition/PageToggleTransition'
 
 export default {
   name: 'TabView',
-  components: { ContextMenu, PageLayout },
+  components: { PageToggleTransition, ContextMenu, PageLayout },
   data () {
     return {
       pageList: [],
