@@ -26,8 +26,11 @@ module.exports = {
         'ant-design-vue': 'antd'
       })
       config.plugins.delete('prefetch') // 否则懒加载不生效
-      config.plugin('analyzer').use(BundleAnalyzerPlugin)
       config.plugin('lodash').use(LodashWebpackPlugin)
+      config.plugin('analyzer').use(BundleAnalyzerPlugin, [{
+        analyzerMode: 'static',
+        openAnalyzer: false
+      }])
       config.plugin('compress').use(CompressionWebpackPlugin, [{
         test: /\.js$|\.html$|\.css$/,
         threshold: 10240, // 超过10kb就压缩
