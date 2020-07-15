@@ -1,6 +1,10 @@
 <template>
   <PageLayout>
-    <ContextMenu :list="menuItems" :visible.sync="menuVisible" @select="onMenuSelect" />
+    <ContextMenu
+      :list="menuItems"
+      :visible.sync="menuVisible"
+      @select="onMenuSelect"
+    />
     <a-tabs
       type="editable-card"
       :hide-add="true"
@@ -11,13 +15,13 @@
     >
       <a-tab-pane v-for="page in pageList" :key="page.fullPath">
         <template #tab>
-          <span class="tab-item" :data-key="page.fullPath">
+          <span :data-key="page.fullPath">
             {{ page.name }}
           </span>
         </template>
       </a-tab-pane>
     </a-tabs>
-    <PageToggleTransition>
+    <PageToggleTransition name="fadeIn">
       <keep-alive :exclude="dustbin">
         <router-view />
       </keep-alive>
@@ -33,7 +37,7 @@ import ContextMenu from '../components/common/ContextMenu'
 import PageToggleTransition from '../components/transition/PageToggleTransition'
 
 export default {
-  name: 'TabView',
+  name: 'TabLayout',
   components: { PageToggleTransition, ContextMenu, PageLayout },
   data () {
     return {
@@ -90,7 +94,9 @@ export default {
         })
       }
     },
-    // 自定义右键菜单的关闭功能
+    /**
+     * 右键菜单
+     */
     onContextmenu (e) {
       const key = getTabKey(e.target)
       if (!key) return
@@ -151,6 +157,9 @@ export default {
         this.$router.push(this.activePage).catch(e => e)
       }
     },
+    /**
+     * 缓存控制
+     */
     clearCache (route) {
       const componentName = last(route.matched).components.default.name
       this.dustbin.push(componentName) // 清除
