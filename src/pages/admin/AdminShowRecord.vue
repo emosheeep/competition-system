@@ -68,24 +68,24 @@ import { omit } from 'lodash'
 import { makeExcel } from '../../utils/excel'
 import ShowRecord from '../../components/record/ShowRecord'
 import UpdateRecord from '../../components/record/UpdateRecord'
-import { DELETE_RECORD } from '../../store/mutation-types'
+import { DELETE_RECORD } from '../../store/types'
 const { mapState, mapActions } = createNamespacedHelpers('records')
 export default {
   name: 'AdminShowRecord',
   components: {
     ShowRecord,
-    UpdateRecord
+    UpdateRecord,
   },
   inject: ['init'],
   data () {
     return {
       updateRecordVisible: false,
       isMultiple: false,
-      curRecord: {}
+      curRecord: {},
     }
   },
   computed: mapState({
-    records: 'records'
+    records: 'records',
   }),
   methods: {
     ...mapActions([DELETE_RECORD]),
@@ -104,10 +104,10 @@ export default {
           const temp = omit(item, ['_id', 'id'])
           temp.date = new Date(temp.date)
           return temp
-        })
+        }),
       })
-    }
-  }
+    },
+  },
 }
 </script>
 

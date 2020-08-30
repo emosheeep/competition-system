@@ -16,7 +16,7 @@ export default new Vuex.Store({
   state: {
     token: '', // 控制短期鉴权
     refreshToken: '', // 控制最长登陆时间
-    user: {}
+    user: {},
   },
   actions,
   mutations,
@@ -24,9 +24,9 @@ export default new Vuex.Store({
   modules: {
     users,
     races,
-    records
+    records,
   },
   plugins: debug
     ? [createLogger(), persistedState]
-    : [persistedState] // 调试插件，控制台打印具体信息
+    : [persistedState], // 调试插件，控制台打印具体信息
 })

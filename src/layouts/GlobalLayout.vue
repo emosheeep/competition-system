@@ -30,8 +30,8 @@ export default {
   name: 'Layout',
   components: { Loading, Header, Sidebar },
   props: {
-    loading: Boolean
-  }
+    loading: Boolean,
+  },
 }
 </script>
 

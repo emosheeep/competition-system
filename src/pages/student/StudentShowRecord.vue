@@ -45,17 +45,17 @@ export default {
   name: 'StudentShowRecord',
   components: {
     ShowRecord,
-    UpdateRecord
+    UpdateRecord,
   },
   inject: ['init'],
   data () {
     return {
       updateRecordVisible: false,
-      curRecord: {}
+      curRecord: {},
     }
   },
   computed: mapState({
-    records: 'records'
+    records: 'records',
   }),
   methods: {
     onUpdate (record) {
@@ -68,9 +68,9 @@ export default {
           const temp = omit(item, ['_id', 'id'])
           temp.date = new Date(temp.date)
           return temp
-        })
+        }),
       })
-    }
-  }
+    },
+  },
 }
 </script>

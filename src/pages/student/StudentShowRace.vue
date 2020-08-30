@@ -35,7 +35,7 @@
 <script>
 import { omit } from 'lodash'
 import { makeExcel } from '../../utils/excel'
-import { SET_RACE_LIST } from '../../store/mutation-types'
+import { SET_RACE_LIST } from '../../store/types'
 import { createNamespacedHelpers } from 'vuex'
 import ShowRace from '../../components/race/ShowRace'
 import AddRecord from '../../components/record/AddRecord'
@@ -45,23 +45,23 @@ export default {
   name: 'StudentShowRace',
   components: {
     ShowRace,
-    AddRecord
+    AddRecord,
   },
   inject: ['init'],
   data () {
     return {
       addRecordVisible: false,
-      curRace: {}
+      curRace: {},
     }
   },
   computed: {
     ...mapState({
-      races: 'races'
-    })
+      races: 'races',
+    }),
   },
   methods: {
     ...mapActions({
-      setRaceList: SET_RACE_LIST
+      setRaceList: SET_RACE_LIST,
     }),
     exportExcel () {
       makeExcel({
@@ -69,13 +69,13 @@ export default {
           const temp = omit(item, ['_id'])
           temp.date = new Date(temp.date)
           return temp
-        })
+        }),
       })
     },
     onAddRecord (race) {
       this.addRecordVisible = true
       this.curRace = race
-    }
-  }
+    },
+  },
 }
 </script>

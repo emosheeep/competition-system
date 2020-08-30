@@ -37,12 +37,12 @@ export default {
   props: {
     users: {
       type: Array,
-      required: true
+      required: true,
     },
     fail: {
       type: Array,
-      required: true
-    }
-  }
+      required: true,
+    },
+  },
 }
 </script>

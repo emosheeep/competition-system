@@ -21,7 +21,7 @@
 </template>
 
 <script>
-import { LOGOUT } from '../../store/mutation-types'
+import { LOGOUT } from '../../store/types'
 
 export default {
   name: 'LoginState',
@@ -32,16 +32,16 @@ export default {
       } else {
         return value
       }
-    }
+    },
   },
   inject: {
     loadingStart: 'loadingStart',
-    loadingEnd: 'loadingEnd'
+    loadingEnd: 'loadingEnd',
   },
   computed: {
     user () {
       return this.$store.state.user
-    }
+    },
   },
   methods: {
     changeUser () {
@@ -50,8 +50,8 @@ export default {
       this.$router.replace({ path: '/' }).finally(() => {
         this.loadingEnd()
       })
-    }
-  }
+    },
+  },
 }
 </script>
 

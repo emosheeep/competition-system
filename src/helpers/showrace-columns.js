@@ -9,14 +9,14 @@ export default function () {
       ellipsis: true,
       width: 110,
       sorter: (a, b) => a.date - b.date,
-      customRender: date => moment(date).format('YYYY-MM-DD')
+      customRender: date => moment(date).format('YYYY-MM-DD'),
     },
     {
       title: '赛事名称',
       dataIndex: 'title',
       ellipsis: true,
       scopedSlots: filterSlots,
-      onFilter: filter('title')
+      onFilter: filter('title'),
     },
     {
       title: '级别',
@@ -28,21 +28,21 @@ export default function () {
       filters: [
         {
           text: '校级',
-          value: '校级'
+          value: '校级',
         },
         {
           text: '省级',
-          value: '省级'
+          value: '省级',
         },
         {
           text: '国家级一般',
-          value: '国家级一般'
+          value: '国家级一般',
         },
         {
           text: '国家级重点',
-          value: '国家级重点'
-        }
-      ]
+          value: '国家级重点',
+        },
+      ],
     },
     {
       title: '类别',
@@ -51,35 +51,35 @@ export default function () {
       width: 80,
       align: 'center',
       onFilter: filter('type'),
-      scopedSlots: filterSlots
+      scopedSlots: filterSlots,
     },
     {
       title: '主办方',
       dataIndex: 'sponsor',
       ellipsis: true,
       scopedSlots: filterSlots,
-      onFilter: filter('sponsor')
+      onFilter: filter('sponsor'),
     },
     {
       title: '地点',
       dataIndex: 'location',
       ellipsis: true,
       scopedSlots: filterSlots,
-      onFilter: filter('location')
+      onFilter: filter('location'),
     },
     {
       title: '描述',
       dataIndex: 'description',
       ellipsis: true,
       scopedSlots: filterSlots,
-      onFilter: filter('description')
+      onFilter: filter('description'),
     },
     {
       title: '操作',
       align: 'center',
       scopedSlots: {
-        customRender: 'action'
-      }
-    }
+        customRender: 'action',
+      },
+    },
   ]
 }

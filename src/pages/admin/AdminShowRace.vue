@@ -79,7 +79,7 @@
 <script>
 import { omit } from 'lodash'
 import { mapState, mapActions } from 'vuex'
-import { DELETE_RACE, SET_RACE_LIST } from '../../store/mutation-types'
+import { DELETE_RACE, SET_RACE_LIST } from '../../store/types'
 import { makeExcel } from '../../utils/excel'
 import ShowRace from '../../components/race/ShowRace'
 import AddRace from '../../components/race/AddRace'
@@ -92,7 +92,7 @@ export default {
     RaceDetail,
     ShowRace,
     UpdateRace,
-    AddRace
+    AddRace,
   },
   inject: ['init'],
   data () {
@@ -101,13 +101,13 @@ export default {
       updateRaceVisible: false,
       showDetailVisible: false,
       isMultiple: false,
-      curRace: {}
+      curRace: {},
     }
   },
   computed: mapState('races', ['races']),
   methods: {
     ...mapActions('races', {
-      setRaceList: SET_RACE_LIST
+      setRaceList: SET_RACE_LIST,
     }),
     onUpdate (race) {
       this.updateRaceVisible = true
@@ -120,7 +120,7 @@ export default {
     onDelete (data) {
       this.$store.dispatch(
         `races/${DELETE_RACE}`,
-        data
+        data,
       ).finally(() => {
         this.isMultiple = false
       })
@@ -131,9 +131,9 @@ export default {
           const temp = omit(item, ['_id'])
           temp.date = new Date(temp.date)
           return temp
-        })
+        }),
       })
-    }
-  }
+    },
+  },
 }
 </script>

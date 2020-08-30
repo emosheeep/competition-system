@@ -37,7 +37,7 @@
 import { omit } from 'lodash'
 import { createNamespacedHelpers } from 'vuex'
 import { makeExcel } from '../../utils/excel'
-import { DELETE_RECORD } from '../../store/mutation-types'
+import { DELETE_RECORD } from '../../store/types'
 import ShowRecord from '../../components/record/ShowRecord'
 import UpdateRecord from '../../components/record/UpdateRecord'
 const { mapState, mapActions } = createNamespacedHelpers('records')
@@ -45,21 +45,21 @@ export default {
   name: 'TeacherShowRecord',
   components: {
     ShowRecord,
-    UpdateRecord
+    UpdateRecord,
   },
   inject: ['init'],
   data () {
     return {
       updateRecordVisible: false,
-      curRecord: {}
+      curRecord: {},
     }
   },
   computed: mapState({
-    records: 'records'
+    records: 'records',
   }),
   methods: {
     ...mapActions({
-      deleteRecord: DELETE_RECORD
+      deleteRecord: DELETE_RECORD,
     }),
     onDelete (id) {
       this.deleteRecord(id)
@@ -74,9 +74,9 @@ export default {
           const temp = omit(item, ['_id', 'id'])
           temp.date = new Date(temp.date)
           return temp
-        })
+        }),
       })
-    }
-  }
+    },
+  },
 }
 </script>

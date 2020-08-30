@@ -1,6 +1,6 @@
 export const filterSlots = {
   filterDropdown: 'filterDropdown',
-  filterIcon: 'filterIcon'
+  filterIcon: 'filterIcon',
 }
 
 export const filter = key => {

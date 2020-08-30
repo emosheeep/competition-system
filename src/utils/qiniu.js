@@ -1,7 +1,7 @@
 import * as qiniu from 'qiniu-js'
 
 const config = {
-  region: qiniu.region.z2
+  region: qiniu.region.z2,
 }
 /**
  * 表单上传文件

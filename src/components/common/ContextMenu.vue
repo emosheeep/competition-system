@@ -20,29 +20,29 @@ export default {
     visible: {
       type: Boolean,
       required: false,
-      default: false
+      default: false,
     },
     list: {
       type: Array,
       required: true,
-      default: () => []
-    }
+      default: () => [],
+    },
   },
   data () {
     return {
       left: 0,
       top: 0,
       target: null,
-      selectedKeys: []
+      selectedKeys: [],
     }
   },
   computed: {
     style () {
       return {
         left: this.left + 'px',
-        top: this.top + 'px'
+        top: this.top + 'px',
       }
-    }
+    },
   },
   created () {
     const clickHandler = () => this.closeMenu()
@@ -66,8 +66,8 @@ export default {
     handleClick ({ key }) {
       this.$emit('select', key, this.target)
       this.closeMenu()
-    }
-  }
+    },
+  },
 }
 </script>
 

@@ -53,12 +53,12 @@
 export default {
   name: 'StudentShowTeacher',
   inject: {
-    init: 'init'
+    init: 'init',
   },
   data () {
     return {
       isSearching: false,
-      result: []
+      result: [],
     }
   },
   computed: {
@@ -67,7 +67,7 @@ export default {
         return this.result
       }
       return this.$store.state.users.teachers
-    }
+    },
   },
   methods: {
     onSearch (key) {
@@ -82,7 +82,7 @@ export default {
         this.result.splice(0)
         this.isSearching = false
       }
-    }
-  }
+    },
+  },
 }
 </script>

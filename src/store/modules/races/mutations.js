@@ -1,4 +1,4 @@
-import { SET_RACE_LIST, ADD_RACE, UPDATE_RACE, DELETE_RACE } from '../../mutation-types'
+import { SET_RACE_LIST, ADD_RACE, UPDATE_RACE, DELETE_RACE } from '../../types'
 
 export default {
   [SET_RACE_LIST] (state, races) {
@@ -14,5 +14,5 @@ export default {
   },
   [DELETE_RACE] (state, data) {
     state.races = state.races.filter(item => !data.includes(item._id))
-  }
+  },
 }

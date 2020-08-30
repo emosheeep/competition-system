@@ -2,8 +2,8 @@
  * mutations直接修改数据对象state，注意这里的方法必须是同步方法
  */
 import {
-  ADD_USER, DELETE_USER, UPDATE_USER, SET_USER_LIST
-} from '../../mutation-types'
+  ADD_USER, DELETE_USER, UPDATE_USER, SET_USER_LIST,
+} from '../../types'
 
 export default {
   [SET_USER_LIST] (state, data) {
@@ -56,5 +56,5 @@ export default {
       default:
         state.admins = admins.map(handler)
     }
-  }
+  },
 }

@@ -9,8 +9,5 @@ Vue.config.productionTip = false
 new Vue({
   router,
   store,
-  mounted () {
-    document.dispatchEvent(new Event('pre-render'))
-  },
-  render: h => h(App)
+  render: h => h(App),
 }).$mount('#app')

@@ -97,35 +97,35 @@ import MultipleDelete from '../../helpers/multiple-delete-mixin'
 export default {
   name: 'ShowRace',
   components: {
-    TableSearch
+    TableSearch,
   },
   mixins: [MultipleDelete],
   props: {
     data: {
       type: Array,
-      required: true
+      required: true,
     },
     rowKey: {
       type: String,
-      default: '_id'
+      default: '_id',
     },
     type: {
       type: String,
       default: 'admin',
       validator (value) {
         return ['admin', 'student', 'teacher'].includes(value)
-      }
-    }
+      },
+    },
   },
   data () {
     return {
-      columns: createColumns.call(this)
+      columns: createColumns.call(this),
     }
   },
   computed: {
     records () {
       return this.$store.state.records.records
-    }
+    },
   },
   methods: {
     onDetail (race) {
@@ -141,8 +141,8 @@ export default {
     },
     multipleDelete () {
       this.$emit('delete-race', [...this.selectedKeys])
-    }
-  }
+    },
+  },
 }
 </script>
 

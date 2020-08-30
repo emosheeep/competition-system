@@ -47,18 +47,18 @@ export default {
     visible: Boolean,
     rowKey: {
       type: String,
-      default: 'account'
+      default: 'account',
     },
     columns: {
       type: Array,
-      required: true
-    }
+      required: true,
+    },
   },
   data () {
     return {
       uploading: false,
       fileLoaded: false,
-      result: []
+      result: [],
     }
   },
   methods: {
@@ -97,7 +97,7 @@ export default {
       })
       this.result = result.map(user => ({
         password: '123456',
-        ...user
+        ...user,
       }))
       this.fileLoaded = true
       this.uploading = false
@@ -116,7 +116,7 @@ export default {
         onOk: () => {
           modal.destroy()
           this.$emit('update:visible', false)
-        }
+        },
       })
     },
     onOk (e) {
@@ -130,10 +130,10 @@ export default {
         onOk: () => {
           modal.destroy()
           this.$emit('confirm', this.result)
-        }
+        },
       })
-    }
-  }
+    },
+  },
 }
 </script>
 

@@ -43,19 +43,19 @@
 </template>
 
 <script>
-import { ADD_RECORD } from '../../store/mutation-types'
+import { ADD_RECORD } from '../../store/types'
 export default {
   name: 'AddRecord',
   props: {
     visible: Boolean,
     race: {
       type: Object,
-      required: true
-    }
+      required: true,
+    },
   },
   data () {
     return {
-      loading: false
+      loading: false,
     }
   },
   computed: {
@@ -64,7 +64,7 @@ export default {
     },
     teachers () {
       return this.$store.state.users.teachers
-    }
+    },
   },
   beforeCreate () {
     this.form = this.$form.createForm(this, { name: 'add-record' })
@@ -88,19 +88,19 @@ export default {
           sid: this.user.account, // 当前登录用户
           sname: this.user.name,
           score: values.score,
-          ...teacher
+          ...teacher,
         }
         this.$store.dispatch(
           `records/${ADD_RECORD}`,
-          result
+          result,
         ).then(_ => {
           this.onCancel()
         }).catch(e => e).finally(() => {
           this.loading = false
         })
       })
-    }
-  }
+    },
+  },
 }
 
 const decorator = {
@@ -108,9 +108,9 @@ const decorator = {
   score: ['score', {
     rules: [{
       required: true,
-      message: '请输入比赛成绩'
-    }]
-  }]
+      message: '请输入比赛成绩',
+    }],
+  }],
 }
 </script>
 

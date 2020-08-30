@@ -7,7 +7,7 @@ export default createPersistedState({
     return {
       user: state.user,
       token: state.token,
-      refreshToken: state.refreshToken
+      refreshToken: state.refreshToken,
     }
-  }
+  },
 })

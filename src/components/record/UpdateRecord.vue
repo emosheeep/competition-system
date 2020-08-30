@@ -64,7 +64,7 @@
 
 <script>
 import { message } from 'ant-design-vue'
-import { UPDATE_RECORD } from '../../store/mutation-types'
+import { UPDATE_RECORD } from '../../store/types'
 import { createNamespacedHelpers } from 'vuex'
 const { mapActions } = createNamespacedHelpers('records')
 export default {
@@ -73,20 +73,20 @@ export default {
     visible: Boolean,
     record: {
       type: Object,
-      required: true
-    }
+      required: true,
+    },
   },
   data () {
     return {
       loading: false,
       reviewState: 'fulfilled',
-      changed: false
+      changed: false,
     }
   },
   computed: {
     identity () {
       return this.$store.state.user.identity
-    }
+    },
   },
   watch: {
     visible (isVisible) {
@@ -96,16 +96,16 @@ export default {
       } else {
         this.$nextTick(() => {
           this.form.setFieldsValue({
-            score: this.record.score
+            score: this.record.score,
           })
           this.changed = false
         })
       }
-    }
+    },
   },
   beforeCreate () {
     this.form = this.$form.createForm(this, {
-      onValuesChange: _ => { this.changed = true }
+      onValuesChange: _ => { this.changed = true },
     })
     this.decorator = decorator
   },
@@ -123,7 +123,7 @@ export default {
         result = {
           state: 'rejected',
           score: record.score,
-          reason: record.description
+          reason: record.description,
         }
       } else {
         // 渲染备注输入框
@@ -131,7 +131,7 @@ export default {
         result = {
           state: 'fulfilled', // 默认为fulfilled
           score: record.score,
-          description: record.description
+          description: record.description,
         }
       }
       this.$nextTick(() => {
@@ -156,7 +156,7 @@ export default {
           _id: this.record._id,
           score: values.score,
           state: values.state,
-          description
+          description,
         })
       }).then(_ => {
         this.$emit('update:visible', false)
@@ -165,8 +165,8 @@ export default {
           this.loading = false
         }, 500)
       })
-    }
-  }
+    },
+  },
 }
 
 /**
@@ -177,17 +177,17 @@ const decorator = {
   score: ['score', {
     rules: [{
       required: true,
-      message: '请填写成绩'
-    }]
+      message: '请填写成绩',
+    }],
   }],
   description: ['description'],
   // 审核失败、原因是必填的
   reason: ['reason', {
     rules: [{
       required: true,
-      message: '请填写失败原因'
-    }]
-  }]
+      message: '请填写失败原因',
+    }],
+  }],
 }
 </script>
 

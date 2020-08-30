@@ -21,7 +21,7 @@
 
 <script>
 import { createNamespacedHelpers } from 'vuex'
-import { UPDATE_USER } from '../../store/mutation-types'
+import { UPDATE_USER } from '../../store/types'
 import EditAdmin from '../add-and-update/EditAdmin'
 const { mapActions } = createNamespacedHelpers('users')
 export default {
@@ -31,17 +31,17 @@ export default {
     visible: Boolean,
     data: {
       type: Object,
-      required: true
-    }
+      required: true,
+    },
   },
   data () {
     return {
-      loading: false
+      loading: false,
     }
   },
   methods: {
     ...mapActions({
-      updateUser: UPDATE_USER
+      updateUser: UPDATE_USER,
     }),
     onCancel () {
       !this.loading && this.$emit('update:visible', false)
@@ -51,7 +51,7 @@ export default {
         this.loading = true
         return this.updateUser({
           type: 'admin',
-          data: values
+          data: values,
         })
       }).then(res => {
         this.$emit('update:visible', false)
@@ -60,7 +60,7 @@ export default {
           this.loading = false
         }, 500)
       })
-    }
-  }
+    },
+  },
 }
 </script>

@@ -52,22 +52,22 @@
 import { createNamespacedHelpers } from 'vuex'
 import EditStudent from '../add-and-update/EditStudent'
 import EditTeacher from '../add-and-update/EditTeacher'
-import { ADD_USER } from '../../store/mutation-types'
+import { ADD_USER } from '../../store/types'
 const { mapActions } = createNamespacedHelpers('users')
 
 export default {
   name: 'AddUser',
   components: {
     EditStudent,
-    EditTeacher
+    EditTeacher,
   },
   props: {
-    visible: Boolean
+    visible: Boolean,
   },
   data () {
     return {
       type: 'student',
-      loading: false
+      loading: false,
     }
   },
   methods: {
@@ -78,7 +78,7 @@ export default {
         this.loading = true
         return this.ADD_USER({
           type: this.type,
-          users: values
+          users: values,
         })
       }).then(res => {
         this.$emit('update:visible', false)
@@ -94,7 +94,7 @@ export default {
     onCancel (e) {
       if (this.loading) return
       this.$emit('update:visible', false)
-    }
-  }
+    },
+  },
 }
 </script>

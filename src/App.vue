@@ -13,12 +13,12 @@ export default {
   provide () {
     return {
       loadingStart: this.loadingStart,
-      loadingEnd: this.loadingEnd
+      loadingEnd: this.loadingEnd,
     }
   },
   data () {
     return {
-      loading: false
+      loading: false,
     }
   },
   methods: {
@@ -27,7 +27,7 @@ export default {
     },
     loadingEnd () {
       this.loading = false
-    }
+    },
   },
   metaInfo: {
     title: '首页',
@@ -35,14 +35,14 @@ export default {
     meta: [
       {
         name: 'keywords',
-        content: '南昌大学,软件学院,竞赛,管理系统'
+        content: '南昌大学,软件学院,竞赛,管理系统',
       },
       {
         name: 'description',
-        content: '南昌大学软件学院竞赛管理系统，用于管理竞赛数据。学生参赛报备、竞赛数据统计、数据导出。'
-      }
-    ]
-  }
+        content: '南昌大学软件学院竞赛管理系统，用于管理竞赛数据。学生参赛报备、竞赛数据统计、数据导出。',
+      },
+    ],
+  },
 }
 </script>
 

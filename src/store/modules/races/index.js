@@ -4,8 +4,8 @@ import mutations from './mutations'
 export default {
   namespaced: true,
   state: {
-    races: []
+    races: [],
   },
   mutations,
-  actions
+  actions,
 }

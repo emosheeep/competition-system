@@ -19,23 +19,23 @@
 
 <script>
 import EditRace from '../add-and-update/EditRace'
-import { ADD_RACE } from '../../store/mutation-types'
+import { ADD_RACE } from '../../store/types'
 import { createNamespacedHelpers } from 'vuex'
 const { mapActions } = createNamespacedHelpers('races')
 export default {
   name: 'AddRace',
   components: { EditRace },
   props: {
-    visible: Boolean
+    visible: Boolean,
   },
   data () {
     return {
-      loading: false
+      loading: false,
     }
   },
   methods: {
     ...mapActions({
-      addRace: ADD_RACE
+      addRace: ADD_RACE,
     }),
     onOk (e) {
       this.$refs.addUser.confirm().then(values => {
@@ -52,7 +52,7 @@ export default {
     },
     onCancel (e) {
       this.$emit('update:visible', false)
-    }
-  }
+    },
+  },
 }
 </script>

@@ -6,8 +6,8 @@ export default {
   state: {
     students: [],
     teachers: [],
-    admins: []
+    admins: [],
   },
   actions,
-  mutations
+  mutations,
 }

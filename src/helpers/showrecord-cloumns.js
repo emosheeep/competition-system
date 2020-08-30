@@ -17,7 +17,7 @@ export default function (type) {
     return dropRight(allColumns) // 去掉action
   }
   throw new Error(
-    "type must be one of ['admin', 'student', 'teacher', 'readonly']"
+    "type must be one of ['admin', 'student', 'teacher', 'readonly']",
   )
 }
 
@@ -27,26 +27,26 @@ const allColumns = [
     dataIndex: 'date',
     width: 110,
     sorter: (a, b) => a.date - b.date,
-    customRender: date => moment(date).format('YYYY-MM-DD')
+    customRender: date => moment(date).format('YYYY-MM-DD'),
   },
   {
     title: '名称',
     dataIndex: 'title',
     ellipsis: true,
     scopedSlots: filterSlots,
-    onFilter: filter('title')
+    onFilter: filter('title'),
   },
   {
     title: '学生姓名',
     dataIndex: 'sname',
     ellipsis: true,
     scopedSlots: filterSlots,
-    onFilter: filter('sname')
+    onFilter: filter('sname'),
   },
   {
     title: '成绩',
     dataIndex: 'score',
-    ellipsis: true
+    ellipsis: true,
   },
   {
     title: '状态',
@@ -56,31 +56,31 @@ const allColumns = [
     filters: [
       {
         text: '未审核',
-        value: 'pending'
+        value: 'pending',
       },
       {
         text: '成功',
-        value: 'fulfilled'
+        value: 'fulfilled',
       },
       {
         text: '失败',
-        value: 'rejected'
-      }
+        value: 'rejected',
+      },
     ],
     scopedSlots: {
-      customRender: 'state'
-    }
+      customRender: 'state',
+    },
   },
   {
     title: '备注',
     dataIndex: 'description',
-    ellipsis: true
+    ellipsis: true,
   },
   {
     title: '操作',
     align: 'center',
     scopedSlots: {
-      customRender: 'action'
-    }
-  }
+      customRender: 'action',
+    },
+  },
 ]

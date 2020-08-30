@@ -45,26 +45,26 @@ import UpdateAdmin from '../../components/user/UpdateAdmin'
 import AddAdmin from '../../components/user/AddAdmin'
 import resetPassword from '../../utils/reset-password'
 import { ADMIN_COLUMNS } from '../../helpers/showuser-columns'
-import { ADD_USER, DELETE_USER } from '../../store/mutation-types'
+import { ADD_USER, DELETE_USER } from '../../store/types'
 
 export default {
   name: 'RootShowAdmin',
   components: { UpdateAdmin, AddAdmin, ShowUser },
   inject: {
-    init: 'init'
+    init: 'init',
   },
   data () {
     return {
       addAdminVisible: false,
       updateAdminVisible: false,
-      curAdmin: {}
+      curAdmin: {},
     }
   },
   computed: {
     ...mapState('users', ['admins']),
     user () {
       return this.$store.state.user
-    }
+    },
   },
   beforeMount () {
     this.ADMIN_COLUMNS = ADMIN_COLUMNS // 无需响应式的数据
@@ -84,9 +84,9 @@ export default {
       }
       this.DELETE_USER({
         type: 'admin',
-        data
+        data,
       })
-    }
-  }
+    },
+  },
 }
 </script>

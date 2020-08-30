@@ -1,4 +1,4 @@
-import { SET_RECORD_LIST, ADD_RECORD, UPDATE_RECORD, DELETE_RECORD } from '../../mutation-types'
+import { SET_RECORD_LIST, ADD_RECORD, UPDATE_RECORD, DELETE_RECORD } from '../../types'
 
 export default {
   [SET_RECORD_LIST] (state, records) {
@@ -14,5 +14,5 @@ export default {
   },
   [DELETE_RECORD] (state, data) {
     state.records = state.records.filter(item => !data.includes(item._id))
-  }
+  },
 }

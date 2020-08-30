@@ -6,5 +6,5 @@ export default {
       state.user.account &&
       state.user.identity
     )
-  }
+  },
 }

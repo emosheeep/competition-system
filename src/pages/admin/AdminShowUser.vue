@@ -146,7 +146,7 @@ import ShowUser from '../../components/user/ShowUser'
 import AddUser from '../../components/user/AddUser'
 import Import from '../../components/common/Import'
 import UpdateUser from '../../components/user/UpdateUser'
-import { ADD_USER, DELETE_USER } from '../../store/mutation-types'
+import { ADD_USER, DELETE_USER } from '../../store/types'
 
 export default {
   name: 'AdminShowUser',
@@ -154,7 +154,7 @@ export default {
     ShowUser,
     AddUser,
     Import,
-    UpdateUser
+    UpdateUser,
   },
   inject: ['init'],
   data () {
@@ -165,7 +165,7 @@ export default {
       isMultiple: false,
       importUserType: 'student',
       showUserType: 'student',
-      curUser: {}
+      curUser: {},
     }
   },
   computed: {
@@ -178,7 +178,7 @@ export default {
     },
     user () {
       return this.$store.state.user
-    }
+    },
   },
   beforeMount () {
     // 这些数据无需响应式
@@ -202,7 +202,7 @@ export default {
     onDelete (data) {
       this.DELETE_USER({
         type: this.showUserType,
-        data
+        data,
       }).finally(() => {
         this.isMultiple = false
       })
@@ -217,7 +217,7 @@ export default {
     importUser (users) {
       this.ADD_USER({
         type: this.importUserType,
-        users
+        users,
       }).then(() => {
         this.importUserVisible = false
       }).catch(console.warn)
@@ -225,10 +225,10 @@ export default {
     exportExcel () {
       makeExcel({
         students: this.students.map(item => omit(item, ['_id'])),
-        teachers: this.teachers.map(item => omit(item, ['_id']))
+        teachers: this.teachers.map(item => omit(item, ['_id'])),
       })
-    }
-  }
+    },
+  },
 }
 </script>
 

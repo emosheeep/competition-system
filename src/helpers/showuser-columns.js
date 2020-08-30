@@ -6,13 +6,13 @@ export const STUDENT_COLUMNS = [
     dataIndex: 'account',
     sorter: (a, b) => a.account - b.account,
     scopedSlots: filterSlots,
-    onFilter: filter('account')
+    onFilter: filter('account'),
   },
   {
     title: '姓名',
     dataIndex: 'name',
     scopedSlots: filterSlots,
-    onFilter: filter('name')
+    onFilter: filter('name'),
   },
   {
     title: '性别',
@@ -21,28 +21,28 @@ export const STUDENT_COLUMNS = [
     filters: [
       {
         text: '男',
-        value: '男'
+        value: '男',
       },
       {
         text: '女',
-        value: '女'
-      }
-    ]
+        value: '女',
+      },
+    ],
   },
   {
     title: '年级',
-    dataIndex: 'grade'
+    dataIndex: 'grade',
   },
   {
     title: '班级',
-    dataIndex: 'classname'
+    dataIndex: 'classname',
   },
   {
     title: '操作',
     key: 'action',
     align: 'center',
-    scopedSlots: { customRender: 'action' }
-  }
+    scopedSlots: { customRender: 'action' },
+  },
 ]
 export const TEACHER_COLUMNS = [
   {
@@ -50,43 +50,43 @@ export const TEACHER_COLUMNS = [
     dataIndex: 'account',
     sorter: (a, b) => a.account - b.account,
     scopedSlots: filterSlots,
-    onFilter: filter('account')
+    onFilter: filter('account'),
   },
   {
     title: '姓名',
     dataIndex: 'name',
     scopedSlots: filterSlots,
-    onFilter: filter('name')
+    onFilter: filter('name'),
   },
   {
     title: '职称',
     dataIndex: 'rank',
     scopedSlots: filterSlots,
-    onFilter: filter('rank')
+    onFilter: filter('rank'),
   },
   {
     title: '描述',
     dataIndex: 'description',
-    ellipsis: true
+    ellipsis: true,
   },
   {
     title: '操作',
     key: 'action',
     align: 'center',
-    scopedSlots: { customRender: 'action' }
-  }
+    scopedSlots: { customRender: 'action' },
+  },
 ]
 export const ADMIN_COLUMNS = [
   {
     title: '账号',
     dataIndex: 'account',
-    sorter: (a, b) => a.account - b.account
+    sorter: (a, b) => a.account - b.account,
   },
   {
     title: '姓名',
     dataIndex: 'name',
     scopedSlots: filterSlots,
-    onFilter: filter('name')
+    onFilter: filter('name'),
   },
   {
     title: '权限',
@@ -95,22 +95,22 @@ export const ADMIN_COLUMNS = [
     filters: [
       {
         text: 'readable',
-        value: 'readable'
+        value: 'readable',
       },
       {
         text: 'writeable',
-        value: 'writeable'
+        value: 'writeable',
       },
       {
         text: 'root',
-        value: 'root'
-      }
-    ]
+        value: 'root',
+      },
+    ],
   },
   {
     title: '操作',
     key: 'action',
     align: 'center',
-    scopedSlots: { customRender: 'action' }
-  }
+    scopedSlots: { customRender: 'action' },
+  },
 ]

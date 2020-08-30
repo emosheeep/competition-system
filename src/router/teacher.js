@@ -9,7 +9,7 @@ export default [
     redirect: '/teacher/race',
     meta: {
       auth: true,
-      identity: 'teacher'
+      identity: 'teacher',
     },
     children: [
       {
@@ -18,7 +18,7 @@ export default [
         component: () => import(
           /* webpackChunkName: "Teacher" */
           '../pages/teacher/TeacherShowRace'
-        )
+        ),
       },
       {
         path: 'record',
@@ -26,7 +26,7 @@ export default [
         component: () => import(
           /* webpackChunkName: "TeacherShowRecord" */
           '../pages/teacher/TeacherShowRecord'
-        )
+        ),
       },
       {
         path: 'self',
@@ -34,8 +34,8 @@ export default [
         component: () => import(
           /* webpackChunkName: "TeacherUpdateSelfInfo" */
           '../pages/teacher/TeacherUpdateSelfInfo'
-        )
-      }
-    ]
-  }
+        ),
+      },
+    ],
+  },
 ]

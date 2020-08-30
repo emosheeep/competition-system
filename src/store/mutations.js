@@ -1,4 +1,4 @@
-import { LOGIN, LOGOUT, REFRESH_TOKEN, UPDATE_SELF } from './mutation-types'
+import { LOGIN, LOGOUT, REFRESH_TOKEN, UPDATE_SELF } from './types'
 
 export default {
   [LOGIN] (state, { user, token, refreshToken }) {
@@ -16,5 +16,5 @@ export default {
   },
   [UPDATE_SELF] (state, user) {
     state.user = Object.assign(state.user, user)
-  }
+  },
 }

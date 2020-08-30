@@ -92,21 +92,21 @@ export default {
   name: 'Sidebar',
   data () {
     return {
-      keys: []
+      keys: [],
     }
   },
   computed: {
     user () {
       return this.$store.state.user
-    }
+    },
   },
   watch: {
     $route: {
       handler (to) {
         this.$set(this.keys, 0, to.path)
       },
-      immediate: true
-    }
+      immediate: true,
+    },
   },
   methods: {
     handleClick ({ key: path }) {
@@ -115,8 +115,8 @@ export default {
     goHome () {
       const { identity } = this.user
       this.$router.replace(`/${identity}`).catch(e => e)
-    }
-  }
+    },
+  },
 }
 </script>
 

@@ -86,14 +86,14 @@ export default {
         name: data.name,
         rank: data.rank,
         classname: data.classname,
-        description: data.description
+        description: data.description,
       }
       if (type !== 'self') {
         result.account = data.account
       }
       this.form.setFieldsValue(result)
-    }
-  }
+    },
+  },
 }
 
 /**
@@ -103,24 +103,24 @@ const decorator = {
   account: ['account', {
     rules: [{
       required: true,
-      message: '请输入职工号！'
-    }]
+      message: '请输入职工号！',
+    }],
   }],
   password: ['password', {
     rules: [{
       required: true,
-      message: '请输入密码！'
-    }]
+      message: '请输入密码！',
+    }],
   }],
   name: ['name', {
     rules: [{
       required: true,
-      message: '请输入姓名！'
-    }]
+      message: '请输入姓名！',
+    }],
   }],
   rank: ['rank', {
-    initialValue: '讲师'
+    initialValue: '讲师',
   }],
-  description: ['description']
+  description: ['description'],
 }
 </script>

@@ -11,7 +11,7 @@ export default [
     redirect: '/admin/race',
     meta: {
       auth: true,
-      identity: 'admin'
+      identity: 'admin',
     },
     children: [
       {
@@ -20,7 +20,7 @@ export default [
         component: () => import(
           /* webpackChunkName: "Admin" */
           '../pages/admin/AdminShowRace'
-        )
+        ),
       },
       {
         path: 'record',
@@ -29,7 +29,7 @@ export default [
           /* webpackChunkName: "AdminShowRecord" */
           '../pages/admin/AdminShowRecord'
         ),
-        props: route => ({ type: 'admin' })
+        props: route => ({ type: 'admin' }),
       },
       {
         path: 'user',
@@ -37,7 +37,7 @@ export default [
         component: () => import(
           /* webpackChunkName: "AdminShowUser" */
           '../pages/admin/AdminShowUser'
-        )
+        ),
       },
       {
         path: 'root',
@@ -53,7 +53,7 @@ export default [
           } else {
             next({ path: '/404' })
           }
-        }
+        },
       },
       {
         path: 'self',
@@ -61,8 +61,8 @@ export default [
         component: () => import(
           /* webpackChunkName: "AdminUpdateSelfInfo" */
           '../pages/admin/AdminUpdateSelfInfo'
-        )
-      }
-    ]
-  }
+        ),
+      },
+    ],
+  },
 ]

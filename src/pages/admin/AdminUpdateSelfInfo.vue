@@ -41,27 +41,27 @@
 <script>
 import EditAdmin from '../../components/add-and-update/EditAdmin'
 import ModifyPassword from '../../components/common/UpdatePassword'
-import { UPDATE_SELF } from '../../store/mutation-types'
+import { UPDATE_SELF } from '../../store/types'
 import { omit } from 'lodash'
 export default {
   name: 'AdminUpdateSelfInfo',
   components: { ModifyPassword, EditAdmin },
   data () {
     return {
-      loading: false
+      loading: false,
     }
   },
   computed: {
     user () {
       return this.$store.state.user
-    }
+    },
   },
   beforeMount () {
     this.name = ['name', {
       rules: [{
         required: true,
-        message: '请输入管理员姓名！'
-      }]
+        message: '请输入管理员姓名！',
+      }],
     }]
   },
   methods: {
@@ -74,15 +74,15 @@ export default {
         this.loading = true
         return this.$store.dispatch(
           UPDATE_SELF,
-          Object.assign(user, values)
+          Object.assign(user, values),
         )
       }).then(() => {
         this.$refs.self.changed = false
       }).finally(() => {
         this.loading = false
       })
-    }
-  }
+    },
+  },
 }
 </script>
 

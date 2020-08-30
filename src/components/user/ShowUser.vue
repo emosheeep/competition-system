@@ -72,7 +72,7 @@
 <script>
 import MultipleDelete from '../../helpers/multiple-delete-mixin'
 import TableSearch from '../common/TableSearch'
-import { DELETE_USER } from '../../store/mutation-types'
+import { DELETE_USER } from '../../store/types'
 import { createNamespacedHelpers } from 'vuex'
 const { mapActions } = createNamespacedHelpers('users')
 
@@ -83,16 +83,16 @@ export default {
   props: {
     data: {
       type: Array,
-      required: true
+      required: true,
     },
     rowKey: {
       type: String,
-      default: 'account'
+      default: 'account',
     },
     column: {
       type: Array,
-      required: true
-    }
+      required: true,
+    },
   },
   methods: {
     ...mapActions([DELETE_USER]),
@@ -109,8 +109,8 @@ export default {
         return
       }
       this.$emit('delete-user', [...this.selectedKeys])
-    }
-  }
+    },
+  },
 }
 
 </script>

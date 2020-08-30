@@ -20,7 +20,7 @@
 
 <script>
 import EditRace from '../add-and-update/EditRace'
-import { UPDATE_RACE } from '../../store/mutation-types'
+import { UPDATE_RACE } from '../../store/types'
 import { createNamespacedHelpers } from 'vuex'
 const { mapActions } = createNamespacedHelpers('races')
 export default {
@@ -30,17 +30,17 @@ export default {
     visible: Boolean,
     race: {
       type: Object,
-      required: true
-    }
+      required: true,
+    },
   },
   data () {
     return {
-      loading: false
+      loading: false,
     }
   },
   methods: {
     ...mapActions({
-      updateRace: UPDATE_RACE
+      updateRace: UPDATE_RACE,
     }),
     onOk (e) {
       this.$refs.updateRace.confirm().then(values => {
@@ -48,7 +48,7 @@ export default {
         values.date = values.date.valueOf() // 将组件默认的moment对象转换为时间戳
         return this.updateRace({
           ...values,
-          _id: this.race._id // 手动添加_id属性，否则会出错
+          _id: this.race._id, // 手动添加_id属性，否则会出错
         })
       }).then(_ => {
         this.$emit('update:visible', false)
@@ -60,7 +60,7 @@ export default {
     },
     onCancel (e) {
       this.$emit('update:visible', false)
-    }
-  }
+    },
+  },
 }
 </script>

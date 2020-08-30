@@ -39,17 +39,17 @@ export default {
   props: {
     race: {
       type: Object,
-      required: true
+      required: true,
     },
     records: {
       type: Array,
-      required: true
-    }
+      required: true,
+    },
   },
   methods: {
     formatDate (date) {
       return moment(date).format('YYYY-MM-DD')
-    }
-  }
+    },
+  },
 }
 </script>

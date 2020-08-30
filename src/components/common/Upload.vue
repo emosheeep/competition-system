@@ -54,7 +54,7 @@
 <script>
 import { message } from 'ant-design-vue'
 import { createNamespacedHelpers } from 'vuex'
-import { UPDATE_RECORD } from '../../store/mutation-types'
+import { UPDATE_RECORD } from '../../store/types'
 import { getToken, fresh } from '../../api'
 import { uploader } from '../../utils/qiniu'
 
@@ -64,21 +64,21 @@ export default {
   props: {
     visible: {
       type: Boolean,
-      required: true
+      required: true,
     },
     record: {
       type: Object,
-      required: true
-    }
+      required: true,
+    },
   },
   data () {
     return {
-      ...data
+      ...data,
     }
   },
   methods: {
     ...mapActions({
-      updateRecord: UPDATE_RECORD
+      updateRecord: UPDATE_RECORD,
     }),
     reset () {
       Object.assign(this, data)
@@ -113,8 +113,8 @@ export default {
     },
     uploadFile () {
       uploadFile.call(this)
-    }
-  }
+    },
+  },
 }
 
 const data = {
@@ -124,7 +124,7 @@ const data = {
   file: null,
   uploadPercent: 0,
   uploadStatus: 'active',
-  previewVisible: false
+  previewVisible: false,
 }
 
 function createObjectUrl (file) {
@@ -158,7 +158,7 @@ function uploadFile () {
     observer.subscribe(
       next.bind(this),
       error.bind(this),
-      complete.bind(this)
+      complete.bind(this),
     )
   })
 }
@@ -176,7 +176,7 @@ function complete ({ key: name }) {
   record.uploaded = true // 标记为已上传状态
   Promise.all([
     fresh({ name }), // 重新上传文件，需要刷新cdn缓存，否则预览文件不会变化
-    this.updateRecord(record)
+    this.updateRecord(record),
   ]).then(([{ data: result }]) => {
     this.uploadStatus = 'success'
     if (result.code === 1) {

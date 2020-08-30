@@ -16,7 +16,7 @@ const routes = [
     component: () => import(
       /* webpackChunkName: "Login" */
       '../pages/Login'
-    )
+    ),
   },
   ...teacher,
   ...student,
@@ -26,18 +26,18 @@ const routes = [
     component: () => import(
       /* webpackChunkName: "404" */
       '../components/common/404'
-    )
+    ),
   },
   {
     path: '*',
-    redirect: '/404'
-  }
+    redirect: '/404',
+  },
 ]
 
 const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
-  routes
+  routes,
 })
 
 router.beforeEach(CheckState)

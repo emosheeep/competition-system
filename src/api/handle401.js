@@ -1,6 +1,6 @@
 import store from '../store'
 import axios from './axios'
-import { REFRESH_TOKEN } from '../store/mutation-types'
+import { REFRESH_TOKEN } from '@/store/types'
 
 let lock = false
 const originRequest = []

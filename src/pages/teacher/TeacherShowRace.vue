@@ -50,13 +50,13 @@ export default {
   data () {
     return {
       curRace: {},
-      showDetailVisible: false
+      showDetailVisible: false,
     }
   },
   computed: {
     races () {
       return this.$store.state.races.races
-    }
+    },
   },
   methods: {
     onDetail (race) {
@@ -69,9 +69,9 @@ export default {
           const temp = omit(item, ['_id'])
           temp.date = new Date(temp.date)
           return temp
-        })
+        }),
       })
-    }
-  }
+    },
+  },
 }
 </script>

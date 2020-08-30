@@ -87,8 +87,8 @@ export default {
   props: {
     record: {
       type: Object,
-      required: true
-    }
+      required: true,
+    },
   },
   computed: {
     identity () {
@@ -96,7 +96,7 @@ export default {
     },
     isFulfilled () {
       return this.record.state === 'fulfilled'
-    }
-  }
+    },
+  },
 }
 </script>

@@ -4,8 +4,8 @@ export const login = data => axios.post('/auth/login', data)
 export const refreshToken = originToken => {
   return axios.get('/auth/refresh', {
     headers: {
-      authorization: originToken
-    }
+      authorization: originToken,
+    },
   })
 }
 

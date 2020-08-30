@@ -18,18 +18,18 @@
 <script>
 import { createNamespacedHelpers } from 'vuex'
 import EditAdmin from '../add-and-update/EditAdmin'
-import { ADD_USER } from '../../store/mutation-types'
+import { ADD_USER } from '../../store/types'
 const { mapActions } = createNamespacedHelpers('users')
 
 export default {
   name: 'AddAdmin',
   components: { EditAdmin },
   props: {
-    visible: Boolean
+    visible: Boolean,
   },
   data () {
     return {
-      loading: false
+      loading: false,
     }
   },
   methods: {
@@ -40,7 +40,7 @@ export default {
         this.loading = true
         return this.ADD_USER({
           type: 'admin',
-          users: values
+          users: values,
         })
       }).then(res => {
         this.$emit('update:visible', false)
@@ -53,7 +53,7 @@ export default {
     onCancel (e) {
       if (this.loading) return
       this.$emit('update:visible', false)
-    }
-  }
+    },
+  },
 }
 </script>

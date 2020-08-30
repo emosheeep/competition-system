@@ -48,8 +48,8 @@ export default {
       menuItems: [
         { key: '1', icon: 'arrow-left', text: '关闭左侧' },
         { key: '2', icon: 'arrow-right', text: '关闭右侧' },
-        { key: '3', icon: 'close', text: '关闭其它' }
-      ]
+        { key: '3', icon: 'close', text: '关闭其它' },
+      ],
     }
   },
   watch: {
@@ -62,8 +62,8 @@ export default {
           this.pageList.push(route)
         }
       },
-      immediate: true
-    }
+      immediate: true,
+    },
   },
   methods: {
     changePage (key) {
@@ -169,8 +169,8 @@ export default {
       if (this.dustbin.includes(componentName)) {
         this.dustbin = this.dustbin.filter(item => item !== componentName)
       }
-    }
-  }
+    },
+  },
 }
 
 /**

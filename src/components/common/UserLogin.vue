@@ -63,7 +63,7 @@
 </template>
 
 <script>
-import { LOGIN } from '../../store/mutation-types'
+import { LOGIN } from '../../store/types'
 import Loading from './Loading'
 export default {
   name: 'Login',
@@ -71,7 +71,7 @@ export default {
   data () {
     return {
       loading: false,
-      decorator
+      decorator,
     }
   },
   beforeCreate () {
@@ -89,26 +89,26 @@ export default {
       }).finally(() => {
         this.loading = false
       })
-    }
-  }
+    },
+  },
 }
 const decorator = {
   account: ['account', {
     rules: [{
       required: true,
-      message: '请输入用户名！'
-    }]
+      message: '请输入用户名！',
+    }],
   }],
   password: ['password', {
     rules: [{
       required: true,
-      message: '请输入密码！'
-    }]
+      message: '请输入密码！',
+    }],
   }],
   identity: ['identity', {
     valuePropName: 'value',
-    initialValue: 'student'
-  }]
+    initialValue: 'student',
+  }],
 }
 </script>
 

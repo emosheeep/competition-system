@@ -67,13 +67,13 @@ export default {
   name: 'UpdatePassword',
   data () {
     return {
-      loading: false
+      loading: false,
     }
   },
   computed: {
     user () {
       return this.$store.state.user
-    }
+    },
   },
   beforeCreate () {
     this.form = this.$form.createForm(this, { name: 'password' })
@@ -89,7 +89,7 @@ export default {
       const options = {
         key,
         content: '请稍后',
-        duration: 0
+        duration: 0,
       }
       this.form.validateFields({ first: true }).then(values => {
         this.loading = true
@@ -98,7 +98,7 @@ export default {
           account: this.user.account,
           identity: this.user.identity,
           oldVal: values.password,
-          newVal: values.newPass
+          newVal: values.newPass,
         })
       }).then(res => {
         const { code, msg } = res.data
@@ -113,22 +113,22 @@ export default {
       }).finally(() => {
         this.loading = false
       })
-    }
-  }
+    },
+  },
 }
 function getDecorator () {
   return {
     password: ['password', {
       rules: [{
         required: true,
-        message: '请输入密码！'
-      }]
+        message: '请输入密码！',
+      }],
     }],
     newPass: ['newPass', {
       rules: [
         {
           required: true,
-          message: '请输入新密码！'
+          message: '请输入新密码！',
         },
         {
           validator: (rule, value, callback) => {
@@ -139,15 +139,15 @@ function getDecorator () {
             } else {
               callback()
             }
-          }
-        }
-      ]
+          },
+        },
+      ],
     }],
     reNewPass: ['reNewPass', {
       rules: [
         {
           required: true,
-          message: '请确认新密码！'
+          message: '请确认新密码！',
         },
         {
           validator: (rule, value, callback) => {
@@ -158,10 +158,10 @@ function getDecorator () {
             } else {
               callback()
             }
-          }
-        }
-      ]
-    }]
+          },
+        },
+      ],
+    }],
   }
 }
 </script>

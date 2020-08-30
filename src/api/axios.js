@@ -3,10 +3,10 @@ import axios from 'axios'
 import store from '../store'
 import router from '../router'
 import handle401 from './handle401'
-import { LOGOUT } from '../store/mutation-types'
+import { LOGOUT } from '@/store/types'
 
 const http = axios.create({
-  baseURL: '/api'
+  baseURL: '/api',
 })
 
 // 请求携带token
@@ -30,7 +30,7 @@ http.interceptors.response.use(null, error => {
     message.destroy()
     store.commit(LOGOUT)
     router.replace({
-      name: 'login'
+      name: 'login',
     }).catch(console.warn).finally(() => {
       message.warn('身份凭证过期，请重新登录')
     })

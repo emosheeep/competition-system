@@ -133,19 +133,19 @@ export default {
     visible: Boolean,
     record: {
       type: Object,
-      required: true
-    }
+      required: true,
+    },
   },
   data () {
     return {
       loading: true,
-      info: {}
+      info: {},
     }
   },
   computed: {
     recordState () {
       return this.record.state
-    }
+    },
   },
   watch: {
     visible (newVal) {
@@ -153,7 +153,7 @@ export default {
       if (newVal && this.record.uploaded) {
         this.initFileInfo()
       }
-    }
+    },
   },
   methods: {
     formatDate (date) {
@@ -162,7 +162,7 @@ export default {
     initFileInfo () {
       this.loading = true
       getFileInfo({
-        name: this.record._id
+        name: this.record._id,
       }).then(({ data: result }) => {
         if (result.code === 0) {
           this.info = result.data
@@ -176,14 +176,14 @@ export default {
       })
     },
     download: debounce(download, 300),
-    preview: debounce(preview, 300)
-  }
+    preview: debounce(preview, 300),
+  },
 }
 
 function preview () {
   const stopLoading = message.loading('获取文件信息')
   getDownloadUrl({
-    name: this.record._id
+    name: this.record._id,
   }).then(({ data: url }) => {
     window.open(url, '_blank')
   }).catch(e => {
@@ -202,13 +202,13 @@ function download () {
   const type = mimeType.split('/')[1]
   const stopLoading = message.loading('获取文件信息')
   getDownloadUrl({
-    name: _id
+    name: _id,
   }).then(({ data: url }) => {
     console.log(url + `&t=${Date.now()}`)
     // 下载文件，触发浏览器下载弹框
     saveAs(
       `${url}&t=${Date.now()}`,
-      `${title}.${type}`
+      `${title}.${type}`,
     )
   }).catch(e => {
     message.error('下载失败，请重试')

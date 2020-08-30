@@ -91,31 +91,31 @@ export default {
     Upload,
     TableSearch,
     ShowRecordAction,
-    ShowRecordDetail
+    ShowRecordDetail,
   },
   mixins: [MultipleDelete],
   props: {
     data: {
       type: Array,
-      required: true
+      required: true,
     },
     rowKey: {
       type: String,
-      default: '_id'
+      default: '_id',
     },
     type: {
       type: String,
       default: 'readonly',
       validator (value) {
         return ['student', 'admin', 'teacher', 'readonly'].includes(value)
-      }
-    }
+      },
+    },
   },
   data () {
     return {
       uploadVisible: false,
       recordDetailVisible: false,
-      curRecord: {}
+      curRecord: {},
     }
   },
   beforeMount () {
@@ -140,8 +140,8 @@ export default {
     onDetail (record) {
       this.curRecord = record
       this.recordDetailVisible = true
-    }
-  }
+    },
+  },
 }
 </script>
 

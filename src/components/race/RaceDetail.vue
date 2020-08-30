@@ -18,21 +18,21 @@ export default {
   props: {
     id: {
       type: String,
-      required: true
+      required: true,
     },
     type: {
       type: String,
       required: true,
       validator (value) {
         return ['admin', 'teacher'].includes(value)
-      }
-    }
+      },
+    },
   },
   data () {
     return {
       loading: false,
       race: {},
-      records: []
+      records: [],
     }
   },
   mounted () {
@@ -48,18 +48,18 @@ export default {
         getRaceList({ _id: id }),
         this.type === 'teacher'
           ? getRecordList({ id, tid: account })
-          : getRecordList({ id })
+          : getRecordList({ id }),
       ]).then(([
         { data: races },
-        { data: records }
+        { data: records },
       ]) => {
         this.race = races[0]
         this.records = records
       }).finally(() => {
         this.loading = false
       })
-    }
-  }
+    },
+  },
 }
 </script>
 
