@@ -5,9 +5,7 @@ export default {
   props: {
     data: {
       type: Object,
-      default () {
-        return {}
-      },
+      default: () => ({}),
     },
     type: {
       type: String,
@@ -21,31 +19,23 @@ export default {
     return {
       labelCol: { span: 3 },
       wrapperCol: { span: 20 },
-      changed: false,
     }
-  },
-  beforeCreate () {
-    this.form = this.$form.createForm(this, {
-      onValuesChange: _ => { this.changed = true },
-    })
   },
   mounted () {
     if (this.type !== 'add') {
       this.initData()
-      this.changed = false // 修正
     }
   },
   methods: {
     reset () {
-      this.form.resetFields()
-      this.changed = true
+      this.$refs.form.resetFields()
     },
     confirm () {
       if (this.type !== 'add' && !this.changed) {
         message.info('未检测到数据变动')
         return Promise.reject('未检测到数据变动')
       }
-      return this.form.validateFields().then(values => {
+      return this.$refs.form.validate().then(values => {
         // 转换可能存在的时间属性
         for (const key of Object.keys(values)) {
           if (values[key] instanceof moment) {

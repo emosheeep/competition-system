@@ -6,7 +6,7 @@
 
 <script>
 import GlobalLayout from '../layouts/GlobalLayout'
-import TabLayout from '../layouts/TabLayout'
+import TabLayout from '../layouts/tab/TabLayout'
 import { SET_RACE_LIST, SET_RECORD_LIST, SET_USER_LIST } from '@/store/types'
 
 export default {

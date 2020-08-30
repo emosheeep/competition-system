@@ -26,7 +26,7 @@
       @add-record="onAddRecord"
     />
     <AddRecord
-      :visible.sync="addRecordVisible"
+      v-model:visible="addRecordVisible"
       :race="curRace"
     />
   </div>

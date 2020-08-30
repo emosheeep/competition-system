@@ -2,37 +2,40 @@
   <div>
     <a-form
       class="login-form"
-      :form="form"
+      :model="formData"
+      :rules="rules"
       layout="vertical"
-      @submit="onSubmit"
+      @finish="onFinish"
     >
-      <a-form-item label="用户名">
+      <a-form-item
+        label="用户名"
+        name="account"
+      >
         <a-input
-          v-decorator="decorator.account"
+          v-model:value="formData.account"
           placeholder="Username"
         >
-          <a-icon
-            slot="prefix"
-            type="user"
-            style="color: rgba(0,0,0,.25)"
-          />
+          <template #prefix>
+            <UserOutlined style="color: rgba(0,0,0,.25)" />
+          </template>
         </a-input>
       </a-form-item>
-      <a-form-item label="密码">
+      <a-form-item
+        label="密码"
+        name="password"
+      >
         <a-input-password
-          v-decorator="decorator.password"
+          v-model:value="formData.password"
           placeholder="Password"
         >
-          <a-icon
-            slot="prefix"
-            type="lock"
-            style="color: rgba(0,0,0,.25)"
-          />
+          <template #prefix>
+            <LockOutlined style="color: rgba(0,0,0,.25)" />
+          </template>
         </a-input-password>
       </a-form-item>
-      <a-form-item>
+      <a-form-item name="identity">
         <a-radio-group
-          v-decorator="decorator.identity"
+          v-model:value="formData.identity"
           class="identity"
         >
           <a-radio value="student">
@@ -63,27 +66,34 @@
 </template>
 
 <script>
-import { LOGIN } from '../../store/types'
+import { UserOutlined, LockOutlined } from '@ant-design/icons-vue'
+import { LOGIN } from '@/store/types'
 import Loading from './Loading'
+
 export default {
   name: 'Login',
-  components: { Loading },
+  components: {
+    Loading,
+    UserOutlined,
+    LockOutlined,
+  },
   data () {
     return {
       loading: false,
-      decorator,
+      formData: {
+        account: '',
+        password: '',
+        identity: 'student',
+      },
     }
   },
-  beforeCreate () {
-    this.form = this.$form.createForm(this, { name: 'login_form' })
+  beforeMount () {
+    this.rules = rules
   },
   methods: {
-    onSubmit (e) {
-      e.preventDefault()
-      this.form.validateFields().then(values => {
-        this.loading = true
-        return this.$store.dispatch(LOGIN, values)
-      }).then(data => {
+    onFinish (values) {
+      this.loading = true
+      this.$store.dispatch(LOGIN, values).then(data => {
         const { user } = data
         return this.$router.replace({ path: user.identity })
       }).finally(() => {
@@ -92,22 +102,15 @@ export default {
     },
   },
 }
-const decorator = {
-  account: ['account', {
-    rules: [{
-      required: true,
-      message: '请输入用户名！',
-    }],
+
+const rules = {
+  account: [{
+    required: true,
+    message: '请输入用户名！',
   }],
-  password: ['password', {
-    rules: [{
-      required: true,
-      message: '请输入密码！',
-    }],
-  }],
-  identity: ['identity', {
-    valuePropName: 'value',
-    initialValue: 'student',
+  password: [{
+    required: true,
+    message: '请输入密码！',
   }],
 }
 </script>

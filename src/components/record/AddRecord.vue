@@ -43,7 +43,9 @@
 </template>
 
 <script>
-import { ADD_RECORD } from '../../store/types'
+import { Form } from 'ant-design-vue'
+import { ADD_RECORD } from '@/store/types'
+
 export default {
   name: 'AddRecord',
   props: {
@@ -53,6 +55,7 @@ export default {
       required: true,
     },
   },
+  emits: ['update:visible'],
   data () {
     return {
       loading: false,
@@ -67,7 +70,7 @@ export default {
     },
   },
   beforeCreate () {
-    this.form = this.$form.createForm(this, { name: 'add-record' })
+    this.form = Form.create({ name: 'add-record' })
     this.decorator = decorator
   },
   methods: {

@@ -10,23 +10,31 @@
     @ok="confirm"
   >
     <a-form
+      ref="form"
       :label-col="{ span: 4 }"
       :wrapper-col="{ span: 18 }"
-      :form="form"
+      :model="formData"
+      :rules="rules"
     >
-      <a-form-item label="成绩">
+      <a-form-item
+        label="成绩"
+        name="score"
+      >
         <a-input
           ref="score"
-          v-decorator="decorator.score"
+          v-model:value="formData.score"
           placeholder="填入获奖情况"
         />
       </a-form-item>
 
       <!--以下内容管理员才能修改-->
       <template v-if="identity === 'admin'">
-        <a-form-item label="状态">
+        <a-form-item
+          label="状态"
+          name="state"
+        >
           <a-radio-group
-            v-decorator="decorator.state"
+            v-model:value="formData.state"
             @change="changeReviewState"
           >
             <a-radio value="fulfilled">
@@ -41,9 +49,10 @@
         <a-form-item
           v-if="reviewState === 'rejected'"
           label="原因"
+          name="reason"
         >
           <a-input
-            v-decorator="decorator.reason"
+            v-model:value="formData.reason"
             :auto-focus="true"
             placeholder="为什么不通过？"
           />
@@ -51,9 +60,10 @@
         <a-form-item
           v-else
           label="备注"
+          name="description"
         >
           <a-input
-            v-decorator="decorator.description"
+            v-model:value="formData.description"
             placeholder="对审核结果加以说明"
           />
         </a-form-item>
@@ -63,10 +73,9 @@
 </template>
 
 <script>
-import { message } from 'ant-design-vue'
-import { UPDATE_RECORD } from '../../store/types'
-import { createNamespacedHelpers } from 'vuex'
-const { mapActions } = createNamespacedHelpers('records')
+import { UPDATE_RECORD } from '@/store/types'
+import { mapActions } from 'vuex'
+
 export default {
   name: 'UpdateRecord',
   props: {
@@ -76,11 +85,17 @@ export default {
       required: true,
     },
   },
+  emits: ['update:visible'],
   data () {
     return {
       loading: false,
       reviewState: 'fulfilled',
-      changed: false,
+      formData: {
+        state: '',
+        score: '',
+        description: '',
+        reason: '', // 若审核失败、则原因是必填的
+      },
     }
   },
   computed: {
@@ -95,39 +110,32 @@ export default {
         this.adminInit()
       } else {
         this.$nextTick(() => {
-          this.form.setFieldsValue({
-            score: this.record.score,
-          })
-          this.changed = false
+          this.formData.score = this.record.score
         })
       }
     },
   },
   beforeCreate () {
-    this.form = this.$form.createForm(this, {
-      onValuesChange: _ => { this.changed = true },
-    })
-    this.decorator = decorator
+    this.rules = rules
   },
   methods: {
-    ...mapActions([UPDATE_RECORD]),
+    ...mapActions('records', [UPDATE_RECORD]),
     onCancel (e) {
       this.$emit('update:visible', false)
     },
     adminInit () {
       const { record } = this
+      console.log(record)
       let result = {}
       if (record.state === 'rejected') {
-        // 渲染原因输入框
-        this.reviewState = 'rejected'
+        this.reviewState = 'rejected' // rejected 渲染原因输入框
         result = {
           state: 'rejected',
           score: record.score,
           reason: record.description,
         }
       } else {
-        // 渲染备注输入框
-        this.reviewState = 'fulfilled'
+        this.reviewState = 'fulfilled' // fulfilled 渲染备注输入框
         result = {
           state: 'fulfilled', // 默认为fulfilled
           score: record.score,
@@ -135,19 +143,15 @@ export default {
         }
       }
       this.$nextTick(() => {
-        this.form.setFieldsValue(result)
+        this.formData = result
         this.$refs.score.focus()
-        this.changed = false
       })
     },
     changeReviewState ({ target: { value } }) {
       this.reviewState = value
     },
     confirm () {
-      if (!this.changed) {
-        return message.info('未检测到数据变动')
-      }
-      this.form.validateFields().then(values => {
+      this.$refs.form.validate().then(values => {
         this.loading = true
         const description = values.state === 'rejected'
           ? values.reason
@@ -172,21 +176,14 @@ export default {
 /**
  * 定义decorator
  */
-const decorator = {
-  state: ['state'],
-  score: ['score', {
-    rules: [{
-      required: true,
-      message: '请填写成绩',
-    }],
+const rules = {
+  score: [{
+    required: true,
+    message: '请填写成绩',
   }],
-  description: ['description'],
-  // 审核失败、原因是必填的
-  reason: ['reason', {
-    rules: [{
-      required: true,
-      message: '请填写失败原因',
-    }],
+  reason: [{
+    required: true,
+    message: '请填写失败原因',
   }],
 }
 </script>

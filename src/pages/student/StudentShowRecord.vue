@@ -27,7 +27,7 @@
     />
     <UpdateRecord
       ref="updateRecord"
-      :visible.sync="updateRecordVisible"
+      v-model:visible="updateRecordVisible"
       :record="curRecord"
     />
   </div>
@@ -36,7 +36,7 @@
 <script>
 import { omit } from 'lodash'
 import { createNamespacedHelpers } from 'vuex'
-import { makeExcel } from '../../utils/excel'
+import { makeExcel } from '@/utils/excel'
 import ShowRecord from '../../components/record/ShowRecord'
 import UpdateRecord from '../../components/record/UpdateRecord'
 

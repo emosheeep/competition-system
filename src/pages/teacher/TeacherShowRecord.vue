@@ -27,7 +27,7 @@
       @update-record="onUpdate"
     />
     <UpdateRecord
-      :visible.sync="updateRecordVisible"
+      v-model:visible="updateRecordVisible"
       :record="curRecord"
     />
   </div>

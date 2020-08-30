@@ -15,7 +15,7 @@ export default function () {
       title: '赛事名称',
       dataIndex: 'title',
       ellipsis: true,
-      scopedSlots: filterSlots,
+      slots: filterSlots,
       onFilter: filter('title'),
     },
     {
@@ -51,33 +51,33 @@ export default function () {
       width: 80,
       align: 'center',
       onFilter: filter('type'),
-      scopedSlots: filterSlots,
+      slots: filterSlots,
     },
     {
       title: '主办方',
       dataIndex: 'sponsor',
       ellipsis: true,
-      scopedSlots: filterSlots,
+      slots: filterSlots,
       onFilter: filter('sponsor'),
     },
     {
       title: '地点',
       dataIndex: 'location',
       ellipsis: true,
-      scopedSlots: filterSlots,
+      slots: filterSlots,
       onFilter: filter('location'),
     },
     {
       title: '描述',
       dataIndex: 'description',
       ellipsis: true,
-      scopedSlots: filterSlots,
+      slots: filterSlots,
       onFilter: filter('description'),
     },
     {
       title: '操作',
       align: 'center',
-      scopedSlots: {
+      slots: {
         customRender: 'action',
       },
     },

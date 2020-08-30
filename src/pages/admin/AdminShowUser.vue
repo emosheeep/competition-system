@@ -16,7 +16,7 @@
           </a-button>
           <a-dropdown :trigger="['click']">
             <a-button>
-              从表格导入<a-icon type="down" />
+              从表格导入<DownOutlined />
             </a-button>
             <template #overlay>
               <a-menu @click="showImportUser">
@@ -107,10 +107,7 @@
             @confirm="() => $refs[showUserType].multipleDelete()"
           >
             <template #icon>
-              <a-icon
-                type="question-circle-o"
-                style="color: orange"
-              />
+              <QuestionCircleOutlined style="color: orange" />
             </template>
             <a-button>确认删除</a-button>
           </a-popconfirm>
@@ -119,16 +116,16 @@
     </a-tabs>
 
     <!--添加用户-->
-    <AddUser :visible.sync="addUserVisible" />
+    <AddUser v-model:visible="addUserVisible" />
     <!--导入用户-->
     <Import
-      :visible.sync="importUserVisible"
+      v-model:visible="importUserVisible"
       :columns="curColumns"
       @confirm="importUser"
     />
     <!--修改用户-->
     <UpdateUser
-      :visible.sync="updateUserVisible"
+      v-model:visible="updateUserVisible"
       :type="showUserType"
       :data="curUser"
     />
@@ -136,17 +133,18 @@
 </template>
 
 <script>
+import { QuestionCircleOutlined, DownOutlined } from '@ant-design/icons-vue'
 import { mapState, mapActions } from 'vuex'
 import { omit, dropRight } from 'lodash'
-import createColumns from '../../helpers/importuser-columns'
-import { STUDENT_COLUMNS, TEACHER_COLUMNS } from '../../helpers/showuser-columns'
-import { makeExcel } from '../../utils/excel'
-import resetPassword from '../../utils/reset-password'
-import ShowUser from '../../components/user/ShowUser'
-import AddUser from '../../components/user/AddUser'
-import Import from '../../components/common/Import'
-import UpdateUser from '../../components/user/UpdateUser'
-import { ADD_USER, DELETE_USER } from '../../store/types'
+import createColumns from '@/helpers/importuser-columns'
+import { STUDENT_COLUMNS, TEACHER_COLUMNS } from '@/helpers/showuser-columns'
+import { makeExcel } from '@/utils/excel'
+import resetPassword from '@/utils/reset-password'
+import ShowUser from '@/components/user/ShowUser'
+import AddUser from '@/components/user/AddUser'
+import Import from '@/components/common/Import'
+import UpdateUser from '@/components/user/UpdateUser'
+import { ADD_USER, DELETE_USER } from '@/store/types'
 
 export default {
   name: 'AdminShowUser',
@@ -155,6 +153,8 @@ export default {
     AddUser,
     Import,
     UpdateUser,
+    QuestionCircleOutlined,
+    DownOutlined,
   },
   inject: ['init'],
   data () {
@@ -193,6 +193,7 @@ export default {
   methods: {
     ...mapActions('users', [ADD_USER, DELETE_USER]),
     onUpdate (user) {
+      console.log(user)
       this.curUser = user
       this.updateUserVisible = true
     },

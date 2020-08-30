@@ -1,6 +1,4 @@
-import Vue from 'vue'
-
-export default Vue.extend({
+export default {
   props: {
     multiple: {
       type: Boolean,
@@ -48,4 +46,4 @@ export default Vue.extend({
       }
     },
   },
-})
+}

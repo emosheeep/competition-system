@@ -1,80 +1,68 @@
 <template>
-  <div>
-    <a-table
-      bordered
-      :row-key="rowKey"
-      :row-selection="rowSelection"
-      :columns="columns"
-      :data-source="data"
-      :pagination="{
-        showSizeChanger: true,
-        showQuickJumper: true
-      }"
-    >
-      <!--表头-->
-      <template #title="records">
-        <h1>参赛记录 - 共 {{ records.length }} 条</h1>
-      </template>
+  <a-table
+    bordered
+    :row-key="rowKey"
+    :row-selection="rowSelection"
+    :columns="columns"
+    :data-source="data"
+    :pagination="{
+      showSizeChanger: true,
+      showQuickJumper: true
+    }"
+  >
+    <!--表头-->
+    <template #title="records">
+      <h1>参赛记录 - 共 {{ records.length }} 条</h1>
+    </template>
 
-      <!--搜索-->
-      <template #filterIcon="filtered">
-        <a-icon
-          type="search"
-          :style="{ color: filtered ? '#108ee9' : undefined }"
+    <!--搜索-->
+    <template #filterIcon="filtered">
+      <SearchOutlined :style="{ color: filtered ? '#108ee9' : undefined }" />
+    </template>
+    <template #filterDropdown="options">
+      <TableSearch v-bind="options" />
+    </template>
+
+    <!--审核状态-->
+    <template #state="state">
+      <template v-if="state === 'pending'">
+        <QuestionCircleOutlined />
+        <span> 未审核</span>
+      </template>
+      <template v-else-if="state === 'fulfilled'">
+        <CheckCircleOutlined style="color: limegreen" />
+        <span style="color: limegreen"> 审核通过</span>
+      </template>
+      <template v-else>
+        <ExclamationCircleOutlined style="color: red" />
+        <span
+          style="color: red"
+          :title="state"
+          v-text="'审核失败'"
         />
       </template>
-      <template #filterDropdown="options">
-        <TableSearch v-bind="options" />
-      </template>
-
-      <!--审核状态-->
-      <template #state="state">
-        <template v-if="state === 'pending'">
-          <a-icon type="question-circle" />
-          <span> 未审核</span>
-        </template>
-        <template v-else-if="state === 'fulfilled'">
-          <a-icon
-            style="color: limegreen"
-            type="check-circle"
-          />
-          <span style="color: limegreen"> 审核通过</span>
-        </template>
-        <template v-else>
-          <a-icon
-            style="color: red"
-            type="exclamation-circle"
-          />
-          <span
-            style="color: red"
-            :title="state"
-          >
-            审核失败
-          </span>
-        </template>
-      </template>
-      <!--最后一排的操作按钮，只有管理员和教师需要action，学生只能查看,以及Detail也不需要-->
-      <template #action="record">
-        <ShowRecordAction
-          :record="record"
-          @update-record="onEdit"
-          @delete-record="onDelete"
-          @upload="onUpload"
-          @detail="onDetail"
-        />
-      </template>
-    </a-table>
-    <!--文件上传-->
-    <Upload
-      :visible.sync="uploadVisible"
-      :record="curRecord"
-    />
-    <!--Record详情-->
-    <ShowRecordDetail
-      :visible.sync="recordDetailVisible"
-      :record="curRecord"
-    />
-  </div>
+    </template>
+    <!--最后一排的操作按钮，只有管理员和教师需要action，学生只能查看,以及Detail也不需要-->
+    <template #action="{ record }">
+      <ShowRecordAction
+        :record="record"
+        @update-record="onEdit"
+        @delete-record="onDelete"
+        @upload="onUpload"
+        @detail="onDetail"
+      />
+    </template>
+  </a-table>
+  <!--文件上传-->
+  <Upload
+    v-model:visible="uploadVisible"
+    :record="curRecord"
+  />
+  <!--Record详情-->
+  <ShowRecordDetail
+    v-model:visible="recordDetailVisible"
+    :record="curRecord"
+  />
 </template>
 
 <script>
@@ -84,6 +72,12 @@ import ShowRecordAction from './ShowRecordAction'
 import ShowRecordDetail from './ShowRecordDetail'
 import createColumns from '../../helpers/showrecord-cloumns'
 import MultipleDelete from '../../helpers/multiple-delete-mixin'
+import {
+  SearchOutlined,
+  QuestionCircleOutlined,
+  ExclamationCircleOutlined,
+  CheckCircleOutlined,
+} from '@ant-design/icons-vue'
 
 export default {
   name: 'ShowRecord',
@@ -92,6 +86,10 @@ export default {
     TableSearch,
     ShowRecordAction,
     ShowRecordDetail,
+    SearchOutlined,
+    QuestionCircleOutlined,
+    ExclamationCircleOutlined,
+    CheckCircleOutlined,
   },
   mixins: [MultipleDelete],
   props: {
@@ -111,6 +109,7 @@ export default {
       },
     },
   },
+  emits: ['delete-record', 'update-record'],
   data () {
     return {
       uploadVisible: false,

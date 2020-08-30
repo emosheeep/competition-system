@@ -19,7 +19,7 @@
       :remove="removeFile"
     >
       <a-button :disabled="fileLoaded">
-        <a-icon type="upload" /> 点击上传表格
+        <UploadOutlined /> 点击上传表格
       </a-button>
     </a-upload>
     <a-table
@@ -40,9 +40,12 @@
 <script>
 import { uniqBy } from 'lodash'
 import { message, Modal } from 'ant-design-vue'
-import { readExcel } from '../../utils/excel'
+import { readExcel } from '@/utils/excel'
+import { UploadOutlined } from '@ant-design/icons-vue'
+
 export default {
   name: 'Import',
+  components: { UploadOutlined },
   props: {
     visible: Boolean,
     rowKey: {
@@ -54,6 +57,7 @@ export default {
       required: true,
     },
   },
+  emits: ['update:visible', 'confirm'],
   data () {
     return {
       uploading: false,

@@ -1,6 +1,6 @@
 <template>
   <div class="login-state">
-    <a-icon type="user" /> {{ user.account | ellipsis }}
+    <UserOutlined /> {{ account }}
     <a-divider type="vertical" />
     <a-popconfirm
       title="切换用户？"
@@ -10,29 +10,31 @@
       @confirm="changeUser"
     >
       <template #icon>
-        <a-icon
-          type="question-circle-o"
-          style="color: orange"
+        <QuestionCircleOutlined
+          style=""
+          color:
+          orange
         />
       </template>
-      <a><a-icon type="swap" /></a>
+      <a><SwapOutlined /></a>
     </a-popconfirm>
   </div>
 </template>
 
 <script>
-import { LOGOUT } from '../../store/types'
+import {
+  SwapOutlined,
+  QuestionCircleOutlined,
+  UserOutlined,
+} from '@ant-design/icons-vue'
+import { LOGOUT } from '@/store/types'
 
 export default {
   name: 'LoginState',
-  filters: {
-    ellipsis (value) {
-      if (value?.toString().length > 10) {
-        return value.slice(0, 7) + '...'
-      } else {
-        return value
-      }
-    },
+  components: {
+    SwapOutlined,
+    UserOutlined,
+    QuestionCircleOutlined,
   },
   inject: {
     loadingStart: 'loadingStart',
@@ -41,6 +43,14 @@ export default {
   computed: {
     user () {
       return this.$store.state.user
+    },
+    account () {
+      const value = this.user.account
+      if (value?.toString().length > 10) {
+        return value.slice(0, 7) + '...'
+      } else {
+        return value
+      }
     },
   },
   methods: {

@@ -1,7 +1,7 @@
 <template>
   <a-drawer
     placement="right"
-    width="500px"
+    width="600px"
     title="参赛记录详情"
     :visible="visible"
     :destroy-on-close="true"
@@ -35,23 +35,17 @@
       </a-descriptions-item>
       <a-descriptions-item label="当前状态">
         <template v-if="recordState === 'pending'">
-          <a-icon type="question-circle" />
+          <QuestionCircleOutlined />
           <span> 未审核</span>
         </template>
         <template v-else-if="recordState === 'fulfilled'">
-          <a-icon
-            style="color: limegreen"
-            type="check-circle"
-          />
+          <CheckCircleOutlined style="color: limegreen" />
           <span style="color: limegreen">
             {{ record.description || '通过' }}
           </span>
         </template>
         <template v-else>
-          <a-icon
-            style="color: red"
-            type="exclamation-circle"
-          />
+          <ExclamationCircleOutlined style="color: red" />
           <span
             style="color: red"
             :title="record.state"
@@ -97,14 +91,14 @@
             style="padding-left: 0"
             @click="download"
           >
-            <a-icon type="cloud-download" />
+            <CloudDownloadOutlined />
             附件下载
           </a-button>
           <a-button
             type="link"
             @click="preview"
           >
-            <a-icon type="eye" />
+            <EyeOutlined />
             文件预览
           </a-button>
         </a-button-group>
@@ -125,10 +119,24 @@ import moment from 'moment'
 import { message } from 'ant-design-vue'
 import { debounce } from 'lodash'
 import { saveAs } from 'file-saver'
-import { getFileInfo, getDownloadUrl } from '../../api'
+import { getFileInfo, getDownloadUrl } from '@/api'
+import {
+  EyeOutlined,
+  CloudDownloadOutlined,
+  ExclamationCircleOutlined,
+  CheckCircleOutlined,
+  QuestionCircleOutlined,
+} from '@ant-design/icons-vue'
 
 export default {
   name: 'ShowRecordDetail',
+  components: {
+    EyeOutlined,
+    CloudDownloadOutlined,
+    ExclamationCircleOutlined,
+    CheckCircleOutlined,
+    QuestionCircleOutlined,
+  },
   props: {
     visible: Boolean,
     record: {
@@ -136,6 +144,7 @@ export default {
       required: true,
     },
   },
+  emits: ['update:visible'],
   data () {
     return {
       loading: true,

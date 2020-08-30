@@ -2,12 +2,12 @@
   <div>
     <div style="margin-bottom: 20px">
       <span style="color: limegreen">
-        <a-icon type="check-circle" />
+        <CheckCircleOutlined />
         <span>成功 {{ users.length - fail.length }} 人</span>
       </span>
       <a-divider type="vertical" />
       <span style="color: red">
-        <a-icon type="exclamation-circle" />
+        <ExclamationCircleOutlined />
         <span>失败 {{ fail.length }} 人</span>
       </span>
     </div>
@@ -32,8 +32,17 @@
 </template>
 
 <script>
+import {
+  ExclamationCircleOutlined,
+  CheckCircleOutlined,
+} from '@ant-design/icons-vue'
+
 export default {
   name: 'DisplayFailedUser',
+  components: {
+    ExclamationCircleOutlined,
+    CheckCircleOutlined,
+  },
   props: {
     users: {
       type: Array,

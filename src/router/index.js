@@ -1,12 +1,9 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router'
 import teacher from './teacher'
 import admin from './admin'
 import student from './student'
 import CheckState from './navigation-guard/check-state'
 import CheckIdentity from './navigation-guard/check-identity'
-
-Vue.use(VueRouter)
 
 const routes = [
   {
@@ -29,14 +26,13 @@ const routes = [
     ),
   },
   {
-    path: '*',
+    path: '/*',
     redirect: '/404',
   },
 ]
 
-const router = new VueRouter({
-  mode: 'history',
-  base: process.env.BASE_URL,
+const router = createRouter({
+  history: createWebHistory(process.env.BASE_URL),
   routes,
 })
 

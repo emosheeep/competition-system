@@ -29,9 +29,9 @@
       @delete-user="onDelete"
       @reset="reset"
     />
-    <AddAdmin :visible.sync="addAdminVisible" />
+    <AddAdmin v-model:visible="addAdminVisible" />
     <UpdateAdmin
-      :visible.sync="updateAdminVisible"
+      v-model:visible="updateAdminVisible"
       :data="curAdmin"
     />
   </div>

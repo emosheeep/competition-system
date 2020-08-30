@@ -1,46 +1,45 @@
 <template>
   <a-form
+    ref="form"
+    :model="formData"
+    :rules="rules"
     :label-col="labelCol"
     :wrapper-col="wrapperCol"
-    :form="form"
   >
     <!--用户自己修改的时候不能改这部分-->
     <template v-if="type !== 'self'">
-      <a-form-item label="账号">
+      <a-form-item
+        label="账号"
+        name="account"
+      >
         <a-input
           ref="account"
-          v-decorator="decorator.account"
+          v-model:value="formData.account"
           :disabled="type === 'update'"
           placeholder="账号"
         >
-          <a-icon
-            slot="prefix"
-            type="user"
-            style="color: rgba(0,0,0,.25)"
-          />
+          <UserOutlined style="color: rgba(0,0,0,.25)" />
         </a-input>
       </a-form-item>
       <a-form-item
         v-if="type === 'add'"
         label="密码"
+        name="password"
       >
         <a-input
-          v-decorator="decorator.password"
+          v-model:value="formData.password"
           placeholder="密码"
         >
-          <a-icon
-            slot="prefix"
-            type="lock"
-            style="color: rgba(0,0,0,.25)"
-          />
+          <LockOutlined style="color: rgba(0,0,0,.25)" />
         </a-input>
       </a-form-item>
       <a-form-item
         v-if="type === 'add'"
         label="权限"
+        name="power"
       >
         <a-select
-          v-decorator="decorator.power"
+          v-model:value="formData.power"
           placeholder="管理员权限"
         >
           <a-select-option value="admin">
@@ -52,9 +51,12 @@
         </a-select>
       </a-form-item>
     </template>
-    <a-form-item label="姓名">
+    <a-form-item
+      label="姓名"
+      name="name"
+    >
       <a-input
-        v-decorator="decorator.name"
+        v-model:value="formData.name"
         placeholder="姓名"
       />
     </a-form-item>
@@ -63,12 +65,27 @@
 
 <script>
 import EditMixin from './edit-mixin'
+import { UserOutlined, LockOutlined } from '@ant-design/icons-vue'
 
 export default {
   name: 'EditAdmin',
+  components: {
+    UserOutlined,
+    LockOutlined,
+  },
   mixins: [EditMixin],
+  data () {
+    return {
+      formData: {
+        account: '',
+        password: '',
+        name: '',
+        power: 'admin',
+      },
+    }
+  },
   beforeMount () {
-    this.decorator = decorator
+    this.rules = rules
   },
   methods: {
     initData () {
@@ -79,7 +96,10 @@ export default {
       if (type !== 'self') {
         result.account = data.account
       }
-      this.form.setFieldsValue(result)
+      this.formData = {
+        ...this.formData,
+        ...result,
+      }
     },
   },
 }
@@ -87,31 +107,22 @@ export default {
 /**
  * 定义decorator
  */
-const decorator = {
-  account: ['account', {
-    rules: [{
-      required: true,
-      message: '请输入账号！',
-    }],
+const rules = {
+  account: [{
+    required: true,
+    message: '请输入账号！',
   }],
-  password: ['password', {
-    rules: [{
-      required: true,
-      message: '请输入密码！',
-    }],
+  password: [{
+    required: true,
+    message: '请输入密码！',
   }],
-  name: ['name', {
-    rules: [{
-      required: true,
-      message: '请输入管理员姓名！',
-    }],
+  name: [{
+    required: true,
+    message: '请输入管理员姓名！',
   }],
-  power: ['power', {
-    initialValue: 'admin',
-    rules: [{
-      required: true,
-      message: '设置管理员权限！',
-    }],
+  power: [{
+    required: true,
+    message: '设置管理员权限！',
   }],
 }
 </script>

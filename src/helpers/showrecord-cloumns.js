@@ -33,14 +33,14 @@ const allColumns = [
     title: '名称',
     dataIndex: 'title',
     ellipsis: true,
-    scopedSlots: filterSlots,
+    slots: filterSlots,
     onFilter: filter('title'),
   },
   {
     title: '学生姓名',
     dataIndex: 'sname',
     ellipsis: true,
-    scopedSlots: filterSlots,
+    slots: filterSlots,
     onFilter: filter('sname'),
   },
   {
@@ -67,7 +67,7 @@ const allColumns = [
         value: 'rejected',
       },
     ],
-    scopedSlots: {
+    slots: {
       customRender: 'state',
     },
   },
@@ -79,7 +79,7 @@ const allColumns = [
   {
     title: '操作',
     align: 'center',
-    scopedSlots: {
+    slots: {
       customRender: 'action',
     },
   },

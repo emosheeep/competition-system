@@ -1,8 +1,8 @@
 <template>
   <PageLayout>
     <ContextMenu
+      v-model:visible="menuVisible"
       :list="menuItems"
-      :visible.sync="menuVisible"
       @select="onMenuSelect"
     />
     <a-tabs
@@ -11,34 +11,51 @@
       :active-key="activePage"
       @change="changePage"
       @edit="editPage"
-      @contextmenu="onContextmenu"
     >
-      <a-tab-pane v-for="page in pageList" :key="page.fullPath">
+      <a-tab-pane
+        v-for="page in pageList"
+        :key="page.fullPath"
+      >
         <template #tab>
-          <span :data-key="page.fullPath">
-            {{ page.name }}
-          </span>
+          <span
+            :data-key="page.fullPath"
+            style="user-select: none"
+            @contextmenu="onContextmenu"
+            v-text="page.name"
+          />
         </template>
       </a-tab-pane>
     </a-tabs>
-    <PageToggleTransition name="fadeIn">
-      <keep-alive :exclude="dustbin">
-        <router-view />
-      </keep-alive>
-    </PageToggleTransition>
+    <router-view v-slot="{ Component }">
+      <PageToggleTransition name="fadeIn">
+        <keep-alive :exclude="dustbin">
+          <component :is="Component" />
+        </keep-alive>
+      </PageToggleTransition>
+    </router-view>
   </PageLayout>
 </template>
 
 <script>
 import { message } from 'ant-design-vue'
+import {
+  ArrowLeftOutlined,
+  ArrowRightOutlined,
+  CloseOutlined,
+} from '@ant-design/icons-vue'
 import { last } from 'lodash'
-import PageLayout from './PageLayout'
-import ContextMenu from '../components/common/ContextMenu'
-import PageToggleTransition from '../components/transition/PageToggleTransition'
+import PageLayout from '../PageLayout'
+import ContextMenu from '@/components/common/ContextMenu'
+import PageToggleTransition from '@/components/transition/PageToggleTransition'
+import getTabKey from './getTabKey'
 
 export default {
   name: 'TabLayout',
-  components: { PageToggleTransition, ContextMenu, PageLayout },
+  components: {
+    PageToggleTransition,
+    ContextMenu,
+    PageLayout,
+  },
   data () {
     return {
       pageList: [],
@@ -46,9 +63,9 @@ export default {
       activePage: '',
       menuVisible: false,
       menuItems: [
-        { key: '1', icon: 'arrow-left', text: '关闭左侧' },
-        { key: '2', icon: 'arrow-right', text: '关闭右侧' },
-        { key: '3', icon: 'close', text: '关闭其它' },
+        { key: '1', icon: ArrowLeftOutlined, text: '关闭左侧' },
+        { key: '2', icon: ArrowRightOutlined, text: '关闭右侧' },
+        { key: '3', icon: CloseOutlined, text: '关闭其它' },
       ],
     }
   },
@@ -171,18 +188,5 @@ export default {
       }
     },
   },
-}
-
-/**
- * 获取Tab标签下dom节点中自定义的数据，递归向下查找最多3层（观察Tab组件渲染后的DOM得出）
- * 该方式属于hack手段，不得已为之
- * @param{HTMLElement} target event.target
- * @param depth 深度
- */
-function getTabKey (target, depth = 0) {
-  if (depth > 2 || !target) {
-    return null
-  }
-  return target.dataset.key || getTabKey(target.firstElementChild, ++depth)
 }
 </script>

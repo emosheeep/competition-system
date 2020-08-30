@@ -1,8 +1,8 @@
 /**
  * 登陆状态验证，防止未登录就访问
  */
-import store from '../../store'
-import { LOGOUT } from '../../store/types'
+import store from '@/store'
+import { LOGOUT } from '@/store/types'
 
 export default function (to, from, next) {
   if (to.path === '/404') {

@@ -20,19 +20,19 @@
       <!--学生侧栏-->
       <template v-if="user.identity === 'student'">
         <a-menu-item key="/student/teacher">
-          <a-icon type="experiment" />
+          <ExperimentOutlined />
           <span>教师信息</span>
         </a-menu-item>
         <a-menu-item key="/student/race">
-          <a-icon type="project" />
+          <ProjectOutlined />
           <span>竞赛列表</span>
         </a-menu-item>
         <a-menu-item key="/student/record">
-          <a-icon type="solution" />
+          <SolutionOutlined />
           <span>参赛记录</span>
         </a-menu-item>
         <a-menu-item key="/student/self">
-          <a-icon type="smile" />
+          <SmileOutlined />
           <span>个人信息</span>
         </a-menu-item>
       </template>
@@ -40,15 +40,15 @@
       <!--教师侧栏-->
       <template v-else-if="user.identity === 'teacher'">
         <a-menu-item key="/teacher/race">
-          <a-icon type="project" />
+          <ProjectOutlined />
           <span>竞赛信息</span>
         </a-menu-item>
         <a-menu-item key="/teacher/record">
-          <a-icon type="solution" />
+          <SolutionOutlined />
           <span>学生参赛记录</span>
         </a-menu-item>
         <a-menu-item key="/teacher/self">
-          <a-icon type="smile" />
+          <SmileOutlined />
           <span>个人信息</span>
         </a-menu-item>
       </template>
@@ -57,29 +57,29 @@
       <template v-else-if="user.identity === 'admin'">
         <a-menu-item-group title="赛事管理">
           <a-menu-item key="/admin/race">
-            <a-icon type="project" />
+            <ProjectOutlined />
             <span>赛事</span>
           </a-menu-item>
           <a-menu-item key="/admin/record">
-            <a-icon type="solution" />
+            <SolutionOutlined />
             <span>参赛记录</span>
           </a-menu-item>
         </a-menu-item-group>
         <a-menu-item-group title="用户管理">
           <a-menu-item key="/admin/user">
-            <a-icon type="team" />
+            <TeamOutlined />
             <span>学生教师</span>
           </a-menu-item>
           <a-menu-item
             v-if="user.power === 'root'"
             key="/admin/root"
           >
-            <a-icon type="user" />
+            <UserOutlined />
             <span>管理员</span>
           </a-menu-item>
         </a-menu-item-group>
         <a-menu-item key="/admin/self">
-          <a-icon type="smile" />
+          <SmileOutlined />
           <span>个人信息</span>
         </a-menu-item>
       </template>
@@ -88,8 +88,25 @@
 </template>
 
 <script>
+import {
+  SmileOutlined,
+  ExperimentOutlined,
+  UserOutlined,
+  ProjectOutlined,
+  SolutionOutlined,
+  TeamOutlined,
+} from '@ant-design/icons-vue'
+
 export default {
   name: 'Sidebar',
+  components: {
+    SmileOutlined,
+    ExperimentOutlined,
+    UserOutlined,
+    ProjectOutlined,
+    SolutionOutlined,
+    TeamOutlined,
+  },
   data () {
     return {
       keys: [],
@@ -103,7 +120,7 @@ export default {
   watch: {
     $route: {
       handler (to) {
-        this.$set(this.keys, 0, to.path)
+        this.keys[0] = to.path
       },
       immediate: true,
     },

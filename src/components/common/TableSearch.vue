@@ -49,10 +49,10 @@ export default {
     }
   },
   mounted () {
-    this.$parent.$on('hook:updated', () => {
-      this.$refs.input.focus()
-    })
-  }
+    // this.$parent.$on('hook:updated', () => {
+    //   this.$refs.input.focus()
+    // })
+  },
 }
 </script>
 

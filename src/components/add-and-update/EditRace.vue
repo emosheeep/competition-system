@@ -1,41 +1,54 @@
 <template>
   <a-form
+    ref="form"
+    :model="formData"
+    :rules="rules"
     :label-col="labelCol"
     :wrapper-col="wrapperCol"
-    :form="form"
   >
-    <a-form-item label="名称">
+    <a-form-item
+      label="名称"
+      name="title"
+    >
       <a-input
-        v-decorator="decorator.title"
+        v-model:value="formData.title"
         placeholder="赛事名称"
       />
     </a-form-item>
-    <a-form-item label="主办方">
+    <a-form-item
+      label="主办方"
+      name="sponsor"
+    >
       <a-input
-        v-decorator="decorator.sponsor"
+        v-model:value="formData.sponsor"
         placeholder="主办方"
       />
     </a-form-item>
     <a-form-item
       label="地点"
-      :label-col="labelCol"
-      :wrapper-col="wrapperCol"
+      name="location"
     >
       <a-input
-        v-decorator="decorator.location"
+        v-model:value="formData.location"
         placeholder="地点"
       />
     </a-form-item>
-    <a-form-item label="时间">
+    <a-form-item
+      label="时间"
+      name="date"
+    >
       <a-date-picker
-        v-decorator="decorator.date"
+        v-model:value="formData.date"
         placeholder="选择比赛时间"
         :disabled-date="disableDate"
       />
     </a-form-item>
-    <a-form-item label="类别">
+    <a-form-item
+      label="类别"
+      name="type"
+    >
       <a-select
-        v-decorator="decorator.type"
+        v-model:value="formData.type"
         placeholder="请选择赛事类别"
         style="width: 175px"
       >
@@ -48,9 +61,12 @@
         </a-select-option>
       </a-select>
     </a-form-item>
-    <a-form-item label="级别">
+    <a-form-item
+      label="级别"
+      name="level"
+    >
       <a-select
-        v-decorator="decorator.level"
+        v-model:value="formData.level"
         style="width: 120px"
       >
         <a-select-option value="校级">
@@ -67,9 +83,12 @@
         </a-select-option>
       </a-select>
     </a-form-item>
-    <a-form-item label="描述">
+    <a-form-item
+      label="描述"
+      name="description"
+    >
       <a-textarea
-        v-decorator="decorator.description"
+        v-model:value="formData.description"
         placeholder="描述"
       />
     </a-form-item>
@@ -83,8 +102,21 @@ import EditMixin from './edit-mixin'
 export default {
   name: 'EditRace',
   mixins: [EditMixin],
+  data () {
+    return {
+      formData: {
+        title: '',
+        sponsor: '',
+        date: null,
+        location: '',
+        level: '校级',
+        type: '',
+        description: '',
+      },
+    }
+  },
   beforeMount () {
-    this.decorator = decorator
+    this.rules = rules
   },
   methods: {
     disableDate (cur) {
@@ -93,55 +125,35 @@ export default {
     },
     initData () {
       const { data } = this
-      this.form.setFieldsValue({
-        title: data.title,
-        sponsor: data.sponsor,
+      this.formData = {
+        ...data,
         date: moment(data.date),
-        location: data.location,
-        level: data.level,
-        type: data.type,
-        description: data.description,
-      })
+      }
     },
   },
 }
 
-// 定义装饰器
-const decorator = {
-  title: ['title', {
-    rules: [{
-      required: true,
-      message: '请输入赛事名称！',
-    }],
+const rules = {
+  title: [{
+    required: true,
+    message: '请输入赛事名称！',
   }],
-  sponsor: ['sponsor', {
-    rules: [{
-      required: true,
-      message: '请输入主办方！',
-    }],
+  sponsor: [{
+    required: true,
+    message: '请输入主办方！',
   }],
-  date: ['date', {
-    rules: [{
-      required: true,
-      message: '选择时间！',
-    }],
+  date: [{
+    required: true,
+    message: '选择时间！',
   }],
-  location: ['location', {
-    rules: [{
-      required: true,
-      message: '请填写地点！',
-    }],
+  location: [{
+    required: true,
+    message: '请填写地点！',
   }],
-  level: ['level', {
-    initialValue: '校级',
+  type: [{
+    required: true,
+    message: '请选择赛事类别！',
   }],
-  type: ['type', {
-    rules: [{
-      required: true,
-      message: '请选择赛事类别！',
-    }],
-  }],
-  description: ['description'],
 }
 </script>
 

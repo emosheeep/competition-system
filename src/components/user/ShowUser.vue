@@ -12,19 +12,16 @@
     }"
   >
     <template #filterIcon="filtered">
-      <a-icon
-        type="search"
-        :style="{ color: filtered ? '#108ee9' : undefined }"
-      />
+      <SearchOutlined :style="{ color: filtered ? '#108ee9' : undefined }" />
     </template>
     <template #filterDropdown="options">
       <TableSearch v-bind="options" />
     </template>
 
     <!--最后一排的操作按钮-->
-    <template #action="{ account }, record">
+    <template #action="{ record }">
       <a @click="onEdit(record)">
-        <a-icon type="edit" />
+        <EditOutlined />
       </a>
       <a-divider type="vertical" />
       <a-popconfirm
@@ -32,15 +29,12 @@
         ok-text="确认"
         cancel-text="取消"
         placement="left"
-        @confirm="onDelete(account)"
+        @confirm="onDelete(record.account)"
       >
         <template #icon>
-          <a-icon
-            type="question-circle-o"
-            style="color: orange"
-          />
+          <QuestionCircleOutlined style="color: orange" />
         </template>
-        <a><a-icon type="delete" /></a>
+        <a><DeleteOutlined /></a>
       </a-popconfirm>
 
       <!--重置密码-->
@@ -50,19 +44,16 @@
         ok-text="确认"
         cancel-text="取消"
         placement="left"
-        @confirm="$emit('reset', account)"
+        @confirm="$emit('reset', record.account)"
       >
         <template #icon>
-          <a-icon
-            type="question-circle-o"
-            style="color: orange"
-          />
+          <QuestionCircleOutlined style="color: orange" />
         </template>
-        <a-tooltip placement="top">
-          <template #title>
-            <span>重置密码</span>
-          </template>
-          <a><a-icon type="rollback" /></a>
+        <a-tooltip
+          placement="top"
+          title="重置密码"
+        >
+          <a><RollbackOutlined /></a>
         </a-tooltip>
       </a-popconfirm>
     </template>
@@ -70,15 +61,28 @@
 </template>
 
 <script>
-import MultipleDelete from '../../helpers/multiple-delete-mixin'
-import TableSearch from '../common/TableSearch'
-import { DELETE_USER } from '../../store/types'
-import { createNamespacedHelpers } from 'vuex'
-const { mapActions } = createNamespacedHelpers('users')
+import { mapActions } from 'vuex'
+import {
+  QuestionCircleOutlined,
+  RollbackOutlined,
+  EditOutlined,
+  DeleteOutlined,
+  SearchOutlined,
+} from '@ant-design/icons-vue'
+import { DELETE_USER } from '@/store/types'
+import MultipleDelete from '@/helpers/multiple-delete-mixin'
+import TableSearch from '@/components/common/TableSearch'
 
 export default {
   name: 'ShowUser',
-  components: { TableSearch },
+  components: {
+    TableSearch,
+    QuestionCircleOutlined,
+    RollbackOutlined,
+    EditOutlined,
+    DeleteOutlined,
+    SearchOutlined,
+  },
   mixins: [MultipleDelete],
   props: {
     data: {
@@ -94,8 +98,9 @@ export default {
       required: true,
     },
   },
+  emits: ['update-user', 'delete-user', 'reset'],
   methods: {
-    ...mapActions([DELETE_USER]),
+    ...mapActions('users', [DELETE_USER]),
     onEdit (user) {
       this.$emit('update-user', user)
     },
@@ -105,10 +110,9 @@ export default {
       }
     },
     multipleDelete () {
-      if (this.selectedKeys.length === 0) {
-        return
+      if (this.selectedKeys.length !== 0) {
+        this.$emit('delete-user', [...this.selectedKeys])
       }
-      this.$emit('delete-user', [...this.selectedKeys])
     },
   },
 }

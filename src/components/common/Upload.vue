@@ -26,7 +26,7 @@
         block
         :disabled="!!file"
       >
-        <a-icon type="upload" />
+        <UploadOutlined />
         点击上传文件，仅支持 png、.jpg、.jpeg、.pdf，小于2mb
       </a-button>
     </a-upload>
@@ -53,14 +53,25 @@
 
 <script>
 import { message } from 'ant-design-vue'
-import { createNamespacedHelpers } from 'vuex'
-import { UPDATE_RECORD } from '../../store/types'
+import { UploadOutlined } from '@ant-design/icons-vue'
+import { mapActions } from 'vuex'
+import { UPDATE_RECORD } from '@/store/types'
 import { getToken, fresh } from '../../api'
-import { uploader } from '../../utils/qiniu'
+import { uploader } from '@/utils/qiniu'
 
-const { mapActions } = createNamespacedHelpers('records')
+const data = {
+  loading: false,
+  showProgress: false,
+  imgUrl: '',
+  file: null,
+  uploadPercent: 0,
+  uploadStatus: 'active',
+  previewVisible: false,
+}
+
 export default {
   name: 'Upload',
+  components: { UploadOutlined },
   props: {
     visible: {
       type: Boolean,
@@ -71,13 +82,14 @@ export default {
       required: true,
     },
   },
+  emits: ['update:visible'],
   data () {
     return {
       ...data,
     }
   },
   methods: {
-    ...mapActions({
+    ...mapActions('records', {
       updateRecord: UPDATE_RECORD,
     }),
     reset () {
@@ -115,16 +127,6 @@ export default {
       uploadFile.call(this)
     },
   },
-}
-
-const data = {
-  loading: false,
-  showProgress: false,
-  imgUrl: '',
-  file: null,
-  uploadPercent: 0,
-  uploadStatus: 'active',
-  previewVisible: false,
 }
 
 function createObjectUrl (file) {

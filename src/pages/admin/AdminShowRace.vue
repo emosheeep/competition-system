@@ -59,14 +59,14 @@
       @show-detail="onDetail"
     />
 
-    <AddRace :visible.sync="addRaceVisible" />
+    <AddRace v-model:visible="addRaceVisible" />
     <UpdateRace
-      :visible.sync="updateRaceVisible"
+      v-model:visible="updateRaceVisible"
       :race="curRace"
     />
     <a-drawer
       width="50%"
-      :visible.sync="showDetailVisible"
+      v-model:visible="showDetailVisible"
       :title="`${curRace.title} 赛事详情`"
       :destroy-on-close="true"
       @close="showDetailVisible = false"

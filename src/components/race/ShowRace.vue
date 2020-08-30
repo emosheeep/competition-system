@@ -1,103 +1,113 @@
 <template>
-  <div>
-    <a-table
-      bordered
-      :row-key="rowKey"
-      :row-selection="rowSelection"
-      :columns="columns"
-      :data-source="data"
-      :pagination="{
-        showSizeChanger: true,
-        showQuickJumper: true
-      }"
+  <a-table
+    bordered
+    :row-key="rowKey"
+    :row-selection="rowSelection"
+    :columns="columns"
+    :data-source="data"
+    :pagination="{
+      showSizeChanger: true,
+      showQuickJumper: true
+    }"
+  >
+    <!--自定义搜索下拉菜单-->
+    <template #filterIcon="filtered">
+      <SearchOutlined :style="{ color: filtered ? '#108ee9' : undefined }" />
+    </template>
+    <template #filterDropdown="options">
+      <TableSearch v-bind="options" />
+    </template>
+
+    <!--学生界面操作-->
+    <template
+      v-if="type === 'student'"
+      #action="item"
     >
-      <!--自定义搜索下拉菜单-->
-      <template #filterIcon="filtered">
-        <a-icon
-          type="search"
-          :style="{ color: filtered ? '#108ee9' : undefined }"
+      <template v-if="item.date <= Date.now()">
+        <StopOutlined />
+        <span> 已截止</span>
+      </template>
+      <template v-else-if="isParticipate(item._id)">
+        <CheckCircleOutlined
+          style=""
+          color:
+          limegreen
         />
+        <span> 已报备</span>
       </template>
-      <template #filterDropdown="options">
-        <TableSearch v-bind="options" />
-      </template>
-
-      <!--学生界面操作-->
-      <template
-        v-if="type === 'student'"
-        #action="item"
-      >
-        <template v-if="item.date <= Date.now()">
-          <a-icon type="stop" />
-          <span> 已截止</span>
-        </template>
-        <template v-else-if="isParticipate(item._id)">
-          <a-icon
-            type="check-circle"
-            style="color: limegreen"
-          />
-          <span> 已报备</span>
-        </template>
-        <template v-else>
-          <a @click="$emit('add-record', item)">
-            成绩录入
-          </a>
-        </template>
-      </template>
-
-      <!--教师界面操作-->
-      <template
-        v-else-if="type === 'teacher'"
-        #action="item"
-      >
-        <a @click="onDetail(item)">详情</a>
-      </template>
-
-      <!--管理员界面操作-->
-      <template
-        v-else
-        #action="item"
-      >
-        <a @click="$emit('update-race', item)">
-          <a-icon type="edit" />
+      <template v-else>
+        <a @click="$emit('add-record', item)">
+          成绩录入
         </a>
-        <a-divider type="vertical" />
-        <a-popconfirm
-          title="确认删除？"
-          ok-text="确认"
-          cancel-text="取消"
-          @confirm="onDelete(item)"
-        >
-          <template #icon>
-            <a-icon
-              type="question-circle-o"
-              style="color: orange"
-            />
-          </template>
-          <a><a-icon type="delete" /></a>
-        </a-popconfirm>
-        <a-divider type="vertical" />
-        <a-tooltip
-          placement="top"
-          title="查看详情"
-        >
-          <a @click.prevent="onDetail(item)">
-            <a-icon type="file-text" />
-          </a>
-        </a-tooltip>
       </template>
-    </a-table>
-  </div>
+    </template>
+
+    <!--教师界面操作-->
+    <template
+      v-else-if="type === 'teacher'"
+      #action="item"
+    >
+      <a @click="onDetail(item)">详情</a>
+    </template>
+
+    <!--管理员界面操作-->
+    <template
+      v-else
+      #action="item"
+    >
+      <a @click="$emit('update-race', item)">
+        <EditOutlined />
+      </a>
+      <a-divider type="vertical" />
+      <a-popconfirm
+        title="确认删除？"
+        ok-text="确认"
+        cancel-text="取消"
+        @confirm="onDelete(item)"
+      >
+        <template #icon>
+          <QuestionCircleOutlined style="color: orange" />
+        </template>
+        <a><DeleteOutlined /></a>
+      </a-popconfirm>
+      <a-divider type="vertical" />
+      <a-tooltip
+        placement="top"
+        title="查看详情"
+      >
+        <a @click.prevent="onDetail(item)">
+          <FileTextOutlined />
+        </a>
+      </a-tooltip>
+    </template>
+  </a-table>
 </template>
 
 <script>
 import TableSearch from '../common/TableSearch'
-import createColumns from '../../helpers/showrace-columns'
-import MultipleDelete from '../../helpers/multiple-delete-mixin'
+import createColumns from '@/helpers/showrace-columns'
+import MultipleDelete from '@/helpers/multiple-delete-mixin'
+import {
+  FileTextOutlined,
+  EditOutlined,
+  DeleteOutlined,
+  QuestionCircleOutlined,
+  StopOutlined,
+  SearchOutlined,
+  CheckCircleOutlined,
+} from '@ant-design/icons-vue'
+
 export default {
   name: 'ShowRace',
   components: {
     TableSearch,
+    FileTextOutlined,
+    EditOutlined,
+    DeleteOutlined,
+    QuestionCircleOutlined,
+    StopOutlined,
+    SearchOutlined,
+    CheckCircleOutlined,
   },
   mixins: [MultipleDelete],
   props: {
@@ -117,6 +127,7 @@ export default {
       },
     },
   },
+  emits: ['update-race', 'add-record', 'show-detail', 'delete-race'],
   data () {
     return {
       columns: createColumns.call(this),

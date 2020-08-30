@@ -27,11 +27,11 @@
 </template>
 
 <script>
-import { createNamespacedHelpers } from 'vuex'
-import { UPDATE_USER } from '../../store/types'
+import { mapActions } from 'vuex'
+import { UPDATE_USER } from '@/store/types'
 import EditStudent from '../add-and-update/EditStudent'
 import EditTeacher from '../add-and-update/EditTeacher'
-const { mapActions } = createNamespacedHelpers('users')
+
 export default {
   name: 'UpdateUser',
   components: {
@@ -52,6 +52,7 @@ export default {
       },
     },
   },
+  emits: ['update:visible'],
   data () {
     return {
       labelCol: { span: 3 },
@@ -60,11 +61,13 @@ export default {
     }
   },
   methods: {
-    ...mapActions({
+    ...mapActions('users', {
       updateUser: UPDATE_USER,
     }),
     onCancel () {
-      !this.loading && this.$emit('update:visible', false)
+      if (!this.loading) {
+        this.$emit('update:visible', false)
+      }
     },
     onOk () {
       this.$refs[this.type].confirm().then(values => {

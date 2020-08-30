@@ -37,10 +37,7 @@
         @confirm="() => $refs.record.multipleDelete()"
       >
         <template #icon>
-          <a-icon
-            type="question-circle-o"
-            style="color: orange"
-          />
+          <QuestionCircleOutlined style="color: orange" />
         </template>
         <a-button>确认删除</a-button>
       </a-popconfirm>
@@ -56,25 +53,27 @@
     />
 
     <UpdateRecord
-      :visible.sync="updateRecordVisible"
+      v-model:visible="updateRecordVisible"
       :record="curRecord"
     />
   </div>
 </template>
 
 <script>
-import { createNamespacedHelpers } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 import { omit } from 'lodash'
-import { makeExcel } from '../../utils/excel'
-import ShowRecord from '../../components/record/ShowRecord'
-import UpdateRecord from '../../components/record/UpdateRecord'
-import { DELETE_RECORD } from '../../store/types'
-const { mapState, mapActions } = createNamespacedHelpers('records')
+import { QuestionCircleOutlined } from '@ant-design/icons-vue'
+import { makeExcel } from '@/utils/excel'
+import ShowRecord from '@/components/record/ShowRecord'
+import UpdateRecord from '@/components/record/UpdateRecord'
+import { DELETE_RECORD } from '@/store/types'
+
 export default {
   name: 'AdminShowRecord',
   components: {
     ShowRecord,
     UpdateRecord,
+    QuestionCircleOutlined,
   },
   inject: ['init'],
   data () {
@@ -84,11 +83,9 @@ export default {
       curRecord: {},
     }
   },
-  computed: mapState({
-    records: 'records',
-  }),
+  computed: mapState('records', ['records']),
   methods: {
-    ...mapActions([DELETE_RECORD]),
+    ...mapActions('records', [DELETE_RECORD]),
     onDelete (data) {
       this.DELETE_RECORD(data).finally(() => {
         this.isMultiple = false
@@ -110,7 +107,3 @@ export default {
   },
 }
 </script>
-
-<style scoped>
-
-</style>

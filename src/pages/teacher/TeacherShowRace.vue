@@ -27,7 +27,7 @@
     />
     <a-drawer
       width="50%"
-      :visible.sync="showDetailVisible"
+      v-model:visible="showDetailVisible"
       :title="`${curRace.title} 赛事详情`"
       :destroy-on-close="true"
       @close="showDetailVisible = false"

@@ -1,7 +1,7 @@
 /**
  * 身份验证，防止不同身份的用户串门
  */
-import store from '../../store'
+import store from '@/store'
 
 export default function (to, from, next) {
   // 登录页面不做校验

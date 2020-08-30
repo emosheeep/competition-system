@@ -10,11 +10,12 @@
         v-decorator="decorator.password"
         placeholder="原密码"
       >
-        <a-icon
-          slot="prefix"
-          type="lock"
-          style="color: rgba(0,0,0,.25)"
-        />
+        <template #prefix>
+          <a-icon
+            type="lock"
+            style="color: rgba(0,0,0,.25)"
+          />
+        </template>
       </a-input-password>
     </a-form-item>
     <a-form-item label="新密码">
@@ -22,11 +23,12 @@
         v-decorator="decorator.newPass"
         placeholder="新密码"
       >
-        <a-icon
-          slot="prefix"
-          type="lock"
-          style="color: rgba(0,0,0,.25)"
-        />
+        <template #prefix>
+          <a-icon
+            type="lock"
+            style="color: rgba(0,0,0,.25)"
+          />
+        </template>
       </a-input-password>
     </a-form-item>
     <a-form-item label="再次输入">
@@ -34,11 +36,12 @@
         v-decorator="decorator.reNewPass"
         placeholder="再次输入"
       >
-        <a-icon
-          slot="prefix"
-          type="lock"
-          style="color: rgba(0,0,0,.25)"
-        />
+        <template #prefix>
+          <a-icon
+            type="lock"
+            style="color: rgba(0,0,0,.25)"
+          />
+        </template>
       </a-input-password>
     </a-form-item>
     <a-form-item style="text-align: right">
@@ -60,8 +63,8 @@
 </template>
 
 <script>
-import { message } from 'ant-design-vue'
-import { updatePassword } from '../../api'
+import { message, Form } from 'ant-design-vue'
+import { updatePassword } from '@/api'
 
 export default {
   name: 'UpdatePassword',
@@ -76,7 +79,7 @@ export default {
     },
   },
   beforeCreate () {
-    this.form = this.$form.createForm(this, { name: 'password' })
+    this.form = Form.create({ name: 'password' })
     this.decorator = getDecorator.call(this)
   },
   methods: {

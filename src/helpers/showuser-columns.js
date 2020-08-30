@@ -5,13 +5,13 @@ export const STUDENT_COLUMNS = [
     title: '学号',
     dataIndex: 'account',
     sorter: (a, b) => a.account - b.account,
-    scopedSlots: filterSlots,
+    slots: filterSlots,
     onFilter: filter('account'),
   },
   {
     title: '姓名',
     dataIndex: 'name',
-    scopedSlots: filterSlots,
+    slots: filterSlots,
     onFilter: filter('name'),
   },
   {
@@ -41,7 +41,7 @@ export const STUDENT_COLUMNS = [
     title: '操作',
     key: 'action',
     align: 'center',
-    scopedSlots: { customRender: 'action' },
+    slots: { customRender: 'action' },
   },
 ]
 export const TEACHER_COLUMNS = [
@@ -49,19 +49,19 @@ export const TEACHER_COLUMNS = [
     title: '工号',
     dataIndex: 'account',
     sorter: (a, b) => a.account - b.account,
-    scopedSlots: filterSlots,
+    slots: filterSlots,
     onFilter: filter('account'),
   },
   {
     title: '姓名',
     dataIndex: 'name',
-    scopedSlots: filterSlots,
+    slots: filterSlots,
     onFilter: filter('name'),
   },
   {
     title: '职称',
     dataIndex: 'rank',
-    scopedSlots: filterSlots,
+    slots: filterSlots,
     onFilter: filter('rank'),
   },
   {
@@ -73,7 +73,7 @@ export const TEACHER_COLUMNS = [
     title: '操作',
     key: 'action',
     align: 'center',
-    scopedSlots: { customRender: 'action' },
+    slots: { customRender: 'action' },
   },
 ]
 export const ADMIN_COLUMNS = [
@@ -85,7 +85,7 @@ export const ADMIN_COLUMNS = [
   {
     title: '姓名',
     dataIndex: 'name',
-    scopedSlots: filterSlots,
+    slots: filterSlots,
     onFilter: filter('name'),
   },
   {
@@ -111,6 +111,6 @@ export const ADMIN_COLUMNS = [
     title: '操作',
     key: 'action',
     align: 'center',
-    scopedSlots: { customRender: 'action' },
+    slots: { customRender: 'action' },
   },
 ]
