@@ -1,5 +1,5 @@
 import moment from 'moment'
-import { filter, filterSlots } from './culumns-helper'
+import { filter, filterSlots } from './columns-helper'
 
 export default function () {
   return [
@@ -9,7 +9,7 @@ export default function () {
       ellipsis: true,
       width: 110,
       sorter: (a, b) => a.date - b.date,
-      customRender: date => moment(date).format('YYYY-MM-DD'),
+      customRender: ({ text: date }) => moment(date).format('YYYY-MM-DD'),
     },
     {
       title: '赛事名称',

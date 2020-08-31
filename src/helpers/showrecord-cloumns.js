@@ -1,5 +1,5 @@
 import { dropRight } from 'lodash'
-import { filter, filterSlots } from './culumns-helper'
+import { filter, filterSlots } from './columns-helper'
 import moment from 'moment'
 
 export default function (type) {
@@ -27,7 +27,7 @@ const allColumns = [
     dataIndex: 'date',
     width: 110,
     sorter: (a, b) => a.date - b.date,
-    customRender: date => moment(date).format('YYYY-MM-DD'),
+    customRender: ({ text: date }) => moment(date).format('YYYY-MM-DD'),
   },
   {
     title: '名称',

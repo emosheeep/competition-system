@@ -40,10 +40,7 @@
         @confirm="() => $refs.race.multipleDelete()"
       >
         <template #icon>
-          <a-icon
-            type="question-circle-o"
-            style="color: orange"
-          />
+          <QuestionCircleOutlined style="color: orange" />
         </template>
         <a-button>确认删除</a-button>
       </a-popconfirm>
@@ -64,27 +61,25 @@
       v-model:visible="updateRaceVisible"
       :race="curRace"
     />
-    <a-drawer
-      width="50%"
+
+    <RaceDetail
+      :id="curRace._id"
       v-model:visible="showDetailVisible"
-      :title="`${curRace.title} 赛事详情`"
-      :destroy-on-close="true"
-      @close="showDetailVisible = false"
-    >
-      <RaceDetail :id="curRace._id" type="admin"/>
-    </a-drawer>
+      type="admin"
+    />
   </div>
 </template>
 
 <script>
 import { omit } from 'lodash'
+import { QuestionCircleOutlined } from '@ant-design/icons-vue'
 import { mapState, mapActions } from 'vuex'
-import { DELETE_RACE, SET_RACE_LIST } from '../../store/types'
-import { makeExcel } from '../../utils/excel'
-import ShowRace from '../../components/race/ShowRace'
-import AddRace from '../../components/race/AddRace'
-import UpdateRace from '../../components/race/UpdateRace'
-import RaceDetail from '../../components/race/RaceDetail'
+import { DELETE_RACE, SET_RACE_LIST } from '@/store/types'
+import { makeExcel } from '@/utils/excel'
+import ShowRace from '@/components/race/ShowRace'
+import AddRace from '@/components/race/AddRace'
+import UpdateRace from '@/components/race/UpdateRace'
+import RaceDetail from '@/components/race/RaceDetail'
 
 export default {
   name: 'AdminShowRace',
@@ -93,6 +88,7 @@ export default {
     ShowRace,
     UpdateRace,
     AddRace,
+    QuestionCircleOutlined,
   },
   inject: ['init'],
   data () {

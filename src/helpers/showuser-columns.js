@@ -1,4 +1,4 @@
-import { filter, filterSlots } from './culumns-helper'
+import { filter, filterSlots } from './columns-helper'
 
 export const STUDENT_COLUMNS = [
   {

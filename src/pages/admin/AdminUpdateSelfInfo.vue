@@ -39,10 +39,11 @@
 </template>
 
 <script>
-import EditAdmin from '../../components/add-and-update/EditAdmin'
-import ModifyPassword from '../../components/common/UpdatePassword'
-import { UPDATE_SELF } from '../../store/types'
 import { omit } from 'lodash'
+import EditAdmin from '@/components/add-and-update/EditAdmin'
+import ModifyPassword from '@/components/common/UpdatePassword'
+import { UPDATE_SELF } from '@/store/types'
+
 export default {
   name: 'AdminUpdateSelfInfo',
   components: { ModifyPassword, EditAdmin },

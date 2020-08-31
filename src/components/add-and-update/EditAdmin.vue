@@ -96,10 +96,7 @@ export default {
       if (type !== 'self') {
         result.account = data.account
       }
-      this.formData = {
-        ...this.formData,
-        ...result,
-      }
+      this.formData = result
     },
   },
 }

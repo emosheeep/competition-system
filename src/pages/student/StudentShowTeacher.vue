@@ -8,11 +8,13 @@
       <template #extra>
         <a-input-search
           placeholder="搜索 工号/姓名"
-          style="width: 200px"
           @search="onSearch"
           @change="onChange"
         />
-        <a-button @click="init">
+        <a-button
+          style="vertical-align: top"
+          @click="init"
+        >
           刷新
         </a-button>
       </template>
@@ -25,9 +27,12 @@
         showQuickJumper: true
       }"
     >
-      <template #renderItem="item">
+      <template #renderItem="{ item }">
         <a-list-item>
           <a-list-item-meta :description="item.description">
+            <template #avatar>
+              <a-avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
+            </template>
             <template #title>
               {{ item.account }}
               <a-divider type="vertical" />
@@ -38,9 +43,6 @@
                   {{ item.rank }}
                 </a-tag>
               </template>
-            </template>
-            <template #avatar>
-              <a-avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
             </template>
           </a-list-item-meta>
         </a-list-item>
@@ -86,3 +88,9 @@ export default {
   },
 }
 </script>
+
+<style scoped lang="stylus">
+// 顶部搜素框
+>>> .ant-input-search
+  width 200px
+</style>

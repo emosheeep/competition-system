@@ -2,7 +2,7 @@
   <a-drawer
     placement="right"
     width="600px"
-    title="参赛记录详情"
+    title="参赛记录"
     :visible="visible"
     :destroy-on-close="true"
     @close="$emit('update:visible', false)"

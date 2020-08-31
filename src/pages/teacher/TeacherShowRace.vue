@@ -25,24 +25,20 @@
       :data="races"
       @show-detail="onDetail"
     />
-    <a-drawer
-      width="50%"
+    <RaceDetail
+      :id="curRace._id"
       v-model:visible="showDetailVisible"
-      :title="`${curRace.title} 赛事详情`"
-      :destroy-on-close="true"
-      @close="showDetailVisible = false"
-    >
-      <RaceDetail :id="curRace._id" type="teacher"/>
-    </a-drawer>
+      type="teacher"
+    />
   </div>
 </template>
 
 <script>
 import { omit } from 'lodash'
-import ShowRace from '../../components/race/ShowRace'
-import RaceDetail from '../../components/race/RaceDetail'
+import ShowRace from '@/components/race/ShowRace'
+import RaceDetail from '@/components/race/RaceDetail'
+import { makeExcel } from '@/utils/excel'
 
-import { makeExcel } from '../../utils/excel'
 export default {
   name: 'TeacherShowRace',
   components: { ShowRace, RaceDetail },

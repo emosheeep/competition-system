@@ -119,14 +119,16 @@ export default {
   methods: {
     initData () {
       const { data, type } = this
-      const result = {}
+      const result = {
+        name: data.name,
+        sex: data.sex,
+        classname: data.classname,
+        grade: data.grade,
+      }
       if (type !== 'self') {
         result.account = data.account
       }
-      this.formData = {
-        ...this.data,
-        ...result,
-      }
+      this.formData = result
     },
   },
 }

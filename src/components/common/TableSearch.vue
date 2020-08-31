@@ -1,5 +1,5 @@
 <template>
-  <div style="padding: 8px">
+  <div class="container">
     <a-input
       ref="input"
       class="search-input"
@@ -9,36 +9,46 @@
       @change="handleInput"
       @pressEnter="confirm"
     />
-    <a-button
-      size="small"
-      class="reset-button"
-      @click="handleReset"
-    >
-      重置
-    </a-button>
-    <a-button
-      type="primary"
-      icon="search"
-      size="small"
-      class="confirm-button"
-      @click="confirm"
-    >
-      搜索
-    </a-button>
+    <div class="button-group">
+      <a-button
+        size="small"
+        class="reset-button"
+        @click="handleReset"
+      >
+        重置
+      </a-button>
+      <a-button
+        type="primary"
+        size="small"
+        class="confirm-button"
+        @click="confirm"
+      >
+        <template #icon>
+          <SearchOutlined />
+        </template>
+        <span>搜索</span>
+      </a-button>
+    </div>
   </div>
 </template>
 
 <script>
-/* eslint-disable */
+/* eslint-disable vue/require-prop-types,vue/no-mutating-props */
+import { SearchOutlined } from '@ant-design/icons-vue'
+
 export default {
   name: 'TableSearch',
+  components: { SearchOutlined },
   props: [
     'setSelectedKeys', // 设置搜索关键词
     'selectedKeys', // 当前关键词
     'confirm', // 执行搜索
     'clearFilters', // 清除搜索状态
-    'column' // 当前列的描述
+    'column', // 当前列的描述
   ],
+  mounted () {
+    // TODO: 搜索框自动高亮
+  },
   methods: {
     handleInput ({ target: { value } }) {
       this.setSelectedKeys(value ? [value] : [])
@@ -46,24 +56,25 @@ export default {
     handleReset () {
       this.clearFilters()
       this.selectedKeys.splice(0)
-    }
-  },
-  mounted () {
-    // this.$parent.$on('hook:updated', () => {
-    //   this.$refs.input.focus()
-    // })
+    },
   },
 }
 </script>
 
 <style lang="stylus" scoped>
+.container
+  padding 10px
+  width 250px
   .search-input
     display block
-    width 188px
     margin-bottom 8px
-  .reset-button
-    margin-right 15px
-    width 85px
-  .confirm-button
-    width 85px
+  .button-group
+    display flex
+    justify-content space-between
+    margin-top 10px
+    .reset-button
+      margin-right 15px
+      width 85px
+    .confirm-button
+      width 85px
 </style>

@@ -1,17 +1,17 @@
 <template>
   <div class="container">
     <a-descriptions
-      :title="`赛事详情：${race.title}`"
+      :title="race.title"
       style="padding: 10px"
     >
-      <a-descriptions-item label="主办方">
+      <a-descriptions-item
+        label="主办方"
+        :span="2"
+      >
         {{ race.sponsor }}
       </a-descriptions-item>
       <a-descriptions-item label="类别">
         {{ race.type }}
-      </a-descriptions-item>
-      <a-descriptions-item label="级别">
-        {{ race.level }}
       </a-descriptions-item>
       <a-descriptions-item label="时间">
         {{ formatDate(race.date) }}
@@ -19,7 +19,9 @@
       <a-descriptions-item label="地点">
         {{ race.location }}
       </a-descriptions-item>
-      <br>
+      <a-descriptions-item label="级别">
+        {{ race.level }}
+      </a-descriptions-item>
       <a-descriptions-item label="描述">
         {{ race.description }}
       </a-descriptions-item>

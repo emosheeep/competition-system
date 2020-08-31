@@ -11,74 +11,63 @@
     }"
   >
     <!--自定义搜索下拉菜单-->
-    <template #filterIcon="filtered">
+    <template #filterIcon="{ filtered }">
       <SearchOutlined :style="{ color: filtered ? '#108ee9' : undefined }" />
     </template>
     <template #filterDropdown="options">
       <TableSearch v-bind="options" />
     </template>
 
-    <!--学生界面操作-->
-    <template
-      v-if="type === 'student'"
-      #action="item"
-    >
-      <template v-if="item.date <= Date.now()">
-        <StopOutlined />
-        <span> 已截止</span>
-      </template>
-      <template v-else-if="isParticipate(item._id)">
-        <CheckCircleOutlined
-          style=""
-          color:
-          limegreen
-        />
-        <span> 已报备</span>
-      </template>
-      <template v-else>
-        <a @click="$emit('add-record', item)">
-          成绩录入
-        </a>
-      </template>
-    </template>
-
-    <!--教师界面操作-->
-    <template
-      v-else-if="type === 'teacher'"
-      #action="item"
-    >
-      <a @click="onDetail(item)">详情</a>
-    </template>
-
-    <!--管理员界面操作-->
-    <template
-      v-else
-      #action="item"
-    >
-      <a @click="$emit('update-race', item)">
-        <EditOutlined />
-      </a>
-      <a-divider type="vertical" />
-      <a-popconfirm
-        title="确认删除？"
-        ok-text="确认"
-        cancel-text="取消"
-        @confirm="onDelete(item)"
-      >
-        <template #icon>
-          <QuestionCircleOutlined style="color: orange" />
+    <template #action="{ record }">
+      <!--学生界面操作-->
+      <template v-if="type === 'student'">
+        <template v-if="record.date <= Date.now()">
+          <StopOutlined />
+          <span> 已截止</span>
         </template>
-        <a><DeleteOutlined /></a>
-      </a-popconfirm>
-      <a-divider type="vertical" />
-      <a-tooltip
-        placement="top"
-        title="查看详情"
-      >
-        <a @click.prevent="onDetail(item)">
-          <FileTextOutlined />
+        <template v-else-if="isParticipate(record._id)">
+          <CheckCircleOutlined style="color: limegreen" />
+          <span> 已报备</span>
+        </template>
+        <template v-else>
+          <a @click="$emit('add-record', record)">
+            成绩录入
+          </a>
+        </template>
+      </template>
+
+      <!--教师界面操作-->
+      <template v-else-if="type === 'teacher'">
+        <a @click="onDetail(record)">详情</a>
+      </template>
+
+      <!--管理员界面操作-->
+      <template v-else>
+        <a @click="$emit('update-race', record)">
+          <EditOutlined />
         </a>
-      </a-tooltip>
+        <a-divider type="vertical" />
+        <a-popconfirm
+          title="确认删除？"
+          ok-text="确认"
+          cancel-text="取消"
+          @confirm="onDelete(record)"
+        >
+          <template #icon>
+            <QuestionCircleOutlined style="color: orange" />
+          </template>
+          <a><DeleteOutlined /></a>
+        </a-popconfirm>
+        <a-divider type="vertical" />
+        <a-tooltip
+          placement="top"
+          title="查看详情"
+        >
+          <a @click.prevent="onDetail(record)">
+            <FileTextOutlined />
+          </a>
+        </a-tooltip>
+      </template>
     </template>
   </a-table>
 </template>

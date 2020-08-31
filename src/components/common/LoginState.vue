@@ -10,11 +10,7 @@
       @confirm="changeUser"
     >
       <template #icon>
-        <QuestionCircleOutlined
-          style=""
-          color:
-          orange
-        />
+        <QuestionCircleOutlined style="color: orange" />
       </template>
       <a><SwapOutlined /></a>
     </a-popconfirm>

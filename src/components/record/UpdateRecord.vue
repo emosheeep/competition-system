@@ -125,7 +125,6 @@ export default {
     },
     adminInit () {
       const { record } = this
-      console.log(record)
       let result = {}
       if (record.state === 'rejected') {
         this.reviewState = 'rejected' // rejected 渲染原因输入框
@@ -160,7 +159,7 @@ export default {
           _id: this.record._id,
           score: values.score,
           state: values.state,
-          description,
+          description: description || '',
         })
       }).then(_ => {
         this.$emit('update:visible', false)

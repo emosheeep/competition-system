@@ -125,9 +125,15 @@ export default {
     },
     initData () {
       const { data } = this
+      // 挨个字段对应是为了移除不必要的、可能存在的_id字段
       this.formData = {
-        ...data,
+        title: data.title,
+        sponsor: data.sponsor,
         date: moment(data.date),
+        location: data.location,
+        level: data.level,
+        type: data.type,
+        description: data.description,
       }
     },
   },

@@ -1,17 +1,31 @@
 <template>
-  <div>
-    <a-button style="float: right" @click="init">
+  <a-drawer
+    height="80%"
+    placement="bottom"
+    title="赛事详情"
+    :visible="visible"
+    :destroy-on-close="true"
+    @close="$emit('update:visible', false)"
+  >
+    <a-button
+      style="float: right"
+      @click="init"
+    >
       刷新
     </a-button>
-    <Detail :race="race" :records="records"/>
+    <Detail
+      :race="race"
+      :records="records"
+    />
     <Loading :loading="loading" />
-  </div>
+  </a-drawer>
 </template>
 
 <script>
-import { getRaceList, getRecordList } from '../../api'
+import { getRaceList, getRecordList } from '@/api'
 import Detail from './Detail'
 import Loading from '../common/Loading'
+
 export default {
   name: 'RaceDetail',
   components: { Loading, Detail },
@@ -19,6 +33,7 @@ export default {
     id: {
       type: String,
       required: true,
+      default: '',
     },
     type: {
       type: String,
@@ -27,7 +42,12 @@ export default {
         return ['admin', 'teacher'].includes(value)
       },
     },
+    visible: {
+      type: Boolean,
+      default: false,
+    },
   },
+  emits: ['update:visible'],
   data () {
     return {
       loading: false,
@@ -35,8 +55,12 @@ export default {
       records: [],
     }
   },
-  mounted () {
-    this.init()
+  watch: {
+    visible (isVisible) {
+      if (isVisible) {
+        this.init()
+      }
+    },
   },
   methods: {
     init () {
@@ -62,7 +86,3 @@ export default {
   },
 }
 </script>
-
-<style scoped>
-
-</style>

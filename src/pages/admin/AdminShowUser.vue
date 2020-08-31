@@ -193,7 +193,6 @@ export default {
   methods: {
     ...mapActions('users', [ADD_USER, DELETE_USER]),
     onUpdate (user) {
-      console.log(user)
       this.curUser = user
       this.updateUserVisible = true
     },

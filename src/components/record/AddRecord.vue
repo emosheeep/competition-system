@@ -12,20 +12,28 @@
     @ok="onOk"
   >
     <a-form
+      ref="form"
       :label-col="{ span: 4 }"
       :wrapper-col="{ span: 20 }"
-      :form="form"
+      :model="formData"
+      :rules="rules"
     >
-      <a-form-item label="成绩">
+      <a-form-item
+        label="成绩"
+        name="score"
+      >
         <a-input
-          v-decorator="decorator.score"
+          v-model:value="formData.score"
           placeholder="比赛成绩"
           :auto-focus="true"
         />
       </a-form-item>
-      <a-form-item label="导师">
+      <a-form-item
+        label="导师"
+        name="teacher"
+      >
         <a-select
-          v-decorator="decorator.teacher"
+          v-model:value="formData.teacher"
           show-search
           placeholder="选择导师，没有可不填"
         >
@@ -43,7 +51,7 @@
 </template>
 
 <script>
-import { Form } from 'ant-design-vue'
+import { mapState } from 'vuex'
 import { ADD_RECORD } from '@/store/types'
 
 export default {
@@ -59,26 +67,30 @@ export default {
   data () {
     return {
       loading: false,
+      formData: {
+        teacher: '',
+        score: '',
+      },
     }
   },
   computed: {
-    user () {
-      return this.$store.state.user
-    },
-    teachers () {
-      return this.$store.state.users.teachers
-    },
+    ...mapState(['user']),
+    ...mapState('users', ['teachers']),
   },
   beforeCreate () {
-    this.form = Form.create({ name: 'add-record' })
-    this.decorator = decorator
+    this.rules = {
+      score: [{
+        required: true,
+        message: '请输入比赛成绩',
+      }],
+    }
   },
   methods: {
     onCancel () {
       this.$emit('update:visible', false)
     },
     onOk () {
-      this.form.validateFields().then(values => {
+      this.$refs.form.validate().then(values => {
         let teacher = {}
         if (values.teacher) {
           const [tid, tname] = values.teacher.split('-')
@@ -105,18 +117,4 @@ export default {
     },
   },
 }
-
-const decorator = {
-  teacher: ['teacher'],
-  score: ['score', {
-    rules: [{
-      required: true,
-      message: '请输入比赛成绩',
-    }],
-  }],
-}
 </script>
-
-<style scoped>
-
-</style>

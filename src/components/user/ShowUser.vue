@@ -11,7 +11,7 @@
       showQuickJumper: true
     }"
   >
-    <template #filterIcon="filtered">
+    <template #filterIcon="{ filtered }">
       <SearchOutlined :style="{ color: filtered ? '#108ee9' : undefined }" />
     </template>
     <template #filterDropdown="options">

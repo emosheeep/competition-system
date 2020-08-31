@@ -16,7 +16,7 @@
     </template>
 
     <!--搜索-->
-    <template #filterIcon="filtered">
+    <template #filterIcon="{ filtered }">
       <SearchOutlined :style="{ color: filtered ? '#108ee9' : undefined }" />
     </template>
     <template #filterDropdown="options">
@@ -24,7 +24,7 @@
     </template>
 
     <!--审核状态-->
-    <template #state="state">
+    <template #state="{ record: { state } }">
       <template v-if="state === 'pending'">
         <QuestionCircleOutlined />
         <span> 未审核</span>
@@ -139,6 +139,9 @@ export default {
     onDetail (record) {
       this.curRecord = record
       this.recordDetailVisible = true
+    },
+    log (e) {
+      console.log(e)
     },
   },
 }

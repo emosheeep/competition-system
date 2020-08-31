@@ -34,12 +34,11 @@
 
 <script>
 import { omit } from 'lodash'
-import { makeExcel } from '../../utils/excel'
-import { SET_RACE_LIST } from '../../store/types'
-import { createNamespacedHelpers } from 'vuex'
-import ShowRace from '../../components/race/ShowRace'
-import AddRecord from '../../components/record/AddRecord'
-const { mapState, mapActions } = createNamespacedHelpers('races')
+import { makeExcel } from '@/utils/excel'
+import { SET_RACE_LIST } from '@/store/types'
+import { mapState, mapActions } from 'vuex'
+import ShowRace from '@/components/race/ShowRace'
+import AddRecord from '@/components/record/AddRecord'
 
 export default {
   name: 'StudentShowRace',
@@ -55,12 +54,10 @@ export default {
     }
   },
   computed: {
-    ...mapState({
-      races: 'races',
-    }),
+    ...mapState('races', ['races']),
   },
   methods: {
-    ...mapActions({
+    ...mapActions('races', {
       setRaceList: SET_RACE_LIST,
     }),
     exportExcel () {
