@@ -33,6 +33,7 @@ export default {
       required: true,
     },
   },
+  emits: ['update:visible'],
   data () {
     return {
       loading: false,

@@ -28,6 +28,7 @@ export default {
   props: {
     visible: Boolean,
   },
+  emits: ['update:visible'],
   data () {
     return {
       loading: false,

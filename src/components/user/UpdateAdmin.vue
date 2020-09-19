@@ -21,7 +21,7 @@
 
 <script>
 import { createNamespacedHelpers } from 'vuex'
-import { UPDATE_USER } from '../../store/types'
+import { UPDATE_USER } from '@/store/types'
 import EditAdmin from '../add-and-update/EditAdmin'
 const { mapActions } = createNamespacedHelpers('users')
 export default {
@@ -34,6 +34,7 @@ export default {
       required: true,
     },
   },
+  emits: ['update:visible'],
   data () {
     return {
       loading: false,

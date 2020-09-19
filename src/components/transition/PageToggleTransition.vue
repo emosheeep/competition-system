@@ -8,7 +8,10 @@
 export default {
   name: 'PageToggleTransition',
   props: {
-    name: String,
+    name: {
+      type: String,
+      required: true,
+    },
   },
 }
 </script>
