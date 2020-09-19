@@ -52,7 +52,7 @@
 import { createNamespacedHelpers } from 'vuex'
 import EditStudent from '../add-and-update/EditStudent'
 import EditTeacher from '../add-and-update/EditTeacher'
-import { ADD_USER } from '../../store/types'
+import { ADD_USER } from '@/store/types'
 const { mapActions } = createNamespacedHelpers('users')
 
 export default {
@@ -64,6 +64,7 @@ export default {
   props: {
     visible: Boolean,
   },
+  emits: ['update:visible'],
   data () {
     return {
       type: 'student',
