@@ -22,8 +22,8 @@ import {
   SwapOutlined,
   QuestionCircleOutlined,
   UserOutlined,
-} from '@ant-design/icons-vue'
-import { LOGOUT } from '@/store/types'
+} from '@ant-design/icons-vue';
+import { LOGOUT } from '@/store/types';
 
 export default {
   name: 'LoginState',
@@ -37,28 +37,28 @@ export default {
     loadingEnd: 'loadingEnd',
   },
   computed: {
-    user () {
-      return this.$store.state.user
+    user() {
+      return this.$store.state.user;
     },
-    account () {
-      const value = this.user.account
+    account() {
+      const value = this.user.account;
       if (value?.toString().length > 10) {
-        return value.slice(0, 7) + '...'
+        return value.slice(0, 7) + '...';
       } else {
-        return value
+        return value;
       }
     },
   },
   methods: {
-    changeUser () {
-      this.loadingStart()
-      this.$store.commit(LOGOUT)
+    changeUser() {
+      this.loadingStart();
+      this.$store.commit(LOGOUT);
       this.$router.replace({ path: '/' }).finally(() => {
-        this.loadingEnd()
-      })
+        this.loadingEnd();
+      });
     },
   },
-}
+};
 </script>
 
 <style scoped lang="stylus">

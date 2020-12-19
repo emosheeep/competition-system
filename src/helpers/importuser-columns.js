@@ -49,13 +49,13 @@ const columns = {
       dataIndex: 'description',
     },
   ],
-}
+};
 
-const types = Object.keys(columns)
+const types = Object.keys(columns);
 
-export default function (type) {
+export default function(type) {
   if (!types.includes(type)) {
-    throw new Error(`type must in ${types.toString()}`)
+    throw new Error(`type must in ${types.toString()}`);
   }
-  return columns[type]
+  return columns[type];
 }

@@ -1,9 +1,9 @@
-import { createRouter, createWebHistory } from 'vue-router'
-import teacher from './teacher'
-import admin from './admin'
-import student from './student'
-import CheckState from './navigation-guard/check-state'
-import CheckIdentity from './navigation-guard/check-identity'
+import { createRouter, createWebHistory } from 'vue-router';
+import teacher from './teacher';
+import admin from './admin';
+import student from './student';
+import CheckState from './navigation-guard/check-state';
+import CheckIdentity from './navigation-guard/check-identity';
 
 const routes = [
   {
@@ -29,14 +29,14 @@ const routes = [
     path: '/*',
     redirect: '/404',
   },
-]
+];
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes,
-})
+});
 
-router.beforeEach(CheckState)
-router.beforeEach(CheckIdentity)
+router.beforeEach(CheckState);
+router.beforeEach(CheckIdentity);
 
-export default router
+export default router;

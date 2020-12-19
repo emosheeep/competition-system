@@ -16,10 +16,10 @@
 </template>
 
 <script>
-import { createNamespacedHelpers } from 'vuex'
-import EditAdmin from '../add-and-update/EditAdmin'
-import { ADD_USER } from '@/store/types'
-const { mapActions } = createNamespacedHelpers('users')
+import { createNamespacedHelpers } from 'vuex';
+import EditAdmin from '../add-and-update/EditAdmin';
+import { ADD_USER } from '@/store/types';
+const { mapActions } = createNamespacedHelpers('users');
 
 export default {
   name: 'AddAdmin',
@@ -28,33 +28,33 @@ export default {
     visible: Boolean,
   },
   emits: ['update:visible'],
-  data () {
+  data() {
     return {
       loading: false,
-    }
+    };
   },
   methods: {
     ...mapActions([ADD_USER]),
-    onOk (e) {
+    onOk(e) {
       // 调用子组件的confirm方法
       this.$refs.admin.confirm().then(values => {
-        this.loading = true
+        this.loading = true;
         return this.ADD_USER({
           type: 'admin',
           users: values,
-        })
+        });
       }).then(res => {
-        this.$emit('update:visible', false)
+        this.$emit('update:visible', false);
       }).catch(console.warn).finally(() => {
         setTimeout(() => {
-          this.loading = false
-        }, 500)
-      })
+          this.loading = false;
+        }, 500);
+      });
     },
-    onCancel (e) {
-      if (this.loading) return
-      this.$emit('update:visible', false)
+    onCancel(e) {
+      if (this.loading) return;
+      this.$emit('update:visible', false);
     },
   },
-}
+};
 </script>

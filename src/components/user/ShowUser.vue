@@ -61,17 +61,17 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapActions } from 'vuex';
 import {
   QuestionCircleOutlined,
   RollbackOutlined,
   EditOutlined,
   DeleteOutlined,
   SearchOutlined,
-} from '@ant-design/icons-vue'
-import { DELETE_USER } from '@/store/types'
-import MultipleDelete from '@/helpers/multiple-delete-mixin'
-import TableSearch from '@/components/common/TableSearch'
+} from '@ant-design/icons-vue';
+import { DELETE_USER } from '@/store/types';
+import MultipleDelete from '@/helpers/multiple-delete-mixin';
+import TableSearch from '@/components/common/TableSearch';
 
 export default {
   name: 'ShowUser',
@@ -101,21 +101,21 @@ export default {
   emits: ['update-user', 'delete-user', 'reset'],
   methods: {
     ...mapActions('users', [DELETE_USER]),
-    onEdit (user) {
-      this.$emit('update-user', user)
+    onEdit(user) {
+      this.$emit('update-user', user);
     },
-    onDelete (account) {
+    onDelete(account) {
       if (!this.multiple) {
-        this.$emit('delete-user', [account])
+        this.$emit('delete-user', [account]);
       }
     },
-    multipleDelete () {
+    multipleDelete() {
       if (this.selectedKeys.length !== 0) {
-        this.$emit('delete-user', [...this.selectedKeys])
+        this.$emit('delete-user', [...this.selectedKeys]);
       }
     },
   },
-}
+};
 
 </script>
 

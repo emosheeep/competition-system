@@ -1,13 +1,13 @@
-import store from '../store'
-import axios from './axios'
-import { REFRESH_TOKEN } from '@/store/types'
+import store from '../store';
+import axios from './axios';
+import { REFRESH_TOKEN } from '@/store/types';
 
-let lock = false
-const originRequest = []
+let lock = false;
+const originRequest = [];
 
-function reset () {
-  lock = false
-  originRequest.splice(0)
+function reset() {
+  lock = false;
+  originRequest.splice(0);
 }
 
 /**
@@ -15,18 +15,18 @@ function reset () {
  * @param config 之前的请求的配置
  * @returns {Promise<unknown>}
  */
-export default function (config) {
+export default function(config) {
   if (!lock) {
-    lock = true
+    lock = true;
     store.dispatch(REFRESH_TOKEN).then(newToken => {
-      const requests = originRequest.map(callback => callback(newToken))
-      return Promise.all(requests)
-    }).finally(reset)
+      const requests = originRequest.map(callback => callback(newToken));
+      return Promise.all(requests);
+    }).finally(reset);
   }
   return new Promise(resolve => {
     originRequest.push(newToken => {
-      config.headers.authorization = newToken
-      resolve(axios(config))
-    })
-  })
+      config.headers.authorization = newToken;
+      resolve(axios(config));
+    });
+  });
 }

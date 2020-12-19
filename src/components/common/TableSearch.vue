@@ -34,7 +34,7 @@
 
 <script>
 /* eslint-disable vue/require-prop-types,vue/no-mutating-props */
-import { SearchOutlined } from '@ant-design/icons-vue'
+import { SearchOutlined } from '@ant-design/icons-vue';
 
 export default {
   name: 'TableSearch',
@@ -46,19 +46,19 @@ export default {
     'clearFilters', // 清除搜索状态
     'column', // 当前列的描述
   ],
-  mounted () {
+  mounted() {
     // TODO: 搜索框自动高亮
   },
   methods: {
-    handleInput ({ target: { value } }) {
-      this.setSelectedKeys(value ? [value] : [])
+    handleInput({ target: { value } }) {
+      this.setSelectedKeys(value ? [value] : []);
     },
-    handleReset () {
-      this.clearFilters()
-      this.selectedKeys.splice(0)
+    handleReset() {
+      this.clearFilters();
+      this.selectedKeys.splice(0);
     },
   },
-}
+};
 </script>
 
 <style lang="stylus" scoped>

@@ -1,7 +1,7 @@
-const path = require('path')
-const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
-const CompressionWebpackPlugin = require('compression-webpack-plugin')
-const LodashWebpackPlugin = require('lodash-webpack-plugin')
+const path = require('path');
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
+const CompressionWebpackPlugin = require('compression-webpack-plugin');
+const LodashWebpackPlugin = require('lodash-webpack-plugin');
 
 const cdn = {
   js: [
@@ -16,7 +16,7 @@ const cdn = {
     'https://cdn.jsdelivr.net/npm/ant-design-vue@1.6.5/dist/antd.min.css',
     'https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.0.0/animate.min.css',
   ],
-}
+};
 
 module.exports = {
   chainWebpack: config => {
@@ -27,22 +27,22 @@ module.exports = {
         moment: 'moment',
         'qiniu-js': 'qiniu',
         'ant-design-vue': 'antd',
-      })
-      config.plugins.delete('prefetch') // 否则懒加载不生效
-      config.plugin('lodash').use(LodashWebpackPlugin)
+      });
+      config.plugins.delete('prefetch'); // 否则懒加载不生效
+      config.plugin('lodash').use(LodashWebpackPlugin);
       config.plugin('analyzer').use(BundleAnalyzerPlugin, [{
         analyzerMode: 'static',
         openAnalyzer: false,
-      }])
+      }]);
       config.plugin('compress').use(CompressionWebpackPlugin, [{
         test: /\.js$|\.html$|\.css$/,
         threshold: 10240, // 超过10kb就压缩
         deleteOriginalAssets: false,
-      }])
+      }]);
       config.plugin('html').tap(args => {
-        args[0].cdn = cdn
-        return args
-      })
+        args[0].cdn = cdn;
+        return args;
+      });
     }
   },
   configureWebpack: {
@@ -78,8 +78,8 @@ module.exports = {
       },
     },
   },
-}
+};
 
-function resolve (src) {
-  return path.join(__dirname, '.', src)
+function resolve(src) {
+  return path.join(__dirname, '.', src);
 }

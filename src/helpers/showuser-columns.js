@@ -1,4 +1,4 @@
-import { filter, filterSlots } from './columns-helper'
+import { filter, filterSlots } from './columns-helper';
 
 export const STUDENT_COLUMNS = [
   {
@@ -43,7 +43,7 @@ export const STUDENT_COLUMNS = [
     align: 'center',
     slots: { customRender: 'action' },
   },
-]
+];
 export const TEACHER_COLUMNS = [
   {
     title: '工号',
@@ -75,7 +75,7 @@ export const TEACHER_COLUMNS = [
     align: 'center',
     slots: { customRender: 'action' },
   },
-]
+];
 export const ADMIN_COLUMNS = [
   {
     title: '账号',
@@ -113,4 +113,4 @@ export const ADMIN_COLUMNS = [
     align: 'center',
     slots: { customRender: 'action' },
   },
-]
+];

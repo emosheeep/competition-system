@@ -51,8 +51,8 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
-import { ADD_RECORD } from '@/store/types'
+import { mapState } from 'vuex';
+import { ADD_RECORD } from '@/store/types';
 
 export default {
   name: 'AddRecord',
@@ -64,37 +64,37 @@ export default {
     },
   },
   emits: ['update:visible'],
-  data () {
+  data() {
     return {
       loading: false,
       formData: {
         teacher: '',
         score: '',
       },
-    }
+    };
   },
   computed: {
     ...mapState(['user']),
     ...mapState('users', ['teachers']),
   },
-  beforeCreate () {
+  beforeCreate() {
     this.rules = {
       score: [{
         required: true,
         message: '请输入比赛成绩',
       }],
-    }
+    };
   },
   methods: {
-    onCancel () {
-      this.$emit('update:visible', false)
+    onCancel() {
+      this.$emit('update:visible', false);
     },
-    onOk () {
+    onOk() {
       this.$refs.form.validate().then(values => {
-        let teacher = {}
+        let teacher = {};
         if (values.teacher) {
-          const [tid, tname] = values.teacher.split('-')
-          teacher = { tid, tname }
+          const [tid, tname] = values.teacher.split('-');
+          teacher = { tid, tname };
         }
         const result = {
           id: this.race._id, // record的id为race的_id
@@ -104,17 +104,17 @@ export default {
           sname: this.user.name,
           score: values.score,
           ...teacher,
-        }
+        };
         this.$store.dispatch(
           `records/${ADD_RECORD}`,
           result,
         ).then(_ => {
-          this.onCancel()
+          this.onCancel();
         }).catch(e => e).finally(() => {
-          this.loading = false
-        })
-      })
+          this.loading = false;
+        });
+      });
     },
   },
-}
+};
 </script>

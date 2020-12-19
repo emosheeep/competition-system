@@ -1,10 +1,10 @@
 export default {
-  isLogin (state) {
+  isLogin(state) {
     return !!(
       state.token &&
       state.refreshToken &&
       state.user.account &&
       state.user.identity
-    )
+    );
   },
-}
+};

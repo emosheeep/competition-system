@@ -84,13 +84,13 @@
 </template>
 
 <script>
-import EditMixin from './edit-mixin'
+import EditMixin from './edit-mixin';
 import {
   ManOutlined,
   WomanOutlined,
   LockOutlined,
   UserOutlined,
-} from '@ant-design/icons-vue'
+} from '@ant-design/icons-vue';
 
 export default {
   name: 'EditStudent',
@@ -101,7 +101,7 @@ export default {
     UserOutlined,
   },
   mixins: [EditMixin],
-  data () {
+  data() {
     return {
       formData: {
         account: '',
@@ -111,27 +111,27 @@ export default {
         classname: '',
         grade: '',
       },
-    }
+    };
   },
-  beforeMount () {
-    this.rules = rules
+  beforeMount() {
+    this.rules = rules;
   },
   methods: {
-    initData () {
-      const { data, type } = this
+    initData() {
+      const { data, type } = this;
       const result = {
         name: data.name,
         sex: data.sex,
         classname: data.classname,
         grade: data.grade,
-      }
+      };
       if (type !== 'self') {
-        result.account = data.account
+        result.account = data.account;
       }
-      this.formData = result
+      this.formData = result;
     },
   },
-}
+};
 
 /**
  * 定义decorator
@@ -157,5 +157,5 @@ const rules = {
     required: true,
     message: '请输入班级！',
   }],
-}
+};
 </script>

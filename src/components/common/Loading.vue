@@ -18,7 +18,7 @@ export default {
       default: true,
     },
   },
-}
+};
 </script>
 
 <style lang="stylus" scoped>

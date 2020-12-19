@@ -35,7 +35,7 @@
 import {
   ExclamationCircleOutlined,
   CheckCircleOutlined,
-} from '@ant-design/icons-vue'
+} from '@ant-design/icons-vue';
 
 export default {
   name: 'DisplayFailedUser',
@@ -53,5 +53,5 @@ export default {
       required: true,
     },
   },
-}
+};
 </script>

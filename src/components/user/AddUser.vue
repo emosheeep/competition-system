@@ -49,11 +49,11 @@
 </template>
 
 <script>
-import { createNamespacedHelpers } from 'vuex'
-import EditStudent from '../add-and-update/EditStudent'
-import EditTeacher from '../add-and-update/EditTeacher'
-import { ADD_USER } from '@/store/types'
-const { mapActions } = createNamespacedHelpers('users')
+import { createNamespacedHelpers } from 'vuex';
+import EditStudent from '../add-and-update/EditStudent';
+import EditTeacher from '../add-and-update/EditTeacher';
+import { ADD_USER } from '@/store/types';
+const { mapActions } = createNamespacedHelpers('users');
 
 export default {
   name: 'AddUser',
@@ -65,37 +65,37 @@ export default {
     visible: Boolean,
   },
   emits: ['update:visible'],
-  data () {
+  data() {
     return {
       type: 'student',
       loading: false,
-    }
+    };
   },
   methods: {
     ...mapActions([ADD_USER]),
-    onOk (e) {
+    onOk(e) {
       // 调用子组件的confirm方法
       this.$refs[this.type].confirm().then(values => {
-        this.loading = true
+        this.loading = true;
         return this.ADD_USER({
           type: this.type,
           users: values,
-        })
+        });
       }).then(res => {
-        this.$emit('update:visible', false)
+        this.$emit('update:visible', false);
       }).catch(console.warn).finally(() => {
         setTimeout(() => {
-          this.loading = false
-        }, 500)
-      })
+          this.loading = false;
+        }, 500);
+      });
     },
-    onChange ({ target: { value } }) {
-      this.type = value
+    onChange({ target: { value } }) {
+      this.type = value;
     },
-    onCancel (e) {
-      if (this.loading) return
-      this.$emit('update:visible', false)
+    onCancel(e) {
+      if (this.loading) return;
+      this.$emit('update:visible', false);
     },
   },
-}
+};
 </script>

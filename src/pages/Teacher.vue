@@ -5,12 +5,12 @@
 </template>
 
 <script>
-import GlobalLayout from '../layouts/GlobalLayout'
-import TabLayout from '../layouts/tab/TabLayout'
+import GlobalLayout from '../layouts/GlobalLayout';
+import TabLayout from '../layouts/tab/TabLayout';
 import {
   SET_RACE_LIST,
   SET_RECORD_LIST,
-} from '@/store/types'
+} from '@/store/types';
 
 export default {
   name: 'Teacher',
@@ -18,34 +18,34 @@ export default {
   metaInfo: {
     title: '教师',
   },
-  provide () {
+  provide() {
     return {
       init: this.init,
-    }
+    };
   },
-  data () {
+  data() {
     return {
       loading: true,
-    }
+    };
   },
-  created () {
-    this.init()
+  created() {
+    this.init();
   },
   methods: {
-    init () {
-      this.loading = true
-      const { account } = this.$store.state.user
+    init() {
+      this.loading = true;
+      const { account } = this.$store.state.user;
       Promise.all([
         this.$store.dispatch(`races/${SET_RACE_LIST}`),
         this.$store.dispatch(`records/${SET_RECORD_LIST}`, {
           tid: account,
         }),
       ]).finally(() => {
-        this.loading = false
-      })
+        this.loading = false;
+      });
     },
   },
-}
+};
 </script>
 
 <style lang="stylus" scoped>

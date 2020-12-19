@@ -1,4 +1,4 @@
-import store from '../store'
+import store from '../store';
 
 export default [
   {
@@ -46,12 +46,12 @@ export default [
           /* webpackChunkName: "RootShowAdmin" */
           '../pages/admin/RootShowAdmin'
         ),
-        beforeEnter (to, from, next) {
-          const { power } = store.state.user
+        beforeEnter(to, from, next) {
+          const { power } = store.state.user;
           if (power === 'root') {
-            next()
+            next();
           } else {
-            next({ path: '/404' })
+            next({ path: '/404' });
           }
         },
       },
@@ -65,4 +65,4 @@ export default [
       },
     ],
   },
-]
+];

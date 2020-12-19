@@ -34,13 +34,13 @@
 </template>
 
 <script>
-import { omit } from 'lodash'
-import { createNamespacedHelpers } from 'vuex'
-import { makeExcel } from '@/utils/excel'
-import ShowRecord from '../../components/record/ShowRecord'
-import UpdateRecord from '../../components/record/UpdateRecord'
+import { omit } from 'lodash';
+import { createNamespacedHelpers } from 'vuex';
+import { makeExcel } from '@/utils/excel';
+import ShowRecord from '../../components/record/ShowRecord';
+import UpdateRecord from '../../components/record/UpdateRecord';
 
-const { mapState } = createNamespacedHelpers('records')
+const { mapState } = createNamespacedHelpers('records');
 export default {
   name: 'StudentShowRecord',
   components: {
@@ -48,29 +48,29 @@ export default {
     UpdateRecord,
   },
   inject: ['init'],
-  data () {
+  data() {
     return {
       updateRecordVisible: false,
       curRecord: {},
-    }
+    };
   },
   computed: mapState({
     records: 'records',
   }),
   methods: {
-    onUpdate (record) {
-      this.updateRecordVisible = true
-      this.curRecord = record
+    onUpdate(record) {
+      this.updateRecordVisible = true;
+      this.curRecord = record;
     },
-    exportExcel () {
+    exportExcel() {
       makeExcel({
         records: this.records.map(item => {
-          const temp = omit(item, ['_id', 'id'])
-          temp.date = new Date(temp.date)
-          return temp
+          const temp = omit(item, ['_id', 'id']);
+          temp.date = new Date(temp.date);
+          return temp;
         }),
-      })
+      });
     },
   },
-}
+};
 </script>

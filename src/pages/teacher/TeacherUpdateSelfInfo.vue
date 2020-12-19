@@ -39,14 +39,14 @@
 </template>
 
 <script>
-import EditTeacher from '../../components/add-and-update/EditTeacher'
-import ModifyPassword from '../../components/common/UpdatePassword'
-import { UPDATE_SELF } from '../../store/types'
-import { omit } from 'lodash'
+import EditTeacher from '../../components/add-and-update/EditTeacher';
+import ModifyPassword from '../../components/common/UpdatePassword';
+import { UPDATE_SELF } from '../../store/types';
+import { omit } from 'lodash';
 export default {
   name: 'TeacherUpdateSelfInfo',
   components: { ModifyPassword, EditTeacher },
-  data () {
+  data() {
     return {
       loading: false,
       name: ['name', {
@@ -55,33 +55,33 @@ export default {
           message: '请输入管理员姓名！',
         }],
       }],
-    }
+    };
   },
   computed: {
-    user () {
-      return this.$store.state.user
+    user() {
+      return this.$store.state.user;
     },
   },
   methods: {
-    reset () {
-      this.$refs.self.reset()
+    reset() {
+      this.$refs.self.reset();
     },
-    modifyUserInfo () {
+    modifyUserInfo() {
       this.$refs.self.confirm().then(values => {
-        const user = omit(this.user, ['identity'])
-        this.loading = true
+        const user = omit(this.user, ['identity']);
+        this.loading = true;
         return this.$store.dispatch(
           UPDATE_SELF,
           Object.assign(user, values),
-        )
+        );
       }).then(() => {
-        this.$refs.self.changed = false
+        this.$refs.self.changed = false;
       }).finally(() => {
-        this.loading = false
-      })
+        this.loading = false;
+      });
     },
   },
-}
+};
 </script>
 
 <style scoped lang="stylus">

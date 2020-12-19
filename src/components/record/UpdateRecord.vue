@@ -73,8 +73,8 @@
 </template>
 
 <script>
-import { UPDATE_RECORD } from '@/store/types'
-import { mapActions } from 'vuex'
+import { UPDATE_RECORD } from '@/store/types';
+import { mapActions } from 'vuex';
 
 export default {
   name: 'UpdateRecord',
@@ -86,7 +86,7 @@ export default {
     },
   },
   emits: ['update:visible'],
-  data () {
+  data() {
     return {
       loading: false,
       reviewState: 'fulfilled',
@@ -96,81 +96,81 @@ export default {
         description: '',
         reason: '', // 若审核失败、则原因是必填的
       },
-    }
+    };
   },
   computed: {
-    identity () {
-      return this.$store.state.user.identity
+    identity() {
+      return this.$store.state.user.identity;
     },
   },
   watch: {
-    visible (isVisible) {
-      if (!isVisible) return
+    visible(isVisible) {
+      if (!isVisible) return;
       if (this.identity === 'admin') {
-        this.adminInit()
+        this.adminInit();
       } else {
         this.$nextTick(() => {
-          this.formData.score = this.record.score
-        })
+          this.formData.score = this.record.score;
+        });
       }
     },
   },
-  beforeCreate () {
-    this.rules = rules
+  beforeCreate() {
+    this.rules = rules;
   },
   methods: {
     ...mapActions('records', [UPDATE_RECORD]),
-    onCancel (e) {
-      this.$emit('update:visible', false)
+    onCancel(e) {
+      this.$emit('update:visible', false);
     },
-    adminInit () {
-      const { record } = this
-      let result = {}
+    adminInit() {
+      const { record } = this;
+      let result = {};
       if (record.state === 'rejected') {
-        this.reviewState = 'rejected' // rejected 渲染原因输入框
+        this.reviewState = 'rejected'; // rejected 渲染原因输入框
         result = {
           state: 'rejected',
           score: record.score,
           reason: record.description,
-        }
+        };
       } else {
-        this.reviewState = 'fulfilled' // fulfilled 渲染备注输入框
+        this.reviewState = 'fulfilled'; // fulfilled 渲染备注输入框
         result = {
           state: 'fulfilled', // 默认为fulfilled
           score: record.score,
           description: record.description,
-        }
+        };
       }
       this.$nextTick(() => {
-        this.formData = result
-        this.$refs.score.focus()
-      })
+        this.formData = result;
+        this.$refs.score.focus();
+      });
     },
-    changeReviewState ({ target: { value } }) {
-      this.reviewState = value
+    changeReviewState({ target: { value } }) {
+      this.reviewState = value;
     },
-    confirm () {
+    confirm() {
       this.$refs.form.validate().then(values => {
-        this.loading = true
+        this.loading = true;
         const description = values.state === 'rejected'
           ? values.reason
-          : values.description
+          : values.description;
         return this.UPDATE_RECORD({
           _id: this.record._id,
           score: values.score,
           state: values.state,
           description: description || '',
-        })
+        });
       }).then(_ => {
-        this.$emit('update:visible', false)
+        this.$emit('update:visible', false);
       }).catch(console.warn).finally(() => {
         setTimeout(() => {
-          this.loading = false
-        }, 500)
-      })
+          this.loading = false;
+        }, 500);
+      });
     },
   },
-}
+};
 
 /**
  * 定义decorator
@@ -184,7 +184,7 @@ const rules = {
     required: true,
     message: '请填写失败原因',
   }],
-}
+};
 </script>
 
 <style scoped lang="stylus"></style>

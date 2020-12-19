@@ -1,7 +1,7 @@
-import moment from 'moment'
-import { filter, filterSlots } from './columns-helper'
+import moment from 'moment';
+import { filter, filterSlots } from './columns-helper';
 
-export default function () {
+export default function() {
   return [
     {
       title: '举办时间',
@@ -81,5 +81,5 @@ export default function () {
         customRender: 'action',
       },
     },
-  ]
+  ];
 }

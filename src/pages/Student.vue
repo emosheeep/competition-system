@@ -5,9 +5,9 @@
 </template>
 
 <script>
-import GlobalLayout from '../layouts/GlobalLayout'
-import TabLayout from '../layouts/tab/TabLayout'
-import { SET_RACE_LIST, SET_RECORD_LIST, SET_USER_LIST } from '@/store/types'
+import GlobalLayout from '../layouts/GlobalLayout';
+import TabLayout from '../layouts/tab/TabLayout';
+import { SET_RACE_LIST, SET_RECORD_LIST, SET_USER_LIST } from '@/store/types';
 
 export default {
   name: 'Student',
@@ -15,23 +15,23 @@ export default {
   metaInfo: {
     title: '学生',
   },
-  provide () {
+  provide() {
     return {
       init: this.init,
-    }
+    };
   },
-  data () {
+  data() {
     return {
       loading: true,
-    }
+    };
   },
-  created () {
-    this.init()
+  created() {
+    this.init();
   },
   methods: {
-    init () {
-      this.loading = true
-      const { account } = this.$store.state.user
+    init() {
+      this.loading = true;
+      const { account } = this.$store.state.user;
       Promise.all([
         this.$store.dispatch(`races/${SET_RACE_LIST}`),
         this.$store.dispatch(`users/${SET_USER_LIST}`, 'teacher'),
@@ -39,9 +39,9 @@ export default {
           sid: account,
         }),
       ]).finally(() => {
-        this.loading = false
-      })
+        this.loading = false;
+      });
     },
   },
-}
+};
 </script>

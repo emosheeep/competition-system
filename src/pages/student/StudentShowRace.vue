@@ -33,12 +33,12 @@
 </template>
 
 <script>
-import { omit } from 'lodash'
-import { makeExcel } from '@/utils/excel'
-import { SET_RACE_LIST } from '@/store/types'
-import { mapState, mapActions } from 'vuex'
-import ShowRace from '@/components/race/ShowRace'
-import AddRecord from '@/components/record/AddRecord'
+import { omit } from 'lodash';
+import { makeExcel } from '@/utils/excel';
+import { SET_RACE_LIST } from '@/store/types';
+import { mapState, mapActions } from 'vuex';
+import ShowRace from '@/components/race/ShowRace';
+import AddRecord from '@/components/record/AddRecord';
 
 export default {
   name: 'StudentShowRace',
@@ -47,11 +47,11 @@ export default {
     AddRecord,
   },
   inject: ['init'],
-  data () {
+  data() {
     return {
       addRecordVisible: false,
       curRace: {},
-    }
+    };
   },
   computed: {
     ...mapState('races', ['races']),
@@ -60,19 +60,19 @@ export default {
     ...mapActions('races', {
       setRaceList: SET_RACE_LIST,
     }),
-    exportExcel () {
+    exportExcel() {
       makeExcel({
         races: this.races.map(item => {
-          const temp = omit(item, ['_id'])
-          temp.date = new Date(temp.date)
-          return temp
+          const temp = omit(item, ['_id']);
+          temp.date = new Date(temp.date);
+          return temp;
         }),
-      })
+      });
     },
-    onAddRecord (race) {
-      this.addRecordVisible = true
-      this.curRace = race
+    onAddRecord(race) {
+      this.addRecordVisible = true;
+      this.curRace = race;
     },
   },
-}
+};
 </script>

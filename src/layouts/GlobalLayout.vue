@@ -23,16 +23,16 @@
 </template>
 
 <script>
-import Loading from '../components/common/Loading'
-import Header from './common/Header'
-import Sidebar from './common/Sidebar'
+import Loading from '../components/common/Loading';
+import Header from './common/Header';
+import Sidebar from './common/Sidebar';
 export default {
   name: 'Layout',
   components: { Loading, Header, Sidebar },
   props: {
     loading: Boolean,
   },
-}
+};
 </script>
 
 <style lang="stylus" scoped>

@@ -83,7 +83,7 @@ import {
   EditOutlined,
   QuestionCircleOutlined,
   DeleteOutlined,
-} from '@ant-design/icons-vue'
+} from '@ant-design/icons-vue';
 
 export default {
   name: 'RecordAction',
@@ -102,12 +102,12 @@ export default {
   },
   emits: ['update-record', 'delete-record', 'detail', 'upload'],
   computed: {
-    identity () {
-      return this.$store.state.user.identity
+    identity() {
+      return this.$store.state.user.identity;
     },
-    isFulfilled () {
-      return this.record.state === 'fulfilled'
+    isFulfilled() {
+      return this.record.state === 'fulfilled';
     },
   },
-}
+};
 </script>

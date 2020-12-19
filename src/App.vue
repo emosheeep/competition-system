@@ -6,27 +6,27 @@
 </template>
 
 <script>
-import Loading from './components/common/Loading'
+import Loading from './components/common/Loading';
 export default {
   name: 'Root',
   components: { Loading },
-  provide () {
+  provide() {
     return {
       loadingStart: this.loadingStart,
       loadingEnd: this.loadingEnd,
-    }
+    };
   },
-  data () {
+  data() {
     return {
       loading: false,
-    }
+    };
   },
   methods: {
-    loadingStart () {
-      this.loading = true
+    loadingStart() {
+      this.loading = true;
     },
-    loadingEnd () {
-      this.loading = false
+    loadingEnd() {
+      this.loading = false;
     },
   },
   metaInfo: {
@@ -43,7 +43,7 @@ export default {
       },
     ],
   },
-}
+};
 </script>
 
 <style lang="stylus">

@@ -64,8 +64,8 @@
 </template>
 
 <script>
-import EditMixin from './edit-mixin'
-import { UserOutlined, LockOutlined } from '@ant-design/icons-vue'
+import EditMixin from './edit-mixin';
+import { UserOutlined, LockOutlined } from '@ant-design/icons-vue';
 
 export default {
   name: 'EditAdmin',
@@ -74,7 +74,7 @@ export default {
     LockOutlined,
   },
   mixins: [EditMixin],
-  data () {
+  data() {
     return {
       formData: {
         account: '',
@@ -82,24 +82,24 @@ export default {
         name: '',
         power: 'admin',
       },
-    }
+    };
   },
-  beforeMount () {
-    this.rules = rules
+  beforeMount() {
+    this.rules = rules;
   },
   methods: {
-    initData () {
-      const { data, type } = this
+    initData() {
+      const { data, type } = this;
       const result = {
         name: data.name,
-      }
+      };
       if (type !== 'self') {
-        result.account = data.account
+        result.account = data.account;
       }
-      this.formData = result
+      this.formData = result;
     },
   },
-}
+};
 
 /**
  * 定义decorator
@@ -121,5 +121,5 @@ const rules = {
     required: true,
     message: '设置管理员权限！',
   }],
-}
+};
 </script>

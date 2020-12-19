@@ -22,9 +22,9 @@
 </template>
 
 <script>
-import { getRaceList, getRecordList } from '@/api'
-import Detail from './Detail'
-import Loading from '../common/Loading'
+import { getRaceList, getRecordList } from '@/api';
+import Detail from './Detail';
+import Loading from '../common/Loading';
 
 export default {
   name: 'RaceDetail',
@@ -38,8 +38,8 @@ export default {
     type: {
       type: String,
       required: true,
-      validator (value) {
-        return ['admin', 'teacher'].includes(value)
+      validator(value) {
+        return ['admin', 'teacher'].includes(value);
       },
     },
     visible: {
@@ -48,26 +48,26 @@ export default {
     },
   },
   emits: ['update:visible'],
-  data () {
+  data() {
     return {
       loading: false,
       race: {},
       records: [],
-    }
+    };
   },
   watch: {
-    visible (isVisible) {
+    visible(isVisible) {
       if (isVisible) {
-        this.init()
+        this.init();
       }
     },
   },
   methods: {
-    init () {
-      if (this.loading) return
-      this.loading = true
-      const { id } = this
-      const { account } = this.$store.state.user
+    init() {
+      if (this.loading) return;
+      this.loading = true;
+      const { id } = this;
+      const { account } = this.$store.state.user;
       Promise.all([
         getRaceList({ _id: id }),
         this.type === 'teacher'
@@ -77,12 +77,12 @@ export default {
         { data: races },
         { data: records },
       ]) => {
-        this.race = races[0]
-        this.records = records
+        this.race = races[0];
+        this.records = records;
       }).finally(() => {
-        this.loading = false
-      })
+        this.loading = false;
+      });
     },
   },
-}
+};
 </script>

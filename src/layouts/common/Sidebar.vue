@@ -95,7 +95,7 @@ import {
   ProjectOutlined,
   SolutionOutlined,
   TeamOutlined,
-} from '@ant-design/icons-vue'
+} from '@ant-design/icons-vue';
 
 export default {
   name: 'Sidebar',
@@ -107,34 +107,34 @@ export default {
     SolutionOutlined,
     TeamOutlined,
   },
-  data () {
+  data() {
     return {
       keys: [],
-    }
+    };
   },
   computed: {
-    user () {
-      return this.$store.state.user
+    user() {
+      return this.$store.state.user;
     },
   },
   watch: {
     $route: {
-      handler (to) {
-        this.keys[0] = to.path
+      handler(to) {
+        this.keys[0] = to.path;
       },
       immediate: true,
     },
   },
   methods: {
-    handleClick ({ key: path }) {
-      this.$router.push(path).catch(e => e)
+    handleClick({ key: path }) {
+      this.$router.push(path).catch(e => e);
     },
-    goHome () {
-      const { identity } = this.user
-      this.$router.replace(`/${identity}`).catch(e => e)
+    goHome() {
+      const { identity } = this.user;
+      this.$router.replace(`/${identity}`).catch(e => e);
     },
   },
-}
+};
 </script>
 
 <style scoped lang="stylus">

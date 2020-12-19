@@ -96,13 +96,13 @@
 </template>
 
 <script>
-import moment from 'moment'
-import EditMixin from './edit-mixin'
+import moment from 'moment';
+import EditMixin from './edit-mixin';
 
 export default {
   name: 'EditRace',
   mixins: [EditMixin],
-  data () {
+  data() {
     return {
       formData: {
         title: '',
@@ -113,18 +113,18 @@ export default {
         type: '',
         description: '',
       },
-    }
+    };
   },
-  beforeMount () {
-    this.rules = rules
+  beforeMount() {
+    this.rules = rules;
   },
   methods: {
-    disableDate (cur) {
-      const yesterday = moment().startOf('day')
-      return cur.isSameOrBefore(yesterday)
+    disableDate(cur) {
+      const yesterday = moment().startOf('day');
+      return cur.isSameOrBefore(yesterday);
     },
-    initData () {
-      const { data } = this
+    initData() {
+      const { data } = this;
       // 挨个字段对应是为了移除不必要的、可能存在的_id字段
       this.formData = {
         title: data.title,
@@ -134,10 +134,10 @@ export default {
         level: data.level,
         type: data.type,
         description: data.description,
-      }
+      };
     },
   },
-}
+};
 
 const rules = {
   title: [{
@@ -160,7 +160,7 @@ const rules = {
     required: true,
     message: '请选择赛事类别！',
   }],
-}
+};
 </script>
 
 <style scoped>

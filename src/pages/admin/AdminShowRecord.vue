@@ -60,13 +60,13 @@
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex'
-import { omit } from 'lodash'
-import { QuestionCircleOutlined } from '@ant-design/icons-vue'
-import { makeExcel } from '@/utils/excel'
-import ShowRecord from '@/components/record/ShowRecord'
-import UpdateRecord from '@/components/record/UpdateRecord'
-import { DELETE_RECORD } from '@/store/types'
+import { mapState, mapActions } from 'vuex';
+import { omit } from 'lodash';
+import { QuestionCircleOutlined } from '@ant-design/icons-vue';
+import { makeExcel } from '@/utils/excel';
+import ShowRecord from '@/components/record/ShowRecord';
+import UpdateRecord from '@/components/record/UpdateRecord';
+import { DELETE_RECORD } from '@/store/types';
 
 export default {
   name: 'AdminShowRecord',
@@ -76,34 +76,34 @@ export default {
     QuestionCircleOutlined,
   },
   inject: ['init'],
-  data () {
+  data() {
     return {
       updateRecordVisible: false,
       isMultiple: false,
       curRecord: {},
-    }
+    };
   },
   computed: mapState('records', ['records']),
   methods: {
     ...mapActions('records', [DELETE_RECORD]),
-    onDelete (data) {
+    onDelete(data) {
       this.DELETE_RECORD(data).finally(() => {
-        this.isMultiple = false
-      })
+        this.isMultiple = false;
+      });
     },
-    onUpdate (record) {
-      this.curRecord = record
-      this.updateRecordVisible = true
+    onUpdate(record) {
+      this.curRecord = record;
+      this.updateRecordVisible = true;
     },
-    exportExcel () {
+    exportExcel() {
       makeExcel({
         records: this.records.map(item => {
-          const temp = omit(item, ['_id', 'id'])
-          temp.date = new Date(temp.date)
-          return temp
+          const temp = omit(item, ['_id', 'id']);
+          temp.date = new Date(temp.date);
+          return temp;
         }),
-      })
+      });
     },
   },
-}
+};
 </script>

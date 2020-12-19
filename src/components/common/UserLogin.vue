@@ -66,9 +66,9 @@
 </template>
 
 <script>
-import { UserOutlined, LockOutlined } from '@ant-design/icons-vue'
-import { LOGIN } from '@/store/types'
-import Loading from './Loading'
+import { UserOutlined, LockOutlined } from '@ant-design/icons-vue';
+import { LOGIN } from '@/store/types';
+import Loading from './Loading';
 
 export default {
   name: 'Login',
@@ -77,7 +77,7 @@ export default {
     UserOutlined,
     LockOutlined,
   },
-  data () {
+  data() {
     return {
       loading: false,
       formData: {
@@ -85,23 +85,23 @@ export default {
         password: '',
         identity: 'student',
       },
-    }
+    };
   },
-  beforeMount () {
-    this.rules = rules
+  beforeMount() {
+    this.rules = rules;
   },
   methods: {
-    onFinish (values) {
-      this.loading = true
+    onFinish(values) {
+      this.loading = true;
       this.$store.dispatch(LOGIN, values).then(data => {
-        const { user } = data
-        return this.$router.replace({ path: user.identity })
+        const { user } = data;
+        return this.$router.replace({ path: user.identity });
       }).finally(() => {
-        this.loading = false
-      })
+        this.loading = false;
+      });
     },
   },
-}
+};
 
 const rules = {
   account: [{
@@ -112,7 +112,7 @@ const rules = {
     required: true,
     message: '请输入密码！',
   }],
-}
+};
 </script>
 
 <style scoped lang="stylus">

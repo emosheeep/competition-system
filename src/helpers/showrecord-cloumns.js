@@ -1,24 +1,24 @@
-import { dropRight } from 'lodash'
-import { filter, filterSlots } from './columns-helper'
-import moment from 'moment'
+import { dropRight } from 'lodash';
+import { filter, filterSlots } from './columns-helper';
+import moment from 'moment';
 
-export default function (type) {
+export default function(type) {
   if (type === 'admin') {
-    return allColumns
+    return allColumns;
   } else if (type === 'teacher') {
     return allColumns.filter(item => {
-      return item.dataIndex !== 'tid' && item.dataIndex !== 'tname'
-    })
+      return item.dataIndex !== 'tid' && item.dataIndex !== 'tname';
+    });
   } else if (type === 'student') {
     return allColumns.filter(item => {
-      return item.dataIndex !== 'sid' && item.dataIndex !== 'sname'
-    })
+      return item.dataIndex !== 'sid' && item.dataIndex !== 'sname';
+    });
   } else if (type === 'readonly') {
-    return dropRight(allColumns) // 去掉action
+    return dropRight(allColumns); // 去掉action
   }
   throw new Error(
     "type must be one of ['admin', 'student', 'teacher', 'readonly']",
-  )
+  );
 }
 
 const allColumns = [
@@ -83,4 +83,4 @@ const allColumns = [
       customRender: 'action',
     },
   },
-]
+];

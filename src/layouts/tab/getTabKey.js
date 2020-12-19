@@ -4,9 +4,9 @@
  * @param{HTMLElement} target event.target
  * @param depth 深度
  */
-export default function getTabKey (target, depth = 0) {
+export default function getTabKey(target, depth = 0) {
   if (depth > 2 || !target) {
-    return null
+    return null;
   }
-  return target.dataset.key || getTabKey(target.firstElementChild, ++depth)
+  return target.dataset.key || getTabKey(target.firstElementChild, ++depth);
 }

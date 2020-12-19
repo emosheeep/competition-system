@@ -32,8 +32,8 @@
 </template>
 
 <script>
-import moment from 'moment'
-import ShowRecord from '../record/ShowRecord'
+import moment from 'moment';
+import ShowRecord from '../record/ShowRecord';
 
 export default {
   name: 'Detail',
@@ -49,9 +49,9 @@ export default {
     },
   },
   methods: {
-    formatDate (date) {
-      return moment(date).format('YYYY-MM-DD')
+    formatDate(date) {
+      return moment(date).format('YYYY-MM-DD');
     },
   },
-}
+};
 </script>

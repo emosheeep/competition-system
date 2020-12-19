@@ -18,10 +18,10 @@
 </template>
 
 <script>
-import EditRace from '../add-and-update/EditRace'
-import { ADD_RACE } from '../../store/types'
-import { createNamespacedHelpers } from 'vuex'
-const { mapActions } = createNamespacedHelpers('races')
+import EditRace from '../add-and-update/EditRace';
+import { ADD_RACE } from '../../store/types';
+import { createNamespacedHelpers } from 'vuex';
+const { mapActions } = createNamespacedHelpers('races');
 export default {
   name: 'AddRace',
   components: { EditRace },
@@ -29,31 +29,31 @@ export default {
     visible: Boolean,
   },
   emits: ['update:visible'],
-  data () {
+  data() {
     return {
       loading: false,
-    }
+    };
   },
   methods: {
     ...mapActions({
       addRace: ADD_RACE,
     }),
-    onOk (e) {
+    onOk(e) {
       this.$refs.addUser.confirm().then(values => {
-        this.loading = true
-        values.date = values.date.valueOf() // 将组件默认的moment对象转换为时间戳
-        return this.addRace(values)
+        this.loading = true;
+        values.date = values.date.valueOf(); // 将组件默认的moment对象转换为时间戳
+        return this.addRace(values);
       }).then(_ => {
-        this.$emit('update:visible', false)
+        this.$emit('update:visible', false);
       }).catch(e => e).finally(() => {
         setTimeout(() => {
-          this.loading = false
-        }, 500)
-      })
+          this.loading = false;
+        }, 500);
+      });
     },
-    onCancel (e) {
-      this.$emit('update:visible', false)
+    onCancel(e) {
+      this.$emit('update:visible', false);
     },
   },
-}
+};
 </script>

@@ -20,10 +20,10 @@
 </template>
 
 <script>
-import { createNamespacedHelpers } from 'vuex'
-import { UPDATE_USER } from '@/store/types'
-import EditAdmin from '../add-and-update/EditAdmin'
-const { mapActions } = createNamespacedHelpers('users')
+import { createNamespacedHelpers } from 'vuex';
+import { UPDATE_USER } from '@/store/types';
+import EditAdmin from '../add-and-update/EditAdmin';
+const { mapActions } = createNamespacedHelpers('users');
 export default {
   name: 'UpdateAdmin',
   components: { EditAdmin },
@@ -35,33 +35,33 @@ export default {
     },
   },
   emits: ['update:visible'],
-  data () {
+  data() {
     return {
       loading: false,
-    }
+    };
   },
   methods: {
     ...mapActions({
       updateUser: UPDATE_USER,
     }),
-    onCancel () {
-      !this.loading && this.$emit('update:visible', false)
+    onCancel() {
+      !this.loading && this.$emit('update:visible', false);
     },
-    onOk () {
+    onOk() {
       this.$refs.admin.confirm().then(values => {
-        this.loading = true
+        this.loading = true;
         return this.updateUser({
           type: 'admin',
           data: values,
-        })
+        });
       }).then(res => {
-        this.$emit('update:visible', false)
+        this.$emit('update:visible', false);
       }).catch(console.warn).finally(() => {
         setTimeout(() => {
-          this.loading = false
-        }, 500)
-      })
+          this.loading = false;
+        }, 500);
+      });
     },
   },
-}
+};
 </script>

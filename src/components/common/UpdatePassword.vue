@@ -65,14 +65,14 @@
 </template>
 
 <script>
-import { message } from 'ant-design-vue'
-import { LockOutlined } from '@ant-design/icons-vue'
-import { updatePassword } from '@/api'
+import { message } from 'ant-design-vue';
+import { LockOutlined } from '@ant-design/icons-vue';
+import { updatePassword } from '@/api';
 
 export default {
   name: 'UpdatePassword',
   components: { LockOutlined },
-  data () {
+  data() {
     return {
       loading: false,
       formData: {
@@ -80,68 +80,68 @@ export default {
         newPass: '',
         reNewPass: '',
       },
-    }
+    };
   },
   computed: {
-    user () {
-      return this.$store.state.user
+    user() {
+      return this.$store.state.user;
     },
   },
-  beforeCreate () {
-    this.rules = createRules.call(this)
+  beforeCreate() {
+    this.rules = createRules.call(this);
   },
   methods: {
-    reset () {
-      this.$refs.form.resetFields()
+    reset() {
+      this.$refs.form.resetFields();
     },
-    modifyPassword () {
-      let stopLoading
-      const key = Date.now()
+    modifyPassword() {
+      let stopLoading;
+      const key = Date.now();
       const options = {
         key,
         content: '请稍后',
         duration: 0,
-      }
+      };
       this.$refs.form.validate().then(values => {
-        this.loading = true
-        stopLoading = message.loading(options)
+        this.loading = true;
+        stopLoading = message.loading(options);
         return updatePassword({
           account: this.user.account,
           identity: this.user.identity,
           oldVal: values.password,
           newVal: values.newPass,
-        })
+        });
       }).then(res => {
-        const { code, msg } = res.data
+        const { code, msg } = res.data;
         if (code === 0) {
-          message.success({ content: '修改成功', key })
-          this.reset()
+          message.success({ content: '修改成功', key });
+          this.reset();
         } else {
-          message.warn({ content: msg, key })
+          message.warn({ content: msg, key });
         }
       }).catch(() => {
-        stopLoading && stopLoading()
+        stopLoading && stopLoading();
       }).finally(() => {
-        this.loading = false
-      })
+        this.loading = false;
+      });
     },
   },
-}
+};
 
-function createRules () {
+function createRules() {
   return {
     password: [{ required: true, message: '请输入密码！' }],
     newPass: [
       {
         required: true,
         validator: (rule, value) => {
-          const oldPass = this.formData.password
+          const oldPass = this.formData.password;
           if (!oldPass) {
-            return Promise.reject('请输入新密码！')
+            return Promise.reject('请输入新密码！');
           } else if (value === oldPass) {
-            return Promise.reject('新密码不能与原密码相同！')
+            return Promise.reject('新密码不能与原密码相同！');
           } else {
-            return Promise.resolve()
+            return Promise.resolve();
           }
         },
       },
@@ -149,17 +149,17 @@ function createRules () {
     reNewPass: [{
       required: true,
       validator: (rule, value) => {
-        const { newPass } = this.formData
+        const { newPass } = this.formData;
         if (!value) {
-          return Promise.reject('请确认新密码！')
+          return Promise.reject('请确认新密码！');
         } else if (value !== newPass) {
-          return Promise.reject('两次密码不一致')
+          return Promise.reject('两次密码不一致');
         } else {
-          return Promise.resolve()
+          return Promise.resolve();
         }
       },
     }],
-  }
+  };
 }
 </script>
 

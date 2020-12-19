@@ -82,8 +82,8 @@
 </template>
 
 <script>
-import EditMixin from './edit-mixin'
-import { UserOutlined, LockOutlined } from '@ant-design/icons-vue'
+import EditMixin from './edit-mixin';
+import { UserOutlined, LockOutlined } from '@ant-design/icons-vue';
 
 export default {
   name: 'EditTeacher',
@@ -92,7 +92,7 @@ export default {
     LockOutlined,
   },
   mixins: [EditMixin],
-  data () {
+  data() {
     return {
       formData: {
         account: '',
@@ -101,27 +101,27 @@ export default {
         rank: '讲师',
         description: '',
       },
-    }
+    };
   },
-  beforeMount () {
-    this.rules = rules
+  beforeMount() {
+    this.rules = rules;
   },
   methods: {
-    initData () {
-      const { data, type } = this
+    initData() {
+      const { data, type } = this;
       const result = {
         name: data.name,
         rank: data.rank,
         classname: data.classname,
         description: data.description,
-      }
+      };
       if (type !== 'self') {
-        result.account = data.account
+        result.account = data.account;
       }
-      this.formData = result
+      this.formData = result;
     },
   },
-}
+};
 
 const rules = {
   account: [{
@@ -136,5 +136,5 @@ const rules = {
     required: true,
     message: '请输入姓名！',
   }],
-}
+};
 </script>

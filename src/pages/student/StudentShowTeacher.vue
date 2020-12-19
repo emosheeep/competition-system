@@ -57,36 +57,36 @@ export default {
   inject: {
     init: 'init',
   },
-  data () {
+  data() {
     return {
       isSearching: false,
       result: [],
-    }
+    };
   },
   computed: {
-    teachers () {
+    teachers() {
       if (this.isSearching) {
-        return this.result
+        return this.result;
       }
-      return this.$store.state.users.teachers
+      return this.$store.state.users.teachers;
     },
   },
   methods: {
-    onSearch (key) {
-      const { teachers } = this.$store.state.users
+    onSearch(key) {
+      const { teachers } = this.$store.state.users;
       this.result = teachers.filter(item => {
-        return item.name.includes(key) || item.account.includes(key)
-      })
-      this.isSearching = true
+        return item.name.includes(key) || item.account.includes(key);
+      });
+      this.isSearching = true;
     },
-    onChange ({ target: { value } }) {
+    onChange({ target: { value } }) {
       if (value === '') {
-        this.result.splice(0)
-        this.isSearching = false
+        this.result.splice(0);
+        this.isSearching = false;
       }
     },
   },
-}
+};
 </script>
 
 <style scoped lang="stylus">
