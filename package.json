@@ -11,7 +11,7 @@
   "dependencies": {
     "animate.css": "^4.1.1",
     "ant-design-vue": "^2.0.0-rc.5",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "core-js": "^3.8.1",
     "file-saver": "^2.0.5",
     "lodash": "^4.17.20",
