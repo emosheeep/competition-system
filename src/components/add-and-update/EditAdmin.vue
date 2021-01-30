@@ -62,27 +62,27 @@
 </template>
 
 <script>
-import EditMixin from './edit-mixin'
+import EditMixin from './edit-mixin';
 
 export default {
   name: 'EditAdmin',
   mixins: [EditMixin],
-  beforeMount () {
-    this.decorator = decorator
+  beforeMount() {
+    this.decorator = decorator;
   },
   methods: {
-    initData () {
-      const { data, type } = this
+    initData() {
+      const { data, type } = this;
       const result = {
-        name: data.name
-      }
+        name: data.name,
+      };
       if (type !== 'self') {
-        result.account = data.account
+        result.account = data.account;
       }
-      this.form.setFieldsValue(result)
-    }
-  }
-}
+      this.form.setFieldsValue(result);
+    },
+  },
+};
 
 /**
  * 定义decorator
@@ -91,27 +91,27 @@ const decorator = {
   account: ['account', {
     rules: [{
       required: true,
-      message: '请输入账号！'
-    }]
+      message: '请输入账号！',
+    }],
   }],
   password: ['password', {
     rules: [{
       required: true,
-      message: '请输入密码！'
-    }]
+      message: '请输入密码！',
+    }],
   }],
   name: ['name', {
     rules: [{
       required: true,
-      message: '请输入管理员姓名！'
-    }]
+      message: '请输入管理员姓名！',
+    }],
   }],
   power: ['power', {
     initialValue: 'admin',
     rules: [{
       required: true,
-      message: '设置管理员权限！'
-    }]
-  }]
-}
+      message: '设置管理员权限！',
+    }],
+  }],
+};
 </script>

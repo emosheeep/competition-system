@@ -43,43 +43,43 @@
 </template>
 
 <script>
-import { ADD_RECORD } from '../../store/mutation-types'
+import { ADD_RECORD } from '../../store/mutation-types';
 export default {
   name: 'AddRecord',
   props: {
     visible: Boolean,
     race: {
       type: Object,
-      required: true
-    }
+      required: true,
+    },
   },
-  data () {
+  data() {
     return {
-      loading: false
-    }
+      loading: false,
+    };
   },
   computed: {
-    user () {
-      return this.$store.state.user
+    user() {
+      return this.$store.state.user;
     },
-    teachers () {
-      return this.$store.state.users.teachers
-    }
+    teachers() {
+      return this.$store.state.users.teachers;
+    },
   },
-  beforeCreate () {
-    this.form = this.$form.createForm(this, { name: 'add-record' })
-    this.decorator = decorator
+  beforeCreate() {
+    this.form = this.$form.createForm(this, { name: 'add-record' });
+    this.decorator = decorator;
   },
   methods: {
-    onCancel () {
-      this.$emit('update:visible', false)
+    onCancel() {
+      this.$emit('update:visible', false);
     },
-    onOk () {
+    onOk() {
       this.form.validateFields().then(values => {
-        let teacher = {}
+        let teacher = {};
         if (values.teacher) {
-          const [tid, tname] = values.teacher.split('-')
-          teacher = { tid, tname }
+          const [tid, tname] = values.teacher.split('-');
+          teacher = { tid, tname };
         }
         const result = {
           id: this.race._id, // record的id为race的_id
@@ -88,30 +88,30 @@ export default {
           sid: this.user.account, // 当前登录用户
           sname: this.user.name,
           score: values.score,
-          ...teacher
-        }
+          ...teacher,
+        };
         this.$store.dispatch(
           `records/${ADD_RECORD}`,
-          result
+          result,
         ).then(_ => {
-          this.onCancel()
+          this.onCancel();
         }).catch(e => e).finally(() => {
-          this.loading = false
-        })
-      })
-    }
-  }
-}
+          this.loading = false;
+        });
+      });
+    },
+  },
+};
 
 const decorator = {
   teacher: ['teacher'],
   score: ['score', {
     rules: [{
       required: true,
-      message: '请输入比赛成绩'
-    }]
-  }]
-}
+      message: '请输入比赛成绩',
+    }],
+  }],
+};
 </script>
 
 <style scoped>

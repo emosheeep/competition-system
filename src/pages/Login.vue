@@ -5,14 +5,14 @@
 </template>
 
 <script>
-import UserLogin from '../components/common/UserLogin'
+import UserLogin from '../components/common/UserLogin';
 export default {
   name: 'Login',
   components: { UserLogin },
   metaInfo: {
-    title: '登录'
-  }
-}
+    title: '登录',
+  },
+};
 </script>
 
 <style scoped lang="stylus">

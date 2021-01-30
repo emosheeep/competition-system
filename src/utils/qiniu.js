@@ -1,8 +1,8 @@
-import * as qiniu from 'qiniu-js'
+import * as qiniu from 'qiniu-js';
 
 const config = {
-  region: qiniu.region.z2
-}
+  region: qiniu.region.z2,
+};
 /**
  * 表单上传文件
  * @param name 文件名
@@ -10,6 +10,6 @@ const config = {
  * @param token 鉴权token
  * @returns {object}
  */
-export const uploader = function (name, file, token) {
-  return qiniu.upload(file, name, token, null, config)
-}
+export const uploader = function(name, file, token) {
+  return qiniu.upload(file, name, token, null, config);
+};

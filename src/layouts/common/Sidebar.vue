@@ -90,34 +90,34 @@
 <script>
 export default {
   name: 'Sidebar',
-  data () {
+  data() {
     return {
-      keys: []
-    }
+      keys: [],
+    };
   },
   computed: {
-    user () {
-      return this.$store.state.user
-    }
+    user() {
+      return this.$store.state.user;
+    },
   },
   watch: {
     $route: {
-      handler (to) {
-        this.$set(this.keys, 0, to.path)
+      handler(to) {
+        this.$set(this.keys, 0, to.path);
       },
-      immediate: true
-    }
+      immediate: true,
+    },
   },
   methods: {
-    handleClick ({ key: path }) {
-      this.$router.push(path).catch(e => e)
+    handleClick({ key: path }) {
+      this.$router.push(path).catch(e => e);
     },
-    goHome () {
-      const { identity } = this.user
-      this.$router.replace(`/${identity}`).catch(e => e)
-    }
-  }
-}
+    goHome() {
+      const { identity } = this.user;
+      this.$router.replace(`/${identity}`).catch(e => e);
+    },
+  },
+};
 </script>
 
 <style scoped lang="stylus">

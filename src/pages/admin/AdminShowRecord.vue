@@ -63,52 +63,52 @@
 </template>
 
 <script>
-import { createNamespacedHelpers } from 'vuex'
-import { omit } from 'lodash'
-import { makeExcel } from '../../utils/excel'
-import ShowRecord from '../../components/record/ShowRecord'
-import UpdateRecord from '../../components/record/UpdateRecord'
-import { DELETE_RECORD } from '../../store/mutation-types'
-const { mapState, mapActions } = createNamespacedHelpers('records')
+import { createNamespacedHelpers } from 'vuex';
+import { omit } from 'lodash';
+import { makeExcel } from '../../utils/excel';
+import ShowRecord from '../../components/record/ShowRecord';
+import UpdateRecord from '../../components/record/UpdateRecord';
+import { DELETE_RECORD } from '../../store/mutation-types';
+const { mapState, mapActions } = createNamespacedHelpers('records');
 export default {
   name: 'AdminShowRecord',
   components: {
     ShowRecord,
-    UpdateRecord
+    UpdateRecord,
   },
   inject: ['init'],
-  data () {
+  data() {
     return {
       updateRecordVisible: false,
       isMultiple: false,
-      curRecord: {}
-    }
+      curRecord: {},
+    };
   },
   computed: mapState({
-    records: 'records'
+    records: 'records',
   }),
   methods: {
     ...mapActions([DELETE_RECORD]),
-    onDelete (data) {
+    onDelete(data) {
       this.DELETE_RECORD(data).finally(() => {
-        this.isMultiple = false
-      })
+        this.isMultiple = false;
+      });
     },
-    onUpdate (record) {
-      this.curRecord = record
-      this.updateRecordVisible = true
+    onUpdate(record) {
+      this.curRecord = record;
+      this.updateRecordVisible = true;
     },
-    exportExcel () {
+    exportExcel() {
       makeExcel({
         records: this.records.map(item => {
-          const temp = omit(item, ['_id', 'id'])
-          temp.date = new Date(temp.date)
-          return temp
-        })
-      })
-    }
-  }
-}
+          const temp = omit(item, ['_id', 'id']);
+          temp.date = new Date(temp.date);
+          return temp;
+        }),
+      });
+    },
+  },
+};
 </script>
 
 <style scoped>

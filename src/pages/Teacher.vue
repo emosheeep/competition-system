@@ -5,47 +5,47 @@
 </template>
 
 <script>
-import GlobalLayout from '../layouts/GlobalLayout'
-import TabLayout from '../layouts/TabLayout'
+import GlobalLayout from '../layouts/GlobalLayout';
+import TabLayout from '../layouts/TabLayout';
 import {
   SET_RACE_LIST,
-  SET_RECORD_LIST
-} from '../store/mutation-types'
+  SET_RECORD_LIST,
+} from '../store/mutation-types';
 
 export default {
   name: 'Teacher',
   components: { GlobalLayout, TabLayout },
   metaInfo: {
-    title: '教师'
+    title: '教师',
   },
-  provide () {
+  provide() {
     return {
-      init: this.init
-    }
+      init: this.init,
+    };
   },
-  data () {
+  data() {
     return {
-      loading: true
-    }
+      loading: true,
+    };
   },
-  created () {
-    this.init()
+  created() {
+    this.init();
   },
   methods: {
-    init () {
-      this.loading = true
-      const { account } = this.$store.state.user
+    init() {
+      this.loading = true;
+      const { account } = this.$store.state.user;
       Promise.all([
         this.$store.dispatch(`races/${SET_RACE_LIST}`),
         this.$store.dispatch(`records/${SET_RECORD_LIST}`, {
-          tid: account
-        })
+          tid: account,
+        }),
       ]).finally(() => {
-        this.loading = false
-      })
-    }
-  }
-}
+        this.loading = false;
+      });
+    },
+  },
+};
 </script>
 
 <style lang="stylus" scoped>

@@ -63,111 +63,111 @@
 </template>
 
 <script>
-import { message } from 'ant-design-vue'
-import { UPDATE_RECORD } from '../../store/mutation-types'
-import { createNamespacedHelpers } from 'vuex'
-const { mapActions } = createNamespacedHelpers('records')
+import { message } from 'ant-design-vue';
+import { UPDATE_RECORD } from '../../store/mutation-types';
+import { createNamespacedHelpers } from 'vuex';
+const { mapActions } = createNamespacedHelpers('records');
 export default {
   name: 'UpdateRecord',
   props: {
     visible: Boolean,
     record: {
       type: Object,
-      required: true
-    }
+      required: true,
+    },
   },
-  data () {
+  data() {
     return {
       loading: false,
       reviewState: 'fulfilled',
-      changed: false
-    }
+      changed: false,
+    };
   },
   computed: {
-    identity () {
-      return this.$store.state.user.identity
-    }
+    identity() {
+      return this.$store.state.user.identity;
+    },
   },
   watch: {
-    visible (isVisible) {
-      if (!isVisible) return
+    visible(isVisible) {
+      if (!isVisible) return;
       if (this.identity === 'admin') {
-        this.adminInit()
+        this.adminInit();
       } else {
         this.$nextTick(() => {
           this.form.setFieldsValue({
-            score: this.record.score
-          })
-          this.changed = false
-        })
+            score: this.record.score,
+          });
+          this.changed = false;
+        });
       }
-    }
+    },
   },
-  beforeCreate () {
+  beforeCreate() {
     this.form = this.$form.createForm(this, {
-      onValuesChange: _ => { this.changed = true }
-    })
-    this.decorator = decorator
+      onValuesChange: _ => { this.changed = true; },
+    });
+    this.decorator = decorator;
   },
   methods: {
     ...mapActions([UPDATE_RECORD]),
-    onCancel (e) {
-      this.$emit('update:visible', false)
+    onCancel(e) {
+      this.$emit('update:visible', false);
     },
-    adminInit () {
-      const { record } = this
-      let result = {}
+    adminInit() {
+      const { record } = this;
+      let result = {};
       if (record.state === 'rejected') {
         // 渲染原因输入框
-        this.reviewState = 'rejected'
+        this.reviewState = 'rejected';
         result = {
           state: 'rejected',
           score: record.score,
-          reason: record.description
-        }
+          reason: record.description,
+        };
       } else {
         // 渲染备注输入框
-        this.reviewState = 'fulfilled'
+        this.reviewState = 'fulfilled';
         result = {
           state: 'fulfilled', // 默认为fulfilled
           score: record.score,
-          description: record.description
-        }
+          description: record.description,
+        };
       }
       this.$nextTick(() => {
-        this.form.setFieldsValue(result)
-        this.$refs.score.focus()
-        this.changed = false
-      })
+        this.form.setFieldsValue(result);
+        this.$refs.score.focus();
+        this.changed = false;
+      });
     },
-    changeReviewState ({ target: { value } }) {
-      this.reviewState = value
+    changeReviewState({ target: { value } }) {
+      this.reviewState = value;
     },
-    confirm () {
+    confirm() {
       if (!this.changed) {
-        return message.info('未检测到数据变动')
+        return message.info('未检测到数据变动');
       }
       this.form.validateFields().then(values => {
-        this.loading = true
+        this.loading = true;
         const description = values.state === 'rejected'
           ? values.reason
-          : values.description
+          : values.description;
         return this.UPDATE_RECORD({
           _id: this.record._id,
           score: values.score,
           state: values.state,
-          description
-        })
+          description,
+        });
       }).then(_ => {
-        this.$emit('update:visible', false)
+        this.$emit('update:visible', false);
       }).catch(console.warn).finally(() => {
         setTimeout(() => {
-          this.loading = false
-        }, 500)
-      })
-    }
-  }
-}
+          this.loading = false;
+        }, 500);
+      });
+    },
+  },
+};
 
 /**
  * 定义decorator
@@ -177,18 +177,18 @@ const decorator = {
   score: ['score', {
     rules: [{
       required: true,
-      message: '请填写成绩'
-    }]
+      message: '请填写成绩',
+    }],
   }],
   description: ['description'],
   // 审核失败、原因是必填的
   reason: ['reason', {
     rules: [{
       required: true,
-      message: '请填写失败原因'
-    }]
-  }]
-}
+      message: '请填写失败原因',
+    }],
+  }],
+};
 </script>
 
 <style scoped lang="stylus"></style>

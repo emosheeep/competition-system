@@ -78,12 +78,12 @@
 </template>
 
 <script>
-import TableSearch from '../common/TableSearch'
-import Upload from '../../components/common/Upload'
-import ShowRecordAction from './ShowRecordAction'
-import ShowRecordDetail from './ShowRecordDetail'
-import createColumns from '../../helpers/showrecord-cloumns'
-import MultipleDelete from '../../helpers/multiple-delete-mixin'
+import TableSearch from '../common/TableSearch';
+import Upload from '../../components/common/Upload';
+import ShowRecordAction from './ShowRecordAction';
+import ShowRecordDetail from './ShowRecordDetail';
+import createColumns from '../../helpers/showrecord-cloumns';
+import MultipleDelete from '../../helpers/multiple-delete-mixin';
 
 export default {
   name: 'ShowRecord',
@@ -91,58 +91,58 @@ export default {
     Upload,
     TableSearch,
     ShowRecordAction,
-    ShowRecordDetail
+    ShowRecordDetail,
   },
   mixins: [MultipleDelete],
   props: {
     data: {
       type: Array,
-      required: true
+      required: true,
     },
     rowKey: {
       type: String,
-      default: '_id'
+      default: '_id',
     },
     type: {
       type: String,
       default: 'readonly',
-      validator (value) {
-        return ['student', 'admin', 'teacher', 'readonly'].includes(value)
-      }
-    }
+      validator(value) {
+        return ['student', 'admin', 'teacher', 'readonly'].includes(value);
+      },
+    },
   },
-  data () {
+  data() {
     return {
       uploadVisible: false,
       recordDetailVisible: false,
-      curRecord: {}
-    }
+      curRecord: {},
+    };
   },
-  beforeMount () {
-    this.columns = createColumns(this.type)
+  beforeMount() {
+    this.columns = createColumns(this.type);
   },
   methods: {
-    onDelete (record) {
+    onDelete(record) {
       if (!this.multiple) {
-        this.$emit('delete-record', [record._id])
+        this.$emit('delete-record', [record._id]);
       }
     },
-    multipleDelete () {
-      this.$emit('delete-record', [...this.selectedKeys])
+    multipleDelete() {
+      this.$emit('delete-record', [...this.selectedKeys]);
     },
-    onEdit (record) {
-      this.$emit('update-record', record)
+    onEdit(record) {
+      this.$emit('update-record', record);
     },
-    onUpload (record) {
-      this.uploadVisible = true
-      this.curRecord = record
+    onUpload(record) {
+      this.uploadVisible = true;
+      this.curRecord = record;
     },
-    onDetail (record) {
-      this.curRecord = record
-      this.recordDetailVisible = true
-    }
-  }
-}
+    onDetail(record) {
+      this.curRecord = record;
+      this.recordDetailVisible = true;
+    },
+  },
+};
 </script>
 
 <style scoped lang="stylus">

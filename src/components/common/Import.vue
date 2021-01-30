@@ -38,103 +38,103 @@
 </template>
 
 <script>
-import { uniqBy } from 'lodash'
-import { message, Modal } from 'ant-design-vue'
-import { readExcel } from '../../utils/excel'
+import { uniqBy } from 'lodash';
+import { message, Modal } from 'ant-design-vue';
+import { readExcel } from '../../utils/excel';
 export default {
   name: 'Import',
   props: {
     visible: Boolean,
     rowKey: {
       type: String,
-      default: 'account'
+      default: 'account',
     },
     columns: {
       type: Array,
-      required: true
-    }
+      required: true,
+    },
   },
-  data () {
+  data() {
     return {
       uploading: false,
       fileLoaded: false,
-      result: []
-    }
+      result: [],
+    };
   },
   methods: {
-    getFile (file) {
-      this.uploading = true
-      const reader = new FileReader()
-      reader.readAsBinaryString(file)
+    getFile(file) {
+      this.uploading = true;
+      const reader = new FileReader();
+      reader.readAsBinaryString(file);
       reader.onload = e => {
-        const result = readExcel(e.target.result)
-        this.generateData(result)
-        message.success('文件读取成功')
-      }
+        const result = readExcel(e.target.result);
+        this.generateData(result);
+        message.success('文件读取成功');
+      };
       reader.onerror = e => {
-        message.error('文件读取失败')
-      }
-      return false // 阻止上传
+        message.error('文件读取失败');
+      };
+      return false; // 阻止上传
     },
-    generateData (result) {
-      const length = result.length
+    generateData(result) {
+      const length = result.length;
       try {
-        result = uniqBy(result, item => item.account)
+        result = uniqBy(result, item => item.account);
       } catch (e) {
-        message.error('表格数据格式有误')
+        message.error('表格数据格式有误');
       }
       if (result.length !== length) {
-        message.warn('学号有重复，已按学号去重')
+        message.warn('学号有重复，已按学号去重');
       }
       // 防止将不必要的属性展开到最终数据中
       result = result.map(item => {
         Reflect.ownKeys(item).forEach(key => {
           if (key.startsWith('_')) {
-            Reflect.deleteProperty(item, key)
+            Reflect.deleteProperty(item, key);
           }
-        })
-        return { ...item }
-      })
+        });
+        return { ...item };
+      });
       this.result = result.map(user => ({
         password: '123456',
-        ...user
-      }))
-      this.fileLoaded = true
-      this.uploading = false
+        ...user,
+      }));
+      this.fileLoaded = true;
+      this.uploading = false;
     },
-    removeFile (file) {
-      this.fileLoaded = false
-      this.result.splice(0)
+    removeFile(file) {
+      this.fileLoaded = false;
+      this.result.splice(0);
     },
-    onCancel (e) {
+    onCancel(e) {
       if (!this.fileLoaded) {
-        return this.$emit('update:visible', false)
+        return this.$emit('update:visible', false);
       }
       const modal = Modal.confirm({
         title: '警告',
         content: '数据未保存，确认关闭？',
         onOk: () => {
-          modal.destroy()
-          this.$emit('update:visible', false)
-        }
-      })
+          modal.destroy();
+          this.$emit('update:visible', false);
+        },
+      });
     },
-    onOk (e) {
+    onOk(e) {
       if (!this.fileLoaded) {
-        return message.warn('请先上传表格文件！')
+        return message.warn('请先上传表格文件！');
       }
       const modal = Modal.confirm({
         title: '提示',
         content: '确认导入吗？',
         centered: true,
         onOk: () => {
-          modal.destroy()
-          this.$emit('confirm', this.result)
-        }
-      })
-    }
-  }
-}
+          modal.destroy();
+          this.$emit('confirm', this.result);
+        },
+      });
+    },
+  },
+};
 </script>
 
 <style scoped lang="stylus">

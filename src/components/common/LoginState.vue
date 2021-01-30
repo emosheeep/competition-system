@@ -21,38 +21,38 @@
 </template>
 
 <script>
-import { LOGOUT } from '../../store/mutation-types'
+import { LOGOUT } from '../../store/mutation-types';
 
 export default {
   name: 'LoginState',
   filters: {
-    ellipsis (value) {
+    ellipsis(value) {
       if (value?.toString().length > 10) {
-        return value.slice(0, 7) + '...'
+        return value.slice(0, 7) + '...';
       } else {
-        return value
+        return value;
       }
-    }
+    },
   },
   inject: {
     loadingStart: 'loadingStart',
-    loadingEnd: 'loadingEnd'
+    loadingEnd: 'loadingEnd',
   },
   computed: {
-    user () {
-      return this.$store.state.user
-    }
+    user() {
+      return this.$store.state.user;
+    },
   },
   methods: {
-    changeUser () {
-      this.loadingStart()
-      this.$store.commit(LOGOUT)
+    changeUser() {
+      this.loadingStart();
+      this.$store.commit(LOGOUT);
       this.$router.replace({ path: '/' }).finally(() => {
-        this.loadingEnd()
-      })
-    }
-  }
-}
+        this.loadingEnd();
+      });
+    },
+  },
+};
 </script>
 
 <style scoped lang="stylus">

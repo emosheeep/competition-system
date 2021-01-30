@@ -121,11 +121,11 @@
 </template>
 
 <script>
-import moment from 'moment'
-import { message } from 'ant-design-vue'
-import { debounce } from 'lodash'
-import { saveAs } from 'file-saver'
-import { getFileInfo, getDownloadUrl } from '../../api'
+import moment from 'moment';
+import { message } from 'ant-design-vue';
+import { debounce } from 'lodash';
+import { saveAs } from 'file-saver';
+import { getFileInfo, getDownloadUrl } from '../../api';
 
 export default {
   name: 'ShowRecordDetail',
@@ -133,88 +133,88 @@ export default {
     visible: Boolean,
     record: {
       type: Object,
-      required: true
-    }
+      required: true,
+    },
   },
-  data () {
+  data() {
     return {
       loading: true,
-      info: {}
-    }
+      info: {},
+    };
   },
   computed: {
-    recordState () {
-      return this.record.state
-    }
+    recordState() {
+      return this.record.state;
+    },
   },
   watch: {
-    visible (newVal) {
+    visible(newVal) {
       // 当前状态为：可见并且已上传文件 时，才请求文件信息
       if (newVal && this.record.uploaded) {
-        this.initFileInfo()
+        this.initFileInfo();
       }
-    }
+    },
   },
   methods: {
-    formatDate (date) {
-      return moment(date).format('YYYY-MM-DD')
+    formatDate(date) {
+      return moment(date).format('YYYY-MM-DD');
     },
-    initFileInfo () {
-      this.loading = true
+    initFileInfo() {
+      this.loading = true;
       getFileInfo({
-        name: this.record._id
+        name: this.record._id,
       }).then(({ data: result }) => {
         if (result.code === 0) {
-          this.info = result.data
+          this.info = result.data;
         } else {
-          message.warn(result.msg)
+          message.warn(result.msg);
         }
       }).catch(() => {
-        message.error('文件信息获取失败')
+        message.error('文件信息获取失败');
       }).finally(() => {
-        this.loading = false
-      })
+        this.loading = false;
+      });
     },
     download: debounce(download, 300),
-    preview: debounce(preview, 300)
-  }
-}
+    preview: debounce(preview, 300),
+  },
+};
 
-function preview () {
-  const stopLoading = message.loading('获取文件信息')
+function preview() {
+  const stopLoading = message.loading('获取文件信息');
   getDownloadUrl({
-    name: this.record._id
+    name: this.record._id,
   }).then(({ data: url }) => {
-    window.open(url, '_blank')
+    window.open(url, '_blank');
   }).catch(e => {
-    message.error('预览失败，请重试')
+    message.error('预览失败，请重试');
   }).finally(() => {
-    stopLoading()
-  })
+    stopLoading();
+  });
 }
 
-function download () {
-  const { title, _id } = this.record
-  const { mimeType } = this.info
+function download() {
+  const { title, _id } = this.record;
+  const { mimeType } = this.info;
   if (!mimeType) {
-    return message.error('文件信息获取失败，请重试')
+    return message.error('文件信息获取失败，请重试');
   }
-  const type = mimeType.split('/')[1]
-  const stopLoading = message.loading('获取文件信息')
+  const type = mimeType.split('/')[1];
+  const stopLoading = message.loading('获取文件信息');
   getDownloadUrl({
-    name: _id
+    name: _id,
   }).then(({ data: url }) => {
-    console.log(url + `&t=${Date.now()}`)
+    console.log(url + `&t=${Date.now()}`);
     // 下载文件，触发浏览器下载弹框
     saveAs(
       `${url}&t=${Date.now()}`,
-      `${title}.${type}`
-    )
+      `${title}.${type}`,
+    );
   }).catch(e => {
-    message.error('下载失败，请重试')
+    message.error('下载失败，请重试');
   }).finally(() => {
-    stopLoading()
-  })
+    stopLoading();
+  });
 }
 </script>
 

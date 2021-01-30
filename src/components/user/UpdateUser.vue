@@ -27,60 +27,60 @@
 </template>
 
 <script>
-import { createNamespacedHelpers } from 'vuex'
-import { UPDATE_USER } from '../../store/mutation-types'
-import EditStudent from '../add-and-update/EditStudent'
-import EditTeacher from '../add-and-update/EditTeacher'
-const { mapActions } = createNamespacedHelpers('users')
+import { createNamespacedHelpers } from 'vuex';
+import { UPDATE_USER } from '../../store/mutation-types';
+import EditStudent from '../add-and-update/EditStudent';
+import EditTeacher from '../add-and-update/EditTeacher';
+const { mapActions } = createNamespacedHelpers('users');
 export default {
   name: 'UpdateUser',
   components: {
     EditStudent,
-    EditTeacher
+    EditTeacher,
   },
   props: {
     visible: Boolean,
     data: {
       type: Object,
-      required: true
+      required: true,
     },
     type: {
       type: String,
       default: 'admin',
-      validator (value) {
-        return ['student', 'teacher'].includes(value)
-      }
-    }
+      validator(value) {
+        return ['student', 'teacher'].includes(value);
+      },
+    },
   },
-  data () {
+  data() {
     return {
       labelCol: { span: 3 },
       wrapperCol: { span: 20 },
-      loading: false
-    }
+      loading: false,
+    };
   },
   methods: {
     ...mapActions({
-      updateUser: UPDATE_USER
+      updateUser: UPDATE_USER,
     }),
-    onCancel () {
-      !this.loading && this.$emit('update:visible', false)
+    onCancel() {
+      !this.loading && this.$emit('update:visible', false);
     },
-    onOk () {
+    onOk() {
       this.$refs[this.type].confirm().then(values => {
-        this.loading = true
+        this.loading = true;
         return this.updateUser({
           type: this.type,
-          data: values
-        })
+          data: values,
+        });
       }).then(res => {
-        this.$emit('update:visible', false)
+        this.$emit('update:visible', false);
       }).catch(console.warn).finally(() => {
         setTimeout(() => {
-          this.loading = false
-        }, 500)
-      })
-    }
-  }
-}
+          this.loading = false;
+        }, 500);
+      });
+    },
+  },
+};
 </script>

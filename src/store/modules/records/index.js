@@ -1,11 +1,11 @@
-import actions from './actions'
-import mutations from './mutations'
+import actions from './actions';
+import mutations from './mutations';
 
 export default {
   namespaced: true,
   state: {
-    records: []
+    records: [],
   },
   mutations,
-  actions
-}
+  actions,
+};

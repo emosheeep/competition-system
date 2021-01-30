@@ -1,12 +1,12 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
-import teacher from './teacher'
-import admin from './admin'
-import student from './student'
-import CheckState from './navigation-guard/check-state'
-import CheckIdentity from './navigation-guard/check-identity'
+import Vue from 'vue';
+import VueRouter from 'vue-router';
+import teacher from './teacher';
+import admin from './admin';
+import student from './student';
+import CheckState from './navigation-guard/check-state';
+import CheckIdentity from './navigation-guard/check-identity';
 
-Vue.use(VueRouter)
+Vue.use(VueRouter);
 
 const routes = [
   {
@@ -16,7 +16,7 @@ const routes = [
     component: () => import(
       /* webpackChunkName: "Login" */
       '../pages/Login'
-    )
+    ),
   },
   ...teacher,
   ...student,
@@ -26,21 +26,21 @@ const routes = [
     component: () => import(
       /* webpackChunkName: "404" */
       '../components/common/404'
-    )
+    ),
   },
   {
     path: '*',
-    redirect: '/404'
-  }
-]
+    redirect: '/404',
+  },
+];
 
 const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
-  routes
-})
+  routes,
+});
 
-router.beforeEach(CheckState)
-router.beforeEach(CheckIdentity)
+// router.beforeEach(CheckState);
+// router.beforeEach(CheckIdentity);
 
-export default router
+export default router;

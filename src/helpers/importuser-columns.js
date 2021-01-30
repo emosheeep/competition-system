@@ -3,59 +3,59 @@ const columns = {
     {
       title: '学号',
       dataIndex: 'account',
-      sort: (a, b) => a.account - b.account
+      sort: (a, b) => a.account - b.account,
     },
     {
       title: '密码',
-      dataIndex: 'password'
+      dataIndex: 'password',
     },
     {
       title: '姓名',
-      dataIndex: 'name'
+      dataIndex: 'name',
     },
     {
       title: '性别',
-      dataIndex: 'sex'
+      dataIndex: 'sex',
     },
     {
       title: '年级',
-      dataIndex: 'grade'
+      dataIndex: 'grade',
     },
     {
       title: '班级',
-      dataIndex: 'classname'
-    }
+      dataIndex: 'classname',
+    },
   ],
   teacher: [
     {
       title: '工号',
       dataIndex: 'account',
-      sort: (a, b) => a.account - b.account
+      sort: (a, b) => a.account - b.account,
     },
     {
       title: '密码',
-      dataIndex: 'password'
+      dataIndex: 'password',
     },
     {
       title: '姓名',
-      dataIndex: 'name'
+      dataIndex: 'name',
     },
     {
       title: '职称',
-      dataIndex: 'rank'
+      dataIndex: 'rank',
     },
     {
       title: '描述',
-      dataIndex: 'description'
-    }
-  ]
-}
+      dataIndex: 'description',
+    },
+  ],
+};
 
-const types = Object.keys(columns)
+const types = Object.keys(columns);
 
-export default function (type) {
+export default function(type) {
   if (!types.includes(type)) {
-    throw new Error(`type must in ${types.toString()}`)
+    throw new Error(`type must in ${types.toString()}`);
   }
-  return columns[type]
+  return columns[type];
 }

@@ -70,11 +70,11 @@
 </template>
 
 <script>
-import MultipleDelete from '../../helpers/multiple-delete-mixin'
-import TableSearch from '../common/TableSearch'
-import { DELETE_USER } from '../../store/mutation-types'
-import { createNamespacedHelpers } from 'vuex'
-const { mapActions } = createNamespacedHelpers('users')
+import MultipleDelete from '../../helpers/multiple-delete-mixin';
+import TableSearch from '../common/TableSearch';
+import { DELETE_USER } from '../../store/mutation-types';
+import { createNamespacedHelpers } from 'vuex';
+const { mapActions } = createNamespacedHelpers('users');
 
 export default {
   name: 'ShowUser',
@@ -83,35 +83,35 @@ export default {
   props: {
     data: {
       type: Array,
-      required: true
+      required: true,
     },
     rowKey: {
       type: String,
-      default: 'account'
+      default: 'account',
     },
     column: {
       type: Array,
-      required: true
-    }
+      required: true,
+    },
   },
   methods: {
     ...mapActions([DELETE_USER]),
-    onEdit (user) {
-      this.$emit('update-user', user)
+    onEdit(user) {
+      this.$emit('update-user', user);
     },
-    onDelete (account) {
+    onDelete(account) {
       if (!this.multiple) {
-        this.$emit('delete-user', [account])
+        this.$emit('delete-user', [account]);
       }
     },
-    multipleDelete () {
+    multipleDelete() {
       if (this.selectedKeys.length === 0) {
-        return
+        return;
       }
-      this.$emit('delete-user', [...this.selectedKeys])
-    }
-  }
-}
+      this.$emit('delete-user', [...this.selectedKeys]);
+    },
+  },
+};
 
 </script>
 

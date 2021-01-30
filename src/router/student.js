@@ -9,7 +9,7 @@ export default [
     redirect: '/student/teacher',
     meta: {
       auth: true,
-      identity: 'student'
+      identity: 'student',
     },
     children: [
       {
@@ -18,7 +18,7 @@ export default [
         component: () => import(
           /* webpackChunkName: "StudentShowTeacher" */
           '../pages/student/StudentShowTeacher'
-        )
+        ),
       },
       {
         path: 'race',
@@ -26,7 +26,7 @@ export default [
         component: () => import(
           /* webpackChunkName: "Student" */
           '../pages/student/StudentShowRace'
-        )
+        ),
       },
       {
         path: 'record',
@@ -34,7 +34,7 @@ export default [
         component: () => import(
           /* webpackChunkName: "StudentShowRecord" */
           '../pages/student/StudentShowRecord'
-        )
+        ),
       },
       {
         path: 'self',
@@ -42,8 +42,8 @@ export default [
         component: () => import(
           /* webpackChunkName: "StudentUpdateSelfInfo" */
           '../pages/student/StudentUpdateSelfInfo'
-        )
-      }
-    ]
-  }
-]
+        ),
+      },
+    ],
+  },
+];

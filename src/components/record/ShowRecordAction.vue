@@ -87,16 +87,16 @@ export default {
   props: {
     record: {
       type: Object,
-      required: true
-    }
+      required: true,
+    },
   },
   computed: {
-    identity () {
-      return this.$store.state.user.identity
+    identity() {
+      return this.$store.state.user.identity;
     },
-    isFulfilled () {
-      return this.record.state === 'fulfilled'
-    }
-  }
-}
+    isFulfilled() {
+      return this.record.state === 'fulfilled';
+    },
+  },
+};
 </script>

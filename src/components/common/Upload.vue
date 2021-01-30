@@ -52,70 +52,70 @@
 </template>
 
 <script>
-import { message } from 'ant-design-vue'
-import { createNamespacedHelpers } from 'vuex'
-import { UPDATE_RECORD } from '../../store/mutation-types'
-import { getToken, fresh } from '../../api'
-import { uploader } from '../../utils/qiniu'
+import { message } from 'ant-design-vue';
+import { createNamespacedHelpers } from 'vuex';
+import { UPDATE_RECORD } from '../../store/mutation-types';
+import { getToken, fresh } from '../../api';
+import { uploader } from '../../utils/qiniu';
 
-const { mapActions } = createNamespacedHelpers('records')
+const { mapActions } = createNamespacedHelpers('records');
 export default {
   name: 'Upload',
   props: {
     visible: {
       type: Boolean,
-      required: true
+      required: true,
     },
     record: {
       type: Object,
-      required: true
-    }
+      required: true,
+    },
   },
-  data () {
+  data() {
     return {
-      ...data
-    }
+      ...data,
+    };
   },
   methods: {
     ...mapActions({
-      updateRecord: UPDATE_RECORD
+      updateRecord: UPDATE_RECORD,
     }),
-    reset () {
-      Object.assign(this, data)
+    reset() {
+      Object.assign(this, data);
     },
-    onCancel () {
-      this.$emit('update:visible', false)
+    onCancel() {
+      this.$emit('update:visible', false);
     },
-    getFile (file) {
-      this.file = file
-      this.sizeLimited(file.size)
-      return false // 取消自动上传
+    getFile(file) {
+      this.file = file;
+      this.sizeLimited(file.size);
+      return false; // 取消自动上传
     },
-    handleRemove () {
-      this.file = null
+    handleRemove() {
+      this.file = null;
     },
-    async preview ({ type, originFileObj }) {
+    async preview({ type, originFileObj }) {
       if (!type.includes('image')) {
-        return message.warn('该类型暂不支持预览')
+        return message.warn('该类型暂不支持预览');
       } else if (!this.sizeLimited(originFileObj.size)) {
-        return
+        return;
       }
-      this.imgUrl = await createObjectUrl(originFileObj)
-      this.previewVisible = true
+      this.imgUrl = await createObjectUrl(originFileObj);
+      this.previewVisible = true;
     },
-    sizeLimited (size) {
-      const limitIn2M = size / Math.pow(1024, 2) < 2
+    sizeLimited(size) {
+      const limitIn2M = size / Math.pow(1024, 2) < 2;
       if (!limitIn2M) {
-        message.warn('图片大小超出限制（2mb）')
-        return false
+        message.warn('图片大小超出限制（2mb）');
+        return false;
       }
-      return true
+      return true;
     },
-    uploadFile () {
-      uploadFile.call(this)
-    }
-  }
-}
+    uploadFile() {
+      uploadFile.call(this);
+    },
+  },
+};
 
 const data = {
   loading: false,
@@ -124,70 +124,70 @@ const data = {
   file: null,
   uploadPercent: 0,
   uploadStatus: 'active',
-  previewVisible: false
-}
+  previewVisible: false,
+};
 
-function createObjectUrl (file) {
+function createObjectUrl(file) {
   return new Promise((resolve, reject) => {
-    const reader = new FileReader()
-    reader.readAsDataURL(file)
-    reader.onload = () => resolve(reader.result)
-    reader.onerror = reject
-  })
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = reject;
+  });
 }
 // 文件上传
-function uploadFile () {
+function uploadFile() {
   if (!this.file) {
-    return message.warn('请选择要上传的文件')
+    return message.warn('请选择要上传的文件');
   }
-  const { file } = this
+  const { file } = this;
   if (!this.sizeLimited(file.size)) {
-    return
+    return;
   }
-  const name = this.record._id
+  const name = this.record._id;
   const promise = this.record.uploaded
     ? getToken({ name }) // 覆盖上传
-    : getToken()
+    : getToken();
   promise.then(({ data: token }) => {
-    const observer = uploader(name, file, token)
+    const observer = uploader(name, file, token);
     // 开始传输
-    this.uploadStatus = 'active'
-    this.uploadPercent = 0
-    this.loading = true
-    this.showProgress = true
+    this.uploadStatus = 'active';
+    this.uploadPercent = 0;
+    this.loading = true;
+    this.showProgress = true;
     observer.subscribe(
       next.bind(this),
       error.bind(this),
-      complete.bind(this)
-    )
-  })
+      complete.bind(this),
+    );
+  });
 }
 // 定义传输过程中的状态处理函数
-function next ({ total }) {
-  this.uploadPercent = +total.percent.toFixed(1) // toNum
+function next({ total }) {
+  this.uploadPercent = +total.percent.toFixed(1); // toNum
 }
-function error (err) {
-  this.uploadStatus = 'exception'
-  this.loading = false
-  console.error(err)
+function error(err) {
+  this.uploadStatus = 'exception';
+  this.loading = false;
+  console.error(err);
 }
-function complete ({ key: name }) {
-  const record = { ...this.record }
-  record.uploaded = true // 标记为已上传状态
+function complete({ key: name }) {
+  const record = { ...this.record };
+  record.uploaded = true; // 标记为已上传状态
   Promise.all([
     fresh({ name }), // 重新上传文件，需要刷新cdn缓存，否则预览文件不会变化
-    this.updateRecord(record)
+    this.updateRecord(record),
   ]).then(([{ data: result }]) => {
-    this.uploadStatus = 'success'
+    this.uploadStatus = 'success';
     if (result.code === 1) {
-      console.warn('CDN刷新失败，errMsg: ' + result.msg)
+      console.warn('CDN刷新失败，errMsg: ' + result.msg);
     }
     setTimeout(() => {
-      this.loading = false
-      this.$emit('update:visible', false)
-      this.$emit('complete')
-    }, 800)
-  })
+      this.loading = false;
+      this.$emit('update:visible', false);
+      this.$emit('complete');
+    }, 800);
+  });
 }
 
 </script>

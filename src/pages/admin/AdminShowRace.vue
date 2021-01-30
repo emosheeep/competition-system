@@ -77,14 +77,14 @@
 </template>
 
 <script>
-import { omit } from 'lodash'
-import { mapState, mapActions } from 'vuex'
-import { DELETE_RACE, SET_RACE_LIST } from '../../store/mutation-types'
-import { makeExcel } from '../../utils/excel'
-import ShowRace from '../../components/race/ShowRace'
-import AddRace from '../../components/race/AddRace'
-import UpdateRace from '../../components/race/UpdateRace'
-import RaceDetail from '../../components/race/RaceDetail'
+import { omit } from 'lodash';
+import { mapState, mapActions } from 'vuex';
+import { DELETE_RACE, SET_RACE_LIST } from '../../store/mutation-types';
+import { makeExcel } from '../../utils/excel';
+import ShowRace from '../../components/race/ShowRace';
+import AddRace from '../../components/race/AddRace';
+import UpdateRace from '../../components/race/UpdateRace';
+import RaceDetail from '../../components/race/RaceDetail';
 
 export default {
   name: 'AdminShowRace',
@@ -92,48 +92,48 @@ export default {
     RaceDetail,
     ShowRace,
     UpdateRace,
-    AddRace
+    AddRace,
   },
   inject: ['init'],
-  data () {
+  data() {
     return {
       addRaceVisible: false,
       updateRaceVisible: false,
       showDetailVisible: false,
       isMultiple: false,
-      curRace: {}
-    }
+      curRace: {},
+    };
   },
   computed: mapState('races', ['races']),
   methods: {
     ...mapActions('races', {
-      setRaceList: SET_RACE_LIST
+      setRaceList: SET_RACE_LIST,
     }),
-    onUpdate (race) {
-      this.updateRaceVisible = true
-      this.curRace = race
+    onUpdate(race) {
+      this.updateRaceVisible = true;
+      this.curRace = race;
     },
-    onDetail (race) {
-      this.showDetailVisible = true
-      this.curRace = race
+    onDetail(race) {
+      this.showDetailVisible = true;
+      this.curRace = race;
     },
-    onDelete (data) {
+    onDelete(data) {
       this.$store.dispatch(
         `races/${DELETE_RACE}`,
-        data
+        data,
       ).finally(() => {
-        this.isMultiple = false
-      })
+        this.isMultiple = false;
+      });
     },
-    exportExcel () {
+    exportExcel() {
       makeExcel({
         races: this.races.map(item => {
-          const temp = omit(item, ['_id'])
-          temp.date = new Date(temp.date)
-          return temp
-        })
-      })
-    }
-  }
-}
+          const temp = omit(item, ['_id']);
+          temp.date = new Date(temp.date);
+          return temp;
+        }),
+      });
+    },
+  },
+};
 </script>

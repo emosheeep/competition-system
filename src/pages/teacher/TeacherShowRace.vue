@@ -38,40 +38,40 @@
 </template>
 
 <script>
-import { omit } from 'lodash'
-import ShowRace from '../../components/race/ShowRace'
-import RaceDetail from '../../components/race/RaceDetail'
+import { omit } from 'lodash';
+import ShowRace from '../../components/race/ShowRace';
+import RaceDetail from '../../components/race/RaceDetail';
 
-import { makeExcel } from '../../utils/excel'
+import { makeExcel } from '../../utils/excel';
 export default {
   name: 'TeacherShowRace',
   components: { ShowRace, RaceDetail },
   inject: ['init'],
-  data () {
+  data() {
     return {
       curRace: {},
-      showDetailVisible: false
-    }
+      showDetailVisible: false,
+    };
   },
   computed: {
-    races () {
-      return this.$store.state.races.races
-    }
+    races() {
+      return this.$store.state.races.races;
+    },
   },
   methods: {
-    onDetail (race) {
-      this.curRace = race
-      this.showDetailVisible = true
+    onDetail(race) {
+      this.curRace = race;
+      this.showDetailVisible = true;
     },
-    exportExcel () {
+    exportExcel() {
       makeExcel({
         races: this.races.map(item => {
-          const temp = omit(item, ['_id'])
-          temp.date = new Date(temp.date)
-          return temp
-        })
-      })
-    }
-  }
-}
+          const temp = omit(item, ['_id']);
+          temp.date = new Date(temp.date);
+          return temp;
+        }),
+      });
+    },
+  },
+};
 </script>

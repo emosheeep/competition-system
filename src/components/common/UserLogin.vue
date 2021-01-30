@@ -63,53 +63,53 @@
 </template>
 
 <script>
-import { LOGIN } from '../../store/mutation-types'
-import Loading from './Loading'
+import { LOGIN } from '../../store/mutation-types';
+import Loading from './Loading';
 export default {
   name: 'Login',
   components: { Loading },
-  data () {
+  data() {
     return {
       loading: false,
-      decorator
-    }
+      decorator,
+    };
   },
-  beforeCreate () {
-    this.form = this.$form.createForm(this, { name: 'login_form' })
+  beforeCreate() {
+    this.form = this.$form.createForm(this, { name: 'login_form' });
   },
   methods: {
-    onSubmit (e) {
-      e.preventDefault()
+    onSubmit(e) {
+      e.preventDefault();
       this.form.validateFields().then(values => {
-        this.loading = true
-        return this.$store.dispatch(LOGIN, values)
+        this.loading = true;
+        return this.$store.dispatch(LOGIN, values);
       }).then(data => {
-        const { user } = data
-        return this.$router.replace({ path: user.identity })
+        const { user } = data;
+        return this.$router.replace({ path: user.identity });
       }).finally(() => {
-        this.loading = false
-      })
-    }
-  }
-}
+        this.loading = false;
+      });
+    },
+  },
+};
 const decorator = {
   account: ['account', {
     rules: [{
       required: true,
-      message: '请输入用户名！'
-    }]
+      message: '请输入用户名！',
+    }],
   }],
   password: ['password', {
     rules: [{
       required: true,
-      message: '请输入密码！'
-    }]
+      message: '请输入密码！',
+    }],
   }],
   identity: ['identity', {
     valuePropName: 'value',
-    initialValue: 'student'
-  }]
-}
+    initialValue: 'student',
+  }],
+};
 </script>
 
 <style scoped lang="stylus">

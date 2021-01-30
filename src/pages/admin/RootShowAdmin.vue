@@ -38,55 +38,55 @@
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex'
-import { message } from 'ant-design-vue'
-import ShowUser from '../../components/user/ShowUser'
-import UpdateAdmin from '../../components/user/UpdateAdmin'
-import AddAdmin from '../../components/user/AddAdmin'
-import resetPassword from '../../utils/reset-password'
-import { ADMIN_COLUMNS } from '../../helpers/showuser-columns'
-import { ADD_USER, DELETE_USER } from '../../store/mutation-types'
+import { mapState, mapActions } from 'vuex';
+import { message } from 'ant-design-vue';
+import ShowUser from '../../components/user/ShowUser';
+import UpdateAdmin from '../../components/user/UpdateAdmin';
+import AddAdmin from '../../components/user/AddAdmin';
+import resetPassword from '../../utils/reset-password';
+import { ADMIN_COLUMNS } from '../../helpers/showuser-columns';
+import { ADD_USER, DELETE_USER } from '../../store/mutation-types';
 
 export default {
   name: 'RootShowAdmin',
   components: { UpdateAdmin, AddAdmin, ShowUser },
   inject: {
-    init: 'init'
+    init: 'init',
   },
-  data () {
+  data() {
     return {
       addAdminVisible: false,
       updateAdminVisible: false,
-      curAdmin: {}
-    }
+      curAdmin: {},
+    };
   },
   computed: {
     ...mapState('users', ['admins']),
-    user () {
-      return this.$store.state.user
-    }
+    user() {
+      return this.$store.state.user;
+    },
   },
-  beforeMount () {
-    this.ADMIN_COLUMNS = ADMIN_COLUMNS // 无需响应式的数据
+  beforeMount() {
+    this.ADMIN_COLUMNS = ADMIN_COLUMNS; // 无需响应式的数据
   },
   methods: {
     ...mapActions('users', [ADD_USER, DELETE_USER]),
-    onUpdate (user) {
-      this.curAdmin = user
-      this.updateAdminVisible = true
+    onUpdate(user) {
+      this.curAdmin = user;
+      this.updateAdminVisible = true;
     },
-    reset (account) {
-      resetPassword('admin', account)
+    reset(account) {
+      resetPassword('admin', account);
     },
-    onDelete (data) {
+    onDelete(data) {
       if (this.user.account === data[0]) {
-        return message.warn('不能删除自己')
+        return message.warn('不能删除自己');
       }
       this.DELETE_USER({
         type: 'admin',
-        data
-      })
-    }
-  }
-}
+        data,
+      });
+    },
+  },
+};
 </script>

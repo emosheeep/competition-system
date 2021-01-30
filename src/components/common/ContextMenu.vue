@@ -20,55 +20,55 @@ export default {
     visible: {
       type: Boolean,
       required: false,
-      default: false
+      default: false,
     },
     list: {
       type: Array,
       required: true,
-      default: () => []
-    }
+      default: () => [],
+    },
   },
-  data () {
+  data() {
     return {
       left: 0,
       top: 0,
       target: null,
-      selectedKeys: []
-    }
+      selectedKeys: [],
+    };
   },
   computed: {
-    style () {
+    style() {
       return {
         left: this.left + 'px',
-        top: this.top + 'px'
-      }
-    }
+        top: this.top + 'px',
+      };
+    },
   },
-  created () {
-    const clickHandler = () => this.closeMenu()
-    const contextMenuHandler = e => this.setPosition(e)
-    window.addEventListener('click', clickHandler)
-    window.addEventListener('contextmenu', contextMenuHandler)
+  created() {
+    const clickHandler = () => this.closeMenu();
+    const contextMenuHandler = e => this.setPosition(e);
+    window.addEventListener('click', clickHandler);
+    window.addEventListener('contextmenu', contextMenuHandler);
     this.$emit('hook:beforeDestroy', () => {
-      window.removeEventListener('click', clickHandler)
-      window.removeEventListener('contextmenu', contextMenuHandler)
-    })
+      window.removeEventListener('click', clickHandler);
+      window.removeEventListener('contextmenu', contextMenuHandler);
+    });
   },
   methods: {
-    closeMenu () {
-      this.$emit('update:visible', false)
+    closeMenu() {
+      this.$emit('update:visible', false);
     },
-    setPosition (e) {
-      this.left = e.clientX
-      this.top = e.clientY
-      this.target = e.target
+    setPosition(e) {
+      this.left = e.clientX;
+      this.top = e.clientY;
+      this.target = e.target;
     },
-    handleClick ({ key }) {
-      this.$emit('select', key, this.target)
-      this.closeMenu()
-    }
-  }
-}
+    handleClick({ key }) {
+      this.$emit('select', key, this.target);
+      this.closeMenu();
+    },
+  },
+};
 </script>
 
 <style lang="stylus" scoped>

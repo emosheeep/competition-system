@@ -9,58 +9,58 @@
 </template>
 
 <script>
-import { getRaceList, getRecordList } from '../../api'
-import Detail from './Detail'
-import Loading from '../common/Loading'
+import { getRaceList, getRecordList } from '../../api';
+import Detail from './Detail';
+import Loading from '../common/Loading';
 export default {
   name: 'RaceDetail',
   components: { Loading, Detail },
   props: {
     id: {
       type: String,
-      required: true
+      required: true,
     },
     type: {
       type: String,
       required: true,
-      validator (value) {
-        return ['admin', 'teacher'].includes(value)
-      }
-    }
+      validator(value) {
+        return ['admin', 'teacher'].includes(value);
+      },
+    },
   },
-  data () {
+  data() {
     return {
       loading: false,
       race: {},
-      records: []
-    }
+      records: [],
+    };
   },
-  mounted () {
-    this.init()
+  mounted() {
+    this.init();
   },
   methods: {
-    init () {
-      if (this.loading) return
-      this.loading = true
-      const { id } = this
-      const { account } = this.$store.state.user
+    init() {
+      if (this.loading) return;
+      this.loading = true;
+      const { id } = this;
+      const { account } = this.$store.state.user;
       Promise.all([
         getRaceList({ _id: id }),
         this.type === 'teacher'
           ? getRecordList({ id, tid: account })
-          : getRecordList({ id })
+          : getRecordList({ id }),
       ]).then(([
         { data: races },
-        { data: records }
+        { data: records },
       ]) => {
-        this.race = races[0]
-        this.records = records
+        this.race = races[0];
+        this.records = records;
       }).finally(() => {
-        this.loading = false
-      })
-    }
-  }
-}
+        this.loading = false;
+      });
+    },
+  },
+};
 </script>
 
 <style scoped>

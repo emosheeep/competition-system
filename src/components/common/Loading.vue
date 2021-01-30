@@ -15,10 +15,10 @@ export default {
   props: {
     loading: {
       type: Boolean,
-      default: true
-    }
-  }
-}
+      default: true,
+    },
+  },
+};
 </script>
 
 <style lang="stylus" scoped>

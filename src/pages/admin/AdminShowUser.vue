@@ -136,17 +136,17 @@
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex'
-import { omit, dropRight } from 'lodash'
-import createColumns from '../../helpers/importuser-columns'
-import { STUDENT_COLUMNS, TEACHER_COLUMNS } from '../../helpers/showuser-columns'
-import { makeExcel } from '../../utils/excel'
-import resetPassword from '../../utils/reset-password'
-import ShowUser from '../../components/user/ShowUser'
-import AddUser from '../../components/user/AddUser'
-import Import from '../../components/common/Import'
-import UpdateUser from '../../components/user/UpdateUser'
-import { ADD_USER, DELETE_USER } from '../../store/mutation-types'
+import { mapState, mapActions } from 'vuex';
+import { omit, dropRight } from 'lodash';
+import createColumns from '../../helpers/importuser-columns';
+import { STUDENT_COLUMNS, TEACHER_COLUMNS } from '../../helpers/showuser-columns';
+import { makeExcel } from '../../utils/excel';
+import resetPassword from '../../utils/reset-password';
+import ShowUser from '../../components/user/ShowUser';
+import AddUser from '../../components/user/AddUser';
+import Import from '../../components/common/Import';
+import UpdateUser from '../../components/user/UpdateUser';
+import { ADD_USER, DELETE_USER } from '../../store/mutation-types';
 
 export default {
   name: 'AdminShowUser',
@@ -154,10 +154,10 @@ export default {
     ShowUser,
     AddUser,
     Import,
-    UpdateUser
+    UpdateUser,
   },
   inject: ['init'],
-  data () {
+  data() {
     return {
       addUserVisible: false,
       importUserVisible: false,
@@ -165,71 +165,71 @@ export default {
       isMultiple: false,
       importUserType: 'student',
       showUserType: 'student',
-      curUser: {}
-    }
+      curUser: {},
+    };
   },
   computed: {
     ...mapState('users', ['students', 'teachers']),
-    curColumns () {
-      return createColumns(this.importUserType)
+    curColumns() {
+      return createColumns(this.importUserType);
     },
-    allUsersNum () {
-      return this.students.length + this.teachers.length
+    allUsersNum() {
+      return this.students.length + this.teachers.length;
     },
-    user () {
-      return this.$store.state.user
-    }
+    user() {
+      return this.$store.state.user;
+    },
   },
-  beforeMount () {
+  beforeMount() {
     // 这些数据无需响应式
     if (this.user.power !== 'read') {
-      this.STUDENT_COLUMNS = STUDENT_COLUMNS
-      this.TEACHER_COLUMNS = TEACHER_COLUMNS
+      this.STUDENT_COLUMNS = STUDENT_COLUMNS;
+      this.TEACHER_COLUMNS = TEACHER_COLUMNS;
     } else {
-      this.STUDENT_COLUMNS = dropRight(STUDENT_COLUMNS)
-      this.TEACHER_COLUMNS = dropRight(TEACHER_COLUMNS)
+      this.STUDENT_COLUMNS = dropRight(STUDENT_COLUMNS);
+      this.TEACHER_COLUMNS = dropRight(TEACHER_COLUMNS);
     }
   },
   methods: {
     ...mapActions('users', [ADD_USER, DELETE_USER]),
-    onUpdate (user) {
-      this.curUser = user
-      this.updateUserVisible = true
+    onUpdate(user) {
+      this.curUser = user;
+      this.updateUserVisible = true;
     },
-    reset (account) {
-      resetPassword(this.showUserType, account)
+    reset(account) {
+      resetPassword(this.showUserType, account);
     },
-    onDelete (data) {
+    onDelete(data) {
       this.DELETE_USER({
         type: this.showUserType,
-        data
+        data,
       }).finally(() => {
-        this.isMultiple = false
-      })
+        this.isMultiple = false;
+      });
     },
-    changeType (value) {
-      this.showUserType = value
+    changeType(value) {
+      this.showUserType = value;
     },
-    showImportUser ({ key }) {
-      this.importUserType = key
-      this.importUserVisible = true
+    showImportUser({ key }) {
+      this.importUserType = key;
+      this.importUserVisible = true;
     },
-    importUser (users) {
+    importUser(users) {
       this.ADD_USER({
         type: this.importUserType,
-        users
+        users,
       }).then(() => {
-        this.importUserVisible = false
-      }).catch(console.warn)
+        this.importUserVisible = false;
+      }).catch(console.warn);
     },
-    exportExcel () {
+    exportExcel() {
       makeExcel({
         students: this.students.map(item => omit(item, ['_id'])),
-        teachers: this.teachers.map(item => omit(item, ['_id']))
-      })
-    }
-  }
-}
+        teachers: this.teachers.map(item => omit(item, ['_id'])),
+      });
+    },
+  },
+};
 </script>
 
 <style scoped lang="stylus">

@@ -77,22 +77,22 @@
 </template>
 
 <script>
-import moment from 'moment'
-import EditMixin from './edit-mixin'
+import moment from 'moment';
+import EditMixin from './edit-mixin';
 
 export default {
   name: 'EditRace',
   mixins: [EditMixin],
-  beforeMount () {
-    this.decorator = decorator
+  beforeMount() {
+    this.decorator = decorator;
   },
   methods: {
-    disableDate (cur) {
-      const yesterday = moment().startOf('day')
-      return cur.isSameOrBefore(yesterday)
+    disableDate(cur) {
+      const yesterday = moment().startOf('day');
+      return cur.isSameOrBefore(yesterday);
     },
-    initData () {
-      const { data } = this
+    initData() {
+      const { data } = this;
       this.form.setFieldsValue({
         title: data.title,
         sponsor: data.sponsor,
@@ -100,49 +100,49 @@ export default {
         location: data.location,
         level: data.level,
         type: data.type,
-        description: data.description
-      })
-    }
-  }
-}
+        description: data.description,
+      });
+    },
+  },
+};
 
 // 定义装饰器
 const decorator = {
   title: ['title', {
     rules: [{
       required: true,
-      message: '请输入赛事名称！'
-    }]
+      message: '请输入赛事名称！',
+    }],
   }],
   sponsor: ['sponsor', {
     rules: [{
       required: true,
-      message: '请输入主办方！'
-    }]
+      message: '请输入主办方！',
+    }],
   }],
   date: ['date', {
     rules: [{
       required: true,
-      message: '选择时间！'
-    }]
+      message: '选择时间！',
+    }],
   }],
   location: ['location', {
     rules: [{
       required: true,
-      message: '请填写地点！'
-    }]
+      message: '请填写地点！',
+    }],
   }],
   level: ['level', {
-    initialValue: '校级'
+    initialValue: '校级',
   }],
   type: ['type', {
     rules: [{
       required: true,
-      message: '请选择赛事类别！'
-    }]
+      message: '请选择赛事类别！',
+    }],
   }],
-  description: ['description']
-}
+  description: ['description'],
+};
 </script>
 
 <style scoped>

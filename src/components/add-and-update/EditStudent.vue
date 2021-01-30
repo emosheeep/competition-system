@@ -70,30 +70,30 @@
 </template>
 
 <script>
-import EditMixin from './edit-mixin'
+import EditMixin from './edit-mixin';
 
 export default {
   name: 'EditStudent',
   mixins: [EditMixin],
-  beforeMount () {
-    this.decorator = decorator
+  beforeMount() {
+    this.decorator = decorator;
   },
   methods: {
-    initData () {
-      const { data, type } = this
+    initData() {
+      const { data, type } = this;
       const result = {
         name: data.name,
         sex: data.sex,
         classname: data.classname,
-        grade: data.grade
-      }
+        grade: data.grade,
+      };
       if (type !== 'self') {
-        result.account = data.account
+        result.account = data.account;
       }
-      this.form.setFieldsValue(result)
-    }
-  }
-}
+      this.form.setFieldsValue(result);
+    },
+  },
+};
 
 /**
  * 定义decorator
@@ -102,36 +102,36 @@ const decorator = {
   account: ['account', {
     rules: [{
       required: true,
-      message: '请输入账号！'
-    }]
+      message: '请输入账号！',
+    }],
   }],
   password: ['password', {
     rules: [{
       required: true,
-      message: '请输入密码！'
-    }]
+      message: '请输入密码！',
+    }],
   }],
   name: ['name', {
     rules: [{
       required: true,
-      message: '请输入姓名！'
-    }]
+      message: '请输入姓名！',
+    }],
   }],
   sex: ['sex', {
     valuePropName: 'value',
-    initialValue: '男'
+    initialValue: '男',
   }],
   classname: ['classname', {
     rules: [{
       required: true,
-      message: '请输入班级！'
-    }]
+      message: '请输入班级！',
+    }],
   }],
   grade: ['grade', {
     rules: [{
       required: true,
-      message: '请输入班级！'
-    }]
-  }]
-}
+      message: '请输入班级！',
+    }],
+  }],
+};
 </script>
