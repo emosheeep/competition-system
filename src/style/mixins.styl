@@ -1,0 +1,60 @@
+@keyframes rotate
+  0%
+    transform rotateZ(0deg)
+  50%
+    transform rotateZ(180deg)
+  100%
+    transform rotateZ(360deg)
+
+item-gap(w)
+  &:before
+    content ''
+    display inline-block
+    margin 0 unit(w / 2, px)
+
+inline-rtl()
+  display flex
+  justify-content flex-start
+  align-items center
+
+text-ellipsis()
+  overflow hidden
+  text-overflow ellipsis
+  white-space nowrap
+
+center()
+  position absolute
+  left 50%
+  top 50%
+  transform translate(-50%, -50%)
+
+shadow($mode = 'around')
+  if $mode is 'bottom'
+    box-shadow 0 5px 8px -5px shadow-color
+  else
+    box-shadow 0 0 5px shadow-color
+
+tab-nav()
+  padding 0 24px
+  border-bottom 1px solid divider-color
+  background-color white
+  .bui-tabs-nav-item
+    margin-right 32px
+  a.bui-tab-nav::after
+    height 4px
+  a.bui-tab-nav
+    color second-text-color
+    padding 16px 0
+    &::after
+      background-color primary-color
+  li.active a
+    color primary-color
+table-common()
+  .bui-table-ceil
+    font-size 12px
+    padding 10px
+  .byted-link
+    font-size 12px
+    color primary-color
+    &:not(:last-child)
+      margin-right 10px

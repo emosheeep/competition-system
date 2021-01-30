@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import VueMeta from 'vue-meta';
 import AntDesign from 'ant-design-vue';
+import './form';
 
 Vue.use(VueMeta);
 

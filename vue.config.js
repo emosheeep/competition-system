@@ -1,6 +1,8 @@
+const path = require('path');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const CompressionWebpackPlugin = require('compression-webpack-plugin');
 const LodashWebpackPlugin = require('lodash-webpack-plugin');
+const resolve = dir => path.join(__dirname, '.', dir);
 const cdn = {
   js: [
     'https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.min.js',
@@ -42,6 +44,7 @@ module.exports = {
       });
     }
   },
+
   configureWebpack: {
     optimization: {
       splitChunks: {
@@ -68,6 +71,16 @@ module.exports = {
         target: 'http://localhost:3000',
         changeOrigin: true,
       },
+    },
+  },
+  pluginOptions: {
+    'style-resources-loader': {
+      preProcessor: 'stylus',
+      patterns: [
+        resolve('./src/style/mixins.styl'),
+        resolve('./src/style/variables.styl'),
+      ],
+      injector: 'prepend',
     },
   },
 };
