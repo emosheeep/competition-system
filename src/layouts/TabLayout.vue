@@ -7,6 +7,7 @@
     />
     <a-tabs
       type="editable-card"
+      class="tab-bar"
       :hide-add="true"
       :active-key="activePage"
       @change="changePage"
@@ -186,3 +187,8 @@ function getTabKey(target, depth = 0) {
   return target.dataset.key || getTabKey(target.firstElementChild, ++depth);
 }
 </script>
+
+<style scoped lang="stylus">
+.tab-bar >>> .ant-tabs-bar
+  margin-bottom 0
+</style>

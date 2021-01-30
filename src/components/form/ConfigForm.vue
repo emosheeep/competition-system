@@ -33,7 +33,7 @@ import {
 } from './helpers';
 
 export default {
-  name: 'AuditForm',
+  name: 'ConfigForm',
   components: {
     FormItemLabel,
     FormItemContent,

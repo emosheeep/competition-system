@@ -1,32 +1,13 @@
 <template>
-  <a-modal
-    :visible="visible"
-    :mask-closable="false"
-    :confirm-loading="loading"
-    :destroy-on-close="true"
-    title="新增用户"
-    ok-text="确认添加"
-    cancel-text="取消"
-    centered
-    @cancel="onCancel"
-    @ok="onOk"
-  >
-    <a-row
-      type="flex"
-      align="middle"
-      style="margin-bottom: 20px; color: black"
-    >
-      <a-col
-        span="3"
-        style="text-align: right"
-      >
+  <a-modal v-model="show" v-bind="modalProps.props" v-on="modalProps.on">
+    <a-row type="flex" align="middle" style="margin-bottom: 20px; color: black">
+      <a-col span="3" style="text-align: right">
         类型：
       </a-col>
       <a-col span="20">
         <a-radio-group
-          :value="type"
+          v-model="type"
           button-style="solid"
-          @change="onChange"
         >
           <a-radio-button value="student">
             学生
@@ -49,11 +30,8 @@
 </template>
 
 <script>
-import { createNamespacedHelpers } from 'vuex';
 import EditStudent from '../add-and-update/EditStudent';
 import EditTeacher from '../add-and-update/EditTeacher';
-import { ADD_USER } from '../../store/mutation-types';
-const { mapActions } = createNamespacedHelpers('users');
 
 export default {
   name: 'AddUser',
@@ -62,7 +40,10 @@ export default {
     EditTeacher,
   },
   props: {
-    visible: Boolean,
+    value: {
+      type: Boolean,
+      default: false,
+    },
   },
   data() {
     return {
@@ -70,30 +51,49 @@ export default {
       loading: false,
     };
   },
+  computed: {
+    show: {
+      get() { return this.value; },
+      set(val) { this.$emit('input', val); },
+    },
+    modalProps() {
+      return {
+        props: {
+          maskClosable: false,
+          confirmLoading: this.loading,
+          destroyOnClose: true,
+          title: '新增用户',
+          okText: '确认添加',
+          cancelText: '取消',
+          centered: true,
+          ...this.$attrs,
+        },
+        on: {
+          ok: this.onOk,
+          ...this.$listeners,
+        },
+      };
+    },
+  },
   methods: {
-    ...mapActions([ADD_USER]),
-    onOk(e) {
+    onOk() {
       // 调用子组件的confirm方法
       this.$refs[this.type].confirm().then(values => {
         this.loading = true;
-        return this.ADD_USER({
-          type: this.type,
-          users: values,
+        this.$api.addUser(this.type, values).then(({ data }) => {
+          if (data.code !== 0) throw data;
+          this.show = false;
+          this.$message.success('添加成功');
+          this.$emit('success');
+        }).catch(e => {
+          console.error(e);
+          this.$message.error(e.msg || '添加失败');
+        }).finally(() => {
+          setTimeout(() => {
+            this.loading = false;
+          }, 500);
         });
-      }).then(res => {
-        this.$emit('update:visible', false);
-      }).catch(console.warn).finally(() => {
-        setTimeout(() => {
-          this.loading = false;
-        }, 500);
-      });
-    },
-    onChange({ target: { value } }) {
-      this.type = value;
-    },
-    onCancel(e) {
-      if (this.loading) return;
-      this.$emit('update:visible', false);
+      }).catch(console.error);
     },
   },
 };

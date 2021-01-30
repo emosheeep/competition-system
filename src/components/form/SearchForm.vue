@@ -8,8 +8,8 @@
         @change="$emit('change', $event)"
       )
     .operate-button-group
-      byted-button(type="primary" :loading="loading" @click="search") 查询
-      byted-button(type="link" @click="reset") 重置
+      a-button(type="primary" :loading="loading" @click="search") 查询
+      a-button(type="link" @click="reset") 重置
 </template>
 
 <script>
@@ -103,4 +103,7 @@ export default {
   justify-content center
   padding-left 20px
   border-left 1px solid divider-color
+  .ant-btn:first-child
+    border-radius 2px
+    margin-bottom 20px
 </style>

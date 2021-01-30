@@ -12,7 +12,7 @@ export const refreshToken = originToken => {
 /**
  * 用户
  */
-export const getUserList = type => axios.get('/user/list', { params: { type } });
+export const getUserList = params => axios.get('/user/list', { params });
 export const addUser = (type, data) => axios.post('/user/add', { type, data });
 export const deleteUser = (type, data) => {
   return axios.delete('/user/delete', { data: { type, data } });
