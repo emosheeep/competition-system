@@ -31,7 +31,7 @@ function matcher(name) {
         };
 
         on.input = e => {
-          isFunction(input) && input(e.target.value);
+          isFunction(input) && input(e.target.value.trim());
         };
 
         return h('a-input', ctx.data);

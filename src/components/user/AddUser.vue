@@ -63,7 +63,7 @@ export default {
           confirmLoading: this.loading,
           destroyOnClose: true,
           title: '新增用户',
-          okText: '确认添加',
+          okText: '确认',
           cancelText: '取消',
           centered: true,
           ...this.$attrs,
@@ -81,7 +81,7 @@ export default {
       this.$refs[this.type].confirm().then(values => {
         this.loading = true;
         this.$api.addUser(this.type, values).then(({ data }) => {
-          if (data.code !== 0) throw data;
+          if (data.code !== 200) throw data;
           this.show = false;
           this.$message.success('添加成功');
           this.$emit('success');

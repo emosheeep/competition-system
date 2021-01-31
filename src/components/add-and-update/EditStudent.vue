@@ -20,10 +20,7 @@
           />
         </a-input>
       </a-form-item>
-      <a-form-item
-        v-if="type === 'add'"
-        label="密码"
-      >
+      <a-form-item v-if="type === 'add'" label="密码">
         <a-input
           ref="password"
           v-decorator="decorator.password"
@@ -61,23 +58,14 @@
       />
     </a-form-item>
     <a-form-item label="性别">
-      <a-radio-group v-decorator="decorator.sex">
-        <a-radio value="man">
-          <span>男 &nbsp;</span>
-          <a-icon type="man" />
-        </a-radio>
-        <a-radio value="woman">
-          <span>女 &nbsp;</span>
-          <a-icon type="woman" />
-        </a-radio>
-      </a-radio-group>
+      <a-radio-group v-decorator="decorator.sex" :options="sexes" />
     </a-form-item>
   </a-form>
 </template>
 
 <script>
 import EditMixin from './edit-mixin';
-import { classes } from '@/utils/const';
+import { classes, sexes } from '@/utils/const';
 
 export default {
   name: 'EditStudent',
@@ -86,6 +74,7 @@ export default {
     return {
       classes,
       decorator,
+      sexes,
     };
   },
   methods: {
@@ -128,8 +117,7 @@ const decorator = {
     }],
   }],
   sex: ['sex', {
-    valuePropName: 'value',
-    initialValue: 'man',
+    initialValue: 1,
   }],
   class: ['class', {
     rules: [{

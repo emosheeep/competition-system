@@ -5,10 +5,10 @@
     :form="form"
   >
     <template v-if="type !== 'self'">
-      <a-form-item label="账号">
+      <a-form-item label="工号">
         <a-input
           ref="account"
-          v-decorator="decorator.account"
+          v-decorator="decorator.tid"
           :disabled="type === 'update'"
           placeholder="职工号"
         >
@@ -46,20 +46,8 @@
       <a-select
         v-decorator="decorator.rank"
         placeholder="请选择职称"
-      >
-        <a-select-option value="教授">
-          教授
-        </a-select-option>
-        <a-select-option value="副教授">
-          副教授
-        </a-select-option>
-        <a-select-option value="讲师">
-          讲师
-        </a-select-option>
-        <a-select-option value="其他">
-          其他
-        </a-select-option>
-      </a-select>
+        :options="ranks"
+      />
     </a-form-item>
     <a-form-item label="描述">
       <a-textarea
@@ -72,12 +60,16 @@
 
 <script>
 import EditMixin from './edit-mixin';
+import { ranks } from '@/utils/const';
 
 export default {
   name: 'EditTeacher',
   mixins: [EditMixin],
-  beforeMount() {
-    this.decorator = decorator;
+  data() {
+    return {
+      ranks,
+      decorator,
+    };
   },
   methods: {
     initData() {
@@ -89,7 +81,7 @@ export default {
         description: data.description,
       };
       if (type !== 'self') {
-        result.account = data.account;
+        result.tid = data.tid;
       }
       this.form.setFieldsValue(result);
     },
@@ -100,7 +92,7 @@ export default {
  * 定义decorator
  */
 const decorator = {
-  account: ['account', {
+  tid: ['tid', {
     rules: [{
       required: true,
       message: '请输入职工号！',
@@ -119,7 +111,7 @@ const decorator = {
     }],
   }],
   rank: ['rank', {
-    initialValue: '讲师',
+    initialValue: 0,
   }],
   description: ['description'],
 };

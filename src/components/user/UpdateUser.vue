@@ -1,15 +1,8 @@
 <template>
   <a-modal
-    centered
-    title="修改信息"
-    ok-text="确认"
-    cancel-text="取消"
-    :visible="visible"
-    :mask-closable="false"
-    :confirm-loading="loading"
-    :destroy-on-close="true"
-    @cancel="onCancel"
-    @ok="onOk"
+    v-model="show"
+    v-bind="modalProps.props"
+    v-on="modalProps.on"
   >
     <EditStudent
       v-if="type === 'student'"
@@ -27,11 +20,9 @@
 </template>
 
 <script>
-import { createNamespacedHelpers } from 'vuex';
-import { UPDATE_USER } from '../../store/mutation-types';
 import EditStudent from '../add-and-update/EditStudent';
 import EditTeacher from '../add-and-update/EditTeacher';
-const { mapActions } = createNamespacedHelpers('users');
+
 export default {
   name: 'UpdateUser',
   components: {
@@ -39,7 +30,10 @@ export default {
     EditTeacher,
   },
   props: {
-    visible: Boolean,
+    value: {
+      type: Boolean,
+      default: false,
+    },
     data: {
       type: Object,
       required: true,
@@ -54,32 +48,50 @@ export default {
   },
   data() {
     return {
-      labelCol: { span: 3 },
-      wrapperCol: { span: 20 },
       loading: false,
     };
   },
-  methods: {
-    ...mapActions({
-      updateUser: UPDATE_USER,
-    }),
-    onCancel() {
-      !this.loading && this.$emit('update:visible', false);
+  computed: {
+    show: {
+      get() { return this.value; },
+      set(val) { this.$emit('input', val); },
     },
+    modalProps() {
+      return {
+        props: {
+          maskClosable: false,
+          confirmLoading: this.loading,
+          destroyOnClose: true,
+          title: '修改信息',
+          okText: '确认',
+          cancelText: '取消',
+          centered: true,
+          ...this.$attrs,
+        },
+        on: {
+          ok: this.onOk,
+          ...this.$listeners,
+        },
+      };
+    },
+  },
+  methods: {
     onOk() {
       this.$refs[this.type].confirm().then(values => {
         this.loading = true;
-        return this.updateUser({
-          type: this.type,
-          data: values,
+        this.$api.updateUser(this.type, values).then(({ data }) => {
+          if (data.code !== 200) throw data;
+          this.show = false;
+          this.$emit('success');
+        }).catch(e => {
+          console.error(e);
+          this.$message.error(e.msg || '修改失败');
+        }).finally(() => {
+          setTimeout(() => {
+            this.loading = false;
+          }, 500);
         });
-      }).then(res => {
-        this.$emit('update:visible', false);
-      }).catch(console.warn).finally(() => {
-        setTimeout(() => {
-          this.loading = false;
-        }, 500);
-      });
+      }).catch(console.error);
     },
   },
 };

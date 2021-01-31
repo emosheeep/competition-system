@@ -42,14 +42,63 @@
     <!--信息列表-->
     <a-table
       bordered
-      row-key="sid"
       size="middle"
+      :row-key="rowKey"
       :loading="loading"
       :data-source="users"
       :pagination="pagination"
       :columns="tableColumns"
       @change="changePage"
-    />
+    >
+      <template #action="record">
+        <!--编辑-->
+        <a @click="editUser(record)">
+          <a-icon type="edit" />
+        </a>
+
+        <a-divider type="vertical" />
+
+        <!--删除-->
+        <a-popconfirm
+          title="确认删除？"
+          ok-text="确认"
+          cancel-text="取消"
+          placement="left"
+          @confirm="deleteUser(record)"
+        >
+          <template #icon>
+            <a-icon
+              type="question-circle-o"
+              style="color: orange"
+            />
+          </template>
+          <a><a-icon type="delete" /></a>
+        </a-popconfirm>
+
+        <!--重置密码-->
+        <a-divider type="vertical" />
+        <a-popconfirm
+          title="确认重置密码？"
+          ok-text="确认"
+          cancel-text="取消"
+          placement="left"
+          @confirm="resetPassword(record)"
+        >
+          <template #icon>
+            <a-icon
+              type="question-circle-o"
+              style="color: orange"
+            />
+          </template>
+          <a-tooltip placement="top">
+            <template #title>
+              <span>重置密码</span>
+            </template>
+            <a><a-icon type="rollback" /></a>
+          </a-tooltip>
+        </a-popconfirm>
+      </template>
+    </a-table>
 
     <!--添加用户-->
     <AddUser v-model="addUserVisible" @success="search" />
@@ -61,24 +110,23 @@
     />
     <!--修改用户-->
     <UpdateUser
-      :visible.sync="updateUserVisible"
+      v-model="updateUserVisible"
       :type="userType"
       :data="curUser"
+      @success="getData"
     />
   </div>
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex';
 import { dropRight } from 'lodash';
-import createColumns from '@/helpers/importuser-columns';
+import { classes, ranks, sexes } from '@/utils/const';
 import { STUDENT_COLUMNS, TEACHER_COLUMNS } from '@/helpers/showuser-columns';
+import createColumns from '@/helpers/importuser-columns';
 import resetPassword from '@/utils/reset-password';
 import AddUser from '@/components/user/AddUser';
 import Import from '@/components/common/Import';
 import UpdateUser from '@/components/user/UpdateUser';
-import { ADD_USER, DELETE_USER } from '@/store/mutation-types';
-import { classes } from '@/utils/const';
 
 export default {
   name: 'AdminShowUser',
@@ -91,21 +139,24 @@ export default {
     return {
       loading: false,
       users: [],
-      searchOptions: createSearchOptions.call(this),
       current: 1,
       pageSize: 10,
       total: 0,
       addUserVisible: false,
       importUserVisible: false,
       updateUserVisible: false,
-      isMultiple: false,
       importUserType: 'student',
       userType: 'student',
       curUser: {},
     };
   },
   computed: {
-    ...mapState('users', ['students', 'teachers']),
+    rowKey() {
+      return this.userType === 'student' ? 'sid' : 'tid';
+    },
+    searchOptions() {
+      return createSearchOptions.call(this, this.userType);
+    },
     curColumns() {
       return createColumns(this.importUserType);
     },
@@ -127,27 +178,31 @@ export default {
     },
   },
   beforeMount() {
-    this.$watch(() => [this.pageSize, this.current, this.userType], this.getData);
+    this.$watch(() => [this.pageSize, this.current], this.getData);
   },
   methods: {
-    ...mapActions('users', [ADD_USER, DELETE_USER]),
-    onUpdate(user) {
-      this.curUser = user;
+    editUser(row) {
+      this.curUser = row;
       this.updateUserVisible = true;
     },
-    reset(account) {
-      resetPassword(this.userType, account);
+    resetPassword(row) {
+      resetPassword(this.userType, row[this.rowKey]);
     },
     search() {
       this.current = 1;
       this.getData();
     },
-    onDelete(data) {
-      this.DELETE_USER({
-        type: this.userType,
-        data,
-      }).finally(() => {
-        this.isMultiple = false;
+    deleteUser(row) {
+      const key = Math.random();
+      this.$message.loading({ content: '正在删除', duration: 0, key });
+      this.$api.deleteUser(this.userType, {
+        ids: [row[this.rowKey]],
+      }).then(({ data }) => {
+        if (data.code !== 200) throw data;
+        this.$message.success({ content: '删除成功!', key });
+        this.getData();
+      }).catch(e => {
+        this.$message.error({ content: e.msg || '删除失败!', key });
       });
     },
     changePage({ pageSize, current }) {
@@ -173,7 +228,7 @@ export default {
         offset: this.current,
         limit: this.pageSize,
       }).then(({ data }) => {
-        if (data.code !== 0) throw data;
+        if (data.code !== 200) throw data;
         this.users = data.data;
         this.total = data.count;
       }).catch(e => {
@@ -186,7 +241,32 @@ export default {
   },
 };
 
-function createSearchOptions() {
+function createSearchOptions(type) {
+  if (type === 'teacher') {
+    return [
+      {
+        label: '工号',
+        key: 'tid',
+        default: '',
+        component: 'input',
+      },
+      {
+        label: '姓名',
+        key: 'name',
+        default: '',
+        component: 'input',
+      },
+      {
+        label: '职称',
+        key: 'rank',
+        default: undefined,
+        component: 'select',
+        props: {
+          options: ranks,
+        },
+      },
+    ];
+  }
   return [
     {
       label: '学号',
@@ -206,10 +286,7 @@ function createSearchOptions() {
       default: undefined,
       component: 'select',
       props: {
-        options: [
-          { label: '男', value: 'man' },
-          { label: '女', value: 'woman' },
-        ],
+        options: sexes,
       },
     },
     {
@@ -230,6 +307,3 @@ function createSearchOptions() {
   ];
 }
 </script>
-
-<style scoped lang="stylus">
-</style>
