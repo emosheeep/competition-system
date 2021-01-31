@@ -77,7 +77,7 @@
 </template>
 
 <script>
-import moment from 'moment';
+import dayjs from 'dayjs';
 import EditMixin from './edit-mixin';
 
 export default {
@@ -88,7 +88,7 @@ export default {
   },
   methods: {
     disableDate(cur) {
-      const yesterday = moment().startOf('day');
+      const yesterday = dayjs().startOf('day');
       return cur.isSameOrBefore(yesterday);
     },
     initData() {
@@ -96,7 +96,7 @@ export default {
       this.form.setFieldsValue({
         title: data.title,
         sponsor: data.sponsor,
-        date: moment(data.date),
+        date: dayjs(data.date),
         location: data.location,
         level: data.level,
         type: data.type,

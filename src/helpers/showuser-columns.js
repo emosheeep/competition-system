@@ -4,9 +4,10 @@ export const STUDENT_COLUMNS = [
   { title: '性别', dataIndex: 'sex' },
   { title: '年级', dataIndex: 'grade' },
   { title: '班级', dataIndex: 'class' },
+  { title: '创建时间', dataIndex: 'create_time' },
+  { title: '修改时间', dataIndex: 'update_time' },
   {
     title: '操作',
-    key: 'action',
     align: 'center',
     width: 100,
     scopedSlots: { customRender: 'action' },
@@ -17,9 +18,10 @@ export const TEACHER_COLUMNS = [
   { title: '姓名', dataIndex: 'name' },
   { title: '职称', dataIndex: 'rank' },
   { title: '描述', dataIndex: 'description', ellipsis: true },
+  { title: '创建时间', dataIndex: 'create_time' },
+  { title: '修改时间', dataIndex: 'update_time' },
   {
     title: '操作',
-    key: 'action',
     align: 'center',
     width: 100,
     scopedSlots: { customRender: 'action' },
@@ -31,7 +33,6 @@ export const ADMIN_COLUMNS = [
   { title: '权限', dataIndex: 'power' },
   {
     title: '操作',
-    key: 'action',
     align: 'center',
     scopedSlots: { customRender: 'action' },
   },

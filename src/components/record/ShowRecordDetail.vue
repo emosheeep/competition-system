@@ -121,7 +121,7 @@
 </template>
 
 <script>
-import moment from 'moment';
+import dayjs from 'dayjs';
 import { message } from 'ant-design-vue';
 import { debounce } from 'lodash';
 import { saveAs } from 'file-saver';
@@ -157,7 +157,7 @@ export default {
   },
   methods: {
     formatDate(date) {
-      return moment(date).format('YYYY-MM-DD');
+      return dayjs(date).format('YYYY-MM-DD');
     },
     initFileInfo() {
       this.loading = true;

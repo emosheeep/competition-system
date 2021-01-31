@@ -40,7 +40,7 @@ export default {
     onOk(e) {
       this.$refs.addUser.confirm().then(values => {
         this.loading = true;
-        values.date = values.date.valueOf(); // 将组件默认的moment对象转换为时间戳
+        values.date = values.date.valueOf(); // 将组件默认的dayjs对象转换为时间戳
         return this.addRace(values);
       }).then(_ => {
         this.$emit('update:visible', false);

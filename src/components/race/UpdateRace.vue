@@ -45,7 +45,7 @@ export default {
     onOk(e) {
       this.$refs.updateRace.confirm().then(values => {
         this.loading = true;
-        values.date = values.date.valueOf(); // 将组件默认的moment对象转换为时间戳
+        values.date = values.date.valueOf(); // 将组件默认的dayjs对象转换为时间戳
         return this.updateRace({
           ...values,
           _id: this.race._id, // 手动添加_id属性，否则会出错

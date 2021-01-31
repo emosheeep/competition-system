@@ -1,6 +1,6 @@
 // 带过期时间的持久化加密本地存储
 import { Base64 } from 'js-base64';
-import moment from 'moment';
+import dayjs from 'dayjs';
 
 class Storage {
   constructor() { // 参数为最长过期时间
@@ -15,9 +15,9 @@ class Storage {
   getItem(key) {
     const origin = Base64.decode(this.storage.getItem(key));
     let { expires } = JSON.parse(origin);
-    expires = moment(expires);
+    expires = dayjs(expires);
     console.log('到期时间：', expires.format('YYYY-MM-DD HH:mm:ss'));
-    if (moment().isSameOrBefore(expires)) {
+    if (dayjs().isSameOrBefore(expires)) {
       return origin; // 这里要返回JSON格式字符串
     } else {
       // 时间过期就清空

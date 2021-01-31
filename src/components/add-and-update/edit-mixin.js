@@ -1,4 +1,4 @@
-import moment from 'moment';
+import dayjs from 'dayjs';
 import { message } from 'ant-design-vue';
 
 export default {
@@ -50,7 +50,7 @@ export default {
             if (err) return reject(err);
             // 转换可能存在的时间属性
             for (const key of Object.keys(values)) {
-              if (values[key] instanceof moment) {
+              if (values[key] instanceof dayjs) {
                 values[key] = values[key].valueOf();
               }
             }

@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import moment from 'moment';
+import dayjs from 'dayjs';
 import ShowRecord from '../record/ShowRecord';
 
 export default {
@@ -48,7 +48,7 @@ export default {
   },
   methods: {
     formatDate(date) {
-      return moment(date).format('YYYY-MM-DD');
+      return dayjs(date).format('YYYY-MM-DD');
     },
   },
 };

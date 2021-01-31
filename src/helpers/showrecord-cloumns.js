@@ -1,6 +1,6 @@
 import { dropRight } from 'lodash';
 import { filter, filterSlots } from './culumns-helper';
-import moment from 'moment';
+import dayjs from 'dayjs';
 
 export default function(type) {
   if (type === 'admin') {
@@ -27,7 +27,7 @@ const allColumns = [
     dataIndex: 'date',
     width: 110,
     sorter: (a, b) => a.date - b.date,
-    customRender: date => moment(date).format('YYYY-MM-DD'),
+    customRender: date => dayjs(date).format('YYYY-MM-DD'),
   },
   {
     title: '名称',

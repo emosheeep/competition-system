@@ -1,4 +1,4 @@
-import moment from 'moment';
+import dayjs from 'dayjs';
 import { filter, filterSlots } from './culumns-helper';
 
 export default function() {
@@ -9,7 +9,7 @@ export default function() {
       ellipsis: true,
       width: 110,
       sorter: (a, b) => a.date - b.date,
-      customRender: date => moment(date).format('YYYY-MM-DD'),
+      customRender: date => dayjs(date).format('YYYY-MM-DD'),
     },
     {
       title: '赛事名称',
