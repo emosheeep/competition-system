@@ -1,4 +1,3 @@
-import dayjs from 'dayjs';
 import { message } from 'ant-design-vue';
 
 export default {
@@ -41,23 +40,11 @@ export default {
       this.changed = true;
     },
     confirm() {
-      return new Promise((resolve, reject) => {
-        if (this.type !== 'add' && !this.changed) {
-          message.info('未检测到数据变动');
-          reject('未检测到数据变动');
-        } else {
-          this.form.validateFields((err, values) => {
-            if (err) return reject(err);
-            // 转换可能存在的时间属性
-            for (const key of Object.keys(values)) {
-              if (values[key] instanceof dayjs) {
-                values[key] = values[key].valueOf();
-              }
-            }
-            resolve(values);
-          });
-        }
-      });
+      if (this.type !== 'add' && !this.changed) {
+        message.info('未检测到数据变动');
+        return Promise.reject('未检测到数据变动');
+      }
+      return this.form.validateFields();
     },
   },
 };
