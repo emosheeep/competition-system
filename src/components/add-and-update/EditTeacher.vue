@@ -4,38 +4,32 @@
     :wrapper-col="wrapperCol"
     :form="form"
   >
-    <template v-if="type !== 'self'">
-      <a-form-item label="工号">
-        <a-input
-          ref="account"
-          v-decorator="decorator.tid"
-          :disabled="type === 'update'"
-          placeholder="职工号"
-        >
-          <a-icon
-            slot="prefix"
-            type="user"
-            style="color: rgba(0,0,0,.25)"
-          />
-        </a-input>
-      </a-form-item>
-      <a-form-item
-        v-if="type === 'add'"
-        label="密码"
+    <a-form-item label="工号">
+      <a-input
+        v-decorator="decorator.tid"
+        :disabled="isEdit"
+        placeholder="职工号"
       >
-        <a-input
-          ref="password"
-          v-decorator="decorator.password"
-          placeholder="密码"
-        >
-          <a-icon
-            slot="prefix"
-            type="lock"
-            style="color: rgba(0,0,0,.25)"
-          />
-        </a-input>
-      </a-form-item>
-    </template>
+        <a-icon
+          slot="prefix"
+          type="user"
+          style="color: rgba(0,0,0,.25)"
+        />
+      </a-input>
+    </a-form-item>
+    <a-form-item v-if="!isEdit" label="密码">
+      <a-input
+        ref="password"
+        v-decorator="decorator.password"
+        placeholder="密码"
+      >
+        <a-icon
+          slot="prefix"
+          type="lock"
+          style="color: rgba(0,0,0,.25)"
+        />
+      </a-input>
+    </a-form-item>
     <a-form-item label="姓名">
       <a-input
         v-decorator="decorator.name"
@@ -59,8 +53,9 @@
 </template>
 
 <script>
-import EditMixin from './edit-mixin';
+import { pick } from 'lodash';
 import { ranks } from '@/utils/const';
+import EditMixin from './edit-mixin';
 
 export default {
   name: 'EditTeacher',
@@ -73,17 +68,10 @@ export default {
   },
   methods: {
     initData() {
-      const { data, type } = this;
-      const result = {
-        name: data.name,
-        rank: data.rank,
-        classname: data.classname,
-        description: data.description,
-      };
-      if (type !== 'self') {
-        result.tid = data.tid;
-      }
-      this.form.setFieldsValue(result);
+      const { data } = this;
+      this.form.setFieldsValue(
+        pick(data, ['tid', 'name', 'rank', 'description']),
+      );
     },
   },
 };
@@ -113,6 +101,8 @@ const decorator = {
   rank: ['rank', {
     initialValue: 0,
   }],
-  description: ['description'],
+  description: ['description', {
+    initialValue: '',
+  }],
 };
 </script>

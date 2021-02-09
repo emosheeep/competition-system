@@ -4,37 +4,34 @@
     :wrapper-col="wrapperCol"
     :form="form"
   >
-    <template v-if="type !== 'self'">
-      <a-form-item label="学号">
-        <a-input
-          ref="account"
-          v-decorator="decorator.sid"
-          :disabled="type === 'update'"
-          placeholder="学号"
-          allowClear
-        >
-          <a-icon
-            slot="prefix"
-            type="user"
-            style="color: rgba(0,0,0,.25)"
-          />
-        </a-input>
-      </a-form-item>
-      <a-form-item v-if="type === 'add'" label="密码">
-        <a-input
-          ref="password"
-          v-decorator="decorator.password"
-          placeholder="密码"
-          allowClear
-        >
-          <a-icon
-            slot="prefix"
-            type="lock"
-            style="color: rgba(0,0,0,.25)"
-          />
-        </a-input>
-      </a-form-item>
-    </template>
+    <a-form-item label="学号">
+      <a-input
+        v-decorator="decorator.sid"
+        :disabled="isEdit"
+        placeholder="学号"
+        allowClear
+      >
+        <a-icon
+          slot="prefix"
+          type="user"
+          style="color: rgba(0,0,0,.25)"
+        />
+      </a-input>
+    </a-form-item>
+    <a-form-item v-if="!isEdit" label="密码">
+      <a-input
+        ref="password"
+        v-decorator="decorator.password"
+        placeholder="密码"
+        allowClear
+      >
+        <a-icon
+          slot="prefix"
+          type="lock"
+          style="color: rgba(0,0,0,.25)"
+        />
+      </a-input>
+    </a-form-item>
     <a-form-item label="姓名">
       <a-input
         v-decorator="decorator.name"
@@ -64,8 +61,9 @@
 </template>
 
 <script>
-import EditMixin from './edit-mixin';
+import { pick } from 'lodash';
 import { classes, sexes } from '@/utils/const';
+import EditMixin from './edit-mixin';
 
 export default {
   name: 'EditStudent',
@@ -79,16 +77,8 @@ export default {
   },
   methods: {
     initData() {
-      const { data, type } = this;
-      const result = {
-        name: data.name,
-        sex: data.sex,
-        class: data.class,
-        grade: data.grade,
-      };
-      if (type !== 'self') {
-        result.sid = data.sid;
-      }
+      const { data } = this;
+      const result = pick(data, ['sid', 'name', 'sex', 'class', 'grade']);
       this.form.setFieldsValue(result);
     },
   },
