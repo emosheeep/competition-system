@@ -2,14 +2,21 @@ import Vue from 'vue';
 import App from './App.vue';
 import router from './router';
 import store from './store';
-import './plugins';
 import * as API from '@/api';
+import zhCn from 'ant-design-vue/lib/locale-provider/zh_CN';
+import './plugins';
 
 Vue.config.productionTip = false;
 Vue.prototype.$api = API;
 
-new Vue({
+const vm = new Vue({
   router,
   store,
-  render: h => h(App),
-}).$mount('#app');
+  render: h => (
+    <a-config-provider locale={zhCn}>
+      <App/>
+    </a-config-provider>
+  ),
+});
+
+vm.$mount('#app');

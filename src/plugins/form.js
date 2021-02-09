@@ -54,5 +54,19 @@ function matcher(name) {
         return h('a-select', ctx.data);
       },
     },
+    'a-range-picker': {
+      functional: true,
+      render(h, ctx) {
+        const { on, attrs } = ctx.data;
+        attrs.valueFormat = 'YYYY-MM-DD';
+
+        const { change, input } = on;
+        on.change = value => {
+          input(value);
+          isFunction(change) && change(value);
+        };
+        return h('a-range-picker', ctx.data);
+      },
+    },
   })[name?.startsWith('a-') ? name : `a-${name}`];
 }

@@ -77,7 +77,7 @@ export default {
   },
   methods: {
     onOk() {
-      this.$refs[this.type].confirm().then(values => {
+      this.$refs[this.type].validate().then(values => {
         this.loading = true;
         this.$api.updateUser(this.type, values).then(({ data }) => {
           if (data.code !== 200) throw data;

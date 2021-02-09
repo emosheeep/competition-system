@@ -103,7 +103,9 @@ export default {
   justify-content center
   padding-left 20px
   border-left 1px solid divider-color
-  .ant-btn:first-child
-    border-radius 2px
-    margin-bottom 20px
+  .ant-btn
+    min-width 100px
+    &:first-child
+      border-radius 2px
+      margin-bottom 20px
 </style>

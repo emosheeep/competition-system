@@ -18,7 +18,7 @@
 <script>
 import { createNamespacedHelpers } from 'vuex';
 import EditAdmin from '../add-and-update/EditAdmin';
-import { ADD_USER } from '../../store/mutation-types';
+import { ADD_USER } from '@/store/mutation-types';
 const { mapActions } = createNamespacedHelpers('users');
 
 export default {
@@ -36,7 +36,7 @@ export default {
     ...mapActions([ADD_USER]),
     onOk(e) {
       // 调用子组件的confirm方法
-      this.$refs.admin.confirm().then(values => {
+      this.$refs.admin.validate().then(values => {
         this.loading = true;
         return this.ADD_USER({
           type: 'admin',

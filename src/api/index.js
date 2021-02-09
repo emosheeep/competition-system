@@ -25,9 +25,7 @@ export const resetPassword = data => axios.put('/user/reset', data);
 export const getRaceList = params => axios.get('/race/list', { params });
 export const addRace = data => axios.post('/race/add', data);
 export const updateRace = data => axios.put('/race/update', data);
-export const deleteRace = data => {
-  return axios.delete('/race/delete', { data });
-};
+export const deleteRace = data => axios.delete('/race/delete', { data });
 
 /**
  * 参赛记录

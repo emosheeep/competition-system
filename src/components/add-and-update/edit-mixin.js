@@ -2,19 +2,7 @@ import { message } from 'ant-design-vue';
 
 export default {
   props: {
-    data: {
-      type: Object,
-      default() {
-        return {};
-      },
-    },
-    type: {
-      type: String,
-      default: 'add',
-      validator(value) {
-        return ['add', 'update', 'self'].includes(value);
-      },
-    },
+    data: Object,
   },
   data() {
     return {
@@ -23,13 +11,18 @@ export default {
       changed: false,
     };
   },
+  computed: {
+    isEdit() {
+      return !!this.data;
+    },
+  },
   beforeCreate() {
     this.form = this.$form.createForm(this, {
       onValuesChange: _ => { this.changed = true; },
     });
   },
   mounted() {
-    if (this.type !== 'add') {
+    if (this.isEdit) {
       this.initData();
       this.changed = false; // 修正
     }
@@ -39,8 +32,8 @@ export default {
       this.form.resetFields();
       this.changed = true;
     },
-    confirm() {
-      if (this.type !== 'add' && !this.changed) {
+    validate() {
+      if (this.isEdit && !this.changed) {
         message.info('未检测到数据变动');
         return Promise.reject('未检测到数据变动');
       }

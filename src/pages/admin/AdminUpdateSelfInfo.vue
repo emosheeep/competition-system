@@ -69,7 +69,7 @@ export default {
       this.$refs.self.reset();
     },
     modifyUserInfo() {
-      this.$refs.self.confirm().then(values => {
+      this.$refs.self.validate().then(values => {
         const user = omit(this.user, ['identity']);
         this.loading = true;
         return this.$store.dispatch(

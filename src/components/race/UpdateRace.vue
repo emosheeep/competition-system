@@ -43,7 +43,7 @@ export default {
       updateRace: UPDATE_RACE,
     }),
     onOk(e) {
-      this.$refs.updateRace.confirm().then(values => {
+      this.$refs.updateRace.validate().then(values => {
         this.loading = true;
         values.date = values.date.valueOf(); // 将组件默认的dayjs对象转换为时间戳
         return this.updateRace({

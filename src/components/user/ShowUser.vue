@@ -72,7 +72,7 @@
 <script>
 import MultipleDelete from '../../helpers/multiple-delete-mixin';
 import TableSearch from '../common/TableSearch';
-import { DELETE_USER } from '../../store/mutation-types';
+import { DELETE_USER } from '@/store/mutation-types';
 import { createNamespacedHelpers } from 'vuex';
 const { mapActions } = createNamespacedHelpers('users');
 

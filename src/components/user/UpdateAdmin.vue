@@ -47,7 +47,7 @@ export default {
       !this.loading && this.$emit('update:visible', false);
     },
     onOk() {
-      this.$refs.admin.confirm().then(values => {
+      this.$refs.admin.validate().then(values => {
         this.loading = true;
         return this.updateUser({
           type: 'admin',

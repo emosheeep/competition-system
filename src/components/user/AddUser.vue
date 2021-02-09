@@ -78,7 +78,7 @@ export default {
   methods: {
     onOk() {
       // 调用子组件的confirm方法
-      this.$refs[this.type].confirm().then(values => {
+      this.$refs[this.type].validate().then(values => {
         this.loading = true;
         this.$api.addUser(this.type, values).then(({ data }) => {
           if (data.code !== 200) throw data;

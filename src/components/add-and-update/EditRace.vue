@@ -17,6 +17,7 @@
       <a-date-picker
         v-decorator="decorator.date"
         :disabled-date="disableDate"
+        value-format="YYYY-MM-DD HH:mm:ss"
         style="width: 100%"
         placeholder="选择比赛时间"
       />
@@ -105,7 +106,7 @@ const decorator = {
     }],
   }],
   level: ['level', {
-    initialValue: '校级',
+    initialValue: 1,
   }],
   type: ['type', {
     initialValue: 'A',
