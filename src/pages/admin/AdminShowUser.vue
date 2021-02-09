@@ -174,11 +174,15 @@ export default {
         total: this.total,
         showQuickJumper: true,
         showSizeChanger: true,
+        showTotal: total => `共 ${total} 条记录`,
       };
     },
   },
   beforeMount() {
     this.$watch(() => [this.pageSize, this.current], this.getData);
+  },
+  activated() {
+    this.getData();
   },
   methods: {
     editUser(row) {

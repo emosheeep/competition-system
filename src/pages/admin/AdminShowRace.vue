@@ -32,6 +32,7 @@
       @change="changePage"
     >
       <template #action="record">
+        <a @click="addRecord(record)">成绩录入</a>
         <!--编辑-->
         <a @click="editRace(record)">
           <a-icon type="edit" />
@@ -55,9 +56,6 @@
           </template>
           <a><a-icon type="delete" /></a>
         </a-popconfirm>
-
-        <!--重置密码-->
-        <a-divider type="vertical" />
       </template>
     </a-table>
   </div>
@@ -66,6 +64,7 @@
 <script>
 import { raceLevels } from '@/utils/const';
 import EditRace from '@/components/add-and-update/EditRace';
+import AddRecord from '@/components/record/AddRecord';
 
 export default {
   name: 'AdminShowRace',
@@ -88,11 +87,15 @@ export default {
         total: this.total,
         showQuickJumper: true,
         showSizeChanger: true,
+        showTotal: total => `共 ${total} 条记录`,
       };
     },
   },
   beforeMount() {
     this.$watch(() => [this.pageSize, this.current], this.getData);
+  },
+  activated() {
+    this.getData();
   },
   methods: {
     changePage({ pageSize, current }) {
@@ -156,9 +159,9 @@ export default {
         },
       });
     },
-    deleteRace(data) {
+    deleteRace(race) {
       this.loading = true;
-      this.$api.deleteRace([data.race_id]).then(({ data }) => {
+      this.$api.deleteRace([race.race_id]).then(({ data }) => {
         if (data.code !== 200) throw data;
         this.$message.success(data.msg);
         this.getData();
@@ -167,6 +170,28 @@ export default {
         this.$message.error(e.msg || '删除失败');
       }).finally(() => {
         this.loading = false;
+      });
+    },
+    addRecord(race) {
+      let vnode;
+      this.$confirm({
+        title: '成绩录入',
+        content: h => (vnode = <AddRecord />),
+        onOk: async () => {
+          const form = vnode.componentInstance;
+          const values = await form.validate();
+          return this.$api.addRecord({
+            ...values,
+            sid: '8002117359', // TODO: 完善权限和之后将这里替换为user.account
+            race_id: race.race_id,
+          }).then(({ data }) => {
+            if (data.code !== 200) throw data;
+            this.$message.success(data.msg);
+          }).catch(e => {
+            this.$message.error(e.msg || '系统错误');
+            throw e;
+          });
+        },
       });
     },
   },

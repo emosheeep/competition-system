@@ -20,7 +20,7 @@ const ConfirmModal = Vue.extend({
       try {
         this.loading = true;
         await this.onOk();
-        this.close();
+        this.visible = false;
       } catch (e) {
         console.warn(e.message || '模态框关闭失败');
       } finally {
@@ -29,9 +29,6 @@ const ConfirmModal = Vue.extend({
     },
     cancel() {
       this.onCancel();
-      this.close();
-    },
-    close() {
       this.visible = false;
     },
     remove() {
@@ -42,6 +39,7 @@ const ConfirmModal = Vue.extend({
   render(h) {
     return (
       <a-modal
+        afterClose={this.remove}
         title={this.title}
         okText={this.okText}
         cancelText={this.cancelText}
