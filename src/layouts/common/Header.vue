@@ -1,11 +1,14 @@
 <template>
-  <div>
-    <LoginState class="login-state" />
-  </div>
+  <header>
+    <div class="header-left"></div>
+    <div class="header-right">
+      <LoginState class="header-item" />
+    </div>
+  </header>
 </template>
 
 <script>
-import LoginState from '../../components/common/LoginState';
+import LoginState from '@/components/common/LoginState';
 export default {
   name: 'Header',
   components: { LoginState },
@@ -13,14 +16,15 @@ export default {
 </script>
 
 <style scoped lang="stylus">
-  .login-state
-    float right
-  .trigger
-    font-size 18px
-    line-height 64px
-    padding 0 24px
-    cursor pointer
-    transition color 0.3s
-    &:hover
-      color #1890ff
+header
+  padding 0 10px
+  display flex
+  justify-content space-between
+  & > div[class^=header]
+    flex-grow 1
+.header-right
+  text-align right
+.header-item:hover
+  background-color rgba(0,0,0,.025)
+
 </style>
