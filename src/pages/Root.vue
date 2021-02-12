@@ -40,12 +40,12 @@
 <script>
 import { mapState, mapActions } from 'vuex';
 import { message } from 'ant-design-vue';
-import ShowUser from '../../components/user/ShowUser';
-import UpdateAdmin from '../../components/user/UpdateAdmin';
-import AddAdmin from '../../components/user/AddAdmin';
-import resetPassword from '../../utils/reset-password';
-import { ADMIN_COLUMNS } from '../../helpers/showuser-columns';
-import { ADD_USER, DELETE_USER } from '../../store/mutation-types';
+import ShowUser from '../components/user/ShowUser';
+import UpdateAdmin from '../components/user/UpdateAdmin';
+import AddAdmin from '../components/user/AddAdmin';
+import resetPassword from '../utils/reset-password';
+import { ADMIN_COLUMNS } from '../helpers/showuser-columns';
+import { ADD_USER, DELETE_USER } from '../store/mutation-types';
 
 export default {
   name: 'RootShowAdmin',

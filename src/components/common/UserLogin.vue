@@ -41,9 +41,6 @@
           <a-radio value="teacher">
             教师
           </a-radio>
-          <a-radio value="admin">
-            管理员
-          </a-radio>
         </a-radio-group>
       </a-form-item>
       <a-form-item class="login-form-bottom">
@@ -63,7 +60,6 @@
 </template>
 
 <script>
-import { LOGIN } from '../../store/mutation-types';
 import Loading from './Loading';
 export default {
   name: 'Login',
@@ -82,10 +78,12 @@ export default {
       e.preventDefault();
       this.form.validateFields().then(values => {
         this.loading = true;
-        return this.$store.dispatch(LOGIN, values);
-      }).then(data => {
-        const { user } = data;
-        return this.$router.replace({ path: user.identity });
+        return this.$api.login(values);
+      }).then(({ data }) => {
+        if (data.code !== 200) {
+          return this.$message.error(data.msg);
+        }
+        return this.$router.replace('/race');
       }).finally(() => {
         this.loading = false;
       });

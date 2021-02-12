@@ -1,14 +1,7 @@
 import axios from './axios';
 
-export const login = data => axios.post('/auth/login', data);
-export const refreshToken = originToken => {
-  return axios.get('/auth/refresh', {
-    headers: {
-      authorization: originToken,
-    },
-  });
-};
-
+export const login = data => axios.post('/login', data);
+export const getUserData = () => axios.get('get_user');
 /**
  * 用户
  */
@@ -33,9 +26,8 @@ export const deleteRace = data => axios.delete('/race/delete', { data });
 export const getRecordList = params => axios.get('/record/list', { params });
 export const addRecord = data => axios.post('/record/add', data);
 export const updateRecord = record => axios.patch('/record/update', record);
-export const deleteRecord = data => {
-  return axios.delete('/record/delete', { data });
-};
+export const deleteRecord = data => axios.delete('/record/delete', { data });
+
 export const getToken = params => axios.get('/record/auth', { params });
 export const getFileInfo = params => axios.get('/record/file', { params });
 export const getDownloadUrl = params => axios.get('/record/download', { params });

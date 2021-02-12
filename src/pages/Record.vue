@@ -1,7 +1,6 @@
 <template>
   <div>
     <SearchForm
-      immediate
       ref="searchForm"
       :loading="loading"
       :options="searchOptions"

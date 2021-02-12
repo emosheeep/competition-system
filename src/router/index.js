@@ -1,32 +1,45 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-import teacher from './teacher';
-import admin from './admin';
-import student from './student';
-// import CheckState from './navigation-guard/check-state';
-// import CheckIdentity from './navigation-guard/check-identity';
 
 Vue.use(VueRouter);
 
 const routes = [
   {
     path: '/',
-    name: 'login',
-    meta: { auth: false },
-    component: () => import(
-      /* webpackChunkName: "Login" */
-      '../pages/Login'
-    ),
+    component: () => import('@/pages/index'),
+    children: [
+      {
+        path: 'race',
+        name: '赛事',
+        component: () => import(/* webpackChunkName: "Race" */'@/pages/Race'),
+      },
+      {
+        path: 'record',
+        name: '参赛记录',
+        component: () => import(/* webpackChunkName: "Record" */ '@/pages/Record'),
+        props: route => ({ type: 'admin' }),
+      },
+      {
+        path: 'user',
+        name: '学生教师',
+        component: () => import(/* webpackChunkName: "User" */ '@/pages/User'),
+      },
+      {
+        path: 'self',
+        name: '账号信息',
+        component: () => import(/* webpackChunkName: "SelfInfo" */ '@/pages/AdminUpdateSelfInfo'),
+      },
+    ],
   },
-  ...teacher,
-  ...student,
-  ...admin,
+  {
+    path: '/login',
+    name: 'login',
+    meta: { noAuth: true },
+    component: () => import(/* webpackChunkName: "Login" */'@/pages/Login'),
+  },
   {
     path: '/404',
-    component: () => import(
-      /* webpackChunkName: "404" */
-      '../components/common/404'
-    ),
+    component: () => import(/* webpackChunkName: "404" */'@/components/common/404'),
   },
   {
     path: '*',
@@ -39,8 +52,5 @@ const router = new VueRouter({
   base: process.env.BASE_URL,
   routes,
 });
-
-// router.beforeEach(CheckState);
-// router.beforeEach(CheckIdentity);
 
 export default router;

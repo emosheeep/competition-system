@@ -17,72 +17,33 @@
       :selected-keys="keys"
       @click="handleClick"
     >
-      <!--学生侧栏-->
-      <template v-if="user.identity === 'student'">
-        <a-menu-item key="/student/teacher">
-          <a-icon type="experiment" />
-          <span>教师信息</span>
-        </a-menu-item>
-        <a-menu-item key="/student/race">
+      <a-menu-item-group title="赛事管理">
+        <a-menu-item key="/race">
           <a-icon type="project" />
-          <span>竞赛列表</span>
+          <span>赛事</span>
         </a-menu-item>
-        <a-menu-item key="/student/record">
+        <a-menu-item key="/record">
           <a-icon type="solution" />
           <span>参赛记录</span>
         </a-menu-item>
-        <a-menu-item key="/student/self">
-          <a-icon type="smile" />
-          <span>个人信息</span>
+      </a-menu-item-group>
+      <a-menu-item-group title="用户管理">
+        <a-menu-item key="/user">
+          <a-icon type="team" />
+          <span>学生教师</span>
         </a-menu-item>
-      </template>
-
-      <!--教师侧栏-->
-      <template v-else-if="user.identity === 'teacher'">
-        <a-menu-item key="/teacher/race">
-          <a-icon type="project" />
-          <span>竞赛信息</span>
+        <a-menu-item
+          v-if="user.power === 'root'"
+          key="/admin/root"
+        >
+          <a-icon type="user" />
+          <span>管理员</span>
         </a-menu-item>
-        <a-menu-item key="/teacher/record">
-          <a-icon type="solution" />
-          <span>学生参赛记录</span>
-        </a-menu-item>
-        <a-menu-item key="/teacher/self">
-          <a-icon type="smile" />
-          <span>个人信息</span>
-        </a-menu-item>
-      </template>
-
-      <!--管理员侧栏-->
-      <template v-else-if="user.identity === 'admin'">
-        <a-menu-item-group title="赛事管理">
-          <a-menu-item key="/admin/race">
-            <a-icon type="project" />
-            <span>赛事</span>
-          </a-menu-item>
-          <a-menu-item key="/admin/record">
-            <a-icon type="solution" />
-            <span>参赛记录</span>
-          </a-menu-item>
-        </a-menu-item-group>
-        <a-menu-item-group title="用户管理">
-          <a-menu-item key="/admin/user">
-            <a-icon type="team" />
-            <span>学生教师</span>
-          </a-menu-item>
-          <a-menu-item
-            v-if="user.power === 'root'"
-            key="/admin/root"
-          >
-            <a-icon type="user" />
-            <span>管理员</span>
-          </a-menu-item>
-        </a-menu-item-group>
-        <a-menu-item key="/admin/self">
-          <a-icon type="smile" />
-          <span>个人信息</span>
-        </a-menu-item>
-      </template>
+      </a-menu-item-group>
+      <a-menu-item key="/self">
+        <a-icon type="smile" />
+        <span>个人信息</span>
+      </a-menu-item>
     </a-menu>
   </div>
 </template>
@@ -113,8 +74,7 @@ export default {
       this.$router.push(path).catch(e => e);
     },
     goHome() {
-      const { identity } = this.user;
-      this.$router.replace(`/${identity}`).catch(e => e);
+      this.$router.push('/race').catch(e => e);
     },
   },
 };

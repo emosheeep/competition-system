@@ -1,20 +1,32 @@
 import Vue from 'vue';
 import Vuex, { createLogger } from 'vuex';
-import user from './modules/user';
-import persistedState from '../plugins/persisted_state';
+import { message } from 'ant-design-vue';
+import { getUserData } from '@/api';
+import router from '@/router';
 
 Vue.use(Vuex);
 const debug = process.env.NODE_ENV !== 'production';
 export default new Vuex.Store({
   strict: debug,
+  plugins: debug ? [createLogger()] : [],
   state: {
-    token: '', // 控制短期鉴权
-    refreshToken: '', // 控制最长登陆时间
+    user: {},
   },
-  modules: {
-    user,
+  actions: {
+    initUser({ commit }) {
+      return getUserData().then(({ data }) => {
+        if (data.code !== 200) {
+          message.error(data.msg);
+          router.replace('/login');
+          return;
+        }
+        commit('setUserData', data.data);
+      });
+    },
   },
-  plugins: debug
-    ? [createLogger(), persistedState]
-    : [persistedState], // 调试插件，控制台打印具体信息
+  mutations: {
+    setUserData(state, user) {
+      state.user = user;
+    },
+  },
 });

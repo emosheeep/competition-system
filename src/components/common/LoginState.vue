@@ -23,16 +23,22 @@
 </template>
 
 <script>
+import Cookie from 'js-cookie';
+import { mapState, mapActions } from 'vuex';
+
 export default {
   name: 'LoginState',
   computed: {
-    user() {
-      return this.$store.state.user;
-    },
+    ...mapState(['user']),
+  },
+  mounted() {
+    this.initUser();
   },
   methods: {
+    ...mapActions(['initUser']),
     logout() {
-      this.$message.success('功能正在开发中...');
+      Cookie.remove('uid');
+      this.$router.replace('/login');
     },
   },
 };

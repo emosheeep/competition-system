@@ -1,7 +1,6 @@
 <template>
   <div class="container">
     <SearchForm
-      immediate
       ref="searchForm"
       :loading="loading"
       :options="searchOptions"
@@ -9,7 +8,7 @@
       @reset="search"
     />
 
-    <a-tabs v-model="userType">
+    <a-tabs v-model="userType" @change="getData">
       <a-tab-pane key="student" tab="学生信息" />
       <a-tab-pane key="teacher" tab="教师信息" />
       <template #tabBarExtraContent>
@@ -44,6 +43,7 @@
       bordered
       size="middle"
       :row-key="rowKey"
+      :key="rowKey"
       :loading="loading"
       :data-source="users"
       :pagination="pagination"

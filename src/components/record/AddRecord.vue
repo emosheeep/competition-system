@@ -46,12 +46,15 @@ export default {
   },
   computed: {
     user() {
-      return this.$store.state.user;
+      return this.$store.state.user ?? {};
     },
   },
   methods: {
     validate() {
-      return this.$refs.form.validate().then(() => this.formData);
+      return this.$refs.form.validate().then(() => ({
+        ...this.formData,
+        sid: this.user.account,
+      }));
     },
     onSearch(query) {
       if (!query) return;

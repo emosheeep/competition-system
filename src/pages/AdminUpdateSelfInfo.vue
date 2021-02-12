@@ -4,7 +4,7 @@
       key="info"
       tab="修改信息"
     >
-      <EditTeacher
+      <EditAdmin
         ref="self"
         type="self"
         style="width: 500px; margin: 0 auto"
@@ -39,28 +39,30 @@
 </template>
 
 <script>
-import EditTeacher from '../../components/add-and-update/EditTeacher';
-import ModifyPassword from '../../components/common/UpdatePassword';
-import { UPDATE_SELF } from '../../store/mutation-types';
+import EditAdmin from '../components/add-and-update/EditAdmin';
+import ModifyPassword from '../components/common/UpdatePassword';
+import { UPDATE_SELF } from '../store/mutation-types';
 import { omit } from 'lodash';
 export default {
-  name: 'TeacherUpdateSelfInfo',
-  components: { ModifyPassword, EditTeacher },
+  name: 'AdminUpdateSelfInfo',
+  components: { ModifyPassword, EditAdmin },
   data() {
     return {
       loading: false,
-      name: ['name', {
-        rules: [{
-          required: true,
-          message: '请输入管理员姓名！',
-        }],
-      }],
     };
   },
   computed: {
     user() {
       return this.$store.state.user;
     },
+  },
+  beforeMount() {
+    this.name = ['name', {
+      rules: [{
+        required: true,
+        message: '请输入管理员姓名！',
+      }],
+    }];
   },
   methods: {
     reset() {
@@ -85,7 +87,7 @@ export default {
 </script>
 
 <style scoped lang="stylus">
-  .form
-    width 500px
-    margin 0 auto
+.form
+  width 500px
+  margin 0 auto
 </style>

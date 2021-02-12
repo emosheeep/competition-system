@@ -1,7 +1,6 @@
 <template>
   <div>
     <SearchForm
-      immediate
       ref="searchForm"
       :loading="loading"
       :options="searchOptions"
@@ -67,7 +66,7 @@ import EditRace from '@/components/add-and-update/EditRace';
 import AddRecord from '@/components/record/AddRecord';
 
 export default {
-  name: 'AdminShowRace',
+  name: 'Race',
   data() {
     return {
       loading: false,
@@ -180,11 +179,8 @@ export default {
         onOk: async () => {
           const form = vnode.componentInstance;
           const values = await form.validate();
-          return this.$api.addRecord({
-            ...values,
-            sid: '8002117359', // TODO: 完善权限和之后将这里替换为user.account
-            race_id: race.race_id,
-          }).then(({ data }) => {
+          values.race_id = race.race_id;
+          return this.$api.addRecord(values).then(({ data }) => {
             if (data.code !== 200) throw data;
             this.$message.success(data.msg);
           }).catch(e => {
