@@ -44,17 +44,9 @@ export default {
       },
     };
   },
-  computed: {
-    user() {
-      return this.$store.state.user ?? {};
-    },
-  },
   methods: {
     validate() {
-      return this.$refs.form.validate().then(() => ({
-        ...this.formData,
-        sid: this.user.account,
-      }));
+      return this.$refs.form.validate().then(() => this.formData);
     },
     onSearch(query) {
       if (!query) return;

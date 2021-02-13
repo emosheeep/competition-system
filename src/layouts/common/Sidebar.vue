@@ -40,10 +40,6 @@
           <span>管理员</span>
         </a-menu-item>
       </a-menu-item-group>
-      <a-menu-item key="/self">
-        <a-icon type="smile" />
-        <span>个人信息</span>
-      </a-menu-item>
     </a-menu>
   </div>
 </template>

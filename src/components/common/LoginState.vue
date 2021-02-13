@@ -9,9 +9,9 @@
         <a-icon type="user" />
         <span>个人中心</span>
       </a-menu-item>
-      <a-menu-item>
-        <a-icon type="setting" />
-        <span>设置</span>
+      <a-menu-item @click="modifyPassword">
+        <a-icon type="lock" />
+        <span>修改密码</span>
       </a-menu-item>
       <a-menu-divider />
       <a-menu-item @click="logout">
@@ -24,6 +24,7 @@
 
 <script>
 import Cookie from 'js-cookie';
+import UpdatePassword from '@/components/common/UpdatePassword';
 import { mapState, mapActions } from 'vuex';
 
 export default {
@@ -39,6 +40,30 @@ export default {
     logout() {
       Cookie.remove('uid');
       this.$router.replace('/login');
+    },
+    modifyPassword() {
+      let vnode;
+      this.$confirm({
+        title: '修改密码',
+        content: h => (vnode = <UpdatePassword />),
+        onOk: async () => {
+          const values = await vnode.componentInstance.validate();
+          return this.$api.updatePassword({
+            account: this.user.account,
+            identity: this.user.identity,
+            oldVal: values.oldVal,
+            newVal: values.newVal,
+          }).then(({ data }) => {
+            if (data.code === 200) {
+              this.$message.success('修改成功');
+            } else throw data;
+          }).catch(e => {
+            console.error(e);
+            this.$message.error(e.msg || '修改失败');
+            throw e;
+          });
+        },
+      });
     },
   },
 };

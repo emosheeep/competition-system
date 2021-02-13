@@ -6,6 +6,7 @@ import router from '@/router';
 
 Vue.use(Vuex);
 const debug = process.env.NODE_ENV !== 'production';
+
 export default new Vuex.Store({
   strict: debug,
   plugins: debug ? [createLogger()] : [],

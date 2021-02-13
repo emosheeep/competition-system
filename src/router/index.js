@@ -24,11 +24,6 @@ const routes = [
         name: '学生教师',
         component: () => import(/* webpackChunkName: "User" */ '@/pages/User'),
       },
-      {
-        path: 'self',
-        name: '账号信息',
-        component: () => import(/* webpackChunkName: "SelfInfo" */ '@/pages/AdminUpdateSelfInfo'),
-      },
     ],
   },
   {

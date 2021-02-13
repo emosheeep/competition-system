@@ -179,8 +179,12 @@ export default {
         onOk: async () => {
           const form = vnode.componentInstance;
           const values = await form.validate();
-          values.race_id = race.race_id;
-          return this.$api.addRecord(values).then(({ data }) => {
+          return this.$api.addRecord({
+            race_id: race.race_id,
+            sid: this.$store.state.user.account,
+            score: values.score,
+            tid: values.tid,
+          }).then(({ data }) => {
             if (data.code !== 200) throw data;
             this.$message.success(data.msg);
           }).catch(e => {

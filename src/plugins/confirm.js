@@ -8,6 +8,7 @@ const ConfirmModal = Vue.extend({
       okText: '确定',
       cancelText: '取消',
       content: undefined,
+      maskClosable: false,
       showCancel: true,
       visible: false,
       loading: false,
@@ -40,6 +41,7 @@ const ConfirmModal = Vue.extend({
     return (
       <a-modal
         afterClose={this.remove}
+        maskClosable={this.maskClosable}
         title={this.title}
         okText={this.okText}
         cancelText={this.cancelText}
