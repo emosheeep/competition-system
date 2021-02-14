@@ -52,9 +52,7 @@
     >
       <template #action="record">
         <!--编辑-->
-        <a @click="editUser(record)">
-          <a-icon type="edit" />
-        </a>
+        <a @click="editUser(record)"><a-icon type="edit" /></a>
 
         <a-divider type="vertical" />
 
@@ -85,10 +83,7 @@
           @confirm="resetPassword(record)"
         >
           <template #icon>
-            <a-icon
-              type="question-circle-o"
-              style="color: orange"
-            />
+            <a-icon type="question-circle-o" style="color: orange"/>
           </template>
           <a-tooltip placement="top">
             <template #title>
@@ -108,32 +103,52 @@
       :columns="curColumns"
       @confirm="importUser"
     />
-    <!--修改用户-->
-    <UpdateUser
-      v-model="updateUserVisible"
-      :type="userType"
-      :data="curUser"
-      @success="getData"
-    />
   </div>
 </template>
 
 <script>
-import { dropRight } from 'lodash';
 import { classes, ranks, sexes } from '@/utils/const';
-import { STUDENT_COLUMNS, TEACHER_COLUMNS } from '@/helpers/showuser-columns';
 import createColumns from '@/helpers/importuser-columns';
-import resetPassword from '@/utils/reset-password';
 import AddUser from '@/components/user/AddUser';
+import EditStudent from '@/components/add-and-update/EditStudent';
+import EditTeacher from '@/components/add-and-update/EditTeacher';
 import Import from '@/components/common/Import';
-import UpdateUser from '@/components/user/UpdateUser';
+
+const STUDENT_COLUMNS = [
+  { title: '学号', dataIndex: 'sid' },
+  { title: '姓名', dataIndex: 'name' },
+  { title: '性别', dataIndex: 'sex' },
+  { title: '年级', dataIndex: 'grade' },
+  { title: '班级', dataIndex: 'class' },
+  { title: '创建时间', dataIndex: 'create_time' },
+  { title: '修改时间', dataIndex: 'update_time' },
+  {
+    title: '操作',
+    align: 'center',
+    width: 100,
+    scopedSlots: { customRender: 'action' },
+  },
+];
+const TEACHER_COLUMNS = [
+  { title: '工号', dataIndex: 'tid' },
+  { title: '姓名', dataIndex: 'name' },
+  { title: '职称', dataIndex: 'rank' },
+  { title: '描述', dataIndex: 'description', ellipsis: true },
+  { title: '创建时间', dataIndex: 'create_time' },
+  { title: '修改时间', dataIndex: 'update_time' },
+  {
+    title: '操作',
+    align: 'center',
+    width: 100,
+    scopedSlots: { customRender: 'action' },
+  },
+];
 
 export default {
   name: 'AdminShowUser',
   components: {
     AddUser,
     Import,
-    UpdateUser,
   },
   data() {
     return {
@@ -144,10 +159,8 @@ export default {
       total: 0,
       addUserVisible: false,
       importUserVisible: false,
-      updateUserVisible: false,
       importUserType: 'student',
       userType: 'student',
-      curUser: {},
     };
   },
   computed: {
@@ -161,8 +174,7 @@ export default {
       return createColumns(this.importUserType);
     },
     tableColumns() {
-      const columns = this.userType === 'student' ? STUDENT_COLUMNS : TEACHER_COLUMNS;
-      return this.user.power === 'read' ? dropRight(columns) : columns;
+      return this.userType === 'student' ? STUDENT_COLUMNS : TEACHER_COLUMNS;
     },
     user() {
       return this.$store.state.user;
@@ -185,44 +197,12 @@ export default {
     this.getData();
   },
   methods: {
-    editUser(row) {
-      this.curUser = row;
-      this.updateUserVisible = true;
-    },
-    resetPassword(row) {
-      resetPassword(this.userType, row[this.rowKey]);
-    },
     search() {
       this.current = 1;
       this.getData();
     },
-    deleteUser(row) {
-      const key = Math.random();
-      this.$message.loading({ content: '正在删除', duration: 0, key });
-      this.$api.deleteUser(this.userType, {
-        ids: [row[this.rowKey]],
-      }).then(({ data }) => {
-        if (data.code !== 200) throw data;
-        this.$message.success({ content: '删除成功!', key });
-        this.getData();
-      }).catch(e => {
-        this.$message.error({ content: e.msg || '删除失败!', key });
-      });
-    },
     changePage({ pageSize, current }) {
       Object.assign(this, { pageSize, current });
-    },
-    showImportUser({ key }) {
-      this.importUserType = key;
-      this.importUserVisible = true;
-    },
-    importUser(users) {
-      this.ADD_USER({
-        type: this.importUserType,
-        users,
-      }).then(() => {
-        this.importUserVisible = false;
-      }).catch(console.warn);
     },
     getData() {
       this.loading = true;
@@ -241,6 +221,70 @@ export default {
       }).finally(() => {
         this.loading = false;
       });
+    },
+    resetPassword(row) {
+      const key = Date.now();
+      this.$message.loading({
+        key,
+        content: '请稍后',
+        duration: 0,
+      });
+      this.$api.resetPassword({
+        type: this.userType,
+        account: row[this.rowKey],
+      }).then(() => {
+        this.$message.success({ content: '已重置', key });
+      }).catch(() => {
+        this.$message.error({ content: '重置失败', key });
+      });
+    },
+    editUser(row) {
+      let vnode;
+      this.$confirm({
+        title: '修改信息',
+        content: h => (vnode = this.userType === 'student'
+          ? <EditStudent type="update" data={row} />
+          : <EditTeacher type="update" data={row} />),
+        onOk: async () => {
+          const values = await vnode.componentInstance.validate();
+          return this.$api.updateUser(
+            this.userType,
+            values,
+          ).then(({ data }) => {
+            if (data.code !== 200) throw data;
+            this.getData();
+          }).catch(e => {
+            console.error(e);
+            this.$message.error(e.msg || '修改失败');
+            throw e;
+          });
+        },
+      });
+    },
+    deleteUser(row) {
+      const key = Math.random();
+      this.$message.loading({ content: '正在删除', duration: 0, key });
+      this.$api.deleteUser(this.userType, {
+        ids: [row[this.rowKey]],
+      }).then(({ data }) => {
+        if (data.code !== 200) throw data;
+        this.$message.success({ content: '删除成功!', key });
+        this.getData();
+      }).catch(e => {
+        this.$message.error({ content: e.msg || '删除失败!', key });
+      });
+    },
+    showImportUser({ key }) {
+      this.importUserType = key;
+      this.importUserVisible = true;
+    },
+    importUser(users) {
+      this.ADD_USER({
+        type: this.importUserType,
+        users,
+      }).then(() => {
+        this.importUserVisible = false;
+      }).catch(console.warn);
     },
   },
 };

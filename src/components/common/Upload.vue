@@ -54,9 +54,8 @@
 <script>
 import { message } from 'ant-design-vue';
 import { createNamespacedHelpers } from 'vuex';
-import { UPDATE_RECORD } from '../../store/mutation-types';
 import { getToken, fresh } from '../../api';
-import { uploader } from '../../utils/qiniu';
+import { uploader } from '@/utils/qiniu';
 
 const { mapActions } = createNamespacedHelpers('records');
 export default {
@@ -77,9 +76,6 @@ export default {
     };
   },
   methods: {
-    ...mapActions({
-      updateRecord: UPDATE_RECORD,
-    }),
     reset() {
       Object.assign(this, data);
     },
@@ -176,7 +172,7 @@ function complete({ key: name }) {
   record.uploaded = true; // 标记为已上传状态
   Promise.all([
     fresh({ name }), // 重新上传文件，需要刷新cdn缓存，否则预览文件不会变化
-    this.updateRecord(record),
+    this.updateRecord(record), // TODO: 逻辑完善
   ]).then(([{ data: result }]) => {
     this.uploadStatus = 'success';
     if (result.code === 1) {

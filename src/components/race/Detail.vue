@@ -24,18 +24,14 @@
         {{ race.description }}
       </a-descriptions-item>
     </a-descriptions>
-    <!--展示对应赛事的参赛人员，id为赛事id-->
-    <ShowRecord :data="records" />
   </div>
 </template>
 
 <script>
 import dayjs from 'dayjs';
-import ShowRecord from '../record/ShowRecord';
 
 export default {
   name: 'Detail',
-  components: { ShowRecord },
   props: {
     race: {
       type: Object,
