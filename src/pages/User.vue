@@ -8,7 +8,7 @@
       @reset="search"
     />
 
-    <a-tabs v-model="userType" @change="getData">
+    <a-tabs v-model="userType" @change="onChange">
       <a-tab-pane key="student" tab="学生信息" />
       <a-tab-pane key="teacher" tab="教师信息" />
       <template #tabBarExtraContent>
@@ -18,6 +18,9 @@
             @click="addUserVisible = true"
           >
             添加用户
+          </a-button>
+          <a-button :disabled="!selectedKeys.length" @click="batchDelete">
+            批量删除 ({{ selectedKeys.length }})
           </a-button>
           <a-dropdown :trigger="['click']">
             <a-button>
@@ -39,11 +42,9 @@
     </a-tabs>
 
     <!--信息列表-->
-    <a-table
-      bordered
-      size="middle"
+    <AntTable
+      v-model="selectedKeys"
       :row-key="rowKey"
-      :key="rowKey"
       :loading="loading"
       :data-source="users"
       :pagination="pagination"
@@ -93,7 +94,7 @@
           </a-tooltip>
         </a-popconfirm>
       </template>
-    </a-table>
+    </AntTable>
 
     <!--添加用户-->
     <AddUser v-model="addUserVisible" @success="search" />
@@ -153,6 +154,7 @@ export default {
   data() {
     return {
       loading: false,
+      selectedKeys: [],
       users: [],
       current: 1,
       pageSize: 10,
@@ -184,9 +186,6 @@ export default {
         current: this.current,
         pageSize: this.pageSize,
         total: this.total,
-        showQuickJumper: true,
-        showSizeChanger: true,
-        showTotal: total => `共 ${total} 条记录`,
       };
     },
   },
@@ -197,6 +196,10 @@ export default {
     this.getData();
   },
   methods: {
+    onChange() {
+      this.selectedKeys.splice(0);
+      this.search();
+    },
     search() {
       this.current = 1;
       this.getData();
@@ -272,6 +275,22 @@ export default {
         this.getData();
       }).catch(e => {
         this.$message.error({ content: e.msg || '删除失败!', key });
+      });
+    },
+    batchDelete() {
+      this.$modal.confirm({
+        title: `确认删除选中的${this.selectedKeys.length}项数据?`,
+        onOk: () => this.$api.deleteUser(this.userType, {
+          ids: this.selectedKeys,
+        }).then(({ data }) => {
+          if (data.code !== 200) throw data;
+          this.$message.success('删除成功!');
+          this.selectedKeys.splice(0);
+          this.getData();
+        }).catch(e => {
+          this.$message.error(e.msg || '删除失败!');
+          throw e;
+        }),
       });
     },
     showImportUser({ key }) {
