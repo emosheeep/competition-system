@@ -8,21 +8,9 @@
       @reset="search"
     />
 
-    <a-button-group>
-      <a-button
-        type="primary"
-        @click="addRace"
-      >
-        添加赛事
-      </a-button>
-    </a-button-group>
-
-    <a-divider style="margin-top: 10px" />
-
     <!--信息列表-->
-    <a-table
-      bordered
-      size="middle"
+    <AntTable
+      v-model="selectedKeys"
       row-key="race_id"
       :loading="loading"
       :data-source="races"
@@ -30,33 +18,41 @@
       :columns="tableColumns"
       @change="changePage"
     >
-      <template #action="record">
-        <a @click="addRecord(record)">成绩录入</a>
-        <!--编辑-->
-        <a @click="editRace(record)">
-          <a-icon type="edit" />
-        </a>
-
-        <a-divider type="vertical" />
-
-        <!--删除-->
-        <a-popconfirm
-          title="确认删除？"
-          ok-text="确认"
-          cancel-text="取消"
-          placement="left"
-          @confirm="deleteRace(record)"
-        >
-          <template #icon>
-            <a-icon
-              type="question-circle-o"
-              style="color: orange"
-            />
-          </template>
-          <a><a-icon type="delete" /></a>
-        </a-popconfirm>
+      <template #title>
+        <a-button-group>
+          <a-button type="primary" @click="addRace">添加赛事</a-button>
+          <a-button :disabled="!selectedKeys.length" @click="batchDelete">
+            批量删除 ({{ selectedKeys.length }})
+          </a-button>
+        </a-button-group>
       </template>
-    </a-table>
+      <template #action="record">
+        <a v-if="isStudent" @click="addRecord(record)">成绩录入</a>
+        <template v-else>
+          <!--编辑-->
+          <a @click="editRace(record)">
+            <a-icon type="edit" />
+          </a>
+
+          <a-divider type="vertical" />
+
+          <!--删除-->
+          <a-popconfirm
+            title="确认删除？"
+            placement="left"
+            @confirm="deleteRace(record)"
+          >
+            <template #icon>
+              <a-icon
+                type="question-circle-o"
+                style="color: orange"
+              />
+            </template>
+            <a><a-icon type="delete" /></a>
+          </a-popconfirm>
+        </template>
+      </template>
+    </AntTable>
   </div>
 </template>
 
@@ -69,6 +65,7 @@ export default {
   name: 'Race',
   data() {
     return {
+      selectedKeys: [],
       loading: false,
       races: [],
       current: 1,
@@ -84,10 +81,10 @@ export default {
         current: this.current,
         pageSize: this.pageSize,
         total: this.total,
-        showQuickJumper: true,
-        showSizeChanger: true,
-        showTotal: total => `共 ${total} 条记录`,
       };
+    },
+    isStudent() {
+      return this.$store.state.user.identity === 'student' || false;
     },
   },
   beforeMount() {
@@ -169,6 +166,21 @@ export default {
         this.$message.error(e.msg || '删除失败');
       }).finally(() => {
         this.loading = false;
+      });
+    },
+    batchDelete() {
+      this.$modal.confirm({
+        title: `确认删除选中的${this.selectedKeys.length}项数据?`,
+        onOk: () => this.$api.deleteRace(this.selectedKeys)
+          .then(({ data }) => {
+            if (data.code !== 200) throw data;
+            this.$message.success('删除成功!');
+            this.selectedKeys.splice(0);
+            this.getData();
+          }).catch(e => {
+            this.$message.error(e.msg || '删除失败!');
+            throw e;
+          }),
       });
     },
     addRecord(race) {

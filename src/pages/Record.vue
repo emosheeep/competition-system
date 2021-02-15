@@ -8,12 +8,9 @@
       @reset="search"
     />
 
-    <a-divider style="margin-top: 10px" />
-
     <!--信息列表-->
-    <a-table
-      bordered
-      size="middle"
+    <AntTable
+      v-model="selectedKeys"
       row-key="record_id"
       :loading="loading"
       :data-source="records"
@@ -21,12 +18,14 @@
       :columns="tableColumns"
       @change="changePage"
     >
+      <template #title>
+        <a-button :disabled="!selectedKeys.length" @click="batchDelete">
+          批量删除 ({{ selectedKeys.length }})
+        </a-button>
+      </template>
       <template #action="record">
-        <!--删除-->
         <a-popconfirm
           title="确认删除？"
-          ok-text="确认"
-          cancel-text="取消"
           placement="left"
           @confirm="deleteRecord(record)"
         >
@@ -39,7 +38,7 @@
           <a><a-icon type="delete" /></a>
         </a-popconfirm>
       </template>
-    </a-table>
+    </AntTable>
   </div>
 </template>
 
@@ -48,6 +47,7 @@ export default {
   name: 'Record',
   data() {
     return {
+      selectedKeys: [],
       loading: false,
       records: [],
       current: 1,
@@ -63,9 +63,6 @@ export default {
         current: this.current,
         pageSize: this.pageSize,
         total: this.total,
-        showQuickJumper: true,
-        showSizeChanger: true,
-        showTotal: total => `共 ${total} 条记录`,
       };
     },
   },
@@ -108,6 +105,21 @@ export default {
       }).catch(e => {
         console.error(e);
         this.$message.error(e.msg || '删除失败');
+      });
+    },
+    batchDelete() {
+      this.$modal.confirm({
+        title: `确认删除选中的${this.selectedKeys.length}项数据?`,
+        onOk: () => this.$api.deleteRecord(this.selectedKeys)
+          .then(({ data }) => {
+            if (data.code !== 200) throw data;
+            this.$message.success('删除成功!');
+            this.selectedKeys.splice(0);
+            this.getData();
+          }).catch(e => {
+            this.$message.error(e.msg || '删除失败!');
+            throw e;
+          }),
       });
     },
   },
