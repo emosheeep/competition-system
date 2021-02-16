@@ -108,18 +108,18 @@
 </template>
 
 <script>
-import { classes, ranks, sexes } from '@/utils/const';
+import { grades, gradeMap, rankMap, ranks, sexes, sexMap } from '@/utils/const';
 import createColumns from '@/helpers/importuser-columns';
 import AddUser from '@/components/user/AddUser';
-import EditStudent from '@/components/add-and-update/EditStudent';
-import EditTeacher from '@/components/add-and-update/EditTeacher';
+import EditStudent from '@/components/edit/EditStudent';
+import EditTeacher from '@/components/edit/EditTeacher';
 import Import from '@/components/common/Import';
 
 const STUDENT_COLUMNS = [
   { title: '学号', dataIndex: 'sid' },
   { title: '姓名', dataIndex: 'name' },
-  { title: '性别', dataIndex: 'sex' },
-  { title: '年级', dataIndex: 'grade' },
+  { title: '性别', customRender: ({ sex }) => sexMap[sex] },
+  { title: '年级', customRender: ({ grade }) => gradeMap[grade] },
   { title: '班级', dataIndex: 'class' },
   { title: '创建时间', dataIndex: 'create_time' },
   { title: '修改时间', dataIndex: 'update_time' },
@@ -133,7 +133,7 @@ const STUDENT_COLUMNS = [
 const TEACHER_COLUMNS = [
   { title: '工号', dataIndex: 'tid' },
   { title: '姓名', dataIndex: 'name' },
-  { title: '职称', dataIndex: 'rank' },
+  { title: '职称', customRender: ({ rank }) => rankMap[rank] },
   { title: '描述', dataIndex: 'description', ellipsis: true },
   { title: '创建时间', dataIndex: 'create_time' },
   { title: '修改时间', dataIndex: 'update_time' },
@@ -362,7 +362,7 @@ function createSearchOptions(type) {
       default: undefined,
       component: 'select',
       props: {
-        options: classes,
+        options: grades,
       },
     },
     {

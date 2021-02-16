@@ -30,8 +30,8 @@
 </template>
 
 <script>
-import EditStudent from '../add-and-update/EditStudent';
-import EditTeacher from '../add-and-update/EditTeacher';
+import EditStudent from '../edit/EditStudent';
+import EditTeacher from '../edit/EditTeacher';
 
 export default {
   name: 'AddUser',

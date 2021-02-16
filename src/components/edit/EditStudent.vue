@@ -42,7 +42,7 @@
     <a-form-item label="年级">
       <a-select
         v-decorator="decorator.grade"
-        :options="classes"
+        :options="grades"
         allowClear
         placeholder="年级"
       />
@@ -62,7 +62,7 @@
 
 <script>
 import { pick } from 'lodash';
-import { classes, sexes } from '@/utils/const';
+import { grades, sexes } from '@/utils/const';
 import EditMixin from './edit-mixin';
 
 export default {
@@ -70,7 +70,7 @@ export default {
   mixins: [EditMixin],
   data() {
     return {
-      classes,
+      grades,
       decorator,
       sexes,
     };

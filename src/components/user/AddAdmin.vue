@@ -17,7 +17,7 @@
 
 <script>
 import { createNamespacedHelpers } from 'vuex';
-import EditAdmin from '../add-and-update/EditAdmin';
+import EditAdmin from '../edit/EditAdmin';
 import { ADD_USER } from '@/store/mutation-types';
 const { mapActions } = createNamespacedHelpers('users');
 

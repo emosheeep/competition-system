@@ -57,8 +57,8 @@
 </template>
 
 <script>
-import { raceLevels } from '@/utils/const';
-import EditRace from '@/components/add-and-update/EditRace';
+import { raceLevelMap, raceLevels } from '@/utils/const';
+import EditRace from '@/components/edit/EditRace';
 import AddRecord from '@/components/record/AddRecord';
 
 export default {
@@ -212,7 +212,7 @@ export default {
 function createTableColumns() {
   return [
     { title: '赛事名称', dataIndex: 'title' },
-    { title: '级别', dataIndex: 'level' },
+    { title: '级别', customRender: record => raceLevelMap[record.level] },
     { title: '类别', dataIndex: 'type' },
     { title: '主办方', dataIndex: 'sponsor' },
     { title: '举办时间', dataIndex: 'date' },
