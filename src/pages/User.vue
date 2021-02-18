@@ -13,27 +13,24 @@
       <a-tab-pane key="teacher" tab="教师信息" />
       <template #tabBarExtraContent>
         <a-button-group>
-          <a-button
-            type="primary"
-            @click="addUserVisible = true"
-          >
-            添加用户
-          </a-button>
+          <a-dropdown :trigger="['hover']">
+            <a-button type="primary">添加用户</a-button>
+            <template #overlay>
+              <a-menu @click="addUser">
+                <a-menu-item key="student">学生</a-menu-item>
+                <a-menu-item key="teacher">教师</a-menu-item>
+              </a-menu>
+            </template>
+          </a-dropdown>
           <a-button :disabled="!selectedKeys.length" @click="batchDelete">
             批量删除 ({{ selectedKeys.length }})
           </a-button>
-          <a-dropdown :trigger="['click']">
-            <a-button>
-              从表格导入<a-icon type="down" />
-            </a-button>
+          <a-dropdown :trigger="['hover']">
+            <a-button>从表格导入<a-icon type="down" /></a-button>
             <template #overlay>
               <a-menu @click="showImportUser">
-                <a-menu-item key="student">
-                  学生
-                </a-menu-item>
-                <a-menu-item key="teacher">
-                  教师
-                </a-menu-item>
+                <a-menu-item key="student">学生</a-menu-item>
+                <a-menu-item key="teacher">教师</a-menu-item>
               </a-menu>
             </template>
           </a-dropdown>
@@ -96,8 +93,6 @@
       </template>
     </AntTable>
 
-    <!--添加用户-->
-    <AddUser v-model="addUserVisible" @success="search" />
     <!--导入用户-->
     <Import
       :visible.sync="importUserVisible"
@@ -110,7 +105,6 @@
 <script>
 import { grades, gradeMap, rankMap, ranks, sexes, sexMap } from '@/utils/const';
 import createColumns from '@/helpers/importuser-columns';
-import AddUser from '@/components/user/AddUser';
 import EditStudent from '@/components/edit/EditStudent';
 import EditTeacher from '@/components/edit/EditTeacher';
 import Import from '@/components/common/Import';
@@ -148,7 +142,6 @@ const TEACHER_COLUMNS = [
 export default {
   name: 'AdminShowUser',
   components: {
-    AddUser,
     Import,
   },
   data() {
@@ -241,6 +234,30 @@ export default {
         this.$message.error({ content: '重置失败', key });
       });
     },
+    addUser({ key: userType }) {
+      let vnode;
+      const data = ({
+        teacher: { title: '教师', comp: EditTeacher },
+        student: { title: '学生', comp: EditStudent },
+      })[userType];
+
+      this.$confirm({
+        title: `添加${data.title}`,
+        content: h => (vnode = h(data.comp)),
+        onOk: async () => {
+          const values = await vnode.componentInstance.validate();
+          return this.$api.addUser(userType, values).then(({ data }) => {
+            if (data.code !== 200) throw data;
+            this.$message.success('添加成功');
+            this.getData();
+          }).catch(e => {
+            console.error(e);
+            this.$message.error(e.msg || '添加失败');
+            throw e;
+          });
+        },
+      });
+    },
     editUser(row) {
       let vnode;
       this.$confirm({
@@ -255,6 +272,7 @@ export default {
             values,
           ).then(({ data }) => {
             if (data.code !== 200) throw data;
+            this.$message.success('修改成功');
             this.getData();
           }).catch(e => {
             console.error(e);
