@@ -9,7 +9,6 @@ const ConfirmModal = Vue.extend({
       cancelText: '取消',
       content: undefined,
       maskClosable: false,
-      showCancel: true,
       visible: false,
       loading: false,
       onOk() {},

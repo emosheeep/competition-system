@@ -5,9 +5,9 @@
       <span class="name">{{user.name}}</span>
     </div>
     <a-menu slot="overlay">
-      <a-menu-item>
+      <a-menu-item @click="modifySelfInfo">
         <a-icon type="user" />
-        <span>个人中心</span>
+        <span>个人信息</span>
       </a-menu-item>
       <a-menu-item @click="modifyPassword">
         <a-icon type="lock" />
@@ -25,6 +25,8 @@
 <script>
 import Cookie from 'js-cookie';
 import UpdatePassword from '@/components/common/UpdatePassword';
+import EditStudent from '@/components/edit/EditStudent';
+import EditTeacher from '@/components/edit/EditTeacher';
 import { mapState, mapActions } from 'vuex';
 
 export default {
@@ -43,7 +45,7 @@ export default {
     },
     modifyPassword() {
       let vnode;
-      this.$confirm({
+      this.$drawer({
         title: '修改密码',
         content: h => (vnode = <UpdatePassword />),
         onOk: async () => {
@@ -57,6 +59,29 @@ export default {
             if (data.code === 200) {
               this.$message.success('修改成功');
             } else throw data;
+          }).catch(e => {
+            console.error(e);
+            this.$message.error(e.msg || '修改失败');
+            throw e;
+          });
+        },
+      });
+    },
+    modifySelfInfo() {
+      let vnode;
+      this.$drawer({
+        title: '修改个人信息',
+        content: h => (vnode = this.user.identity === 'student'
+          ? <EditStudent type="update" data={this.user} />
+          : <EditTeacher type="update" data={this.user} />),
+        onOk: async () => {
+          const values = await vnode.componentInstance.validate();
+          return this.$api.updateUser(
+            this.user.identity,
+            values,
+          ).then(({ data }) => {
+            if (data.code !== 200) throw data;
+            this.$message.success('修改成功');
           }).catch(e => {
             console.error(e);
             this.$message.error(e.msg || '修改失败');

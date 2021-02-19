@@ -2,6 +2,7 @@ import Vue from 'vue';
 import VueMeta from 'vue-meta';
 import AntDesign, { Modal } from 'ant-design-vue';
 import ConfirmModal from './confirm';
+import Drawer from './drawer';
 import AntTable from '@/components/AntTable';
 import 'ant-design-vue/dist/antd.min.css';
 import 'animate.css';
@@ -15,3 +16,4 @@ Vue.component(AntTable.name, AntTable);
 
 Vue.prototype.$modal = Modal;
 Vue.prototype.$confirm = ConfirmModal;
+Vue.prototype.$drawer = Drawer;
