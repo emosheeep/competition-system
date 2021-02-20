@@ -23,6 +23,7 @@ export default {
     data.attrs = merge({
       size: 'middle',
       bordered: true,
+      scroll: { x: 1000 },
       rowSelection: useVModel
         ? { selectedRowKeys: props.value, onChange: input }
         : props.rowSelection,

@@ -5,6 +5,7 @@ import store from '@/store';
 import * as API from '@/api';
 import zhCn from 'ant-design-vue/lib/locale-provider/zh_CN';
 import '@/plugins';
+import '@/tool';
 
 Vue.config.productionTip = false;
 Vue.prototype.$api = API;

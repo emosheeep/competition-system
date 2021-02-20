@@ -1,5 +1,5 @@
 import Vue from 'vue';
-import Form from '@/components/form';
+import Form from '@/tool/form';
 import { isFunction, isString } from 'lodash';
 
 const getPlaceholder = (prefix, label) => `${prefix}${label}`;

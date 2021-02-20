@@ -24,27 +24,18 @@
         </a-button>
       </template>
       <template #action="record">
-        <a-popconfirm
-          title="确认删除？"
-          placement="left"
-          @confirm="deleteRecord(record)"
-        >
-          <template #icon>
-            <a-icon
-              type="question-circle-o"
-              style="color: orange"
-            />
-          </template>
-          <a><a-icon type="delete" /></a>
-        </a-popconfirm>
+        <RecordAction :record="record" :fresh-data="getData" />
       </template>
     </AntTable>
   </div>
 </template>
 
 <script>
+import RecordAction from '@/components/record/RecordAction';
+
 export default {
   name: 'Record',
+  components: { RecordAction },
   data() {
     return {
       selectedKeys: [],
@@ -53,7 +44,7 @@ export default {
       current: 1,
       pageSize: 10,
       total: 0,
-      tableColumns: createTableColumns.call(this),
+      tableColumns: createTableColumns.call(this, this.$createElement),
       searchOptions: createSearchOptions.call(this),
     };
   },
@@ -97,16 +88,6 @@ export default {
         this.loading = false;
       });
     },
-    deleteRecord(record) {
-      this.$api.deleteRecord([record.record_id]).then(({ data }) => {
-        if (data.code !== 200) throw data;
-        this.$message.success(data.msg);
-        this.getData();
-      }).catch(e => {
-        console.error(e);
-        this.$message.error(e.msg || '删除失败');
-      });
-    },
     batchDelete() {
       this.$modal.confirm({
         title: `确认删除选中的${this.selectedKeys.length}项数据?`,
@@ -125,13 +106,27 @@ export default {
   },
 };
 
-function createTableColumns() {
+function createTableColumns(h) {
   return [
     { title: '名称', dataIndex: 'title' },
     { title: '参赛人', dataIndex: 'sname' },
     { title: '指导老师', dataIndex: 'tname' },
     { title: '成绩', dataIndex: 'score' },
-    { title: '状态', dataIndex: 'state' },
+    {
+      title: '状态',
+      width: 100,
+      customRender: ({ status }) => {
+        const data = ({
+          0: { style: 'color: lightgrey', type: 'question-circle', text: '待审核' },
+          1: { style: 'color: limegreen', type: 'check-circle', text: '审核通过' },
+          2: { style: 'color: red', type: 'exclamation-circle', text: '审核失败' },
+        })[status];
+        return <span style={data.style}>
+          <a-icon type={data.type} />
+          <span>{ data.text }</span>
+        </span>;
+      },
+    },
     { title: '登记时间', dataIndex: 'create_time' },
     { title: '更新时间', dataIndex: 'update_time' },
     { title: '备注', dataIndex: 'description' },
@@ -170,6 +165,19 @@ function createSearchOptions() {
       key: 'score',
       default: '',
       component: 'input',
+    },
+    {
+      label: '审核状态',
+      key: 'status',
+      default: undefined,
+      component: 'select',
+      props: {
+        options: [
+          { label: '待审核', value: 0 },
+          { label: '审核通过', value: 1 },
+          { label: '审核失败', value: 2 },
+        ],
+      },
     },
   ];
 }
