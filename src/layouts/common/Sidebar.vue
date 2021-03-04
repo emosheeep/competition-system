@@ -4,10 +4,6 @@
       class="logo"
       @click="goHome"
     >
-      <img
-        src="/logo.png"
-        alt="logo"
-      >
       <span>竞赛管理系统</span>
     </div>
     <a-menu
@@ -28,16 +24,13 @@
         </a-menu-item>
       </a-menu-item-group>
       <a-menu-item-group title="用户管理">
-        <a-menu-item key="/user">
+        <a-menu-item key="/student">
           <a-icon type="team" />
-          <span>学生教师</span>
+          <span>学生列表</span>
         </a-menu-item>
-        <a-menu-item
-          v-if="user.power === 'root'"
-          key="/admin/root"
-        >
-          <a-icon type="user" />
-          <span>管理员</span>
+        <a-menu-item key="/teacher">
+          <a-icon type="team" />
+          <span>教师列表</span>
         </a-menu-item>
       </a-menu-item-group>
     </a-menu>
@@ -83,17 +76,12 @@ export default {
     width 100%
     height 64px
     line-height 64px
-    padding-left 20px
     margin 0 auto
     color white
     overflow hidden
     white-space nowrap
     cursor pointer
-    img
-      width 40px
-      vertical-align middle
     span
-      margin-left 5px
+      margin-left 15px
       font-size 20px
-      vertical-align middle
 </style>

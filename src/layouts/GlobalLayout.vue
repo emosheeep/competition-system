@@ -1,11 +1,11 @@
 <template>
-  <a-layout style="min-height: 100vh">
+  <a-layout class="container">
     <a-layout-sider class="sidebar-container">
       <slot name="sidebar">
         <Sidebar /> <!-- Sidebar -->
       </slot>
     </a-layout-sider>
-    <a-layout style="margin-left: 200px">
+    <a-layout>
       <a-layout-header class="header-container">
         <slot name="header">
           <Header /> <!-- Header -->
@@ -36,20 +36,18 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-  .sidebar-container
-    overflow auto
-    height 100vh
-    position fixed
-    left 0
-  .header-container
-    padding 0
-    background #fff
-    box-shadow 0 0 5px lightgrey
-  .content-container
-    padding 10px
-    background white
-    margin 10px
-  .footer-container
-    padding 0 0 10px 0
-    text-align center
+.container
+  height 100vh
+.header-container
+  padding 0
+  background #fff
+  box-shadow 0 0 5px lightgrey
+.content-container
+  padding 10px
+  background white
+  margin 10px
+  overflow auto
+.footer-container
+  padding 0 0 10px 0
+  text-align center
 </style>

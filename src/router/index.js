@@ -20,9 +20,14 @@ const routes = [
         props: route => ({ type: 'admin' }),
       },
       {
-        path: 'user',
-        name: '学生教师',
-        component: () => import(/* webpackChunkName: "User" */ '@/pages/User'),
+        path: 'student',
+        name: '学生列表',
+        component: () => import(/* webpackChunkName: "User" */ '@/pages/Student'),
+      },
+      {
+        path: 'teacher',
+        name: '教师列表',
+        component: () => import(/* webpackChunkName: "User" */ '@/pages/Teacher'),
       },
     ],
   },
