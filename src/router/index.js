@@ -17,7 +17,6 @@ const routes = [
         path: 'record',
         name: '参赛记录',
         component: () => import(/* webpackChunkName: "Record" */ '@/pages/Record'),
-        props: route => ({ type: 'admin' }),
       },
       {
         path: 'student',
@@ -28,6 +27,16 @@ const routes = [
         path: 'teacher',
         name: '教师列表',
         component: () => import(/* webpackChunkName: "User" */ '@/pages/Teacher'),
+      },
+      {
+        path: 'role_list',
+        name: '角色列表',
+        component: () => import(/* webpackChunkName: "User" */ '@/pages/RoleList'),
+      },
+      {
+        path: 'permission_list',
+        name: '权限列表',
+        component: () => import(/* webpackChunkName: "User" */ '@/pages/PermissionList'),
       },
     ],
   },

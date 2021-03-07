@@ -25,10 +25,18 @@ export const deleteRace = data => axios.delete('/race/delete', { data });
  */
 export const getRecordList = params => axios.get('/record/list', { params });
 export const addRecord = data => axios.post('/record/add', data);
-export const updateRecord = record => axios.patch('/record/update', record);
+export const updateRecord = data => axios.patch('/record/update', data);
 export const deleteRecord = data => axios.delete('/record/delete', { data });
 
 export const getToken = params => axios.get('/record/auth', { params });
 export const getFileInfo = params => axios.get('/record/file', { params });
 export const getDownloadUrl = params => axios.get('/record/download', { params });
 export const fresh = params => axios.get('/record/fresh', { params });
+
+/**
+ * 权限
+ */
+export const getPermissions = params => axios.get('/permission/list', { params });
+export const addPermission = data => axios.post('/permission/add', data);
+export const updatePermission = data => axios.post('/permission/update', data);
+export const deletePermission = data => axios.delete('/permission/delete', { data });

@@ -10,6 +10,10 @@ export default {
       type: Array,
       default: () => [],
     },
+    rowKey: {
+      type: [String, Function],
+      default: 'id',
+    },
     rowSelection: {
       type: Object,
       default: null,
@@ -22,6 +26,7 @@ export default {
 
     data.attrs = merge({
       size: 'middle',
+      rowKey: props.rowKey,
       bordered: true,
       scroll: { x: 1000 },
       rowSelection: useVModel
