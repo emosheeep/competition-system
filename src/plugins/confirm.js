@@ -1,6 +1,6 @@
 import Vue from 'vue';
 
-const ConfirmModal = Vue.extend({
+const ConfirmModal = {
   name: 'ConfirmModal',
   data() {
     return {
@@ -57,14 +57,16 @@ const ConfirmModal = Vue.extend({
       </a-modal>
     );
   },
-});
+};
 
 /**
  * $confirm的扩展
  * @param{modalOptions} data
  */
 export default function(data) {
-  const instance = new ConfirmModal({ data }).$mount();
-  document.body.appendChild(instance.$el);
+  const instance = new Vue(ConfirmModal);
+  Object.assign(instance.$data, data);
+  const { $el } = instance.$mount();
+  document.body.appendChild($el);
   instance.visible = true;
 };

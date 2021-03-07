@@ -1,7 +1,5 @@
 <script>
-import Vue from 'vue';
-
-export default Vue.extend({
+export default {
   name: 'Drawer',
   data() {
     return {
@@ -88,7 +86,7 @@ export default Vue.extend({
       </a-drawer>
     );
   },
-});
+};
 </script>
 
 <style scoped lang="stylus">
