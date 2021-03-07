@@ -1,38 +1,25 @@
 <template>
   <div>
-    <div
-      class="logo"
-      @click="goHome"
-    >
+    <div class="logo" @click="goHome">
       <span>竞赛管理系统</span>
     </div>
     <a-menu
       theme="dark"
       mode="inline"
       class="menu"
-      :selected-keys="keys"
+      :selected-keys="selectedKeys"
+      :open-keys.sync="openKeys"
       @click="handleClick"
     >
-      <a-menu-item-group title="赛事管理">
-        <a-menu-item key="/race">
-          <a-icon type="project" />
-          <span>赛事</span>
+      <a-sub-menu v-for="item in config" :key="item.key">
+        <span slot="title">
+          <a-icon v-if="item.icon" :type="item.icon" />
+          {{ item.title }}
+        </span>
+        <a-menu-item  v-for="child in item.children" :key="child.key">
+          {{ child.title }}
         </a-menu-item>
-        <a-menu-item key="/record">
-          <a-icon type="solution" />
-          <span>参赛记录</span>
-        </a-menu-item>
-      </a-menu-item-group>
-      <a-menu-item-group title="用户管理">
-        <a-menu-item key="/student">
-          <a-icon type="team" />
-          <span>学生列表</span>
-        </a-menu-item>
-        <a-menu-item key="/teacher">
-          <a-icon type="team" />
-          <span>教师列表</span>
-        </a-menu-item>
-      </a-menu-item-group>
+      </a-sub-menu>
     </a-menu>
   </div>
 </template>
@@ -42,7 +29,37 @@ export default {
   name: 'Sidebar',
   data() {
     return {
-      keys: [],
+      selectedKeys: [],
+      openKeys: [],
+      config: [
+        {
+          title: '赛事管理',
+          icon: 'appstore',
+          key: 'race',
+          children: [
+            { key: '/race', title: '赛事' },
+            { key: '/record', title: '参赛记录' },
+          ],
+        },
+        {
+          title: '用户管理',
+          icon: 'user',
+          key: 'user',
+          children: [
+            { key: '/student', title: '学生列表' },
+            { key: '/teacher', title: '教师列表' },
+          ],
+        },
+        {
+          title: '权限管理',
+          icon: 'key',
+          key: 'permission',
+          children: [
+            { key: '/role_list', title: '角色列表' },
+            { key: '/permission_list', title: '权限列表' },
+          ],
+        },
+      ],
     };
   },
   computed: {
@@ -52,14 +69,24 @@ export default {
   },
   watch: {
     $route: {
-      handler(to) {
-        this.$set(this.keys, 0, to.path);
-      },
       immediate: true,
+      handler(to) {
+        const selectedKey = to.path;
+        this.selectedKeys = [selectedKey];
+        for (const parent of this.config) {
+          for (const child of parent.children) {
+            if (child.key === selectedKey) {
+              this.openKeys = [parent.key];
+              return;
+            }
+          }
+        }
+      },
     },
   },
   methods: {
-    handleClick({ key: path }) {
+    handleClick(data) {
+      const { key: path } = data;
       this.$router.push(path).catch(e => e);
     },
     goHome() {
