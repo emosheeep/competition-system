@@ -1,7 +1,6 @@
 <template>
   <div>
     <SearchForm
-      immediate
       ref="searchForm"
       :options="searchOptions"
       :loading="loading"
@@ -66,6 +65,7 @@ export default {
       this.getData();
     },
     getData() {
+      this.loading = true;
       this.$api.getPermissions({
         ...this.$refs.searchForm.getResult(),
         offset: this.current,
@@ -118,6 +118,20 @@ export default {
         },
       });
     },
+    remove(row) {
+      this.$modal.confirm({
+        title: `确认删除 ${row.label}?`,
+        onOk: () => this.$api.deletePermission([row.id]).then(({ data }) => {
+          if (data.code !== 200) throw data;
+          this.$message.success('删除成功');
+          this.search();
+        }).catch(e => {
+          console.error(e);
+          this.$message.error(e.msg || '删除失败');
+          throw e;
+        }),
+      });
+    },
   },
 };
 
@@ -157,9 +171,19 @@ function createTableColumns(h) {
     { title: '备注', dataIndex: 'description' },
     {
       title: '操作',
-      width: 50,
-      customRender: (row) => <a onClick={this.edit.bind(this, row)} >编辑</a>,
+      width: 100,
+      customRender: (row) => (
+        <div>
+          <a onClick={this.edit.bind(this, row)} >编辑</a>
+          <a onClick={this.remove.bind(this, row)}>删除</a>
+        </div>
+      ),
     },
   ];
 }
 </script>
+
+<style scoped lang="stylus">
+a:not(:last-child)
+  margin-right 10px
+</style>
