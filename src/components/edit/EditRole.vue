@@ -4,12 +4,13 @@
       <a-input v-model.trim="formData.label" placeholder="请输入权限名称" />
     </a-form-model-item>
     <a-form-model-item label="权限" prop="permissions">
-      <a-select
+      <a-tree-select
         v-model="formData.permissions"
         allow-clear
-        :filter-option="filterOption"
-        :options="permissions"
-        mode="multiple"
+        tree-checkable
+        show-search
+        treeNodeFilterProp="title"
+        :tree-data="permissions"
         placeholder="请选择权限"
       />
     </a-form-model-item>
@@ -20,6 +21,7 @@
 </template>
 
 <script>
+import { groupBy } from 'lodash';
 
 export default {
   name: 'EditRole',
@@ -59,10 +61,19 @@ export default {
   mounted() {
     this.$api.getPermissions().then(({ data }) => {
       if (data.code !== 200) throw data;
-      this.permissions = data.data.map(item => ({
-        label: item.label,
-        value: item.id,
-      }));
+      const permissions = groupBy(data.data, 'type');
+      const result = [];
+      for (const [type, items] of Object.entries(permissions)) {
+        result.push({
+          title: type,
+          value: type,
+          children: items.map(item => ({
+            title: item.label,
+            value: item.id,
+          })),
+        });
+      }
+      this.permissions = result;
     }).catch(e => {
       console.error(e);
       this.$message.error(e.msg || '权限列表获取失败');
@@ -73,7 +84,7 @@ export default {
       return this.$refs.form.validate().then(() => this.formData);
     },
     filterOption(query, option) {
-      return option.componentOptions.children[0].text.toLowerCase().indexOf(query.toLowerCase()) >= 0;
+      console.log(arguments);
     },
   },
 };

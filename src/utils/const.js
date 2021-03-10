@@ -35,3 +35,14 @@ function map(arr) {
   }
   return result;
 }
+
+export const permissionTypes = [
+  'user',
+  'race',
+  'record',
+  'role',
+  'permission',
+].map(key => ({
+  label: key,
+  value: key,
+}));

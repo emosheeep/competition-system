@@ -25,7 +25,7 @@
       <template #expandedRowRender="record">
         <div class="permissions">
           <div class="item" v-for="item in record.permissions" :key="item.id">
-            <span class="name">{{ item.label }}</span>
+            <span class="name">{{ item.label }}({{ item.type }})</span>
             <a-tag color="green" v-for="action in item.actions" :key="action">{{ action }}</a-tag>
           </div>
         </div>

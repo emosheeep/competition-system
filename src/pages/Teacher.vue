@@ -167,7 +167,7 @@ export default {
       });
       this.$api.resetPassword({
         type: 'teacher',
-        account: row[this.rowKey],
+        account: row.tid,
       }).then(() => {
         this.$message.success({ content: '已重置', key });
       }).catch(() => {
@@ -220,7 +220,7 @@ export default {
       const key = Math.random();
       this.$message.loading({ content: '正在删除', duration: 0, key });
       this.$api.deleteUser('teacher', {
-        ids: [row[this.rowKey]],
+        ids: [row.tid],
       }).then(({ data }) => {
         if (data.code !== 200) throw data;
         this.$message.success({ content: '删除成功!', key });

@@ -26,6 +26,7 @@
 </template>
 
 <script>
+import { permissionTypes } from '@/utils/const';
 import EditPermission from '@/components/edit/EditPermission';
 
 export default {
@@ -150,6 +151,15 @@ function createSearchOptions() {
       component: 'input',
     },
     {
+      label: '权限类型',
+      key: 'type',
+      default: undefined,
+      component: 'select',
+      props: {
+        options: permissionTypes,
+      },
+    },
+    {
       label: '权限描述',
       key: 'description',
       default: '',
@@ -162,6 +172,7 @@ function createTableColumns(h) {
   return [
     { title: '编号', dataIndex: 'id' },
     { title: '权限名称', dataIndex: 'label' },
+    { title: '权限类型', dataIndex: 'type' },
     {
       title: 'Action',
       dataIndex: 'actions',

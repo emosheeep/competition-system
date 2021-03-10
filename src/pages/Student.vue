@@ -168,7 +168,7 @@ export default {
       });
       this.$api.resetPassword({
         type: 'student',
-        account: row[this.rowKey],
+        account: row.sid,
       }).then(() => {
         this.$message.success({ content: '已重置', key });
       }).catch(() => {
@@ -199,7 +199,7 @@ export default {
       let vnode;
       this.$confirm({
         title: '修改信息',
-        content: h => <EditStudent type="update" data={row} />,
+        content: h => (vnode = <EditStudent type="update" data={row} />),
         onOk: async () => {
           const values = await vnode.componentInstance.validate();
           return this.$api.updateUser(
@@ -221,7 +221,7 @@ export default {
       const key = Math.random();
       this.$message.loading({ content: '正在删除', duration: 0, key });
       this.$api.deleteUser('student', {
-        ids: [row[this.rowKey]],
+        ids: [row.sid],
       }).then(({ data }) => {
         if (data.code !== 200) throw data;
         this.$message.success({ content: '删除成功!', key });
