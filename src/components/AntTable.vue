@@ -1,5 +1,5 @@
 <script>
-import { merge, isFunction } from 'lodash';
+import { merge, isFunction } from 'lodash-es';
 
 export default {
   name: 'AntTable',

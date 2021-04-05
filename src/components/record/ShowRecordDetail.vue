@@ -123,7 +123,7 @@
 <script>
 import dayjs from 'dayjs';
 import { message } from 'ant-design-vue';
-import { debounce } from 'lodash';
+import { debounce } from 'lodash-es';
 import { saveAs } from 'file-saver';
 import { getFileInfo, getDownloadUrl } from '../../api';
 

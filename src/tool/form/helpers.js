@@ -1,4 +1,4 @@
-import { isFunction, has } from 'lodash';
+import { isFunction, has } from 'lodash-es';
 
 export const emptySet = new Set([null, undefined, '']);
 

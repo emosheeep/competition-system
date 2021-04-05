@@ -14,7 +14,7 @@
 
 <script>
 import ConfigForm from './ConfigForm';
-import { noop } from 'lodash';
+import { noop } from 'lodash-es';
 
 export default {
   name: 'SearchForm',

@@ -1,6 +1,6 @@
 import SearchForm from './SearchForm';
 import AuditForm from './ConfigForm';
-import { isFunction } from 'lodash';
+import { isFunction } from 'lodash-es';
 
 function register(Vue, comp, options) {
   const { matcher, locale } = options;

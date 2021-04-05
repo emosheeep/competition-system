@@ -38,7 +38,7 @@
 </template>
 
 <script>
-import { uniqBy } from 'lodash';
+import { uniqBy } from 'lodash-es';
 import { message, Modal } from 'ant-design-vue';
 import { readExcel } from '../../utils/excel';
 export default {

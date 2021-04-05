@@ -21,7 +21,7 @@
 </template>
 
 <script>
-import { groupBy } from 'lodash';
+import { groupBy } from 'lodash-es';
 
 export default {
   name: 'EditRole',

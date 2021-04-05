@@ -61,7 +61,7 @@
 </template>
 
 <script>
-import { pick } from 'lodash';
+import { pick } from 'lodash-es';
 import { grades, sexes } from '@/utils/const';
 import EditMixin from './edit-mixin';
 

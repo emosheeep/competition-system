@@ -32,7 +32,7 @@
 
 <script>
 import { message } from 'ant-design-vue';
-import { last } from 'lodash';
+import { last } from 'lodash-es';
 import PageLayout from './PageLayout';
 import ContextMenu from '../components/common/ContextMenu';
 import PageToggleTransition from '../components/transition/PageToggleTransition';

@@ -24,7 +24,7 @@ import {
   omit,
   noop,
   has,
-} from 'lodash';
+} from 'lodash-es';
 import {
   getDefaultValue,
   getInjectedEvents,
