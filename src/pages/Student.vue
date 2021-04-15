@@ -72,6 +72,8 @@
         </a-popconfirm>
       </template>
     </AntTable>
+
+    <UserImport />
   </div>
 </template>
 
@@ -79,6 +81,7 @@
 import { grades, gradeMap, sexes, sexMap } from '@/utils/const';
 import createColumns from '@/helpers/importuser-columns';
 import EditStudent from '@/components/edit/EditStudent';
+import UserImport from '@/components/common/UserImport';
 
 const STUDENT_COLUMNS = [
   { title: '学号', dataIndex: 'sid' },
@@ -98,6 +101,9 @@ const STUDENT_COLUMNS = [
 
 export default {
   name: 'Student',
+  components: {
+    UserImport,
+  },
   data() {
     return {
       loading: false,

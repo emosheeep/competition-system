@@ -1,16 +1,24 @@
-import XLSX from 'xlsx';
+export async function getXlsx() {
+  const v = await import(/* webpackChunkName: "xlsx" */ 'xlsx');
+  return v.default;
+}
 
 /**
  * 下载表格数据
- * @param {Object} sheets 数据对象
+ * @param {Object} config
  */
-export function makeExcel(sheets) {
+export async function makeExcel(config = {}) {
+  const XLSX = await getXlsx();
+  const {
+    name = 'data.xlsx',
+    data = [],
+    header = [],
+  } = config;
+
   const workbook = XLSX.utils.book_new();
-  for (const name in sheets) {
-    const worksheet = XLSX.utils.json_to_sheet(sheets[name]);
-    XLSX.utils.book_append_sheet(workbook, worksheet, name);
-  }
-  XLSX.writeFile(workbook, 'data.xlsx');
+  const worksheet = XLSX.utils.json_to_sheet(data, { header });
+  XLSX.utils.book_append_sheet(workbook, worksheet);
+  XLSX.writeFile(workbook, name);
 }
 
 /**
@@ -18,7 +26,8 @@ export function makeExcel(sheets) {
  * @param data
  * @returns {Object[]}
  */
-export function readExcel(data) {
+export async function readExcel(data) {
+  const XLSX = await getXlsx();
   const workbook = XLSX.read(data, { type: 'binary' });
   const { SheetNames } = workbook;
   const sheet = workbook.Sheets[SheetNames[0]]; // 只读取第一张表

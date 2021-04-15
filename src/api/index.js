@@ -7,6 +7,7 @@ export const getUserData = () => axios.get('get_user');
  */
 export const getUserList = params => axios.get('/user/list', { params });
 export const addUser = (type, data) => axios.post('/user/add', { type, data });
+export const importUser = (type, data) => axios.post('/user/import', { type, data });
 export const deleteUser = (type, data) => axios.delete('/user/delete', { data: { type, data } });
 export const updateUser = (type, data) => axios.put('/user/update', { type, data });
 export const updatePassword = data => axios.patch('/user/password', data);
