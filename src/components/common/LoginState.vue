@@ -55,10 +55,8 @@ export default {
             identity: this.user.identity,
             oldVal: values.oldVal,
             newVal: values.newVal,
-          }).then(({ data }) => {
-            if (data.code === 200) {
-              this.$message.success('修改成功');
-            } else throw data;
+          }).then(() => {
+            this.$message.success('修改成功');
           }).catch(e => {
             console.error(e);
             this.$message.error(e.msg || '修改失败');
@@ -79,8 +77,7 @@ export default {
           return this.$api.updateUser(
             this.user.identity,
             values,
-          ).then(({ data }) => {
-            if (data.code !== 200) throw data;
+          ).then(() => {
             this.$message.success('修改成功');
           }).catch(e => {
             console.error(e);

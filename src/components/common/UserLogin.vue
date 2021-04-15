@@ -79,11 +79,10 @@ export default {
       this.form.validateFields().then(values => {
         this.loading = true;
         return this.$api.login(values);
-      }).then(({ data }) => {
-        if (data.code !== 200) {
-          return this.$message.error(data.msg);
-        }
+      }).then(() => {
         return this.$router.replace('/race');
+      }).catch(e => {
+        this.$message.error(e.msg || e.message);
       }).finally(() => {
         this.loading = false;
       });

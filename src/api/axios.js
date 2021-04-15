@@ -17,8 +17,8 @@ http.interceptors.request.use(config => {
 });
 
 // 若因401而拒绝，则刷新token，若403则跳转登录
-http.interceptors.response.use(res => {
-  const { code } = res.data;
+http.interceptors.response.use(({ data }) => {
+  const { code } = data;
   if (code === 403) {
     message.destroy();
     store.commit(LOGOUT);
@@ -29,7 +29,8 @@ http.interceptors.response.use(res => {
         message.warn('身份凭证过期，请重新登录');
       });
   }
-  return res;
+  if (code !== 200) throw data;
+  return data;
 }, error => {
   if (!navigator.onLine) {
     message.error('网络错误');

@@ -77,8 +77,7 @@ export default {
         ...this.$refs.searchForm.getResult(),
         offset: this.current,
         limit: this.pageSize,
-      }).then(({ data }) => {
-        if (data.code !== 200) throw data;
+      }).then(data => {
         this.records = data.data;
         this.total = data.count;
       }).catch(e => {
@@ -92,8 +91,7 @@ export default {
       this.$modal.confirm({
         title: `确认删除选中的${this.selectedKeys.length}项数据?`,
         onOk: () => this.$api.deleteRecord(this.selectedKeys)
-          .then(({ data }) => {
-            if (data.code !== 200) throw data;
+          .then(() => {
             this.$message.success('删除成功!');
             this.selectedKeys.splice(0);
             this.getData();

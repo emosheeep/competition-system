@@ -15,13 +15,11 @@ export default new Vuex.Store({
   },
   actions: {
     initUser({ commit }) {
-      return getUserData().then(({ data }) => {
-        if (data.code !== 200) {
-          message.error(data.msg);
-          router.replace('/login');
-          return;
-        }
+      return getUserData().then(data => {
         commit('setUserData', data.data);
+      }).catch(e => {
+        message.error(e.msg);
+        router.replace('/login');
       });
     },
   },

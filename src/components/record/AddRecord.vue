@@ -55,8 +55,7 @@ export default {
         name: query,
         offset: 1,
         limit: 10,
-      }).then(({ data }) => {
-        if (data.code !== 200) throw data;
+      }).then(data => {
         this.teachers = data.data.map(item => ({
           label: `(${item.tid})${item.name}`,
           value: item.tid,

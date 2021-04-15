@@ -154,8 +154,7 @@ export default {
         type: 'student',
         offset: this.current,
         limit: this.pageSize,
-      }).then(({ data }) => {
-        if (data.code !== 200) throw data;
+      }).then(data => {
         this.users = data.data;
         this.total = data.count;
       }).catch(e => {
@@ -189,8 +188,7 @@ export default {
         content: h => (vnode = h(EditStudent)),
         onOk: async () => {
           const values = await vnode.componentInstance.validate();
-          return this.$api.addUser('student', values).then(({ data }) => {
-            if (data.code !== 200) throw data;
+          return this.$api.addUser('student', values).then(() => {
             this.$message.success('添加成功');
             this.getData();
           }).catch(e => {
@@ -211,8 +209,7 @@ export default {
           return this.$api.updateUser(
             'student',
             values,
-          ).then(({ data }) => {
-            if (data.code !== 200) throw data;
+          ).then(() => {
             this.$message.success('修改成功');
             this.getData();
           }).catch(e => {
@@ -228,8 +225,7 @@ export default {
       this.$message.loading({ content: '正在删除', duration: 0, key });
       this.$api.deleteUser('student', {
         ids: [row.sid],
-      }).then(({ data }) => {
-        if (data.code !== 200) throw data;
+      }).then(() => {
         this.$message.success({ content: '删除成功!', key });
         this.getData();
       }).catch(e => {
@@ -241,8 +237,7 @@ export default {
         title: `确认删除选中的${this.selectedKeys.length}项数据?`,
         onOk: () => this.$api.deleteUser('student', {
           ids: this.selectedKeys,
-        }).then(({ data }) => {
-          if (data.code !== 200) throw data;
+        }).then(() => {
           this.$message.success('删除成功!');
           this.selectedKeys.splice(0);
           this.getData();

@@ -105,7 +105,11 @@ export default {
 
         this.uploading = false;
         const diff = result.length - this.result.length;
-        this.$message.success(diff > 0 ? `账号不能重复，已去重${diff}条数据` : '文件读取成功');
+        this.$message.success(
+          diff > 0
+            ? `账号不能重复，已去重${diff}条数据`
+            : '文件读取成功',
+        );
       };
       reader.onerror = e => {
         this.$message.error('文件读取失败');
@@ -139,6 +143,8 @@ export default {
         centered: true,
         onOk: () => this.$api.importUser(data => {
           console.log(data);
+        }).catch(e => {
+          this.$message.error(e.msg || '导入失败');
         }),
       });
     },

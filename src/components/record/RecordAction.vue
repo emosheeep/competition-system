@@ -34,8 +34,7 @@ export default {
   },
   methods: {
     deleteRecord() {
-      this.$api.deleteRecord([this.record.record_id]).then(({ data }) => {
-        if (data.code !== 200) throw data;
+      this.$api.deleteRecord([this.record.record_id]).then(data => {
         this.$message.success(data.msg);
         this.freshData();
       }).catch(e => {
@@ -80,8 +79,7 @@ export default {
           return this.$api.updateRecord({
             record_id: this.record.record_id,
             score,
-          }).then(({ data }) => {
-            if (data.code !== 200) throw data;
+          }).then(() => {
             this.$message.success('修改成功');
             this.freshData();
           }).catch(e => {
@@ -103,8 +101,7 @@ export default {
             record_id: this.record.record_id,
             status: values.status,
             description: values.description,
-          }).then(({ data }) => {
-            if (data.code !== 200) throw data;
+          }).then(() => {
             this.$message.success('提交成功');
             this.freshData();
           }).catch(e => {

@@ -107,8 +107,7 @@ export default {
         ...this.$refs.searchForm.getResult(),
         offset: this.current,
         limit: this.pageSize,
-      }).then(({ data }) => {
-        if (data.code !== 200) throw data;
+      }).then(data => {
         this.races = data.data;
         this.total = data.count;
       }).catch(e => {
@@ -125,8 +124,7 @@ export default {
         content: h => (vnode = <EditRace />),
         onOk: async () => {
           const values = await vnode.componentInstance.validate();
-          return this.$api.addRace(values).then(({ data }) => {
-            if (data.code !== 200) throw data;
+          return this.$api.addRace(values).then(data => {
             this.$message.success(data.msg);
             this.getData();
           }).catch(e => {
@@ -144,8 +142,7 @@ export default {
         onOk: async () => {
           const values = await vnode.componentInstance.validate();
           values.race_id = race.race_id;
-          return this.$api.updateRace(values).then(({ data }) => {
-            if (data.code !== 200) throw data;
+          return this.$api.updateRace(values).then(data => {
             this.$message.success(data.msg);
             this.getData();
           }).catch(e => {
@@ -157,8 +154,7 @@ export default {
     },
     deleteRace(race) {
       this.loading = true;
-      this.$api.deleteRace([race.race_id]).then(({ data }) => {
-        if (data.code !== 200) throw data;
+      this.$api.deleteRace([race.race_id]).then(data => {
         this.$message.success(data.msg);
         this.getData();
       }).catch(e => {
@@ -172,8 +168,7 @@ export default {
       this.$modal.confirm({
         title: `确认删除选中的${this.selectedKeys.length}项数据?`,
         onOk: () => this.$api.deleteRace(this.selectedKeys)
-          .then(({ data }) => {
-            if (data.code !== 200) throw data;
+          .then(() => {
             this.$message.success('删除成功!');
             this.selectedKeys.splice(0);
             this.getData();
@@ -196,8 +191,7 @@ export default {
             sid: this.$store.state.user.account,
             score: values.score,
             tid: values.tid,
-          }).then(({ data }) => {
-            if (data.code !== 200) throw data;
+          }).then(data => {
             this.$message.success(data.msg);
           }).catch(e => {
             this.$message.error(e.msg || '系统错误');

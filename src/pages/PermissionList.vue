@@ -71,8 +71,7 @@ export default {
         ...this.$refs.searchForm.getResult(),
         offset: this.current,
         limit: this.pageSize,
-      }).then(({ data }) => {
-        if (data.code !== 200) throw data;
+      }).then(data => {
         this.tableData = data.data;
         this.total = data.count;
       }).catch(e => {
@@ -89,8 +88,7 @@ export default {
         content: h => (vnode = <EditPermission />),
         onOk: async () => {
           const values = await vnode.componentInstance.validate();
-          return this.$api.addPermission(values).then(({ data }) => {
-            if (data.code !== 200) throw data;
+          return this.$api.addPermission(values).then(() => {
             this.search();
           }).catch(e => {
             console.error(e);
@@ -108,8 +106,7 @@ export default {
         onOk: async () => {
           const values = await vnode.componentInstance.validate();
           values.id = row.id;
-          return this.$api.updatePermission(values).then(({ data }) => {
-            if (data.code !== 200) throw data;
+          return this.$api.updatePermission(values).then(() => {
             this.search();
           }).catch(e => {
             console.error(e);
@@ -122,8 +119,7 @@ export default {
     remove(row) {
       this.$modal.confirm({
         title: `确认删除 ${row.label}?`,
-        onOk: () => this.$api.deletePermission([row.id]).then(({ data }) => {
-          if (data.code !== 200) throw data;
+        onOk: () => this.$api.deletePermission([row.id]).then(() => {
           this.$message.success('删除成功');
           this.search();
         }).catch(e => {

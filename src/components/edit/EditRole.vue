@@ -59,8 +59,7 @@ export default {
     },
   },
   mounted() {
-    this.$api.getPermissions().then(({ data }) => {
-      if (data.code !== 200) throw data;
+    this.$api.getPermissions().then(data => {
       const permissions = groupBy(data.data, 'type');
       const result = [];
       for (const [type, items] of Object.entries(permissions)) {
