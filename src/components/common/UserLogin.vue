@@ -61,6 +61,7 @@
 
 <script>
 import Loading from './Loading';
+
 export default {
   name: 'Login',
   components: { Loading },
@@ -78,14 +79,14 @@ export default {
       e.preventDefault();
       this.form.validateFields().then(values => {
         this.loading = true;
-        return this.$api.login(values);
-      }).then(() => {
-        return this.$router.replace('/race');
-      }).catch(e => {
-        this.$message.error(e.msg || e.message);
-      }).finally(() => {
-        this.loading = false;
-      });
+        return this.$api.login(values).then(() => {
+          return this.$router.replace('/race');
+        }).catch(e => {
+          this.$message.error(e.msg || e.message);
+        }).finally(() => {
+          this.loading = false;
+        });
+      }).catch(console.error);
     },
   },
 };
@@ -115,11 +116,8 @@ const decorator = {
     padding 20px
     text-align left
     border-radius 5px
-    border 1px lightgrey solid
     background-color white
-    transition box-shadow .5s ease
-    &:hover
-      box-shadow 0 0 10px grey
+    box-shadow 0 0 5px lightgrey
 
   .identity
     display flex

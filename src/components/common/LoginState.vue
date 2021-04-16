@@ -79,6 +79,7 @@ export default {
             values,
           ).then(() => {
             this.$message.success('修改成功');
+            this.$store.dispatch('initUser');
           }).catch(e => {
             console.error(e);
             this.$message.error(e.msg || '修改失败');

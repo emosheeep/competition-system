@@ -31,11 +31,13 @@ http.interceptors.response.use(({ data }) => {
   }
   if (code !== 200) throw data;
   return data;
-}, error => {
+}, e => {
+  const { status } = e.response;
+  console.log(status);
   if (!navigator.onLine) {
-    message.error('网络错误');
-    return Promise.reject(error);
+    message.error('网络未连接');
   }
+  throw e;
 });
 
 export default http;
