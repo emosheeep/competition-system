@@ -13,7 +13,7 @@
     @ok="onOk"
   >
     <a-button type="link" @click="writeTemplateFile">
-      下载模板({{ type === 'student' ? '学生' : '教师' }})
+      下载上传模板({{ type === 'student' ? '学生' : '教师' }})
     </a-button>
     <a-upload
       accept=".xlsx,.xls"
@@ -45,6 +45,11 @@
 <script>
 import { uniq } from 'lodash-es';
 import { readExcel, makeExcel } from '@/utils/excel';
+import { sexes, grades, ranks } from '@/utils/const';
+
+const sexesRevertMap = mapRevert(sexes);
+const gradesRevertMap = mapRevert(grades);
+const rankRevertMap = mapRevert(ranks);
 
 export default {
   name: 'UserImport',
@@ -56,41 +61,52 @@ export default {
   },
   data() {
     return {
-      visible: true,
+      visible: false,
       uploading: false,
       result: [],
     };
   },
   computed: {
-    columns() {
-      return this.config.header.map(key => ({
-        title: key,
-        dataIndex: key,
-      }));
+    keyMap() {
+      const extra = this.type === 'student'
+        ? [['性别', 'sex'], ['年级', 'grade'], ['班级', 'class']]
+        : [['职称', 'rank']];
+      return new Map(
+        [
+          ['账号', this.type === 'student' ? 'sid' : 'tid'],
+          ['姓名', 'name'],
+        ].concat(extra),
+      );
     },
-    config() {
-      return ({
-        student: {
-          header: ['账号', '姓名', '性别', '年级', '班级'],
-          name: '学生上传模板.xlsx',
-          data: [{
-            账号: '8002117xxx',
-            姓名: '张三',
-            性别: '男',
-            年级: '大一',
-            班级: '171班',
-          }],
-        },
-        teacher: {
-          header: ['账号', '姓名', '职称'],
-          name: '教师上传模板.xlsx',
-          data: [{
-            工号: '8002117xxx',
-            姓名: '张三',
-            职称: '教授',
-          }],
-        },
-      })[this.type];
+    columns() {
+      const cols = [];
+      for (const key of this.keyMap.keys()) {
+        cols.push({
+          title: key,
+          dataIndex: key,
+        });
+      }
+      return cols;
+    },
+    transferedData() {
+      const data = [];
+      const strategy = {
+        sex: label => sexesRevertMap[label.trim()],
+        grade: label => gradesRevertMap[label.trim()],
+        rank: label => rankRevertMap[label.trim()],
+      };
+      for (const item of this.result) {
+        const temp = {};
+        for (let [key, value] of Object.entries(item)) {
+          key = this.keyMap.get(key.trim());
+          const revert = strategy[key];
+          temp[key] = typeof revert === 'function'
+            ? revert(value)
+            : value;
+        }
+        data.push(temp);
+      }
+      return data;
     },
   },
   methods: {
@@ -141,16 +157,54 @@ export default {
         title: '提示',
         content: '确认导入吗？',
         centered: true,
-        onOk: () => this.$api.importUser(data => {
-          console.log(data);
-        }).catch(e => {
-          this.$message.error(e.msg || '导入失败');
-        }),
+        onOk: () => this.$api.importUser(this.type, this.transferedData)
+          .then(() => {
+            this.$message.success('导入成功');
+            this.visible = false;
+            this.$emit('success');
+          }).catch(e => {
+            this.$message.error(e.msg || '导入失败');
+          }),
       });
     },
     writeTemplateFile() {
-      makeExcel(this.config);
+      makeExcel(({
+        student: {
+          header: [...this.keyMap.keys()],
+          name: '学生上传模板.xlsx',
+          data: [
+            { 账号: '8002117xxx', 姓名: '张三', 性别: '男', 年级: '大一', 班级: '171班' },
+            { 账号: '8002118xxx', 姓名: '淑芬', 性别: '女', 年级: '大二', 班级: '172班' },
+          ],
+        },
+        teacher: {
+          header: [...this.keyMap.keys()],
+          name: '教师上传模板.xlsx',
+          data: [
+            { 工号: '8002117xxx', 姓名: '张三', 职称: '教授' },
+            { 工号: '8002118xxx', 姓名: '张三', 职称: '副教授' },
+          ],
+        },
+      })[this.type]);
+    },
+    /**
+     * 外部调用方法
+     */
+    show() {
+      this.visible = true;
     },
   },
 };
+
+/**
+ * label映射value
+ * @param{Array} arr
+ */
+function mapRevert(arr) {
+  const result = {};
+  for (const { label, value } of arr) {
+    result[label] = value;
+  }
+  return result;
+}
 </script>

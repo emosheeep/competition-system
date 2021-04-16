@@ -13,7 +13,7 @@
       <a-button :disabled="!selectedKeys.length" @click="batchDelete">
         批量删除 ({{ selectedKeys.length }})
       </a-button>
-      <a-button @click="importUser">从表格导入</a-button>
+      <a-button @click="$refs.import.show()">从表格导入</a-button>
     </a-button-group>
 
     <a-divider style="margin: 10px 0"/>
@@ -73,7 +73,7 @@
       </template>
     </AntTable>
 
-    <UserImport />
+    <UserImport type="student" ref="import" @success="search"/>
   </div>
 </template>
 
@@ -247,7 +247,6 @@ export default {
         }),
       });
     },
-    importUser() {},
   },
 };
 
