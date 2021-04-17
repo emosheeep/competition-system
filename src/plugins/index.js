@@ -5,8 +5,9 @@ import ConfirmModal from './confirm';
 import Drawer from './drawer';
 import AntTable from '@/components/AntTable';
 import 'ant-design-vue/dist/antd.min.css';
-import 'animate.css';
 import './form';
+import 'animate.css';
+import '@/style/reset.styl';
 
 Vue.use(VueMeta);
 Vue.use(AntDesign);

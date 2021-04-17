@@ -3,17 +3,20 @@
     <a-form-model-item label="权限名称" prop="label">
       <a-input v-model.trim="formData.label" placeholder="请输入权限名称" />
     </a-form-model-item>
-    <a-form-model-item label="Action" prop="actions">
+    <a-form-model-item label="Action" prop="action">
       <a-select
-        v-model="formData.actions"
+        v-model="formData.action"
         allowClear
-        mode="multiple"
-        placeholder="请选择权限"
+        placeholder="请选择权限动作"
         :options="actions"
       />
     </a-form-model-item>
     <a-form-model-item label="权限类型" prop="type">
-      <a-select v-model="formData.type" :options="permissionTypes" />
+      <a-select
+       v-model="formData.type"
+        :options="permissionTypes"
+        placeholder="请选择权限类型"
+      />
     </a-form-model-item>
     <a-form-model-item label="描述" prop="description">
       <a-input v-model.trim="formData.description" placeholder="请输入备注" />
@@ -22,19 +25,7 @@
 </template>
 
 <script>
-import { permissionTypes } from '@/utils/const';
-
-const actions = [
-  'add',
-  'delete',
-  'update',
-  'query',
-  'import',
-  'export',
-].map(key => ({
-  label: key,
-  value: key,
-}));
+import { permissionTypes, actions } from '@/utils/const';
 
 export default {
   name: 'EditPermission',
@@ -49,15 +40,15 @@ export default {
       permissionTypes,
       actions,
       formData: {
-        type: '',
+        type: undefined,
         label: '',
         description: '',
-        actions: [],
+        action: undefined,
       },
       rules: {
         type: { required: true, message: '请选择权限类型' },
         label: { required: true, message: '请输入权限名称' },
-        actions: { required: true, message: '请选择具体的权限条目' },
+        action: { required: true, message: '请选择权限动作' },
       },
     };
   },
@@ -69,7 +60,7 @@ export default {
         this.formData = {
           type: data.type,
           label: data.label,
-          actions: data.actions,
+          action: data.action,
           description: data.description,
         };
       },

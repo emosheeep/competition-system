@@ -46,3 +46,15 @@ export const permissionTypes = [
   label: key,
   value: key,
 }));
+
+export const actions = [
+  'add',
+  'delete',
+  'update',
+  'query',
+  'import',
+  'export',
+].map(key => ({
+  label: key,
+  value: key,
+}));

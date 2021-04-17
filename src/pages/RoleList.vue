@@ -20,13 +20,14 @@
       :columns="columns"
       :data-source="tableData"
       :pagination="pagination"
+      :scroll="{ x: 500 }"
       @change="changePage"
     >
       <template #expandedRowRender="record">
         <div class="permissions">
           <div class="item" v-for="item in record.permissions" :key="item.id">
             <span class="name">{{ item.label }}({{ item.type }})</span>
-            <a-tag color="green" v-for="action in item.actions" :key="action">{{ action }}</a-tag>
+            <a-tag color="green" >{{ item.action }}</a-tag>
           </div>
         </div>
       </template>
@@ -165,8 +166,8 @@ function createSearchOptions() {
 
 function createTableColumns(h) {
   return [
-    { title: '角色编号', dataIndex: 'id' },
-    { title: '角色名称', dataIndex: 'label' },
+    { title: '角色编号', dataIndex: 'id', width: 80 },
+    { title: '角色名称', dataIndex: 'label', ellipsis: true },
     { title: '角色描述', dataIndex: 'description' },
     {
       title: '操作',
@@ -185,7 +186,7 @@ function createTableColumns(h) {
 <style scoped lang="stylus">
 .permissions
   display grid
-  grid-template-columns repeat(2, 1fr)
+  grid-template-columns repeat(3, 1fr)
   grid-gap 12px
   .item .name
     margin-right 12px
