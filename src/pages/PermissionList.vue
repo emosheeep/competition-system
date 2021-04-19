@@ -164,12 +164,6 @@ function createSearchOptions() {
         options: actions,
       },
     },
-    {
-      label: '权限描述',
-      key: 'description',
-      default: '',
-      component: 'input',
-    },
   ];
 }
 
@@ -181,9 +175,8 @@ function createTableColumns(h) {
     {
       title: 'Action',
       dataIndex: 'action',
-      customRender: action => <a-tag>{ action }</a-tag>,
+      customRender: action => <a-tag>{action}</a-tag>,
     },
-    { title: '备注', dataIndex: 'description' },
     {
       title: '操作',
       width: 100,

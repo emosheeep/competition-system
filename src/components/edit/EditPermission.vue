@@ -5,7 +5,7 @@
     </a-form-model-item>
     <a-form-model-item label="权限类型" prop="type">
       <a-select
-       v-model="formData.type"
+        v-model="formData.type"
         :options="permissionTypes"
         placeholder="请选择权限类型"
       />
@@ -17,9 +17,6 @@
         placeholder="请选择权限动作"
         :options="actions"
       />
-    </a-form-model-item>
-    <a-form-model-item label="描述" prop="description">
-      <a-input v-model.trim="formData.description" placeholder="请输入备注" />
     </a-form-model-item>
   </a-form-model>
 </template>
@@ -42,7 +39,6 @@ export default {
       formData: {
         type: undefined,
         label: '',
-        description: '',
         action: undefined,
       },
       rules: {
@@ -61,7 +57,6 @@ export default {
           type: data.type,
           label: data.label,
           action: data.action,
-          description: data.description,
         };
       },
     },
