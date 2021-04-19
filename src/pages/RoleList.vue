@@ -8,10 +8,6 @@
       @reset="search"
     />
 
-    <a-button type="primary" @click="addRole">
-      <a-icon type="plus" />添加角色
-    </a-button>
-
     <a-divider style="margin: 10px 0" />
 
     <AntTable
@@ -24,10 +20,20 @@
       @change="changePage"
     >
       <template #expandedRowRender="record">
-        <div class="permissions">
-          <div class="item" v-for="item in record.permissions" :key="item.id">
-            <span class="name">{{ item.label }}({{ item.type }})</span>
-            <a-tag color="green" >{{ item.action }}</a-tag>
+        <div
+          class="permissions"
+          v-for="(items, type) in group(record.permissions)"
+          :key="type"
+        >
+          <span class="title">{{ type }}</span>
+          <div class="tag-container">
+            <a-tag
+              v-for="({ label, action }, index) in items"
+              :key="index"
+              color="green"
+            >
+              {{ `${label}(${action})` }}
+            </a-tag>
           </div>
         </div>
       </template>
@@ -92,8 +98,8 @@ export default {
     },
     addRole() {
       let vnode;
-      this.$confirm({
-        title: '添加权限',
+      this.$drawer({
+        title: '添加角色',
         content: h => (vnode = <EditRole />),
         onOk: async () => {
           const values = await vnode.componentInstance.validate();
@@ -109,7 +115,7 @@ export default {
     },
     edit(row) {
       let vnode;
-      this.$confirm({
+      this.$drawer({
         title: '编辑角色',
         content: h => (vnode = <EditRole data={row} />),
         onOk: async () => {
@@ -137,6 +143,15 @@ export default {
           throw e;
         }),
       });
+    },
+    group(permissions) {
+      const result = {};
+      for (const { type, action, label } of permissions) {
+        const item = { action, label };
+        if (!result[type]) result[type] = [];
+        result[type].push(item);
+      }
+      return result;
     },
   },
 };
@@ -185,11 +200,21 @@ function createTableColumns(h) {
 
 <style scoped lang="stylus">
 .permissions
-  display grid
-  grid-template-columns repeat(3, 1fr)
-  grid-gap 12px
-  .item .name
-    margin-right 12px
+  display flex
+  align-items center
+
+  &:not(:last-child)
+    margin-bottom 10px
+
+  & > .title
+    align-self flex-start
+    display inline-block
+    min-width 80px
+
+  & >>> .ant-tag
+    cursor pointer
+    margin-bottom 5px
+
 a:not(:last-child)
   margin-right 10px
 </style>

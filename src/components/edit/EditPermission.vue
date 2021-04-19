@@ -3,19 +3,19 @@
     <a-form-model-item label="权限名称" prop="label">
       <a-input v-model.trim="formData.label" placeholder="请输入权限名称" />
     </a-form-model-item>
+    <a-form-model-item label="权限类型" prop="type">
+      <a-select
+       v-model="formData.type"
+        :options="permissionTypes"
+        placeholder="请选择权限类型"
+      />
+    </a-form-model-item>
     <a-form-model-item label="Action" prop="action">
       <a-select
         v-model="formData.action"
         allowClear
         placeholder="请选择权限动作"
         :options="actions"
-      />
-    </a-form-model-item>
-    <a-form-model-item label="权限类型" prop="type">
-      <a-select
-       v-model="formData.type"
-        :options="permissionTypes"
-        placeholder="请选择权限类型"
       />
     </a-form-model-item>
     <a-form-model-item label="描述" prop="description">

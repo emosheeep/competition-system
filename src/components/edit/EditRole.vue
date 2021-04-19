@@ -3,19 +3,20 @@
     <a-form-model-item label="角色名称" prop="label">
       <a-input v-model.trim="formData.label" placeholder="请输入权限名称" />
     </a-form-model-item>
+    <a-form-model-item label="描述" prop="description">
+      <a-input v-model.trim="formData.description" placeholder="请输入备注" />
+    </a-form-model-item>
     <a-form-model-item label="权限" prop="permissions">
       <a-tree-select
         v-model="formData.permissions"
         allow-clear
         tree-checkable
         show-search
+        treeDefaultExpandAll
         treeNodeFilterProp="title"
         :tree-data="permissions"
         placeholder="请选择权限"
       />
-    </a-form-model-item>
-    <a-form-model-item label="描述" prop="description">
-      <a-input v-model.trim="formData.description" placeholder="请输入备注" />
     </a-form-model-item>
   </a-form-model>
 </template>
@@ -81,9 +82,6 @@ export default {
   methods: {
     validate() {
       return this.$refs.form.validate().then(() => this.formData);
-    },
-    filterOption(query, option) {
-      console.log(arguments);
     },
   },
 };

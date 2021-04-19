@@ -1,15 +1,15 @@
 e<template lang="pug">
-  .form-container
-    .form-item(
-      v-for="option in options"
-      :key="option.key"
-      :class="{ [errorClass]: !!errors[option.key] }"
-    )
-      .form-item-label
-        FormItemLabel(ref="formItem" :option="option.label")
-      .form-item-content
-        FormItemContent.content(ref="formItem" :option="option")
-        .err-msg(v-if="errors[option.key]") {{ errors[option.key] }}
+.form-container
+  .form-item(
+    v-for="option in options",
+    :key="option.key",
+    :class="{ [errorClass]: !!errors[option.key] }"
+  )
+    .form-item-label
+      FormItemLabel(ref="formItem", :option="option.label")
+    .form-item-content
+      FormItemContent.content(ref="formItem", :option="option")
+      .err-msg(v-if="errors[option.key]") {{ errors[option.key] }}
 </template>
 
 <script>
@@ -295,13 +295,15 @@ export default {
 <style scoped lang="stylus">
 .form-container >>>
   display grid
-  grid-template-columns repeat(auto-fill, minmax(260px, 1fr))
+  grid-template-columns repeat(auto-fill, minmax(240px, 1fr))
   grid-gap 12px
   justify-items center
+
 .form-item
   width 100%
   display flex
   flex-direction column
+
 .form-item-label >>>
   height 22px
   line-height 22px
@@ -314,6 +316,7 @@ export default {
     height 22px
     .bui-select-icon-plain
       margin-bottom 0
+
 .form-item-content
   .content
     width 100%
@@ -321,7 +324,4 @@ export default {
     margin-top 5px
     font-size 12px
     color error-color
-.form-item-error >>>
-  .bui-input, .byted-range-picker
-    border 1px solid error-color
 </style>

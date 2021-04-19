@@ -16,7 +16,6 @@ http.interceptors.request.use(config => {
   return config;
 });
 
-// 若因401而拒绝，则刷新token，若403则跳转登录
 http.interceptors.response.use(({ data }) => {
   const { code } = data;
   if (code === 403) {
