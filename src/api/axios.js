@@ -2,7 +2,6 @@ import { message } from 'ant-design-vue';
 import axios from 'axios';
 import store from '../store';
 import router from '../router';
-import { LOGOUT } from '@/store/mutation-types';
 
 const http = axios.create({
   baseURL: '/api',
@@ -20,7 +19,7 @@ http.interceptors.response.use(({ data }) => {
   const { code } = data;
   if (code === 403) {
     message.destroy();
-    store.commit(LOGOUT);
+    store.commit('logout');
     router
       .replace({ name: 'login' })
       .catch(console.warn)
@@ -28,11 +27,10 @@ http.interceptors.response.use(({ data }) => {
         message.warn('身份凭证过期，请重新登录');
       });
   }
-  if (code !== 200) throw data;
-  return data;
+  if (code === 200) return data;
+  console.error(data);
+  throw data;
 }, e => {
-  const { status } = e.response;
-  console.log(status);
   if (!navigator.onLine) {
     message.error('网络未连接');
   }

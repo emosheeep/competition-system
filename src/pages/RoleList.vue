@@ -8,6 +8,10 @@
       @reset="search"
     />
 
+    <a-button type="primary" @click="addRole">
+      <a-icon type="plus" />添加角色
+    </a-button>
+
     <a-divider style="margin: 10px 0" />
 
     <AntTable
@@ -90,8 +94,7 @@ export default {
         this.tableData = data.data;
         this.total = data.count;
       }).catch(e => {
-        console.error(e);
-        this.$message.error(e.msg || '获取数据失败');
+        this.$message.error(e.msg || '获取角色列表失败');
       }).finally(() => {
         this.loading = false;
       });
@@ -202,15 +205,12 @@ function createTableColumns(h) {
 .permissions
   display flex
   align-items center
-
   &:not(:last-child)
     margin-bottom 10px
-
   & > .title
     align-self flex-start
     display inline-block
     min-width 80px
-
   & >>> .ant-tag
     cursor pointer
     margin-bottom 5px

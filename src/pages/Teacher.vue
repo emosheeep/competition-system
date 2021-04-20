@@ -16,7 +16,7 @@
       <a-button @click="$refs.import.show()">从表格导入</a-button>
     </a-button-group>
 
-    <a-divider style="margin: 10px 0"/>
+    <a-divider style="margin: 10px 0" />
 
     <!--信息列表-->
     <AntTable
@@ -29,51 +29,54 @@
       @change="changePage"
     >
       <template #action="record">
-        <!--编辑-->
-        <a @click="editUser(record)"><a-icon type="edit" /></a>
+        <a-space>
+          <!--编辑-->
+          <a @click="editUser(record)">
+            <a-icon type="edit" />
+          </a>
 
-        <a-divider type="vertical" />
-
-        <!--删除-->
-        <a-popconfirm
-          title="确认删除？"
-          ok-text="确认"
-          cancel-text="取消"
-          placement="left"
-          @confirm="deleteUser(record)"
-        >
-          <template #icon>
-            <a-icon
-              type="question-circle-o"
-              style="color: orange"
-            />
-          </template>
-          <a><a-icon type="delete" /></a>
-        </a-popconfirm>
-
-        <!--重置密码-->
-        <a-divider type="vertical" />
-        <a-popconfirm
-          title="确认重置密码？"
-          ok-text="确认"
-          cancel-text="取消"
-          placement="left"
-          @confirm="resetPassword(record)"
-        >
-          <template #icon>
-            <a-icon type="question-circle-o" style="color: orange"/>
-          </template>
-          <a-tooltip placement="top">
-            <template #title>
-              <span>重置密码</span>
+          <!--删除-->
+          <a-popconfirm
+            title="确认删除？"
+            ok-text="确认"
+            cancel-text="取消"
+            placement="left"
+            @confirm="deleteUser(record)"
+          >
+            <template #icon>
+              <a-icon type="question-circle-o" style="color: orange" />
             </template>
-            <a><a-icon type="rollback" /></a>
-          </a-tooltip>
-        </a-popconfirm>
+            <a><a-icon type="delete" /></a>
+          </a-popconfirm>
+
+          <!--重置密码-->
+          <a-popconfirm
+            title="确认重置密码？"
+            ok-text="确认"
+            cancel-text="取消"
+            placement="left"
+            @confirm="resetPassword(record)"
+          >
+            <template #icon>
+              <a-icon type="question-circle-o" style="color: orange" />
+            </template>
+            <a-tooltip placement="top">
+              <template #title>
+                <span>重置密码</span>
+              </template>
+              <a><a-icon type="rollback" /></a>
+            </a-tooltip>
+          </a-popconfirm>
+
+          <!--授权-->
+          <a @click="grantRole(record)">
+            <a-icon type="key" />
+          </a>
+        </a-space>
       </template>
     </AntTable>
 
-    <UserImport type="teacher" ref="import" @success="search"/>
+    <UserImport type="teacher" ref="import" @success="search" />
   </div>
 </template>
 
@@ -82,6 +85,7 @@ import { rankMap, ranks } from '@/utils/const';
 import createColumns from '@/helpers/importuser-columns';
 import EditTeacher from '@/components/edit/EditTeacher';
 import UserImport from '@/components/common/UserImport.vue';
+import GrantRole from '@/components/common/GrantRole';
 
 const TEACHER_COLUMNS = [
   { title: '工号', dataIndex: 'tid' },
@@ -242,6 +246,21 @@ export default {
           this.$message.error(e.msg || '删除失败!');
           throw e;
         }),
+      });
+    },
+    grantRole(item) {
+      let vnode;
+      this.$confirm({
+        title: '授权',
+        content: () => (vnode = <GrantRole
+          type="teacher"
+          role={item.role_id}
+          account={item.tid}
+        />),
+        onOk: async () => {
+          await vnode.componentInstance.confirm();
+          this.getData();
+        },
       });
     },
   },

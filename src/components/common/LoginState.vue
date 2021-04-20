@@ -2,9 +2,13 @@
   <a-dropdown>
     <div class="header-avatar">
       <a-icon class="avatar" type="user" />
-      <span class="name">{{user.name}}</span>
+      <span class="name">{{ user.name }}</span>
     </div>
     <a-menu slot="overlay">
+      <a-menu-item disabled style="text-align: center">
+        <a-icon type="smile" />
+        {{ user.role && user.role.label }}
+      </a-menu-item>
       <a-menu-item @click="modifySelfInfo">
         <a-icon type="user" />
         <span>个人信息</span>
@@ -23,7 +27,6 @@
 </template>
 
 <script>
-import Cookie from 'js-cookie';
 import UpdatePassword from '@/components/common/UpdatePassword';
 import EditStudent from '@/components/edit/EditStudent';
 import EditTeacher from '@/components/edit/EditTeacher';
@@ -40,8 +43,7 @@ export default {
   methods: {
     ...mapActions(['initUser']),
     logout() {
-      Cookie.remove('uid');
-      this.$router.replace('/login');
+      this.$store.commit('logout');
     },
     modifyPassword() {
       let vnode;

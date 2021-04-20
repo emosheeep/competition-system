@@ -1,4 +1,5 @@
 import Vue from 'vue';
+import Cookie from 'js-cookie';
 import Vuex, { createLogger } from 'vuex';
 import { message } from 'ant-design-vue';
 import { getUserData } from '@/api';
@@ -24,6 +25,10 @@ export default new Vuex.Store({
     },
   },
   mutations: {
+    logout() {
+      Cookie.remove('uid');
+      router.replace('/login');
+    },
     setUserData(state, user) {
       state.user = user;
     },

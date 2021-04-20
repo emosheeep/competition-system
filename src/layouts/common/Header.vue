@@ -22,9 +22,10 @@ header
   justify-content space-between
   & > div[class^=header]
     flex-grow 1
+
 .header-right
   text-align right
-.header-item:hover
-  background-color rgba(0,0,0,.025)
 
+.header-item:hover
+  background-color rgba(0, 0, 0, 0.025)
 </style>

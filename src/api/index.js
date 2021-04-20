@@ -49,3 +49,4 @@ export const getRoles = params => axios.get('/role/list', { params });
 export const addRole = data => axios.post('/role/add', data);
 export const updateRole = data => axios.post('/role/update', data);
 export const deleteRole = data => axios.delete('/role/delete', { data });
+export const grantRole = data => axios.post('/role/grant', data);
