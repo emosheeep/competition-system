@@ -12,7 +12,6 @@ module.exports = {
       }]);
     }
   },
-
   devServer: {
     proxy: {
       '/api': {
@@ -29,6 +28,20 @@ module.exports = {
         resolve('./src/style/variables.styl'),
       ],
       injector: 'prepend',
+    },
+  },
+  css: {
+    loaderOptions: {
+      less: {
+        lessOptions: {
+          javascriptEnabled: true,
+          modifyVars: {
+            '@primary-color': '#3d76f7',
+            '@success-color': '#36b777',
+            '@border-radius-base': '2px',
+          },
+        },
+      },
     },
   },
 };

@@ -16,7 +16,7 @@
           <a-icon v-if="item.icon" :type="item.icon" />
           {{ item.title }}
         </span>
-        <a-menu-item  v-for="child in item.children" :key="child.key">
+        <a-menu-item v-for="child in item.children" :key="child.key">
           {{ child.title }}
         </a-menu-item>
       </a-sub-menu>
@@ -97,18 +97,19 @@ export default {
 </script>
 
 <style scoped lang="stylus">
-  .menu li:nth-child(1)
-    margin-top 0 !important
-  .logo
-    width 100%
-    height 64px
-    line-height 64px
-    margin 0 auto
-    color white
-    overflow hidden
-    white-space nowrap
-    cursor pointer
-    span
-      margin-left 15px
-      font-size 20px
+.menu li:nth-child(1)
+  margin-top 0 !important
+
+.logo
+  width 100%
+  height 64px
+  line-height 64px
+  margin 0 auto
+  color white
+  overflow hidden
+  white-space nowrap
+  cursor pointer
+  span
+    margin-left 15px
+    font-size 20px
 </style>
