@@ -18,7 +18,7 @@
       @change="changePage"
     >
       <template #header>
-        <a-button type="primary" @click="addRole">
+        <a-button v-if="$has('role:add')" type="primary" @click="addRole">
           <a-icon type="plus" />添加角色
         </a-button>
       </template>
@@ -189,12 +189,13 @@ function createTableColumns(h) {
     {
       title: '操作',
       width: 100,
-      customRender: (row) => (
-        <div>
-          <a onClick={this.edit.bind(this, row)}>编辑</a>
-          <a onClick={this.remove.bind(this, row)}>删除</a>
-        </div>
-      ),
+      customRender: (row) => {
+        const buttons = [
+          this.$has('role:update') && <a onClick={this.edit.bind(this, row)}>编辑</a>,
+          this.$has('role:delete') && <a onClick={this.remove.bind(this, row)}>删除</a>,
+        ];
+        return <div>{buttons}</div>;
+      },
     },
   ];
 }

@@ -17,7 +17,7 @@
       <a-tab-pane v-for="page in pageList" :key="page.fullPath">
         <template #tab>
           <span :data-key="page.fullPath">
-            {{ page.name }}
+            {{ page.meta.title }}
           </span>
         </template>
       </a-tab-pane>
@@ -55,6 +55,7 @@ export default {
   },
   watch: {
     $route: {
+      immediate: true,
       handler(route) {
         this.activePage = route.fullPath;
         this.putCache(route);
@@ -63,7 +64,6 @@ export default {
           this.pageList.push(route);
         }
       },
-      immediate: true,
     },
   },
   methods: {

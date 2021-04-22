@@ -47,6 +47,6 @@ export default store;
  * @param {string} permission 类似于user:query这样的字符串
  * @returns {boolean}
  */
-Vue.prototype.$hasPerm = function(permission) {
+Vue.prototype.$has = function(permission) {
   return store.getters.permissions.some(v => v === permission);
 };

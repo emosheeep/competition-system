@@ -20,24 +20,29 @@
     >
       <template #header>
         <a-button-group>
-          <a-button type="primary" @click="addRace">添加赛事</a-button>
-          <a-button :disabled="!selectedKeys.length" @click="batchDelete">
+          <a-button v-if="$has('race:add')" type="primary" @click="addRace">
+            添加赛事
+          </a-button>
+          <a-button
+            v-if="$has('race:delete')"
+            :disabled="!selectedKeys.length"
+            @click="batchDelete"
+          >
             批量删除 ({{ selectedKeys.length }})
           </a-button>
         </a-button-group>
       </template>
       <template #action="record">
         <a v-if="isStudent" @click="addRecord(record)">成绩录入</a>
-        <template v-else>
+        <a-space v-else>
           <!--编辑-->
-          <a @click="editRace(record)">
+          <a v-if="$has('race:update')" @click="editRace(record)">
             <a-icon type="edit" />
           </a>
 
-          <a-divider type="vertical" />
-
           <!--删除-->
           <a-popconfirm
+            v-if="$has('race:delete')"
             title="确认删除？"
             placement="left"
             @confirm="deleteRace(record)"
@@ -47,7 +52,7 @@
             </template>
             <a><a-icon type="delete" /></a>
           </a-popconfirm>
-        </template>
+        </a-space>
       </template>
     </AntTable>
   </div>

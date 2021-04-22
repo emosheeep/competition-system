@@ -17,7 +17,11 @@
       @change="changePage"
     >
       <template #header>
-        <a-button type="primary" @click="addPermission">
+        <a-button
+          v-if="$has('permission:add')"
+          type="primary"
+          @click="addPermission"
+        >
           <a-icon type="plus" />添加权限
         </a-button>
       </template>
@@ -180,12 +184,13 @@ function createTableColumns(h) {
     {
       title: '操作',
       width: 100,
-      customRender: (row) => (
-        <div>
-          <a onClick={this.edit.bind(this, row)} >编辑</a>
-          <a onClick={this.remove.bind(this, row)}>删除</a>
-        </div>
-      ),
+      customRender: (row) => {
+        const buttons = [
+          this.$has('permission:update') && <a onClick={this.edit.bind(this, row)}>编辑</a>,
+          this.$has('permission:delete') && <a onClick={this.remove.bind(this, row)}>删除</a>,
+        ];
+        return <div>{buttons}</div>;
+      },
     },
   ];
 }

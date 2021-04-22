@@ -20,22 +20,57 @@
     >
       <template #header>
         <a-button-group>
-          <a-button type="primary" @click="addUser">添加学生</a-button>
-          <a-button :disabled="!selectedKeys.length" @click="batchDelete">
+          <a-button v-if="$has('user:add')" type="primary" @click="addUser">
+            添加学生
+          </a-button>
+          <a-button
+            v-if="$has('user:delete')"
+            :disabled="!selectedKeys.length"
+            @click="batchDelete"
+          >
             批量删除 ({{ selectedKeys.length }})
           </a-button>
-          <a-button @click="$refs.import.show()">从表格导入</a-button>
+          <a-button v-if="$has('user:import')" @click="$refs.import.show()">
+            从表格导入
+          </a-button>
         </a-button-group>
       </template>
       <template #action="record">
         <a-space>
-          <!--编辑-->
-          <a @click="editUser(record)">
-            <a-icon type="edit" />
-          </a>
+          <template v-if="$has('user:update')">
+            <!--编辑-->
+            <a v-if="$has('user:update')" @click="editUser(record)">
+              <a-icon type="edit" />
+            </a>
+
+            <!--重置密码-->
+            <a-popconfirm
+              title="确认重置密码？"
+              ok-text="确认"
+              cancel-text="取消"
+              placement="left"
+              @confirm="resetPassword(record)"
+            >
+              <template #icon>
+                <a-icon type="question-circle-o" style="color: orange" />
+              </template>
+              <a-tooltip placement="top">
+                <template #title>
+                  <span>重置密码</span>
+                </template>
+                <a><a-icon type="rollback" /></a>
+              </a-tooltip>
+            </a-popconfirm>
+
+            <!--授权-->
+            <a @click="grantRole(record)">
+              <a-icon type="key" />
+            </a>
+          </template>
 
           <!--删除-->
           <a-popconfirm
+            v-if="$has('user:delete')"
             title="确认删除？"
             ok-text="确认"
             cancel-text="取消"
@@ -47,30 +82,6 @@
             </template>
             <a><a-icon type="delete" /></a>
           </a-popconfirm>
-
-          <!--重置密码-->
-          <a-popconfirm
-            title="确认重置密码？"
-            ok-text="确认"
-            cancel-text="取消"
-            placement="left"
-            @confirm="resetPassword(record)"
-          >
-            <template #icon>
-              <a-icon type="question-circle-o" style="color: orange" />
-            </template>
-            <a-tooltip placement="top">
-              <template #title>
-                <span>重置密码</span>
-              </template>
-              <a><a-icon type="rollback" /></a>
-            </a-tooltip>
-          </a-popconfirm>
-
-          <!--授权-->
-          <a @click="grantRole(record)">
-            <a-icon type="key" />
-          </a>
         </a-space>
       </template>
     </AntTable>

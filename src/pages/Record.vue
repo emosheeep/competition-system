@@ -19,7 +19,11 @@
       @change="changePage"
     >
       <template #header>
-        <a-button :disabled="!selectedKeys.length" @click="batchDelete">
+        <a-button
+          v-if="$has('record:delete')"
+          :disabled="!selectedKeys.length"
+          @click="batchDelete"
+        >
           批量删除 ({{ selectedKeys.length }})
         </a-button>
       </template>

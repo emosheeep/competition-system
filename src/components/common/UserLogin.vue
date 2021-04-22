@@ -7,14 +7,11 @@
       @submit="onSubmit"
     >
       <a-form-item label="用户名">
-        <a-input
-          v-decorator="decorator.account"
-          placeholder="Username"
-        >
+        <a-input v-decorator="decorator.account" placeholder="Username">
           <a-icon
             slot="prefix"
             type="user"
-            style="color: rgba(0,0,0,.25)"
+            style="color: rgba(0, 0, 0, 0.25)"
           />
         </a-input>
       </a-form-item>
@@ -26,21 +23,14 @@
           <a-icon
             slot="prefix"
             type="lock"
-            style="color: rgba(0,0,0,.25)"
+            style="color: rgba(0, 0, 0, 0.25)"
           />
         </a-input-password>
       </a-form-item>
       <a-form-item>
-        <a-radio-group
-          v-decorator="decorator.identity"
-          class="identity"
-        >
-          <a-radio value="student">
-            学生
-          </a-radio>
-          <a-radio value="teacher">
-            教师
-          </a-radio>
+        <a-radio-group v-decorator="decorator.identity" class="identity">
+          <a-radio value="student">学生</a-radio>
+          <a-radio value="teacher">教师</a-radio>
         </a-radio-group>
       </a-form-item>
       <a-form-item class="login-form-bottom">
@@ -111,22 +101,21 @@ const decorator = {
 </script>
 
 <style scoped lang="stylus">
-  .login-form
-    width 300px
-    padding 20px
-    text-align left
-    border-radius 5px
-    background-color white
-    box-shadow 0 0 5px lightgrey
+.login-form
+  width 300px
+  padding 20px
+  text-align left
+  border-radius 5px
+  background-color white
+  box-shadow 0 0 5px lightgrey
 
-  .identity
-    display flex
-    flex-flow row nowrap
-    justify-content space-between
+.identity
+  display flex
+  flex-flow row nowrap
+  justify-content space-between
 
-  .login-form-bottom
-    margin-bottom 0
-    .login-button
-      margin-bottom 20px
-
+.login-form-bottom
+  margin-bottom 0
+  .login-button
+    margin-bottom 20px
 </style>

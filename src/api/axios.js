@@ -1,7 +1,7 @@
 import { message } from 'ant-design-vue';
 import axios from 'axios';
-import store from '../store';
-import router from '../router';
+import store from '@/store';
+import router from '@/router';
 
 const http = axios.create({
   baseURL: '/api',

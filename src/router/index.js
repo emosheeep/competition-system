@@ -11,40 +11,57 @@ const routes = [
     children: [
       {
         path: 'race',
-        name: '赛事',
-        component: () => import(/* webpackChunkName: "Race" */'@/pages/Race'),
+        component: () => import('@/pages/Race'),
+        meta: {
+          title: '赛事',
+          auth: 'race:query',
+        },
       },
       {
         path: 'record',
-        name: '参赛记录',
-        component: () => import(/* webpackChunkName: "Record" */ '@/pages/Record'),
+        component: () => import('@/pages/Record'),
+        meta: {
+          title: '参赛记录',
+          auth: 'record:query',
+        },
       },
       {
         path: 'student',
-        name: '学生列表',
-        component: () => import(/* webpackChunkName: "User" */ '@/pages/Student'),
+        component: () => import('@/pages/Student'),
+        meta: {
+          title: '学生列表',
+          auth: 'user:query',
+        },
       },
       {
         path: 'teacher',
-        name: '教师列表',
-        component: () => import(/* webpackChunkName: "User" */ '@/pages/Teacher'),
+        component: () => import('@/pages/Teacher'),
+        meta: {
+          title: '教师列表',
+          auth: 'user:query',
+        },
       },
       {
         path: 'role_list',
-        name: '角色列表',
-        component: () => import(/* webpackChunkName: "User" */ '@/pages/RoleList'),
+        component: () => import('@/pages/RoleList'),
+        meta: {
+          title: '角色列表',
+          auth: 'role:query',
+        },
       },
       {
         path: 'permission_list',
-        name: '权限列表',
-        component: () => import(/* webpackChunkName: "User" */ '@/pages/PermissionList'),
+        component: () => import('@/pages/PermissionList'),
+        meta: {
+          title: '权限列表',
+          auth: 'permission:query',
+        },
       },
     ],
   },
   {
     path: '/login',
     name: 'login',
-    meta: { noAuth: true },
     component: () => import(/* webpackChunkName: "Login" */'@/pages/Login'),
   },
   {

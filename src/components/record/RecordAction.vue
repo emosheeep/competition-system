@@ -1,15 +1,10 @@
 <template>
-  <div>
-    <a @click="editRecord"><a-icon type="edit" /></a>
-    <a-divider type="vertical" />
-    <DelPopConfirm @confirm="deleteRecord"/>
-    <a-divider type="vertical" />
-    <a-tooltip placement="top" title="查看详情">
-      <a @click.prevent="recordDetail">
-        <a-icon type="file-text" />
-      </a>
-    </a-tooltip>
-  </div>
+  <a-space>
+    <a v-if="$has('record:update')" @click="editRecord">
+      <a-icon type="edit" />
+    </a>
+    <DelPopConfirm v-if="$has('record:delete')" @confirm="deleteRecord" />
+  </a-space>
 </template>
 
 <script>
@@ -112,7 +107,6 @@ export default {
         },
       });
     },
-    recordDetail() {},
   },
 };
 </script>
