@@ -8,12 +8,6 @@
       @reset="search"
     />
 
-    <a-button type="primary" @click="addPermission">
-      <a-icon type="plus" />添加权限
-    </a-button>
-
-    <a-divider style="margin: 10px 0" />
-
     <AntTable
       :loading="loading"
       :bordered="false"
@@ -21,7 +15,13 @@
       :data-source="tableData"
       :pagination="pagination"
       @change="changePage"
-    />
+    >
+      <template #header>
+        <a-button type="primary" @click="addPermission">
+          <a-icon type="plus" />添加权限
+        </a-button>
+      </template>
+    </AntTable>
   </div>
 </template>
 

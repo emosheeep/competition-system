@@ -18,7 +18,7 @@
       :columns="tableColumns"
       @change="changePage"
     >
-      <template #title>
+      <template #header>
         <a-button-group>
           <a-button type="primary" @click="addRace">添加赛事</a-button>
           <a-button :disabled="!selectedKeys.length" @click="batchDelete">
@@ -43,10 +43,7 @@
             @confirm="deleteRace(record)"
           >
             <template #icon>
-              <a-icon
-                type="question-circle-o"
-                style="color: orange"
-              />
+              <a-icon type="question-circle-o" style="color: orange" />
             </template>
             <a><a-icon type="delete" /></a>
           </a-popconfirm>

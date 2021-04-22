@@ -18,7 +18,7 @@
       :columns="tableColumns"
       @change="changePage"
     >
-      <template #title>
+      <template #header>
         <a-button :disabled="!selectedKeys.length" @click="batchDelete">
           批量删除 ({{ selectedKeys.length }})
         </a-button>
@@ -182,5 +182,4 @@ function createSearchOptions() {
 </script>
 
 <style scoped>
-
 </style>

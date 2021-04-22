@@ -8,16 +8,6 @@
       @reset="search"
     />
 
-    <a-button-group>
-      <a-button type="primary" @click="addUser">添加学生</a-button>
-      <a-button :disabled="!selectedKeys.length" @click="batchDelete">
-        批量删除 ({{ selectedKeys.length }})
-      </a-button>
-      <a-button @click="$refs.import.show()">从表格导入</a-button>
-    </a-button-group>
-
-    <a-divider style="margin: 10px 0" />
-
     <!--信息列表-->
     <AntTable
       v-model="selectedKeys"
@@ -28,6 +18,15 @@
       :columns="tableColumns"
       @change="changePage"
     >
+      <template #header>
+        <a-button-group>
+          <a-button type="primary" @click="addUser">添加学生</a-button>
+          <a-button :disabled="!selectedKeys.length" @click="batchDelete">
+            批量删除 ({{ selectedKeys.length }})
+          </a-button>
+          <a-button @click="$refs.import.show()">从表格导入</a-button>
+        </a-button-group>
+      </template>
       <template #action="record">
         <a-space>
           <!--编辑-->

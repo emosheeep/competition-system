@@ -8,12 +8,6 @@
       @reset="search"
     />
 
-    <a-button type="primary" @click="addRole">
-      <a-icon type="plus" />添加角色
-    </a-button>
-
-    <a-divider style="margin: 10px 0" />
-
     <AntTable
       :loading="loading"
       :bordered="false"
@@ -23,6 +17,11 @@
       :scroll="{ x: 500 }"
       @change="changePage"
     >
+      <template #header>
+        <a-button type="primary" @click="addRole">
+          <a-icon type="plus" />添加角色
+        </a-button>
+      </template>
       <template #expandedRowRender="record">
         <div
           class="permissions"

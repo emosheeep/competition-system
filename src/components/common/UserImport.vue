@@ -13,7 +13,7 @@
     @ok="onOk"
   >
     <a-button type="link" @click="writeTemplateFile">
-      下载上传模板({{ type === 'student' ? '学生' : '教师' }})
+      下载上传模板({{ type === "student" ? "学生" : "教师" }})
     </a-button>
     <a-upload
       accept=".xlsx,.xls"
@@ -21,9 +21,7 @@
       :before-upload="getFile"
       :remove="removeFile"
     >
-      <a-button>
-        <a-icon type="upload" /> 点击上传表格
-      </a-button>
+      <a-button> <a-icon type="upload" /> 点击上传表格 </a-button>
     </a-upload>
 
     <a-table
@@ -36,7 +34,7 @@
       :pagination="{
         showSizeChanger: true,
         showQuickJumper: true,
-        showTotal: total => `共 ${result.length} 条记录`
+        showTotal: (total) => `共 ${result.length} 条记录`,
       }"
     />
   </a-modal>
@@ -173,16 +171,16 @@ export default {
           header: [...this.keyMap.keys()],
           name: '学生上传模板.xlsx',
           data: [
-            { 账号: '8002117xxx', 姓名: '张三', 性别: '男', 年级: '大一', 班级: '171班' },
-            { 账号: '8002118xxx', 姓名: '淑芬', 性别: '女', 年级: '大二', 班级: '172班' },
+            { 账号: '8002117259', 姓名: '张三', 性别: '男', 年级: '大一', 班级: '171班' },
+            { 账号: '8002118360', 姓名: '淑芬', 性别: '女', 年级: '大二', 班级: '172班' },
           ],
         },
         teacher: {
           header: [...this.keyMap.keys()],
           name: '教师上传模板.xlsx',
           data: [
-            { 工号: '8002117xxx', 姓名: '张三', 职称: '教授' },
-            { 工号: '8002118xxx', 姓名: '张三', 职称: '副教授' },
+            { 工号: '8002117259', 姓名: '张三', 职称: '教授' },
+            { 工号: '8002118360', 姓名: '李四', 职称: '副教授' },
           ],
         },
       })[this.type]);
