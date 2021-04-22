@@ -8,11 +8,16 @@ import router from '@/router';
 Vue.use(Vuex);
 const debug = process.env.NODE_ENV !== 'production';
 
-export default new Vuex.Store({
+const store = new Vuex.Store({
   strict: debug,
   plugins: debug ? [createLogger()] : [],
   state: {
     user: {},
+  },
+  getters: {
+    permissions(state) {
+      return state.user.permissions || [];
+    },
   },
   actions: {
     initUser({ commit }) {
@@ -34,3 +39,14 @@ export default new Vuex.Store({
     },
   },
 });
+
+export default store;
+
+/**
+ * 判断当前用户是否具有对应的权限
+ * @param {string} permission 类似于user:query这样的字符串
+ * @returns {boolean}
+ */
+Vue.prototype.$hasPerm = function(permission) {
+  return store.getters.permissions.some(v => v === permission);
+};

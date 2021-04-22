@@ -7,11 +7,7 @@
     :rules="rules"
   >
     <a-form-model-item label="成绩" prop="score">
-      <a-input
-        v-model="formData.score"
-        placeholder="比赛成绩"
-        auto-focus
-      />
+      <a-input v-model="formData.score" placeholder="比赛成绩" auto-focus />
     </a-form-model-item>
     <a-form-model-item label="导师" prop="tid">
       <a-select
@@ -23,12 +19,21 @@
         :show-arrow="false"
         :options="teachers"
         @search="onSearch"
-      />
+      >
+        <a-spin
+          v-if="loading"
+          slot="notFoundContent"
+          size="small"
+          style="width: 100%; height: 100px; line-height: 100px"
+        />
+      </a-select>
     </a-form-model-item>
   </a-form-model>
 </template>
 
 <script>
+import { debounce } from 'lodash-es';
+
 export default {
   name: 'AddRecord',
   data() {
@@ -48,8 +53,9 @@ export default {
     validate() {
       return this.$refs.form.validate().then(() => this.formData);
     },
-    onSearch(query) {
+    onSearch: debounce(function(query) {
       if (!query) return;
+      this.loading = true;
       this.$api.getUserList({
         type: 'teacher',
         name: query,
@@ -61,10 +67,11 @@ export default {
           value: item.tid,
         }));
       }).catch(e => {
-        console.error(e);
         this.$message.error(e.msg || '查询失败');
+      }).finally(() => {
+        this.loading = false;
       });
-    },
+    }, 300),
   },
 };
 </script>

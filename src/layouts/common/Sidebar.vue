@@ -1,6 +1,7 @@
 <template>
   <div>
     <div class="logo" @click="goHome">
+      <a-avatar src="/logo.png" :size="40" />
       <span>竞赛管理系统</span>
     </div>
     <a-menu
@@ -101,15 +102,16 @@ export default {
   margin-top 0 !important
 
 .logo
+  display flex
+  align-items center
   width 100%
   height 64px
-  line-height 64px
   margin 0 auto
   color white
   overflow hidden
   white-space nowrap
   cursor pointer
   span
-    margin-left 15px
-    font-size 20px
+    margin-left 10px
+    font-size 18px
 </style>

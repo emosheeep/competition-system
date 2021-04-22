@@ -29,11 +29,6 @@ export const addRecord = data => axios.post('/record/add', data);
 export const updateRecord = data => axios.patch('/record/update', data);
 export const deleteRecord = data => axios.delete('/record/delete', { data });
 
-export const getToken = params => axios.get('/record/auth', { params });
-export const getFileInfo = params => axios.get('/record/file', { params });
-export const getDownloadUrl = params => axios.get('/record/download', { params });
-export const fresh = params => axios.get('/record/fresh', { params });
-
 /**
  * 权限
  */
