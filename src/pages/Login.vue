@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <UserLogin />
+    <UserLogin class="login" />
   </div>
 </template>
 
@@ -17,9 +17,9 @@ export default {
 </script>
 
 <style scoped lang="stylus">
-  .container
-    position absolute
-    left 50%
-    top 50%
-    transform translate(-50%, -50%)
+.container
+  height 100vh
+  background #f0f2f5 url('~@/assets/bg.svg') repeat
+  .login
+    center()
 </style>

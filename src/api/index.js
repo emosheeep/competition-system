@@ -1,7 +1,8 @@
 import axios from './axios';
 
-export const login = data => axios.post('/login', data);
-export const getUserData = () => axios.get('get_user');
+export const login = data => axios.post('/auth/login', data);
+export const getAuthCode = () => axios.get('/auth/code');
+export const getUserData = () => axios.get('/get_user');
 /**
  * 用户
  */
