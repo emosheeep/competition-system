@@ -1,6 +1,6 @@
 <template>
   <a-dropdown v-model="show" :trigger="['click']">
-    <a-icon type="setting" style="cursor: pointer" />
+    <a-icon type="setting" style="cursor: pointer; font-size: 16px" />
     <div slot="overlay" class="ant-dropdown-menu setting ant-dropdown-content">
       <div class="setting-header setting-item">
         <a-checkbox

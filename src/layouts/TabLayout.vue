@@ -1,10 +1,10 @@
 <template>
-  <PageLayout>
-    <ContextMenu
-      :list="menuItems"
-      :visible.sync="menuVisible"
-      @select="onMenuSelect"
-    />
+  <div class="tab-layout">
+    <a-breadcrumb class="breadcrumb" :routes="$route.matched">
+      <template #itemRender="{ route }">
+        {{ route.meta.title }}
+      </template>
+    </a-breadcrumb>
     <a-tabs
       type="editable-card"
       class="tab-bar"
@@ -27,19 +27,23 @@
         <router-view />
       </keep-alive>
     </PageToggleTransition>
-  </PageLayout>
+    <ContextMenu
+      :list="menuItems"
+      :visible.sync="menuVisible"
+      @select="onMenuSelect"
+    />
+  </div>
 </template>
 
 <script>
 import { message } from 'ant-design-vue';
 import { last } from 'lodash-es';
-import PageLayout from './PageLayout';
 import ContextMenu from '../components/common/ContextMenu';
 import PageToggleTransition from '../components/transition/PageToggleTransition';
 
 export default {
   name: 'TabLayout',
-  components: { PageToggleTransition, ContextMenu, PageLayout },
+  components: { PageToggleTransition, ContextMenu },
   data() {
     return {
       pageList: [],
@@ -67,6 +71,9 @@ export default {
     },
   },
   methods: {
+    log(data) {
+      console.log(data);
+    },
     changePage(key) {
       this.activePage = key;
       this.$router.push(key);
@@ -191,4 +198,7 @@ function getTabKey(target, depth = 0) {
 <style scoped lang="stylus">
 .tab-bar >>> .ant-tabs-bar
   margin-bottom 0
+
+.breadcrumb
+  margin-bottom 10px
 </style>

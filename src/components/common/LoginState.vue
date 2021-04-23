@@ -1,6 +1,7 @@
 <template>
   <a-dropdown>
-    <div class="header-avatar">
+    <a-spin v-if="!user.name" size="small" />
+    <div v-else class="header-avatar">
       <a-icon class="avatar" type="user" />
       <span class="name">{{ user.name }}</span>
     </div>

@@ -10,6 +10,7 @@
       class="menu"
       :selected-keys="selectedKeys"
       :open-keys.sync="openKeys"
+      :inline-collapsed="collapsed"
       @click="handleClick"
     >
       <a-sub-menu v-for="item in config" :key="item.key">
@@ -28,6 +29,12 @@
 <script>
 export default {
   name: 'Sidebar',
+  props: {
+    collapsed: {
+      type: Boolean,
+      default: false,
+    },
+  },
   data() {
     return {
       selectedKeys: [],
@@ -111,6 +118,7 @@ export default {
   overflow hidden
   white-space nowrap
   cursor pointer
+  background-color #002140
   span
     margin-left 10px
     font-size 18px

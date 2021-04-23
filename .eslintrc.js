@@ -16,6 +16,7 @@ module.exports = {
     semi: ['error', 'always'], // 分号
     camelcase: 'off',
     'no-new': 'off',
+    'vue/no-unused-components': 'warn',
     'no-console': IS_PROD ? 'warn' : 'off',
     'no-debugger': IS_PROD ? 'error' : 'off',
     'no-unreachable': IS_PROD ? 'error' : 'warn', // 提前return

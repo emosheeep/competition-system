@@ -5,11 +5,14 @@
 </template>
 
 <script>
-import GlobalLayout from '../layouts/GlobalLayout';
-import TabLayout from '../layouts/TabLayout';
+import GlobalLayout from '@/layouts/GlobalLayout';
+import TabLayout from '@/layouts/TabLayout';
 
 export default {
   name: 'Home',
-  components: { TabLayout, GlobalLayout },
+  components: {
+    TabLayout,
+    GlobalLayout,
+  },
 };
 </script>
