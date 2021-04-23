@@ -1,10 +1,5 @@
 <template>
   <div class="tab-layout">
-    <a-breadcrumb class="breadcrumb" :routes="$route.matched">
-      <template #itemRender="{ route }">
-        {{ route.meta.title }}
-      </template>
-    </a-breadcrumb>
     <a-tabs
       type="editable-card"
       class="tab-bar"

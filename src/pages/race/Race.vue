@@ -89,11 +89,8 @@ export default {
       return this.$store.state.user.identity === 'student' || false;
     },
   },
-  beforeMount() {
-    this.$watch(() => [this.pageSize, this.current], this.getData);
-  },
-  activated() {
-    this.getData();
+  mounted() {
+    this.$watch(() => [this.pageSize, this.current], this.getData, { immediate: true });
   },
   methods: {
     changePage({ pageSize, current }) {

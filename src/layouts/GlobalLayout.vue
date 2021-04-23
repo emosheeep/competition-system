@@ -8,10 +8,8 @@
     :handleCollapse="handleCollapse"
   >
     <template #menuHeaderRender>
-      <div class="logo">
-        <a-avatar src="/logo.png" :size="40" />
-        <h1>竞赛管理系统</h1>
-      </div>
+      <a-avatar src="/logo.png" :size="40" />
+      <h1>竞赛管理系统</h1>
     </template>
     <template #rightContentRender>
       <div :class="rightContentClass">
@@ -21,20 +19,33 @@
     <template #footerRender>
       <div class="footer-container">Ant Design ©2018 Created by Ant UED</div>
     </template>
-    <slot />
+    <template #headerContentRender>
+      <a-breadcrumb
+        style="height: 64px; line-height: 64px"
+        class="breadcrumb"
+        :routes="$route.matched"
+      >
+        <template #itemRender="{ route }">
+          {{ route.meta.title }}
+        </template>
+      </a-breadcrumb>
+    </template>
+    <TabLayout />
   </pro-layout>
 </template>
 
 <script>
 import ProLayout from '@ant-design-vue/pro-layout';
-import { routes } from '@/router';
+import TabLayout from '@/layouts/TabLayout';
 import LoginState from '@/components/common/LoginState.vue';
+import { routes } from '@/router';
 
 export default {
   name: 'GlobalLayout',
   components: {
     ProLayout,
     LoginState,
+    TabLayout,
   },
   data() {
     return {
@@ -87,6 +98,10 @@ export default {
 
 .ant-layout-footer {
   padding: 16px 24px;
+}
+
+.ant-pro-sider-menu-logo {
+  background-color: #002140;
 }
 
 .ant-pro-basicLayout-content {

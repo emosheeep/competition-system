@@ -1,15 +1,15 @@
 <template lang="pug">
-  .search-form-container
-    .form
-      ConfigForm(
-        ref="form"
-        :options="options"
-        :matcher="matcher"
-        @change="$emit('change', $event)"
-      )
-    .operate-button-group
-      a-button(type="primary" :loading="loading" @click="search") 查询
-      a-button(type="link" @click="reset") 重置
+.search-form-container
+  .form
+    ConfigForm(
+      ref="form",
+      :options="options",
+      :matcher="matcher",
+      @change="$emit('change', $event)"
+    )
+  .operate-button-group
+    a-button(type="primary", :loading="loading", @click="search") 查询
+    a-button(type="link", @click="reset") 重置
 </template>
 
 <script>
@@ -93,9 +93,11 @@ export default {
   display flex
   padding 20px
   background-color white
+
 .form
   flex-grow 1
   padding-right 20px
+
 .operate-button-group >>>
   position relative
   display flex

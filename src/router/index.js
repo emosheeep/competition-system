@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
+import GlobalLayout from '@/layouts/GlobalLayout';
 
 Vue.use(VueRouter);
 
@@ -14,7 +15,7 @@ export const routes = [
     name: 'Home',
     meta: { title: '主页' },
     redirect: '/race/list',
-    component: () => import('@/pages/index'),
+    component: GlobalLayout,
     children: [
       {
         path: '/race',

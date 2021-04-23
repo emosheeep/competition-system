@@ -61,11 +61,8 @@ export default {
       };
     },
   },
-  beforeMount() {
-    this.$watch(() => [this.pageSize, this.current], this.getData);
-  },
-  activated() {
-    this.getData();
+  mounted() {
+    this.$watch(() => [this.pageSize, this.current], this.getData, { immediate: true });
   },
   methods: {
     changePage({ pageSize, current }) {
