@@ -115,6 +115,9 @@ const STUDENT_COLUMNS = [
 
 export default {
   name: 'Student',
+  metaInfo: {
+    title: '学生管理',
+  },
   components: {
     UserImport,
   },

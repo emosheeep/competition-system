@@ -114,6 +114,9 @@ const TEACHER_COLUMNS = [
 export default {
   name: 'Teacher',
   components: { UserImport },
+  metaInfo: {
+    title: '教师管理',
+  },
   data() {
     return {
       loading: false,

@@ -65,6 +65,9 @@ import AddRecord from '@/components/record/AddRecord';
 
 export default {
   name: 'Race',
+  metaInfo: {
+    title: '赛事管理',
+  },
   data() {
     return {
       selectedKeys: [],

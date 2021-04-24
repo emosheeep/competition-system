@@ -1,14 +1,17 @@
 <template>
-  <div>
+  <div class="login-form">
+    <div class="title">
+      <a-avatar src="/logo.png" :size="40" />
+      <span>竞赛管理系统</span>
+    </div>
     <a-form-model
-      class="login-form"
       layout="vertical"
       ref="form"
       :model="formData"
       :rules="rules"
       @submit="onSubmit"
     >
-      <a-form-model-item prop="account">
+      <a-form-model-item ref="account" prop="account">
         <a-input v-model="formData.account" placeholder="学号/工号">
           <a-icon
             slot="prefix"
@@ -17,7 +20,7 @@
           />
         </a-input>
       </a-form-model-item>
-      <a-form-model-item prop="password">
+      <a-form-model-item ref="password" prop="password">
         <a-input-password v-model="formData.password" placeholder="密码">
           <a-icon
             slot="prefix"
@@ -26,7 +29,7 @@
           />
         </a-input-password>
       </a-form-model-item>
-      <a-form-model-item prop="code">
+      <a-form-model-item ref="code" prop="code">
         <div class="code-input">
           <a-input v-model="formData.code" placeholder="验证码">
             <a-icon
@@ -71,18 +74,9 @@ export default {
         identity: 'student',
       },
       rules: {
-        account: {
-          required: true,
-          message: '请输入学号/工号！',
-        },
-        password: {
-          required: true,
-          message: '请输入密码！',
-        },
-        code: {
-          required: true,
-          message: '请输入验证码！',
-        },
+        account: { required: true, message: '请输入学号/工号！' },
+        password: { required: true, message: '请输入密码！' },
+        code: { required: true, message: '请输入验证码！' },
       },
     };
   },
@@ -94,24 +88,42 @@ export default {
       this.formData.code = '';
       this.$api.getAuthCode().then(data => {
         this.svg = data.data;
+      }).catch(e => {
+        this.$message.error(e.msg || '验证码获取失败');
       });
     },
-    onSubmit(e) {
+    async onSubmit(e) {
       e.preventDefault();
-      this.$refs.form.validate().then(() => {
+      try {
         this.loading = true;
-        return this.$api.login(this.formData).then(() => {
-          return this.$router.replace('/race');
-        }).catch(e => {
-          this.$message.error(e.msg || e.message);
-          this.getCode();
-        }).finally(() => {
-          this.loading = false;
-        });
-      }).catch(console.error);
+        await this.$refs.form.validate();
+        await this.$api.login(this.formData);
+        await this.$router.replace('/race');
+        this.$message.success(`${timeFix()}，欢迎回来`);
+      } catch (e) {
+        if (!e) return; // 表单校验
+        console.error(e);
+        this.getCode();
+        // 设置校验状态
+        if (e.code && e.msg) {
+          const field = ({ 1: 'account', 2: 'password', 3: 'code' })[e.code];
+          Object.assign(this.$refs[field], {
+            validateMessage: e.msg,
+            validateState: 'error',
+          });
+        }
+      } finally {
+        this.loading = false;
+      }
     },
   },
 };
+
+function timeFix() {
+  const time = new Date();
+  const hour = time.getHours();
+  return hour < 9 ? '早上好' : hour <= 11 ? '上午好' : hour <= 13 ? '中午好' : hour < 20 ? '下午好' : '晚上好';
+}
 </script>
 
 <style scoped lang="stylus">
@@ -122,6 +134,15 @@ export default {
   border-radius 5px
   background-color white
   box-shadow 0 0 5px lightgrey
+
+.title
+  display flex
+  justify-content center
+  align-items center
+  margin-bottom 24px
+  font-size 24px
+  *:last-child
+    margin-left 10px
 
 .identity
   display flex

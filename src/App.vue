@@ -64,6 +64,6 @@ export default {
   background #e0e5eb
 
 ::-webkit-scrollbar-track
-    box-shadow inset 0 0 5px rgba(0, 0, 0, 0.1)
-    border-radius 0
+  box-shadow inset 0 0 5px rgba(0, 0, 0, 0.1)
+  border-radius 0
 </style>

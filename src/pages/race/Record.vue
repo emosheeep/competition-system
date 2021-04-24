@@ -40,6 +40,9 @@ import RecordAction from '@/components/record/RecordAction';
 export default {
   name: 'Record',
   components: { RecordAction },
+  metaInfo: {
+    title: '参赛记录',
+  },
   data() {
     return {
       selectedKeys: [],

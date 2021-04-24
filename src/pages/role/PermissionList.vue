@@ -35,6 +35,9 @@ import EditPermission from '@/components/edit/EditPermission';
 
 export default {
   name: 'PermissionList',
+  metaInfo: {
+    title: '权限管理',
+  },
   data() {
     return {
       loading: false,
