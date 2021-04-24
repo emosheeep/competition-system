@@ -44,6 +44,7 @@
 import { uniq } from 'lodash-es';
 import { readExcel, makeExcel } from '@/utils/excel';
 import { sexes, grades, ranks } from '@/utils/const';
+import DisplayFailedUser from '@/components/common/DisplayFailedUser';
 
 const sexesRevertMap = mapRevert(sexes);
 const gradesRevertMap = mapRevert(grades);
@@ -54,6 +55,7 @@ export default {
   props: {
     type: {
       default: 'student',
+      require: true,
       validator: value => ['student', 'teacher'].includes(value),
     },
   },
@@ -65,15 +67,19 @@ export default {
     };
   },
   computed: {
+    primaryKey() {
+      return this.type === 'student' ? 'sid' : 'tid';
+    },
     keyMap() {
-      const extra = this.type === 'student'
-        ? [['性别', 'sex'], ['年级', 'grade'], ['班级', 'class']]
-        : [['职称', 'rank']];
       return new Map(
         [
-          ['账号', this.type === 'student' ? 'sid' : 'tid'],
+          ['账号', this.primaryKey],
           ['姓名', 'name'],
-        ].concat(extra),
+        ].concat(
+          this.type === 'student'
+            ? [['性别', 'sex'], ['年级', 'grade'], ['班级', 'class']]
+            : [['职称', 'rank']],
+        ),
       );
     },
     columns() {
@@ -86,7 +92,7 @@ export default {
       }
       return cols;
     },
-    transferedData() {
+    transformedData() {
       const data = [];
       const strategy = {
         sex: label => sexesRevertMap[label.trim()],
@@ -155,13 +161,24 @@ export default {
         title: '提示',
         content: '确认导入吗？',
         centered: true,
-        onOk: () => this.$api.importUser(this.type, this.transferedData)
+        onOk: () => this.$api.importUser(this.type, this.transformedData)
           .then(() => {
             this.$message.success('导入成功');
             this.visible = false;
-            this.$emit('success');
           }).catch(e => {
-            this.$message.error(e.msg || '导入失败');
+            const message = e.msg || '导入失败';
+            if (e.code === 1) {
+              this.$confirm({
+                title: message,
+                content: () => <DisplayFailedUser
+                  primaryKey={this.primaryKey}
+                  users={this.result}
+                  fail={e.data}
+                />,
+              });
+            } else this.$message.error(message);
+          }).finally(() => {
+            this.$emit('refresh');
           }),
       });
     },

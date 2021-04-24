@@ -86,7 +86,7 @@
       </template>
     </AntTable>
 
-    <UserImport type="student" ref="import" @success="search" />
+    <UserImport type="student" ref="import" @refresh="search" />
   </div>
 </template>
 

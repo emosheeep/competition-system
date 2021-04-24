@@ -17,7 +17,9 @@
       </div>
     </template>
     <template #footerRender>
-      <div class="footer-container">Ant Design ©2018 Created by Ant UED</div>
+      <div class="footer-container">
+        南昌大学 软件学院 竞赛管理系统 ©2021 Created by Qinxuyang
+      </div>
     </template>
     <template #headerContentRender>
       <a-breadcrumb

@@ -11,20 +11,20 @@
         <span>失败 {{ fail.length }} 人</span>
       </span>
     </div>
-    <span>详情：</span>
+    <span>失败详情：</span>
     <a-divider style="margin: 5px 0 10px 0" />
     <a-list
       size="small"
-      :grid="{ gutter: 16, column: 4 }"
+      :grid="{ gutter: 16, column: 3 }"
       :data-source="fail"
       :pagination="{
         pageSize: 12,
-        simple: true
+        simple: true,
       }"
     >
       <template #renderItem="item">
         <a-list-item>
-          <a-tag>{{ item }}</a-tag>
+          <a-tag>{{ item.name }}({{ item[primaryKey] }})</a-tag>
         </a-list-item>
       </template>
     </a-list>
@@ -35,6 +35,11 @@
 export default {
   name: 'DisplayFailedUser',
   props: {
+    primaryKey: {
+      type: String,
+      required: true,
+      validator: value => ['sid', 'tid'].includes(value),
+    },
     users: {
       type: Array,
       required: true,
