@@ -6,7 +6,7 @@
       <span class="name">{{ user.name }}</span>
     </div>
     <a-menu slot="overlay">
-      <a-menu-item disabled style="text-align: center">
+      <a-menu-item disabled>
         <a-icon type="smile" />
         {{ user.role && user.role.label }}
       </a-menu-item>
@@ -38,13 +38,11 @@ export default {
   computed: {
     ...mapState(['user']),
   },
-  mounted() {
-    this.initUser();
-  },
   methods: {
     ...mapActions(['initUser']),
     logout() {
       this.$store.commit('logout');
+      this.$router.replace('/login');
     },
     modifyPassword() {
       let vnode;

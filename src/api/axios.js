@@ -1,7 +1,6 @@
 import { message } from 'ant-design-vue';
 import axios from 'axios';
 import store from '@/store';
-import router from '@/router';
 
 const http = axios.create({
   baseURL: '/api',
@@ -17,16 +16,6 @@ http.interceptors.request.use(config => {
 
 http.interceptors.response.use(({ data }) => {
   const { code } = data;
-  if (code === 403) {
-    message.destroy();
-    store.commit('logout');
-    router
-      .replace({ name: 'login' })
-      .catch(console.warn)
-      .finally(() => {
-        message.warn('身份凭证过期，请重新登录');
-      });
-  }
   if (code === 200) return data;
   console.error(data);
   throw data;

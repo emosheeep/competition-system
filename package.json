@@ -18,6 +18,7 @@
     "file-saver": "^2.0.5",
     "js-cookie": "^2.2.1",
     "lodash-es": "^4.17.21",
+    "nprogress": "^0.2.0",
     "qiniu-js": "^3.1.2",
     "vue": "^2.6.12",
     "vue-meta": "^2.4.0",

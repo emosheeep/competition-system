@@ -33,8 +33,14 @@
         </a-button-group>
       </template>
       <template #action="record">
-        <a v-if="isStudent" @click="addRecord(record)">成绩录入</a>
-        <a-space v-else>
+        <a-space>
+          <!-- 成绩录入 -->
+          <a-tooltip v-if="isStudent || $has('record:add')" title="成绩录入">
+            <a @click="addRecord(record)">
+              <a-icon type="plus-circle" />
+            </a>
+          </a-tooltip>
+
           <!--编辑-->
           <a v-if="$has('race:update')" @click="editRace(record)">
             <a-icon type="edit" />

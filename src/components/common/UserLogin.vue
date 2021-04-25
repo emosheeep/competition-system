@@ -98,7 +98,7 @@ export default {
         this.loading = true;
         await this.$refs.form.validate();
         await this.$api.login(this.formData);
-        await this.$router.replace('/race');
+        await this.$router.replace({ path: '/' }).catch(e => e);
         this.$message.success(`${timeFix()}，欢迎回来`);
       } catch (e) {
         if (!e) return; // 表单校验

@@ -37,10 +37,11 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+import { filterRoutes, routes } from '@/router';
 import ProLayout from '@ant-design-vue/pro-layout';
 import TabLayout from '@/layouts/TabLayout';
 import LoginState from '@/components/common/LoginState.vue';
-import { routes } from '@/router';
 
 export default {
   name: 'GlobalLayout',
@@ -51,7 +52,6 @@ export default {
   },
   data() {
     return {
-      menus: [],
       collapsed: false,
       autoHideHeader: false,
       query: {},
@@ -62,15 +62,17 @@ export default {
     };
   },
   computed: {
+    ...mapGetters(['permissions']),
+    menus() {
+      const root = routes.find(v => v.path === '/');
+      return filterRoutes(root?.children || [], this.permissions);
+    },
     rightContentClass() {
       return [
         'ant-pro-global-header-index-right',
         this.layout === 'topmenu' && `ant-pro-global-header-index-${this.theme}`,
       ];
     },
-  },
-  created() {
-    this.menus = routes.find(item => item.path === '/').children;
   },
   methods: {
     handleCollapse(collapsed) {
