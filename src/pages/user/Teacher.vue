@@ -31,7 +31,14 @@
             批量删除 ({{ selectedKeys.length }})
           </a-button>
           <a-button v-if="$has('user:import')" @click="$refs.import.show()">
-            从表格导入
+            Excel导入
+          </a-button>
+          <a-button
+            v-if="$has('user:export')"
+            :loading="exporting"
+            @click="exportAll"
+          >
+            全量导出
           </a-button>
         </a-button-group>
       </template>
@@ -91,6 +98,7 @@
 
 <script>
 import { rankMap, ranks } from '@/utils/const';
+import { exportData } from '@/utils/excel';
 import createColumns from '@/helpers/importuser-columns';
 import EditTeacher from '@/components/edit/EditTeacher';
 import UserImport from '@/components/common/UserImport.vue';
@@ -111,6 +119,24 @@ const TEACHER_COLUMNS = [
   },
 ];
 
+function exportExcel(data) {
+  const header = TEACHER_COLUMNS.map(v => v.title);
+  header.pop(); // 去掉最后一栏操作栏
+  return exportData({
+    name: '教师信息',
+    data,
+    header,
+    keyMap: {
+      tid: '工号',
+      name: '姓名',
+      rank: ['职称', rank => rankMap[rank]],
+      description: '描述',
+      create_time: '创建时间',
+      update_time: '修改时间',
+    },
+  });
+}
+
 export default {
   name: 'Teacher',
   components: { UserImport },
@@ -120,6 +146,8 @@ export default {
   data() {
     return {
       loading: false,
+      exporting: false,
+      query: {},
       selectedKeys: [],
       users: [],
       current: 1,
@@ -159,8 +187,9 @@ export default {
     },
     getData() {
       this.loading = true;
+      this.query = this.$refs.searchForm.getResult();
       this.$api.getUserList({
-        ...this.$refs.searchForm.getResult(),
+        ...this.query,
         type: 'teacher',
         offset: this.current,
         limit: this.pageSize,
@@ -255,6 +284,20 @@ export default {
           this.$message.error(e.msg || '删除失败!');
           throw e;
         }),
+      });
+    },
+    exportAll() {
+      this.exporting = true;
+      this.$api.getUserList({
+        ...this.query,
+        type: 'teacher',
+      }).then(data => {
+        return exportExcel(data.data);
+      }).catch(e => {
+        console.error(e);
+        this.$message.error(e.msg || '导出失败');
+      }).finally(() => {
+        this.exporting = false;
       });
     },
     grantRole(item) {

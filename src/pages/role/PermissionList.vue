@@ -93,7 +93,7 @@ export default {
         onOk: async () => {
           const values = await vnode.componentInstance.validate();
           return this.$api.addPermission(values).then(() => {
-            this.search();
+            this.getData();
           }).catch(e => {
             console.error(e);
             this.$message.error(e.msg || '添加失败');
@@ -111,7 +111,7 @@ export default {
           const values = await vnode.componentInstance.validate();
           values.id = row.id;
           return this.$api.updatePermission(values).then(() => {
-            this.search();
+            this.getData();
           }).catch(e => {
             console.error(e);
             this.$message.error(e.msg || '修改失败');
@@ -125,7 +125,7 @@ export default {
         title: `确认删除 ${row.label}?`,
         onOk: () => this.$api.deletePermission([row.id]).then(() => {
           this.$message.success('删除成功');
-          this.search();
+          this.getData();
         }).catch(e => {
           console.error(e);
           this.$message.error(e.msg || '删除失败');

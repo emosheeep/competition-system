@@ -19,13 +19,22 @@
       @change="changePage"
     >
       <template #header>
-        <a-button
-          v-if="$has('record:delete')"
-          :disabled="!selectedKeys.length"
-          @click="batchDelete"
-        >
-          批量删除 ({{ selectedKeys.length }})
-        </a-button>
+        <a-button-group>
+          <a-button
+            v-if="$has('record:delete')"
+            :disabled="!selectedKeys.length"
+            @click="batchDelete"
+          >
+            批量删除 ({{ selectedKeys.length }})
+          </a-button>
+          <a-button
+            v-if="$has('record:export')"
+            :loading="exporting"
+            @click="exportAll"
+          >
+            全量导出
+          </a-button>
+        </a-button-group>
       </template>
       <template #action="record">
         <RecordAction :record="record" :fresh-data="getData" />
@@ -35,6 +44,7 @@
 </template>
 
 <script>
+import { exportData } from '@/utils/excel';
 import RecordAction from '@/components/record/RecordAction';
 
 export default {
@@ -47,6 +57,7 @@ export default {
     return {
       selectedKeys: [],
       loading: false,
+      exporting: false,
       records: [],
       current: 1,
       pageSize: 10,
@@ -105,9 +116,25 @@ export default {
           }),
       });
     },
+    exportAll() {
+      this.exporting = true;
+      this.$api.getRecordList(this.query).then(data => {
+        return exportExcel(data.data);
+      }).catch(e => {
+        console.error(e);
+        this.$message.error(e.msg || '导出失败');
+      }).finally(() => {
+        this.exporting = false;
+      });
+    },
   },
 };
 
+const statusMap = {
+  0: { style: 'color: lightgrey', type: 'question-circle', text: '待审核' },
+  1: { style: 'color: limegreen', type: 'check-circle', text: '审核通过' },
+  2: { style: 'color: red', type: 'exclamation-circle', text: '审核失败' },
+};
 function createTableColumns(h) {
   return [
     { title: '名称', dataIndex: 'title' },
@@ -118,11 +145,7 @@ function createTableColumns(h) {
       title: '状态',
       width: 100,
       customRender: ({ status }) => {
-        const data = ({
-          0: { style: 'color: lightgrey', type: 'question-circle', text: '待审核' },
-          1: { style: 'color: limegreen', type: 'check-circle', text: '审核通过' },
-          2: { style: 'color: red', type: 'exclamation-circle', text: '审核失败' },
-        })[status];
+        const data = statusMap[status];
         return <span style={data.style}>
           <a-icon type={data.type} />
           <span>{ data.text }</span>
@@ -140,6 +163,26 @@ function createTableColumns(h) {
       },
     },
   ];
+}
+
+function exportExcel(data) {
+  const header = createTableColumns().map(v => v.title);
+  header.pop(); // 去掉最后一栏操作栏
+  return exportData({
+    name: '参赛记录信息',
+    data,
+    header,
+    keyMap: {
+      title: '名称',
+      sname: '参赛人',
+      tname: '指导老师',
+      score: '成绩',
+      status: ['状态', status => statusMap[status]?.text],
+      description: '备注',
+      create_time: '登记时间',
+      update_time: '更新时间',
+    },
+  });
 }
 
 function createSearchOptions() {

@@ -31,7 +31,14 @@
             批量删除 ({{ selectedKeys.length }})
           </a-button>
           <a-button v-if="$has('user:import')" @click="$refs.import.show()">
-            从表格导入
+            Excel导入
+          </a-button>
+          <a-button
+            v-if="$has('user:export')"
+            :loading="exporting"
+            @click="exportAll"
+          >
+            全量导出
           </a-button>
         </a-button-group>
       </template>
@@ -92,6 +99,7 @@
 
 <script>
 import { grades, gradeMap, sexes, sexMap } from '@/utils/const';
+import { exportData } from '@/utils/excel';
 import createColumns from '@/helpers/importuser-columns';
 import EditStudent from '@/components/edit/EditStudent';
 import UserImport from '@/components/common/UserImport';
@@ -113,6 +121,25 @@ const STUDENT_COLUMNS = [
   },
 ];
 
+function exportExcel(data) {
+  const header = STUDENT_COLUMNS.map(v => v.title);
+  header.pop(); // 去掉最后一栏操作栏
+  return exportData({
+    name: '学生信息',
+    data,
+    header,
+    keyMap: {
+      sid: '学号',
+      name: '姓名',
+      sex: ['性别', sex => sexMap[sex]],
+      grade: ['年级', grade => gradeMap[grade]],
+      class: '班级',
+      create_time: '创建时间',
+      update_time: '修改时间',
+    },
+  });
+}
+
 export default {
   name: 'Student',
   metaInfo: {
@@ -124,6 +151,8 @@ export default {
   data() {
     return {
       loading: false,
+      exporting: false,
+      query: {},
       selectedKeys: [],
       users: [],
       current: 1,
@@ -163,8 +192,9 @@ export default {
     },
     getData() {
       this.loading = true;
+      this.query = this.$refs.searchForm.getResult();
       this.$api.getUserList({
-        ...this.$refs.searchForm.getResult(),
+        ...this.query,
         type: 'student',
         offset: this.current,
         limit: this.pageSize,
@@ -259,6 +289,20 @@ export default {
           this.$message.error(e.msg || '删除失败!');
           throw e;
         }),
+      });
+    },
+    exportAll() {
+      this.exporting = true;
+      this.$api.getUserList({
+        ...this.query,
+        type: 'student',
+      }).then(data => {
+        return exportExcel(data.data);
+      }).catch(e => {
+        console.error(e);
+        this.$message.error(e.msg || '导出失败');
+      }).finally(() => {
+        this.exporting = false;
       });
     },
     grantRole(item) {

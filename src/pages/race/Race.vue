@@ -30,6 +30,13 @@
           >
             批量删除 ({{ selectedKeys.length }})
           </a-button>
+          <a-button
+            v-if="$has('race:export')"
+            :loading="exporting"
+            @click="exportAll"
+          >
+            全量导出
+          </a-button>
         </a-button-group>
       </template>
       <template #action="record">
@@ -66,6 +73,7 @@
 
 <script>
 import { raceLevelMap, raceLevels } from '@/utils/const';
+import { exportData } from '@/utils/excel';
 import EditRace from '@/components/edit/EditRace';
 import AddRecord from '@/components/record/AddRecord';
 
@@ -78,6 +86,7 @@ export default {
     return {
       selectedKeys: [],
       loading: false,
+      exporting: false,
       races: [],
       current: 1,
       pageSize: 10,
@@ -208,6 +217,17 @@ export default {
         },
       });
     },
+    exportAll() {
+      this.exporting = true;
+      this.$api.getRaceList(this.query).then(data => {
+        return exportExcel(data.data);
+      }).catch(e => {
+        console.error(e);
+        this.$message.error(e.msg || '导出失败');
+      }).finally(() => {
+        this.exporting = false;
+      });
+    },
   },
 };
 
@@ -228,6 +248,27 @@ function createTableColumns() {
       },
     },
   ];
+}
+
+function exportExcel(data) {
+  const header = createTableColumns().map(v => v.title);
+  header.pop(); // 去掉最后一栏操作栏
+  return exportData({
+    name: '赛事信息',
+    data,
+    header,
+    keyMap: {
+      title: '赛事名称',
+      level: ['级别', level => raceLevelMap[level]],
+      sponsor: '主办方',
+      type: '类别',
+      description: '描述',
+      location: '地点',
+      date: '举办时间',
+      create_time: '创建时间',
+      update_time: '修改时间',
+    },
+  });
 }
 
 function createSearchOptions() {
