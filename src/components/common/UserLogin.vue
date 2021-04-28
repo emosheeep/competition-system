@@ -160,4 +160,5 @@ function timeFix() {
   height 32px
   .code >>>
     cursor pointer
+    min-width 100px
 </style>

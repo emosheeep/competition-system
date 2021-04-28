@@ -1,7 +1,6 @@
 import Vue from 'vue';
 import Cookie from 'js-cookie';
 import Vuex, { createLogger } from 'vuex';
-import { message } from 'ant-design-vue';
 import { getUserData } from '@/api';
 
 Vue.use(Vuex);
@@ -23,8 +22,6 @@ const store = new Vuex.Store({
       return getUserData().then(data => {
         commit('setUserData', data.data);
         return data.data;
-      }).catch(e => {
-        message.error(e.msg);
       });
     },
   },
