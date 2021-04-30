@@ -6,6 +6,8 @@
     :isMobile="isMobile"
     :handleMediaQuery="handleMediaQuery"
     :handleCollapse="handleCollapse"
+    fixedHeader
+    fixSiderbar
   >
     <template #menuHeaderRender>
       <a-avatar src="/logo.png" :size="40" />

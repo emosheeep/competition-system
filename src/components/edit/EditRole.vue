@@ -7,15 +7,14 @@
       <a-input v-model.trim="formData.description" placeholder="请输入备注" />
     </a-form-model-item>
     <a-form-model-item label="权限" prop="permissions">
-      <a-tree-select
+      <a-spin v-if="loading" style="width: 100%" />
+      <a-tree
+        v-else
         v-model="formData.permissions"
-        allow-clear
-        tree-checkable
-        show-search
-        treeDefaultExpandAll
-        treeNodeFilterProp="title"
+        checkable
+        defaultExpandAll
         :tree-data="permissions"
-        placeholder="请选择权限"
+        :replace-fields="{ key: 'value' }"
       />
     </a-form-model-item>
   </a-form-model>
@@ -35,6 +34,7 @@ export default {
   data() {
     return {
       permissions: [],
+      loading: true,
       formData: {
         label: '',
         description: '',
@@ -60,8 +60,20 @@ export default {
     },
   },
   mounted() {
-    this.$api.getPermissions().then(data => {
-      const permissions = groupBy(data.data, 'type');
+    this.loading = true;
+    this.$api.getPermissions()
+      .then(data => {
+        this.initPermissions(data.data);
+      }).catch(e => {
+        console.error(e);
+        this.$message.error(e.msg || '权限列表获取失败');
+      }).finally(() => {
+        this.loading = false;
+      });
+  },
+  methods: {
+    initPermissions(data) {
+      const permissions = groupBy(data, 'type');
       const result = [];
       for (const [type, items] of Object.entries(permissions)) {
         result.push({
@@ -74,14 +86,14 @@ export default {
         });
       }
       this.permissions = result;
-    }).catch(e => {
-      console.error(e);
-      this.$message.error(e.msg || '权限列表获取失败');
-    });
-  },
-  methods: {
+    },
     validate() {
-      return this.$refs.form.validate().then(() => this.formData);
+      return this.$refs.form.validate().then(() => ({
+        ...this.formData,
+        permissions: this.formData.permissions.filter(v => {
+          return typeof v === 'number';
+        }),
+      }));
     },
   },
 };
